@@ -10,6 +10,6 @@ export default ApplyPage
 
 function submitApplication(data) {
     fetch('/.netlify/functions/createDatoArtist')
-        .then(res => res.body.json())
+        .then(res => res.json())
         .then(data => console.log('message body is: ', data))
 }
