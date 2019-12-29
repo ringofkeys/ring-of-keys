@@ -1,11 +1,12 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
+// import Img from 'gatsby-image'
 
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
+const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
     <h1>Hi people</h1>
@@ -15,7 +16,35 @@ const IndexPage = () => (
       <Image />
     </div>
     <Link to="/page-2/">Go to page 2</Link>
+    {data.allDatoCmsArtist.edges.map(({ node: artist }) => (
+      <div className='artist__card'>
+        <figure>
+          <Link to={`/artists/${artist.slug}`} className='card__image'>
+            <img src={ artist.headshot.url } alt={ artist.name +' headshot' } />
+          </Link>
+          <figcaption>
+    <h3 className='card__title'>{ artist.name }</h3>
+          </figcaption>
+        </figure>
+      </div>
+    ))}
   </Layout>
 )
 
 export default IndexPage
+
+export const query = graphql`
+  query IndexQuery {
+    allDatoCmsArtist(sort: { fields: [name], order: ASC }) {
+      edges {
+        node {
+          slug
+          name
+          headshot {
+            url
+          }
+        }
+      }
+    }
+  }
+`
