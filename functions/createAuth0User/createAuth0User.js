@@ -6,7 +6,7 @@ require('dotenv').config({
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 exports.handler = async (event, context) => {
   try {
-    if (event.headers.datocms_agent !== 'LGQ6!T8h83tWVAp') {
+    if (event.headers.datocms_agent !== process.env.DATOCMS_AGENT) {
       return {
         statusCode: 403,
         body: 'Forbidden'
