@@ -1,12 +1,12 @@
 import React from 'react'
-import Img from 'gatsby-image'
+// import Img from 'gatsby-image'
 import { graphql } from 'gatsby'
 
 export default ({ data }) => (
     <article>
         <h1>{ data.datoCmsArtist.name }</h1>
         <p>{ data.datoCmsArtist.pronouns }</p>
-        <img src={ data.datoCmsArtist.headshot.url } />
+        <img src={ data.datoCmsArtist.headshot.url } alt={ data.datoCmsArtist.headshot.alt } />
     </article>
 )
 
@@ -17,6 +17,7 @@ export const query = graphql`
             pronouns
             headshot {
                 url
+                alt
             }
         }
     }
