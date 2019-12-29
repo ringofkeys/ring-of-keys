@@ -9,7 +9,7 @@ exports.handler = async () => {
     const res = await client.items.create({
     "name": "Test Upload",
     "headshot": {
-        "uploadId": "1235",
+        "filename": "ringofkeys-angelabey.jpg",
         "alt": "Alt text",
         "title": "Image title",
     },
