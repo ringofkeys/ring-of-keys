@@ -35,7 +35,7 @@ export default IndexPage
 
 export const query = graphql`
   query IndexQuery {
-    allDatoCmsArtist(sort: { fields: [name], order: ASC }) {
+    allDatoCmsArtist() {
       edges {
         node {
           slug
