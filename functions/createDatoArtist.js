@@ -14,6 +14,7 @@ exports.handler = async () => {
         "title": "Image title",
     },
     "pronouns": "They/Them/Theirs",
+    "slug": "test-upload",
     "itemType": "177050"
     })
     
