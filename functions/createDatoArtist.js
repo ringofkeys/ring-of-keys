@@ -15,7 +15,7 @@ exports.handler = async () => {
     },
     "pronouns": "They/Them/Theirs",
     "slug": "test-upload",
-    "itemType": "177050"
+    "itemType": "177050",
     })
     
     console.log(res)
