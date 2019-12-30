@@ -1,7 +1,7 @@
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`
 })
-// var request = require("request");
+const rp = require("request-promise");
 
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 exports.handler = async (event, context) => {
@@ -13,17 +13,16 @@ exports.handler = async (event, context) => {
       }
     }
 
-    console.log(event.body)    
-    // const authToken = getAuth0Token()
+    // console.log('Name within message is = ', JSON.parse(event.body).name)    
 
-    // // const apiResponse = createUser(JSON.parse(authToken))
-    
-    
-    // console.log(authToken.body)
+    const authToken = JSON.parse(await getAuth0Token())
+
+    const apiResponse = JSON.parse(await createUser(authToken, JSON.parse(event.body)))
+    console.log('apiResponse = ', apiResponse)
     
     return {
       statusCode: 200,
-      body: JSON.stringify(event.body)
+      body: JSON.stringify(apiResponse),
       // // more keys you can return:
       // headers: { "headerName": "headerValue", ... },
       // isBase64Encoded: true,
@@ -36,29 +35,34 @@ exports.handler = async (event, context) => {
 function getAuth0Token() {
   const options = { 
     method: 'POST',
-    url: 'https://ringofkeys.auth0.com/oauth/token',
+    url: 'https://ringofkeys.auth0.com/oauth/token', 
     headers: { 'content-type': 'application/json' },
-    body: '{"client_id":"h5QzF4LKgQEL91ZYElXQ50Lw56i79uox","client_secret":"tjY4OVGf_q4sFT4moX3iDLQJH7lwLmladup6luTgOjlyzmxGiqnTlwi75dBRYHAV","audience":"https://ringofkeys.auth0.com/api/v2/","grant_type":"client_credentials"}'
+    body: '{"client_id":"HcN6E0t9NZxTygw0rFkpsotfMlSx6AmJ","client_secret":"1qbtAZwNmAl1-oCHtR2hNGPigxxGPXOi7V6_4yRSHbJUn_rfIfXrqbnNnGYzt7f_","audience":"https://ringofkeys.auth0.com/api/v2/","grant_type":"client_credentials"}',
   }
-  
-  return request(options, function(err, res, body) {
-    return {
-      err, res, body
-    }
-  })
+
+  return rp(options)
 }
 
-function createUser({ token_type, access_token }) {
+function createUser(auth, userInfo) {
   const options = {
-    method: 'GET',
-    url: 'http://path_to_your_api/',
-    headers: { authorization: `${token_type} ${access_token}` }
+    method: 'POST',
+    url: 'https://ringofkeys.auth0.com/api/v2/users',
+    headers: {
+      authorization: `${auth['token_type']} ${auth['access_token']}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: userInfo.email,
+      name: userInfo.name,
+      password: Math.random().toString(36).slice(-12),
+      user_metadata: {
+        'entity_id': userInfo.entity_id.toString(),
+      },
+      connection: "Username-Password-Authentication",
+    })
   }
 
+  console.log('body = ', options.body)
 
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-  
-    return body
-  });
+  return rp(options)
 }
