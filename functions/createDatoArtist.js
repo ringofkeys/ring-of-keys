@@ -11,6 +11,8 @@ exports.handler = async () => {
                 "name": "Test Upload",
                 "headshot": image,
                 "pronouns": "They/Them/Theirs",
+                "email": "frank.ringofkeys@gmail.com",
+                "isemailpublic": false,
                 "slug": "test-upload",
                 "itemType": "177050",
         })
