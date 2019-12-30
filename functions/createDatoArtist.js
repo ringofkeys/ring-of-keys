@@ -11,7 +11,7 @@ exports.handler = async () => {
                 "name": "Test Upload",
                 "headshot": image,
                 "pronouns": "They/Them/Theirs",
-                "email": "frank.ringofkeys@gmail.com",
+                "email": "frankjohnson1993@gmail.com",
                 "isemailpublic": false,
                 "slug": "test-upload",
                 "itemType": "177050",
@@ -22,7 +22,7 @@ exports.handler = async () => {
 
     return {
         statusCode: 200,
-        body: res,
+        body: JSON.stringify(res),
     }
 
 }
