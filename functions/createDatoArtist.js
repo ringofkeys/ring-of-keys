@@ -13,7 +13,7 @@ exports.handler = async () => {
                 "pronouns": "They/Them/Theirs",
                 "email": "frankjohnson1993@gmail.com",
                 "isemailpublic": false,
-                "slug": "test-upload",
+                "slug": "test-upload-5",
                 "itemType": "177050",
         })
     })
