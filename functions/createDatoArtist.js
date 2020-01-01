@@ -1,28 +1,52 @@
 require('dotenv').config({
-    path: `.env.${process.env.NODE_ENV}`
+    path: `.env.${process.env.NODE_ENV}`,
 })
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
-exports.handler = async () => {
-    const res = await client.uploadImage('https://image.shutterstock.com/image-photo/cute-american-shorthair-cat-kitten-260nw-352176329.jpg')
-        .then(image => {
-            return client.items.create({
-                "name": "Test Upload",
-                "headshot": image,
-                "pronouns": "They/Them/Theirs",
-                "email": "frankjohnson1993@gmail.com",
-                "isemailpublic": false,
-                "slug": "test-upload-5",
-                "itemType": "177050",
-        })
-    })
-    
-    console.log(res)
+exports.handler = async (event) => {
+    const { name,
+            headshot,
+            email,
+            pronouns,
+            isemailpublic,
+            slug,
+            fileType        
+        } = JSON.parse(event.body)
+    try {
+        const uploadObj = {
+            name,
+            headshot,
+            pronouns,
+            ail: email,
+            isemailpublic: isemailpublic === 'on',
+            slug: slug,
+            itemType: "177050",
+        }
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify(res),
+        console.log('got inside the function!', uploadObj)
+            const response = await client.uploadImage('./static/Charlie_Baker.png')
+            .then(image => {
+                uploadObj.headshot = image,
+                console.log('uploaded image!')
+                return client.items.create(uploadObj)
+            })
+        
+
+        return {
+            statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify(response),
+        }
+    } catch (err) {
+        return {
+            statusCode: 500,
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: err.toString()
+        }
     }
-
 }

@@ -1,0 +1,26 @@
+.heading__inline {
+    font-family: 'EB Garamond', serif;
+    display: inline;
+    font-size: 100%;
+}
+
+.bar__learn-more {
+    width: 100%;
+    background: var(--rok-slate-blue_hex);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 1.5em 5vw;
+}
+
+.bar__learn-more > div {
+    max-width: 600px;
+    margin-right: 15vw;
+}
+
+.hero {
+    height: 60vh;
+    background: linear-gradient(to right, var(--rok-peach-1_hex), var(--rok-slate-blue_hex));
+}

@@ -1,0 +1,62 @@
+.top-nav {
+    font-family: 'Raleway', sans-serif;
+    font-weight: normal;
+    background: white;
+    height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5vh 4vw;
+    box-shadow: var(--rok-shadow_bottom);
+}
+
+.top-nav a {
+    text-decoration: none;
+}
+
+.site-logo {
+    max-height: 100%;
+    max-width: 20vw;
+}
+
+.site-logo img {
+    max-height: 100%;
+    width: 100%;
+}
+
+.top-nav > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.nav__login a {
+    color: #e4ab25;
+    font-size: 90%;
+}
+
+#btn__login {
+    background: var(--rok-slate-blue_hex);
+    color: white;
+    text-transform: uppercase;
+    padding: .4em 1.25em;
+    margin-left: 1.5em;
+    border-radius: .3em;
+}
+
+.nav__main {
+    color: var(--rok-gray-1_hex);
+    text-transform: uppercase;
+}
+
+.nav__main a {
+    margin: 0 1em;
+}
+.nav__main a:first-of-type {
+    margin-left: 0;
+}
+.nav__main a:last-of-type {
+    margin-right: 0;
+}

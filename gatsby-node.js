@@ -1,5 +1,4 @@
 const path = require('path')
-const { createFilePath } = require('gatsby-source-filesystem')
 
 exports.createPages = ({ graphql, actions }) => {
     const { createPage } = actions
@@ -7,7 +6,7 @@ exports.createPages = ({ graphql, actions }) => {
     return new Promise((resolve, reject) => {
         graphql(`
             {
-                allDatoCmsArtist {
+                allDatoCmsKey {
                     edges {
                         node {
                             slug
@@ -16,16 +15,46 @@ exports.createPages = ({ graphql, actions }) => {
                 }
             }
         `).then(result => {
-            result.data.allDatoCmsArtist.edges.map(({ node: artist }) => {
+            result.data.allDatoCmsKey.edges.map(({ node: key }) => {
                 createPage({
-                    path: `artists/${artist.slug}`,
-                    component: path.resolve(`./src/templates/artist.js`),
+                    path: `keys/${key.slug}`,
+                    component: path.resolve(`./src/templates/key.js`),
                     context: {
-                        slug: artist.slug,
+                        slug: key.slug,
                     },
                 })
             })
             resolve()
         })
     })
+}
+
+exports.onCreatePage = async ({ page, actions }) => {
+    const { createPage } = actions
+
+    if (page.path.match(/^\/dashboard/)) {
+        page.matchPath = "/dashboard/*" // Make all pages under Dashboard client-side rendered,
+                                        // So we can use Auth0 to secure them.
+
+        createPage(page)
+    }
+}
+
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+    if (stage === 'build-html') {
+        /* 
+         * During build step, don't run auth0 because it needs the window to be present.
+         */
+
+         actions.setWebpackConfig({
+             module: {
+                 rules: [
+                     {
+                         test: /auth0-js/,
+                         use: loaders.null()
+                     }
+                 ]
+             }
+         })
+    }
 }

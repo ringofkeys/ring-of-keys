@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond|Raleway&display=swap');
+
+:root {
+    font-family: 'EB Garamond', serif;
+    letter-spacing: .3px;
+
+    --rok-slate-blue_hex: #263e64;
+    --rok-gray-1_hex: #6d7278;
+    --rok-gold-1_hex: #e4ab25;
+    --rok-copper-1_hex: #bf662f;
+    --rok-peach-1_hex: #e9bfb2;
+
+    --rok-shadow_bottom: 0 .2vh .8vh rgba(0,0,0,0.2),
+                0 .8vh 1.3vh rgba(0,0,0,0.08);
+
+    color: var(--rok-slate-blue_hex);
+}
+
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6
+nav, a, button {
+    font-family: 'Raleway', sans-serif;
+}
+
+a {
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+}
+
+.btn {
+    background: var(--rok-copper-1_hex);
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    border-radius: .3em;
+    padding: .4em 1.25em;
+    text-decoration: none;
+    white-space: nowrap;
+}
