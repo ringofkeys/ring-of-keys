@@ -33,6 +33,8 @@ exports.handler = async (event) => {
 }
 
 function getAuth0Token() {
+  console.log('process.env.AUTH0_DOMAIN = ', process.env.AUTH0_DOMAIN)
+
   const options = { 
     method: 'POST',
     url: `https://${ process.env.AUTH0_DOMAIN }/oauth/token`, 

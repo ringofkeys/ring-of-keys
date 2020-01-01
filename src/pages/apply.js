@@ -58,7 +58,7 @@ function submitApplication(data) {
     reader.onload = async () => {
         newUser.headshot = reader.result
 
-        const datoArtist = await fetch('http://localhost:57914/.netlify/functions/createDatoArtist', {
+        const datoArtist = await fetch('https://vigilant-carson-75ffc6.netlify.com/.netlify/functions/createDatoArtist', {
             method: 'POST',
             body: JSON.stringify(newUser),
         })
