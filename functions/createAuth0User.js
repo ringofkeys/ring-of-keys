@@ -11,22 +11,21 @@ exports.handler = async (event) => {
         body: 'Forbidden'
       }
     }
-
-    const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
+    
     const userData = JSON.parse(event.body)
-
-    console.log('authToken = ', authToken)
-
+    
+    const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
+    // console.log('authToken = ', authToken)
 
     const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
-    console.log('User Created: ', createUserResponse)
+    // console.log('User Created: ', createUserResponse)
     
-    const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => err))
+    const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => JSON.stringify(err)))
     console.log('Password Reset: ', resetPasswordResponse)
     
     return {
       statusCode: 200,
-      body: JSON.stringify(createUserResponse),
+      body: JSON.stringify(resetPasswordResponse),
     }
   } catch (err) {
     return { statusCode: 500, body: err.toString() }
@@ -65,8 +64,6 @@ function createUser(auth, userInfo) {
     })
   }
 
-  console.log('createUser body = ', options.body)
-
   return rp(options)
 }
 
@@ -79,13 +76,15 @@ function resetPassword(auth, email) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      result_url: process.env.AUTH0_CALLBACK,
+      result_url: `"${ process.env.AUTH0_CALLBACK }"`,
       connection_id: "Username-Password-Authentication",
       email: email,
       ttl_sec: 0,
       mark_email_as_verified: true,
     })
   }
+
+  console.log('resetPassword body = ', options)
 
   return rp(options)
 }
