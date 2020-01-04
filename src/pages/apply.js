@@ -56,7 +56,7 @@ function submitApplication(data) {
 
     async function getUrls() {
         
-        const signedUrlsRes = await fetch('https://vigilant-carson-75ffc6.netlify.com/.netlify/functions/createDatoImgUrl', {
+        const signedUrlsRes = await fetch('/.netlify/functions/createDatoImgUrl', {
             method: 'POST',
             body: JSON.stringify({
                 fileName: data.headshot.name,
@@ -82,12 +82,12 @@ function submitApplication(data) {
 
             newUser.headshot = datoUrlRes.id
             
-            const newUserRes = await fetch('https://vigilant-carson-75ffc6.netlify.com/.netlify/functions/createDatoUser', {
+            const newUserRes = await fetch('/.netlify/functions/createDatoUser', {
                 method: 'POST',
                 body: JSON.stringify(newUser)
             })
 
-            console.log('newUserRes = ', newUserRes)
+            console.log('newUserRes = ', await newUserRes.json().catch(err => err))
 
         }
 

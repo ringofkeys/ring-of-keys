@@ -5,9 +5,9 @@ const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
 exports.handler = async (event) => {
-    const data = JSON.parse(event.body)
-    console.log('data = ', data)
+    const data = JSON.parse(event.body) //CONFIRMED THAT YOU NEED TO PARSE BODY
 
+    console.log('isemailpublic', data.isemailpublic)
     try {
         const upload = await client.uploads.create({
             path:   data.headshot,
@@ -28,18 +28,20 @@ exports.handler = async (event) => {
             name: data.name,
             email: data.email,
             pronouns: data.pronouns,
-            headshot: upload,
-            isemailpublic: data.isemailpublic,
+            headshot: {
+                uploadId: upload.id,
+            },
+            isemailpublic: (data.isemailpublic === 'on') ? true : false,
             slug: data.slug,
             itemType: '177050',
-        })
+        }).catch(err => err)
 
         return {
             statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify(newUser)
+            body: JSON.stringify(newUser),
         }
     } catch (err) {
         return {
