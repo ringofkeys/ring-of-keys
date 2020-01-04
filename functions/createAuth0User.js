@@ -12,11 +12,13 @@ exports.handler = async (event) => {
       }
     }
 
-    const authToken = JSON.parse(await getAuth0Token().catch(err => err))
+    const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
     const userData = JSON.parse(event.body)
 
+    console.log('authToken = ', authToken)
 
-    const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => err))
+
+    const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
     console.log('User Created: ', createUserResponse)
     
     const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => err))
@@ -63,7 +65,7 @@ function createUser(auth, userInfo) {
     })
   }
 
-  console.log('body = ', options.body)
+  console.log('createUser body = ', options.body)
 
   return rp(options)
 }
