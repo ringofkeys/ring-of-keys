@@ -74,17 +74,15 @@ function createUser(auth, userInfo) {
 function resetPassword(auth, email) {
   const options = {
     method: 'POST',
-    url: `https://${ process.env.AUTH0_DOMAIN }/api/v2/tickets/password-change`,
+    url: `https://${ process.env.AUTH0_DOMAIN }/api/dbconnections/change_password`,
     headers: {
       authorization: `${auth['token_type']} ${auth['access_token']}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      result_url: `"${ process.env.AUTH0_CALLBACK }"`,
-      connection_id: `${ process.env.AUTH0_CONNECTIONID }`,
+      clent_id: `${ process.env.AUTH0_CLIENTID }`,
       email: email,
-      ttl_sec: 0,
-      mark_email_as_verified: true,
+      connection: 'Username-Password-Authentication',
     })
   }
 
