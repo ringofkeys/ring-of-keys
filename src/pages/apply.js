@@ -51,20 +51,47 @@ function submitApplication(data) {
     const newUser = {
         ...data,
         slug: slugify(data.name),
-        fileType: data.headshot.type,
     }
-    const reader = new FileReader()
 
-    reader.onload = async () => {
-        newUser.headshot = reader.result
-
-        const datoArtist = await fetch('https://vigilant-carson-75ffc6.netlify.com/.netlify/functions/createDatoArtist', {
+    async function getUrls() {
+        
+        const signedUrlsRes = await fetch('/.netlify/functions/createDatoImgUrl', {
             method: 'POST',
-            body: JSON.stringify(newUser),
+            body: JSON.stringify({
+                fileName: data.headshot.name,
+                fileType: data.headshot.type,
+            }),
         })
 
-        console.log('datoArtist', datoArtist)
+        const datoUrlRes = await signedUrlsRes.json()
+        console.log('urls = ', datoUrlRes)
+
+        const fr = new FileReader()
+
+        fr.onload = async () => {
+            const uploadRes = await fetch(datoUrlRes.url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': data.headshot.type,
+                },
+                body: fr.result,
+            })
+
+            console.log('uploadRes = ', uploadRes)
+
+            newUser.headshot = datoUrlRes.id
+            
+            const newUserRes = await fetch('/.netlify/functions/createDatoUser', {
+                method: 'POST',
+                body: JSON.stringify(newUser)
+            })
+
+            console.log('newUserRes = ', await newUserRes)
+        }
+
+        fr.readAsArrayBuffer(data.headshot)
     }
 
-    reader.readAsDataURL(newUser.headshot)
+    getUrls()
+
 }
