@@ -38,7 +38,7 @@ function getAuth0Token() {
     method: 'POST',
     url: `https://${ process.env.AUTH0_DOMAIN }/oauth/token`, 
     headers: { 'content-type': 'application/json' },
-    body: `{"client_id":${ process.env.AUTH0_CLIENTID },"client_secret":"${process.env.AUTH_SECRET}","audience":"https://${ process.env.AUTH0_DOMAIN }/api/v2/","grant_type":"client_credentials"}`,
+    body: `{"client_id":"${ process.env.AUTH0_CLIENTID }","client_secret":"${process.env.AUTH_SECRET}","audience":"https://${ process.env.AUTH0_DOMAIN }/api/v2/","grant_type":"client_credentials"}`,
   }
 
   console.log('options = ', options)
