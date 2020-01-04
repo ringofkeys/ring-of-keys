@@ -11,8 +11,8 @@ exports.handler = async (event) => {
     try {
         const upload = await client.uploads.create({
             path:   data.headshot,
-            author: 'New author!',
-            copyright: 'New copyright',
+            author: data.name,
+            copyright: data.name +' '+ new Date().getFullYear(),
             defaultFieldMetadata: {
                 en: {
                     alt: data.name,
@@ -24,6 +24,8 @@ exports.handler = async (event) => {
             }
         });
 
+        console.log('upload = ', upload)
+
         const newUser = await client.items.create({
             name: data.name,
             email: data.email,
@@ -34,13 +36,14 @@ exports.handler = async (event) => {
             itemType: '177050',
         })
 
+        console.log('newUser = ', newUser)
 
         return {
             statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify(upload)
+            body: JSON.stringify(newUser)
         }
     } catch (err) {
         return {
