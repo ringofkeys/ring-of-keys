@@ -26,16 +26,22 @@ exports.handler = async (event) => {
 
         console.log('upload = ', upload)
 
-        const newUser = await client.items.create({
-            name: data.name,
-            email: data.email,
-            pronouns: data.pronouns,
-            headshot: upload,
-            isemailpublic: data.isemailpublic,
-            slug: data.slug,
-            itemType: '177050',
-        })
+        const newUser = {}
+        try {
 
+            newUser = await client.items.create({
+                name: data.name,
+                email: data.email,
+                pronouns: data.pronouns,
+                headshot: upload,
+                isemailpublic: data.isemailpublic,
+                slug: data.slug,
+                itemType: '177050',
+            })
+        } catch (err) {
+            newUser = err
+        }
+        
         console.log('newUser = ', newUser)
 
         return {
