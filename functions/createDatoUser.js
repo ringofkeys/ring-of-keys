@@ -22,25 +22,17 @@ exports.handler = async (event) => {
                     }
                 }
             }
-        });
-
-        console.log('upload = ', upload)
-
-        const staticUpload = await client.uploadFile('https://live.staticflickr.com/7171/6837043045_f99eff4ec6.jpg')
-
-        console.log('staticUpload = ', staticUpload)
+        })
 
         const newUser = await client.items.create({
             name: data.name,
             email: data.email,
             pronouns: data.pronouns,
-            headshot: staticUpload,
+            headshot: upload,
             isemailpublic: data.isemailpublic,
             slug: data.slug,
             itemType: '177050',
         })
-
-        console.log('newUser = ', newUser)
 
         return {
             statusCode: 200,
