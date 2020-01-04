@@ -81,7 +81,7 @@ function resetPassword(auth, email) {
     },
     body: JSON.stringify({
       result_url: `"${ process.env.AUTH0_CALLBACK }"`,
-      connection_id: "Username-Password-Authentication",
+      connection_id: `${ process.env.AUTH0_CONNECTIONID }`,
       email: email,
       ttl_sec: 0,
       mark_email_as_verified: true,
