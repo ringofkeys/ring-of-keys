@@ -12,14 +12,14 @@ exports.handler = async (event) => {
       }
     }
 
-    const authToken = JSON.parse(await getAuth0Token())
+    const authToken = JSON.parse(await getAuth0Token().catch(err => err))
     const userData = JSON.parse(event.body)
 
 
-    const createUserResponse = JSON.parse(await createUser(authToken, userData))
+    const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => err))
     console.log('User Created: ', createUserResponse)
     
-    const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email))
+    const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => err))
     console.log('Password Reset: ', resetPasswordResponse)
     
     return {
@@ -36,7 +36,7 @@ function getAuth0Token() {
     method: 'POST',
     url: `https://${ process.env.AUTH0_DOMAIN }/oauth/token`, 
     headers: { 'content-type': 'application/json' },
-    body: `{"client_id":${ process.env.AUTH0_CLIENT_ID },"client_secret":"${process.env.AUTH_SECRET}","audience":"https://${ process.env.AUTH0_DOMAIN }/api/v2/","grant_type":"client_credentials"}`,
+    body: `{"client_id":${ process.env.AUTH0_CLIENTID },"client_secret":"${process.env.AUTH_SECRET}","audience":"https://${ process.env.AUTH0_DOMAIN }/api/v2/","grant_type":"client_credentials"}`,
   }
 
   console.log('options = ', options)
