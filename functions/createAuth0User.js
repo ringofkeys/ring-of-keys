@@ -25,11 +25,11 @@ exports.handler = async (event) => {
     const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => JSON.stringify(err)))
     console.log('Password Reset: ', resetPasswordResponse)
 
-    const emailSendResponse = JSON.parse(await sendWelcomeEmail(userData.email, resetPasswordResponse.ticket).catch(err => JSON.stringify(err)))
+    const emailSendResponse = await sendWelcomeEmail(userData.email, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
     
     return {
       statusCode: 200,
-      body: JSON.stringify(resetPasswordResponse),
+      body: JSON.stringify(emailSendResponse),
     }
   } catch (err) {
     return { statusCode: 500, body: err.toString() }
