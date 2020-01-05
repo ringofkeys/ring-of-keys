@@ -15,13 +15,15 @@ exports.handler = async (event) => {
     const userData = JSON.parse(event.body)
     
     const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
-    console.log('authToken = ', authToken)
+    // console.log('authToken = ', authToken)
 
     const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
-    console.log('User Created: ', createUserResponse)
+    // console.log('User Created: ', createUserResponse)
     
     const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => JSON.stringify(err)))
     console.log('Password Reset: ', resetPasswordResponse)
+
+    const emailSendResponse = JSON.parse(await sendWelcomeEmail(userData.email, JSON.parse(resetPasswordResponse.body).ticket).catch(err => JSON.stringify(err)))
     
     return {
       statusCode: 200,
@@ -91,4 +93,16 @@ function resetPassword(auth, email) {
   console.log('resetPassword body = ', options)
 
   return rp(options)
+}
+
+async function sendWelcomeEmail(email, pwdResetUrl) {
+  const msg = {
+    to: email,
+    from: 'test@example.com',
+    subject: 'Welcome to Ring of Keys',
+    text: 'You can set up your password at '+pwdResetUrl,
+    html:  `<h1>Welcome to Ring of Keys!</h1><p>To confirm your email address and set up your password, visit <a href='${pwdResetUrl}' rel='noopener'>this link</a></p>`,
+  }
+
+  return sgMail.send(msg)
 }

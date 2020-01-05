@@ -6,6 +6,7 @@
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "@sendgrid/mail": "^6.4.0",
     "auth0-js": "^9.12.1",
     "aws-sdk": "^2.596.0",
     "buffer": "^5.4.3",
