@@ -1,7 +1,7 @@
 import React from 'react'
 // import { Link } from 'gatsby'
 import { Router } from '@reach/router'
-import { login, isAuthenticated, getProfile, logout } from '../../utils/auth.js'
+import { login, isAuthenticated, getProfile } from '../../utils/auth.js'
 import Settings from './settings.js'
 import Layout from '../../components/layout'
 
@@ -22,10 +22,6 @@ const Dashboard = () => {
     return (
     <Layout>
         <pre>{ JSON.stringify(user, null, 2) }</pre>
-        <a href='#logout' onClick={e => {
-            logout()
-            e.preventDefault()
-        }}>Log Out</a>
         <Router>
             <Home path={homeDir} />
             <Settings path={homeDir+'/settings'} user={user} />

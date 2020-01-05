@@ -35,6 +35,11 @@
 .nav__login a {
     color: #e4ab25;
     font-size: 90%;
+    margin: 0 1.5em;
+}
+
+.nav__login a:last-child {
+    margin-right: 0;
 }
 
 #btn__login {
@@ -42,7 +47,6 @@
     color: white;
     text-transform: uppercase;
     padding: .4em 1.25em;
-    margin-left: 1.5em;
     border-radius: .3em;
 }
 
@@ -51,12 +55,46 @@
     text-transform: uppercase;
 }
 
-.nav__main a {
+.nav__main > * {
     margin: 0 1em;
 }
-.nav__main a:first-of-type {
+.nav__main > *:first-child {
     margin-left: 0;
 }
-.nav__main a:last-of-type {
+.nav__main > *:last-child {
     margin-right: 0;
+}
+
+.dropdown-group {
+    position: relative;
+    display: inline-block;
+}
+
+.has-dropdown {
+    position: relative;
+}
+.has-dropdown::after {
+    content: '⬇';
+}
+
+.nav__dropdown {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    opacity: 0;
+    background: white;
+    padding: 2em 1em;
+    box-shadow: 0 0 0 rgba(0,0,0,.4),
+                0 0 0 rgba(0,0,0,.2);
+    transition: all .12s ease-in-out;
+}
+
+.has-dropdown:hover + .nav__dropdown,
+.has-dropdown:focus + .nav__dropdown,
+.nav__dropdown:hover,
+.nav__dropdown:focus-within {
+    opacity: 1;
+    box-shadow: 0 5vh 1.5vh rgba(0,0,0,0.06),
+                0 1.3vh 2.8vh rgba(0,0,0,0.02);
 }
