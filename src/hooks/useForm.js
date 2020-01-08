@@ -6,7 +6,7 @@ export default function useForm (initial = {}) {
     function handleChange(e) {
         updateInputs({
             ...inputs,
-            [e.target.name]: e.target.files ? e.target.files[0] : e.target.value
+            [e.target.name]: getValue(e.target)
         })
     }
 
@@ -18,5 +18,13 @@ export default function useForm (initial = {}) {
         inputs,
         handleChange,
         resetForm
+    }
+
+    function getValue(input) {
+        if (input.files) return input.files[0]
+
+        if (input.type === 'checkbox') return input.checked
+
+        return input.value
     }
 }

@@ -42,3 +42,7 @@ a {
     text-decoration: none;
     white-space: nowrap;
 }
+
+main {
+    min-height: 100vh;
+}

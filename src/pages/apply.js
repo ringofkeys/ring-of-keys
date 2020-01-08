@@ -17,6 +17,8 @@ const ApplyPage = () => {
         headshot: '',
     })
     
+    console.log('inputs = ', inputs)
+
     return (
         <Layout>
         <h1>Apply to be a Key</h1>
@@ -41,7 +43,7 @@ const ApplyPage = () => {
                 <input type='file' name='headshot' required
                   accept='image/*' files={ inputs.headshot } onChange={ handleChange } />      
             </label>
-            <button onClick={submit}>Submit</button>
+            <input type='submit' onClick={submit} />
         </form>
         </Layout>
     )
