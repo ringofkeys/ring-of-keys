@@ -25,26 +25,26 @@ const Settings = (user) => {
     }
   `)
 
-  const userData = allUsers.allDatoCmsKey.edges.filter(({ node }) => node.email === user.user.email)[0].node
-  // I've had to rewerite this like 7 times completely from the ground up when it breaks and it's getting really annoying to write the same exact *working* code.
+  // const userData = allUsers.allDatoCmsKey.edges.filter(({ node }) => node.email === user.user.email)[0].node
+  // // I've had to rewerite this like 7 times completely from the ground up when it breaks and it's getting really annoying to write the same exact *working* code.
 
-  const submit = async e => {
-    console.log('submitting! anyone??')
-    e.preventDefault()
-    submitApplication(userData.id, {...inputs}, userData)
-  }
+  // const submit = async e => {
+  //   console.log('submitting! anyone??')
+  //   e.preventDefault()
+  //   submitApplication(userData.id, {...inputs}, userData)
+  // }
 
-  const { inputs, handleChange } = useForm({
-    ...userData
-  })
-  const [isEditing, toggleEditing] = useState(false)
+  // const { inputs, handleChange } = useForm({
+  //   ...userData
+  // })
+  // const [isEditing, toggleEditing] = useState(false)
 
-  console.log('inputs = ', inputs)
+  // console.log('inputs = ', inputs)
 
   return (
     <>
       <h1>Profile Settings</h1>
-      <pre>{ JSON.stringify(userData, null, 2) }</pre>
+      {/* <pre>{ JSON.stringify(userData, null, 2) }</pre>
       <button onClick={() => toggleEditing(!isEditing)}>✏ Edit</button>
       { (!isEditing) ? (<>
         <div>Name: <span>{ userData.name }</span></div>
@@ -78,7 +78,7 @@ const Settings = (user) => {
           <input type='submit' onClick={submit} />
         </form>
       </>)
-      }
+      } */}
     </>
   )
 }
