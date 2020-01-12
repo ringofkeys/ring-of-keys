@@ -103,6 +103,7 @@ export const query = graphql`
               excerptAst(truncate: true, pruneLength: 100)
             }
           }
+          slug
         }
       }
     }
