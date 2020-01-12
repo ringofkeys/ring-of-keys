@@ -12,11 +12,20 @@
 
 .top-nav a {
     text-decoration: none;
+    display: inline-block;
+    transition: all .12s ease-in-out;
+}
+
+.top-nav a:hover {
+    transform: scale(1.08);
 }
 
 .site-logo {
     max-height: 100%;
     max-width: 20vw;
+}
+.site-log:hover {
+    transform: scale(1.04);
 }
 
 .site-logo img {
@@ -36,6 +45,21 @@
     color: #e4ab25;
     font-size: 90%;
     margin: 0 1.5em;
+}
+
+.top-nav [aria-current]:not([aria-current="false"]) {
+    position: relative;
+    font-weight: bold;
+}
+
+.top-nav [aria-current]:not([aria-current="false"]):not(.site-logo)::after {
+    position: absolute;
+    content: '';
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--rok-gold-1_hex);
 }
 
 .nav__login a:last-child {

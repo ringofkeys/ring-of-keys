@@ -1,5 +1,5 @@
 /**
- * Layout component that queries for data
+ * SidebarLayout component that queries for data
  * with Gatsby's useStaticQuery component
  *
  * See: https://www.gatsbyjs.org/docs/use-static-query/
@@ -10,11 +10,12 @@ import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import Footer from "./footer"
+import Sidebar from './sidebar'
 
-const Layout = ({ path, children, classNames }) => {
+const SidebarLayout = ({ path, children }) => {
 
   const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
+    query SidebarLayoutQuery {
       site {
         siteMetadata {
           title
@@ -26,14 +27,19 @@ const Layout = ({ path, children, classNames }) => {
   return (
     <>
       <Header siteTitle={data.site.siteMetadata.title} path={path} />
-        <main className={classNames && classNames.join(' ')}>{children}</main>
+        <main className='has-sidebar' >
+          <div>
+            {children}
+          </div>
+          <Sidebar />
+        </main>
       <Footer />
     </>
   )
 }
 
-Layout.propTypes = {
+SidebarLayout.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default Layout
+export default SidebarLayout

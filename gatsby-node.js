@@ -18,6 +18,13 @@ exports.createPages = ({ graphql, actions }) => {
                         }
                     }
                 }
+                allDatoCmsEvent {
+                    edges {
+                        node {
+                            slug
+                        }
+                    }
+                }
             }
         `).then(result => {
             result.data.allDatoCmsKey.edges.map(({ node: key }) => {
@@ -26,6 +33,15 @@ exports.createPages = ({ graphql, actions }) => {
                     component: path.resolve(`./src/templates/key.js`),
                     context: {
                         slug: key.slug,
+                    },
+                })
+            })
+            result.data.allDatoCmsEvent.edges.map(({ node: event }) => {
+                createPage({
+                    path: `events/${event.slug}`,
+                    component: path.resolve(`./src/templates/event.js`),
+                    context: {
+                        slug: event.slug,
                     },
                 })
             })

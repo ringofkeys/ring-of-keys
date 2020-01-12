@@ -1,0 +1,35 @@
+.consultant_bio-group {
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-gap: 1.5em;
+    align-items: center; 
+    margin: 3em 1em;   
+}
+
+.consultant_bio-group .avatar_placeholder {
+    align-self: center;
+    margin: 1.5em;
+}
+
+.consultant_bio-img,
+.consultant_bio-heading h2 {
+    transition: all .12s ease-in-out;
+}
+
+.consultant_bio-img:hover,
+.consultant_bio-heading h2:hover {
+    transform: scale(1.03);
+}
+
+.consultant_bio-heading h2 {
+    margin-bottom: 0;
+}
+
+a.h2_conversational {
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.consultant_bio-heading p {
+    margin: .5em 0;
+}

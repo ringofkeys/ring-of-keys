@@ -1,6 +1,7 @@
-import React from "react"
-import { graphql } from 'gatsby'
+import React, { useState } from "react"
+import { graphql, Link } from 'gatsby'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
+import Carousel from '../components/carousel'
 
 import './index.css'
 // import Img from 'gatsby-image'
@@ -11,6 +12,7 @@ import SEO from "../components/seo"
 
 const IndexPage = ({ data }) => {
   const  { keySteps, homepageBody } = data.allDatoCmsHomepage.nodes[0]
+  const { edges: newsItems } = data.allDatoCmsNews
 
   const { quoteAttribution, quoteTextNode } = homepageBody[0]
 
@@ -22,8 +24,10 @@ const IndexPage = ({ data }) => {
   const quoteAst = quoteTextNode.childMarkdownRemark.htmlAst
   quoteAst.children[0].tagName = 'blockquote'
 
+  const [currIndex, setIndex] = useState(0)
+
   return (
-    <Layout>
+    <Layout classNames={['fullwidth']}>
       <SEO title="Home" />
       <div className='hero'></div>
       <div className='bar__learn-more'>
@@ -42,8 +46,14 @@ const IndexPage = ({ data }) => {
         ))}
       </div>
       <div className='section_quote-block'>
-        { renderHtmlToReact(quoteAst) }
-        <p>— { quoteAttribution }</p>
+        <div>
+          { renderHtmlToReact(quoteAst) }
+          <p>— { quoteAttribution }</p>
+        </div>
+      </div>
+      <div className='section_news'>
+        <h2>Industry News</h2>
+        <Carousel itemList={ newsItems } recordType='news' />
       </div>
     </Layout>
   )
@@ -75,6 +85,22 @@ export const query = graphql`
           labelNode {
             childMarkdownRemark {
               htmlAst
+            }
+          }
+        }
+      }
+    } allDatoCmsNews(limit: 10, sort: {fields: meta___publishedAt}) {
+      edges {
+        node {
+          title
+          isExternalNews
+          externalUrl
+          featuredImage {
+            url
+          }
+          bodyNode {
+            childMarkdownRemark {
+              excerptAst(truncate: true, pruneLength: 100)
             }
           }
         }

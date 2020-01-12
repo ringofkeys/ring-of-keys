@@ -1,0 +1,70 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+}
+
+.popup__card {
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    box-shadow: 0 .2vh .8vh rgba(0,0,0,0.3);
+    border-radius: .2em;
+    padding: 8vh 10vw;
+    position: relative;
+}
+
+.popup__card h2 {
+    font-size: 2.5rem;    
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.popup__card p {
+    margin: 0;
+    margin-bottom: .25em;
+}
+
+.popup__card label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 85%;
+    color: var(--rok-gray-1_hex);
+    margin: .2em 0;
+}
+
+.popup__card .label_input-text {
+    width: 100%;
+    margin: 1em 0;
+    font-weight: bold;
+}
+
+.popup__card .btn {
+    margin-top: 2em;
+}
+
+.popup__card .btn_close {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    width: 1.5em;
+    height: 1.5em;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.btn_close path {
+    stroke-width: 1px;
+    stroke: black;
+    stroke-linecap: round;
+}

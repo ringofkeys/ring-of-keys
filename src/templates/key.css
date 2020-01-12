@@ -1,0 +1,99 @@
+.artist_hero {
+    --grad-rot: 0deg;
+    --grad-col-1: var(--rok-peach-1_hex);
+    --grad-col-2: var(--rok-slate-blue_hex);
+    height: 60vh;
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 3vh 15vw;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(var(--grad-rot), var(--grad-col-1), var(--grad-col-2));
+    z-index: 0;
+}
+
+.artist_hero::after {
+    content: '';
+    position: absolute;
+    background: rgba(0,0,0,0.6);
+    mix-blend-mode: multiply;
+    background-image: linear-gradient(to top, var(--black), #2a2a2a 15%);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.artist_hero .featured_image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+}
+
+.artist_hero .avatar {
+    border-radius: 50%;
+    border: solid 3px white;
+}
+
+.artist_hero .artist_bio {
+    margin-left: 1.5vw;
+}
+
+.artist_hero h1 {
+    font-size: 3.5rem;
+    margin: 1rem 0;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.artist_hero .back_link {
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.artist_hero .back_link > span {
+    display: inline-block;
+    transform: translateX(-10%);
+    opacity: 0;
+    transition: all .12s ease-in-out;
+}
+
+.artist_hero .back_link::before {
+    position: absolute;
+    content: '<';
+    font-size: 3em;
+    right: calc(100% + 1rem);
+    top: 30%;
+    transform: translateY(-50%);
+}
+
+.artist_hero .back_link:hover > span {
+    transform: translate(0);
+    opacity: 1;
+}
+
+.artist_body {
+    box-sizing: border-box;
+    padding: 5vh 15vw;
+}
+
+.my_story {
+    margin-bottom: 4em;
+}
+
+.artist_body h3 {
+    text-transform: capitalize;
+    border-bottom: solid 1px lightgrey;
+    padding-bottom: .25em;
+    margin: 1em 0;
+}

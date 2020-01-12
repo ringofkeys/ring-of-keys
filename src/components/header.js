@@ -5,7 +5,7 @@ import rok_logo from '../images/rok_logo.png'
 import './header.css'
 import { getProfile, isAuthenticated, logout } from "../utils/auth"
 
-const Header = ({ siteTitle, isLoggedIn }) => {
+const Header = ({ siteTitle, isLoggedIn, path }) => {
   let secondaryNav = (
     <div className='nav__login'>
       <Link to='/apply'>Apply to be a key</Link>
@@ -39,11 +39,11 @@ const Header = ({ siteTitle, isLoggedIn }) => {
         <div>
           { secondaryNav }
           <div className='nav__main'>
-            <Link to='/artists'>Directory</Link>
-            <Link to='/news'>News</Link>
-            <Link to='/consultancy'>Consultancy</Link>
-            <Link to='/resources'>Resources</Link>
-            <Link to='/donate'>Donate</Link>
+            <Link to='/directory' className={ path === '/directory' ? 'active' : '' }>Directory</Link>
+            <Link to='/news' className={ path === '/news' ? 'active' : '' }>News</Link>
+            <Link to='/consultancy' className={ path === '/consultancy' ? 'active' : '' }>Consultancy</Link>
+            <Link to='/resources' className={ path === '/resources' ? 'active' : '' }>Resources</Link>
+            <Link to='/donate' className={ path === '/donate' ? 'active' : '' }>Donate</Link>
             { (isAuthenticated() === true) ? (
             <div className='dropdown-group'>
               <Link to='/dashboard' className='has-dropdown'>Dashboard</Link>
@@ -61,11 +61,13 @@ const Header = ({ siteTitle, isLoggedIn }) => {
 Header.propTypes = {
   siteTitle: PropTypes.string,
   isLoggedIn: PropTypes.bool,
+  path: PropTypes.string,
 }
 
 Header.defaultProps = {
   siteTitle: ``,
   isLoggedIn: false,
+  path: '',
 }
 
 export default Header

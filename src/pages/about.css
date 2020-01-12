@@ -1,0 +1,30 @@
+h1, h2, h3 {
+    text-transform: uppercase;
+}
+
+h1, h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: .5em;
+}
+
+.about_h2 {
+    margin-top: 1.75em;
+}
+
+.icon_placeholder {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background: darkgray;
+}
+
+.pronoun_checkbox-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pronoun_checkbox-group label {
+    display: inline-block;
+    width: fit-content;
+}
