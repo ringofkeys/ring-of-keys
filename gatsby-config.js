@@ -58,5 +58,11 @@ module.exports = {
         apiUrl: 'https://site-api.datocms.com',
       },
     },
+    {
+      resolve: 'gatsby-plugin-mailchimp',
+      options: {
+          endpoint: 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676',
+      },
+    },
   ],
 }

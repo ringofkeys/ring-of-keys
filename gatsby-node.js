@@ -18,6 +18,13 @@ exports.createPages = ({ graphql, actions }) => {
                         }
                     }
                 }
+                allDatoCmsNews(filter: { isExternalNews: { eq: false }}) {
+                    edges {
+                        node {
+                            slug
+                        }
+                    }
+                }
                 allDatoCmsEvent {
                     edges {
                         node {
@@ -42,6 +49,15 @@ exports.createPages = ({ graphql, actions }) => {
                     component: path.resolve(`./src/templates/event.js`),
                     context: {
                         slug: event.slug,
+                    },
+                })
+            })
+            result.data.allDatoCmsNews.edges.map(({ node: news }) => {
+                createPage({
+                    path: `news/${news.slug}`,
+                    component: path.resolve(`./src/templates/news.js`),
+                    context: {
+                        slug: news.slug,
                     },
                 })
             })

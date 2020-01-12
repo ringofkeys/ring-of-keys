@@ -43,7 +43,8 @@ const Header = ({ siteTitle, isLoggedIn, path }) => {
             <Link to='/news' className={ path === '/news' ? 'active' : '' }>News</Link>
             <Link to='/consultancy' className={ path === '/consultancy' ? 'active' : '' }>Consultancy</Link>
             <Link to='/resources' className={ path === '/resources' ? 'active' : '' }>Resources</Link>
-            <Link to='/donate' className={ path === '/donate' ? 'active' : '' }>Donate</Link>
+            <a href='https://fundraising.fracturedatlas.org/ring-of-keys' target='_blank' rel='noopener noreferrer'>
+              Donate</a>
             { (isAuthenticated() === true) ? (
             <div className='dropdown-group'>
               <Link to='/dashboard' className='has-dropdown'>Dashboard</Link>
