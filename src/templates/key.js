@@ -4,6 +4,18 @@ import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import './key.css'
+import icon_youtube from '../images/social-icons/icon_youtube.svg'
+import icon_instagram from '../images/social-icons/icon_instagram.svg'
+import icon_facebook from '../images/social-icons/icon_facebook.svg'
+import icon_twitter from '../images/social-icons/icon_twitter.svg'
+import icon_linkedin from '../images/social-icons/icon_linkedin.svg'
+const socialIcons = {
+    youtube: icon_youtube,
+    instagram: icon_instagram,
+    facebook: icon_facebook,
+    twitter: icon_twitter,
+    linkedin: icon_linkedin,
+}
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
@@ -11,13 +23,14 @@ export default ({ data }) => {
     const { name,
             pronouns,
             email,
+            website,
+            socialMedia,
             headshot,
             featuredImage,
             genderIdentity,
             sexualIdentity,
             vocalRange,
             discipline,
-            website,
             bioNode
         } = data.datoCmsKey
 
@@ -37,6 +50,16 @@ export default ({ data }) => {
                     <h1>{ name }</h1>
                     <p>{ pronouns }</p>
                 </div>
+                {socialMedia && (<div className='artist_social-icons'>
+                    {socialMedia.map(socialObj => {
+                        const mediaPlatform = Object.keys(socialIcons).filter((key) => socialObj.socialMediaLink.includes(key))[0]
+                        return (
+                        <a href={socialObj.socialMediaLink} rel='noopener noreferrer' target='_blank' className='social-icon'>
+                            <img src={ socialIcons[mediaPlatform] } alt={`${mediaPlatform} icon`} />
+                        </a>
+                        )}
+                    )}
+                </div>)}
                 { featuredImage && <img src={ featuredImage.url } alt={ featuredImage.alt } className='featured_image' /> }
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
             </div>
@@ -70,6 +93,9 @@ export const query = graphql`
             }
             email
             website
+            socialMedia {
+                socialMediaLink
+            }
             genderIdentity
             sexualIdentity
             vocalRange

@@ -10,7 +10,7 @@ export default ({ data }) => {
         <Layout>
             <h1>{ title }</h1>
             <p>{ startTime }</p>
-            { featuredImage && (<img src={ featuredImage.url } />) }
+            { featuredImage && (<img src={ featuredImage.url } alt={featuredImage.alt} />) }
             { descriptionNode && renderHtmlToReact(descriptionNode.childMarkdownRemark.htmlAst) }
         </Layout>
     )
@@ -22,6 +22,7 @@ export const query = graphql`
             title
             featuredImage {
                 url
+                alt
             }
             descriptionNode {
                 childMarkdownRemark {

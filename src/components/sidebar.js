@@ -38,7 +38,7 @@ const Sidebar = () => {
             node {
               name
               pronouns
-              location
+              locations
               slug
             }
           }
@@ -63,8 +63,8 @@ const Sidebar = () => {
             <h2 className='visually-hidden'>Sidebar</h2>
             <h3>Upcoming Events</h3>
             {data.events.edges.map(({ node }) => (
-                <Link to={`/events/${node.slug}`} className='event'>
-                    <div class='date'>
+                <Link to={`/events/${node.slug}`} className='event' key={node.slug}>
+                    <div className='date'>
                       <span className='month'>{ getMonth(node.startTime) }</span> 
                       { getDate(node.startTime) }</div>
                     <h4>{ node.title }</h4>
@@ -72,14 +72,14 @@ const Sidebar = () => {
             ))}
             <h3>Key Team</h3>
             {data.team.edges.map(({ node }) => (
-                <Link to={`/keys/${node.slug}`} className='teammate'>
+                <Link to={`/keys/${node.slug}`} className='teammate' key={node.slug}>
                   <strong>{ node.name }</strong> <em>({ node.pronouns })<br/>{ node.keyTeamPosition }</em>
                 </Link>
             ))}
             <h3>Meetup Ambassadors</h3>
             {data.ambassadors.edges.map(({ node }) => (
-              <Link to={`/keys/${node.slug}`} className='ambassador'>
-                <strong>{ node.name }</strong> ({ node.pronouns.toLowerCase() }) — { node.location.substr(0, node.location.indexOf(',') ? node.location.indexOf(',') : node.location.length) }
+              <Link to={`/keys/${node.slug}`} className='ambassador' key={node.slug}>
+                <strong>{ node.name }</strong> ({ node.pronouns.toLowerCase() }) — { node.locations.substr(0, node.locations.indexOf(',') ? node.locations.indexOf(',') : node.locations.length) }
               </Link>
             ))}
         </aside>

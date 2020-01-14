@@ -53,6 +53,36 @@
     text-transform: capitalize;
 }
 
+.artist_social-icons {
+    position: absolute;
+    bottom: 5vh;
+    right: 5vw;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.artist_social-icons .social-icon img {
+    height: 3vmin;
+}
+
+.social-icon {
+    display: block;
+    transition: transform .12s ease-in-out;
+    margin: 0 1vw;
+}
+
+.social-icon:first-child {
+    margin-right: 0;
+}
+.social-icon:last-child {
+    margin-left: 0;
+}
+
+.social-icon:hover {
+    transform: scale(1.09);
+}
+
 .artist_hero .back_link {
     position: absolute;
     top: 5vh;

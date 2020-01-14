@@ -156,7 +156,7 @@ export const query = graphql`
           headshot {
             url
           }
-          location
+          locations
           pronouns
         }
       }

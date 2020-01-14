@@ -38,7 +38,7 @@ const IndexPage = ({ data }) => {
       </div> 
       <div className='section_icon-heading-labels'>
         {keySteps.map(step => (
-          <div className='icon-heading-label'>
+          <div className='icon-heading-label' key={step.icon.url} alt={step.icon.alt}>
             <img src={ step.icon.url } alt={ step.icon.alt} />
             { renderHtmlToReact(step.headingNode.childMarkdownRemark.htmlAst) }
             { renderHtmlToReact(step.labelNode.childMarkdownRemark.htmlAst) }
@@ -89,7 +89,7 @@ export const query = graphql`
           }
         }
       }
-    } allDatoCmsNews(limit: 10, sort: {fields: meta___publishedAt}) {
+    } allDatoCmsNews(limit: 10, sort: {fields: meta___publishedAt, order: DESC}) {
       edges {
         node {
           title

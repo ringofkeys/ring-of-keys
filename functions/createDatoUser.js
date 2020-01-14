@@ -4,12 +4,16 @@ require('dotenv').config({
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
-exports.handler = async (event) => {
-    const data = JSON.parse(event.body) //CONFIRMED THAT YOU NEED TO PARSE BODY
+const otherFields = ['genderconsultantbio','isGenderConsultant','mainLocation','locations','socialMedia','featuredImage','headshot','resume','discipline','vocalRange','sexualIdentity','genderIdentity','name','isemailpublic','website','isMeetupAmbassador','keyTeamPosition','slug','quickBio','bio','keyTeamMember','email','pronouns']
+const blankUser = {}
+otherFields.forEach(field => blankUser[field] = '')
 
-    console.log('isemailpublic', data.isemailpublic)
+exports.handler = async (event) => {
+    const newUser = JSON.parse(event.body)
+    const data = Object.assign(blankUser, newUser)
+
     try {
-        const upload = await client.uploads.create({
+        const headshotUpload = await client.uploads.create({
             path:   data.headshot,
             author: data.name,
             copyright: data.name +' '+ new Date().getFullYear(),
@@ -23,16 +27,29 @@ exports.handler = async (event) => {
                 }
             }
         })
+        data.headshot = { uploadId: headshotUpload.id }
+
+        if (data.resume) {
+            let resumeUpload = ''
+            resumeUpload = await client.uploads.create({
+                path:   data.resume,
+                author: data.name,
+                copyright: data.name +' '+ new Date().getFullYear(),
+                defaultFieldMetadata: {
+                    en: {
+                        alt: data.name + " resume",
+                        title: data.name+' '+Date.now(),
+                        customData: {
+                            watermark: false,
+                        }
+                    }
+                }
+            })
+            data.resume = { uploadId: resumeUpload.id }
+        }
 
         const newUser = await client.items.create({
-            name: data.name,
-            email: data.email,
-            pronouns: data.pronouns,
-            headshot: {
-                uploadId: upload.id,
-            },
-            isemailpublic: (data.isemailpublic === 'on') ? true : false,
-            slug: data.slug,
+            ...data,
             itemType: '177050',
         }).catch(err => err)
 

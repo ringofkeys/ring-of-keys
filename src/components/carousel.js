@@ -6,7 +6,7 @@ import './carousel.css'
 
 
 const CarouselBtn = ({ classNames, callback }) => (
-    <div className={`carousel_btn ${ classNames.join(' ')}` } tabIndex='0'
+    <div className={`carousel_btn ${ classNames.join(' ')}` } tabIndex='0' aria-role='button'
         onClick={ callback } 
         onKeyPress={e => { if (e.key === 'Enter' || e.key === 'Spacebar') { callback() }}}>
         <div className='visually-hidden'>Previous</div>
@@ -39,7 +39,7 @@ const Carousel = ({ recordType, itemList, classNames }) => {
             itemList.slice(currIndex, currIndex+3).map(({ node }) => (
               <div className='carousel_card hover_scale'>
                 { wrapLink(node, 'img_wrapper fullwidth', node.featuredImage 
-                    ? <img src={node.featuredImage.url} />
+                    ? <img src={node.featuredImage.url} alt={node.featuredImage.alt} />
                     : <div className='img_replacement fullwidth' style={{'--grad-rotate': Math.random()*360+'deg'}}></div>
                     )
                 }
