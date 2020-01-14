@@ -172,6 +172,13 @@ p, blockquote {
     flex-wrap: wrap;
 }
 
+.divider {
+    width: 100%;
+    height: 2px;
+    background: #f7f7f7;
+    margin: 2em 0;
+}
+
 textarea {
     display: block;
 }
@@ -181,14 +188,41 @@ textarea {
 }
 
 
+/* Forms & Inputs */
+label {
+    display: block;
+    width: fit-content;
+    position: relative;
+    font-family: arial, 'Raleway', sans-serif;
+    font-size: .8rem;
+    font-weight: bold;
+    color: #494949;
+    margin-block-end: .25em;
+}
+
+label.is-required::after {
+    color: crimson;
+    content: '*';
+    font-size: 1.3em;
+    white-space: nowrap;
+}
 
 
 
 
-
-
-
-
+/* Layout Utilities */
+.grid_2c-2r {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center
+}
+.grid_2c-1r {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    align-items: center
+}
 
 
 /* Color Util Classes */

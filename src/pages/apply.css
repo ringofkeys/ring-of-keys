@@ -1,0 +1,76 @@
+.apply__intro {
+    margin-bottom: 4em;
+}
+
+.apply__form h2,
+.apply__form h3 {
+    text-transform: none;
+    margin-bottom: 1.25rem;
+}
+
+.apply__form h2 { font-size: 1.2rem; }
+.apply__form h3 { font-size: 1rem; }
+
+.apply__form input[type='text'],
+.apply__form input[type='email'] {
+    width: 100%;
+    max-width: 400px;
+}
+
+.apply__form .basic_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.apply__form .basic_info > * {
+    width: 30%;
+    margin-bottom: 1em;
+}
+
+.apply__form .checkbox__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1em;
+    margin-bottom: 2em;
+}
+
+.apply__form .checkbox__grid label {
+    display: inline-block;
+    margin-right: 1em;
+    font-weight: normal;
+}
+
+.apply__form .input__group.checkbox {
+    display: grid;
+    grid-template-columns: 1.5em auto;
+    grid-gap: .5em;
+    grid-template-rows: 1fr;
+}
+
+.apply__form .input__group.checkbox label {
+    grid-column: 2 / 3;
+}
+
+.apply__form .input__group [type='checkbox'] {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.checkbox__grid .input__group > * {
+    align-self: center;
+}
+
+.grid_2c-2r .checkbox__grid {
+    grid-row: 1 / 3;
+}
+
+.apply__form .grid_2c-1r {
+    grid-gap: 1em;
+    margin: 2em 0;
+}
+
+.grid_2c-1r textarea {
+    display: block;
+    width: 100%;
+    height: 8em;
+}

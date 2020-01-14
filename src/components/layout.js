@@ -9,6 +9,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
+import Helmet from 'react-helmet'
 import Footer from "./footer"
 
 const Layout = ({ path, children, classNames }) => {
@@ -20,11 +21,19 @@ const Layout = ({ path, children, classNames }) => {
           title
         }
       }
+      datoCmsSite {
+        faviconMetaTags {
+          tags
+        }
+      }
     }
   `)
+  const { tags } = data.datoCmsSite.faviconMetaTags
 
   return (
     <>
+      <Helmet link={tags.filter(tag => tag.tagName === 'link').map(tag => tag.attributes)}
+        meta={tags.filter(tag => tag.tagName === 'meta').map(tag => tag.attributes)} />
       <Header siteTitle={data.site.siteMetadata.title} path={path} />
         <main className={classNames && classNames.join(' ')}>{children}</main>
       <Footer />

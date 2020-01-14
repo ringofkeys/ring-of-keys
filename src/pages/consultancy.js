@@ -70,7 +70,7 @@ const Consultancy = ({ data }) => (
                         { node.website.substr(node.website.indexOf('//')+2, node.website.length) }</a></p>
                     }
                     { node.location && <p><strong>Location: </strong>{ node.location }</p> }
-                    { renderHtmlToReact(node.bioNode.childMarkdownRemark.htmlAst) }
+                    { renderHtmlToReact(node.genderconsultantbioNode.childMarkdownRemark.htmlAst) }
                 </div>
             </div>
         ))}
@@ -140,7 +140,7 @@ export const query = graphql`
                     keyTeamMember
                     keyTeamPosition
                     website
-                    bioNode {
+                    genderconsultantbioNode {
                         childMarkdownRemark {
                             htmlAst
                         }
