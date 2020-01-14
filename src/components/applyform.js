@@ -104,11 +104,11 @@ const ApplyForm = () => {
           <Field type='file' name='headshot' label='Upload your headshot'
             change={event => {
               formik.setFieldValue("headshot", event.currentTarget.files[0]);
-            }} value={formik.values.headshot.fileName}/>
+            }} value={typeof formik.values.headshot === 'object' ? formik.values.headshot.fileName : ''}/>
           <Field type='file' name='resume' label='Upload your Resumé'
             change={event => {
               formik.setFieldValue("resume", event.currentTarget.files[0]);
-            }} value={formik.values.resume.fileName}/>
+            }} value={typeof formik.values.resume === 'object' ? formik.values.resume.fileName : ''}/>
         </div>
         <div className='grid_2c-1r'>
           <Field type='textarea' name='whyRok' label='Why do you want to be a Key?' required={true}
