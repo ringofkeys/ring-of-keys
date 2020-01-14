@@ -6,9 +6,9 @@ import './news.css'
 
 const News = ({ data }) => (
     <Layout classNames={['fullwidth']}>
-        <div className='view-all_nav'>
+        <div className='view-all_nav' >
             <h1>News</h1>
-            <nav>
+            <nav styl={{display: 'none'}}>
                 <a href='/'>All</a>
                 <a href='/'>RoK News</a>
                 <a href='/'>Press</a>
