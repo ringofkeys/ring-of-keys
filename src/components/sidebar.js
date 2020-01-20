@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useStaticQuery, graphql } from 'gatsby'
+import { Link, useStaticQuery } from 'gatsby'
 import './sidebar.css'
 
 const Sidebar = () => {
