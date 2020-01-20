@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Link, graphql } from "gatsby"
 import Fuse from 'fuse.js'
 import { useFormik } from 'formik';
-import Layout from "../components/Layout"
-import Popup from '../components/Popup'
-import { Field } from '../components/FormFields'
-import ArtistCard from '../components/ArtistCard'
+import Layout from "../components/layout"
+import Popup from '../components/popup'
+import { Field } from '../components/formfields'
+import ArtistCard from '../components/artistcard'
 import './directory.css' 
 
 const Directory = ({ data }) => {

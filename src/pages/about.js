@@ -1,6 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import SidebarLayout from '../components/SidebarLayout'
+import SidebarLayout from '../components/sidebarlayout'
 import './about.css'
 
 const ourStory = () => {

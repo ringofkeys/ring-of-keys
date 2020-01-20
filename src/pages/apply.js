@@ -1,6 +1,6 @@
 import React from 'react'
-import SidebarLayout from "../components/SidebarLayout"
-import ApplyForm from '../components/ApplyForm'
+import SidebarLayout from "../components/sidebarlayout"
+import ApplyForm from '../components/applyform'
 import './apply.css'
 
 const ApplyPage = () => {

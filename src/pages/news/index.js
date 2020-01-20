@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import Layout from "../../components/Layout"
-import Carousel from '../../components/Carousel'
+import Layout from "../../components/layout"
+import Carousel from '../../components/carousel'
 import './news.css'
 
 const News = ({ data }) => (

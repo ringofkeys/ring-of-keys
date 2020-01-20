@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
-import SidebarLayout from "../components/SidebarLayout"
+import SidebarLayout from "../components/sidebarlayout"
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import './consultancy.css'
 
