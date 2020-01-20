@@ -1,3 +1,15 @@
+.directory > section {
+    width: 75vw;
+    margin: 2em auto;
+}
+
+.directory > section:first-of-type {
+    margin-top: 10vh;
+}
+.directory > section:last-of-type {
+    margin-bottom: 10vh;
+}
+
 .section_search {
     margin: 2em 0;
 }
@@ -39,17 +51,26 @@
     background: #f7f7f7;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 1em;
+    gap: 1.5em 1em;
     transition: all .12s ease-in-out;
     opacity: 0;
     height: 0;
-    padding: 0 2em;
+    box-sizing: border-box;
+    padding: 0 12.5vw;
+}
+
+.directory > .section_filters {
+    width: 100%;
 }
 
 .section_filters.active {
     opacity: 1;
     height: 100%;
-    padding: 2em;
+    padding: 2em 12.5vw;
+}
+
+.section_filters .checkbox__grid {
+    margin-bottom: 0;
 }
 
 .section_filters .checkbox__grid.two-cols {
@@ -87,13 +108,13 @@
 
 .key__card figure {
     margin: 0;
-    margin-top: 10vh;
-    height: 30vh;
+    margin-top: 12.5vh;
+    height: 27.5vh;
     background: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: calc(75px + .5em);
+    padding-top: calc(50px + 1em);
     box-sizing: border-box;
     border-radius: 0 0 var(--b-rad) var(--b-rad);
     position: relative;
@@ -105,6 +126,7 @@
     border-radius: 50%;
     position: absolute;
     left: 50%;
+    border: solid white 2px;
     top: 0;
     transform: translate(-50%, -50%);
     background: transparent;
@@ -113,12 +135,12 @@
 .card__title {
     margin: 0;
     text-align: center;
+    text-transform: capitalize;
 }
 
 .key__card figcaption {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     height: 100%;
     width: 80%;
@@ -133,19 +155,32 @@
     width: 100%;
 }
 
+.card__meta {
+    margin: .2em 0 .5em 0;
+}
+
 .card__meta span {
     display: block;
     margin: .5em 0;
     text-align: center; 
     font-family: 'Raleway', sans-serif;
-    font-size: .8rem;
+    font-size: .7rem;
+    text-transform: lowercase;
     font-weight: 700;
-    text-transform: uppercase;
     color: gray;
+}
+
+span.card__location {
+    text-transform: capitalize;
 }
 
 .key__card .search_match {
     font-weight: bold;
     outline-offset: 3px;
     outline: solid 2px hsla(25deg, calc(60% * var(--match-opacity)), calc(50% + (40% * (1 - var(--match-opacity)))), var(--match-opacity));
+}
+
+.key__card .btn-link_ghost {
+    padding: .6em 2.25em;
+    font-weight: normal;
 }

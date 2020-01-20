@@ -14,6 +14,18 @@
     text-decoration: none;
     display: inline-block;
     transition: all .12s ease-in-out;
+    position: relative;
+}
+
+.top-nav a:not(.site-logo)::after {
+    position: absolute;
+    content: '';
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--rok-gold-1_hex);
+    transition: width .13s ease-in-out;
 }
 
 .top-nav a:hover {
@@ -49,17 +61,13 @@
 
 .top-nav [aria-current]:not([aria-current="false"]) {
     position: relative;
-    font-weight: bold;
+    font-weight: 600;
 }
 
+.top-nav a:not(.site-logo):hover::after,
+.top-nav a:not(.site-logo):focus::after,
 .top-nav [aria-current]:not([aria-current="false"]):not(.site-logo)::after {
-    position: absolute;
-    content: '';
-    top: 100%;
-    left: 0;
     width: 100%;
-    height: 2px;
-    background: var(--rok-gold-1_hex);
 }
 
 .nav__login a:last-child {
@@ -72,6 +80,10 @@
     text-transform: uppercase;
     padding: .4em 1.25em;
     border-radius: .3em;
+}
+
+#btn__login::after {
+    display: none;
 }
 
 .nav__main {

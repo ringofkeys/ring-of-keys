@@ -34,7 +34,6 @@ main {
 main.fullwidth {
     width: 100%;
     margin: 0;
-    
 }
 
 .hover_scale {
@@ -112,18 +111,23 @@ p, blockquote {
 }
 
 .btn-link_ghost {
+    --color: var(--rok-slate-blue_hex);
     background: transparent;
-    color: var(--rok-slate-blue_hex);
+    color: var(--color);
     border: solid 1px;
 }
 
 .btn-link_ghost:hover,
 .btn-link_ghost:focus {
-    background: var(--rok-slate-blue_hex);
+    background: var(--color);
     color: white;
     border-color: white;
     transform: none;
     box-shadow: none;
+}
+
+.btn-link_ghost.bg_copper {
+    --color: var(--rok-copper-1_hex);
 }
 
 /* Icon-Heading-Labels */
@@ -215,6 +219,11 @@ label.is-required::after {
     content: '*';
     font-size: 1.3em;
     white-space: nowrap;
+}
+
+input[type='text'] {
+    box-sizing: border-box;
+    padding: .25em .5em;
 }
 
 

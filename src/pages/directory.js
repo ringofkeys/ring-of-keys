@@ -4,7 +4,7 @@ import Fuse from 'fuse.js'
 import { useFormik } from 'formik';
 import Layout from "../components/layout"
 import Popup from '../components/popup'
-import { Field } from '../components/formfields'
+import Filters from '../components/filters'
 import ArtistCard from '../components/artistcard'
 import './directory.css' 
 
@@ -38,7 +38,7 @@ const Directory = ({ data }) => {
   const fuzeConfig = getFuzeConfig()
 
   // mutate config to have filters from above as 'keys' property
-  fuzeConfig.keys = filters.map(filter => `node.${filter.field}`)
+  fuzeConfig.keys = Object.keys(searchList[0].node).map(key => `node.${key}`)
   
   // build formik config from filters
   const formik = useFormik({
@@ -110,7 +110,8 @@ const Directory = ({ data }) => {
   }, [formik.values])
 
   return (
-    <Layout>
+    <Layout classNames={['fullwidth', 'directory']}>
+      <section className='section_intro'>
         <h1>Directory</h1>
         <p>
           We have curated a directory of actors, directors, dancers, singers, stage managers, lighting designers, 
@@ -118,87 +119,28 @@ const Directory = ({ data }) => {
           scenic designers, sound designers, choreographers, costume designers, and production managers who self-identify 
           as lesbian, bisexual, trans, queer, femme, masc, non-binary, and the diversity of genders that queerness contains.
         </p>
-        <section className='section_search'>
-          <div className='input__group text'>
-            <label htmlFor='fuzzy'>Search any keywords here or use the advanced search feature to narrow your results.</label>
-            <input type='text' name='fuzzy' onChange={formik.handleChange} value={formik.values.fuzzy}/>
-          </div>
-          <button onClick={() => setFilterVisibility(!filtersAreVisible)} className='advanced-btn'>
-            Advanced Search
-            <svg className='advanced-arrow' style={{transform: `rotate(${filtersAreVisible ? 180 : 0}deg)`}} viewBox='0 0 4 4'>
-              <path d='M .5 2 l 1.5 -1.5 l 1.5 1.5'></path>
-            </svg> 
-          </button>
-        </section>
-        <section className={`section_filters ${filtersAreVisible ? 'active' : ''}`}>
-          {filters.map(filter => {
-            if (filter.type === 'text') {
-              return (
-                <Field type='text' name={filter.field} label={filter.label}
-                  change={formik.handleChange} value={formik.values[filter.field]} placeholder={filter.placeholder}/>
-              )
-            } else if (filter.type === 'checkbox') {
-              return (<div>
-                <label>{filter.label}</label>
-                <div className={`checkbox__grid ${(filter.field === 'locations' || filter.field === 'affiliations') ? 'two-cols' : ''}`}>
-                  {filter.values.map((val,i) => (
-                    <Field type='checkbox' name={`${filter.field}[${i}]`} label={val} change={formik.handleChange}
-                      value={formik.values[filter.field]} key={val}/>
-                  ))}
-                  {/* <Field type='text' name='locationsOther' change={formik.handleChange} label='Other' value={formik.values.locationsOther} /> */}
-                </div>
-              </div>)
-            } else if (filter.type === 'dropdown') {
-              return (<>
-                <label htmlFor={filter.field}>{filter.label}</label>
-                <select name={filter.field} onChange={formik.handleChange}
-                  value={formik.values[filter.field]}>
-                  <option value=''>{filter.placeholder}</option>
-                  {filter.values.map(value => (
-                      <option value={value}>
-                        { value }
-                      </option>
-                    )
-                  )}
-                </select>
-              </>)
-            }
-          })
-          }
-          {/* <button onClick={formik.handleReset}>Clear Advanced Search</button> */}
-        </section>
-        <section className='key__grid'>
-            {searchResults[0] ? searchResults.map((obj, i, arr) => {
-              const key = obj.item ? obj.item.node : obj.node
-              return (
-                <Link to={`/keys/${key.slug}`} className='key__card' key={'key-'+i}
-                  style={{'--grad-rotate': Math.random()*360+'deg'}}>
-                    <figure>
-                        <div className='card__img'>
-                            <img src={ key.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=130&h=130&'} alt={ key.name +' headshot' } />
-                        </div>
-                        <figcaption>
-                            <h3 className={`card__title ${ fieldHasMatch(obj, 'name') ? 'search_match' : '' }`}
-                                style={{ '--match-opacity': fieldHasMatch(obj, 'name') && obj.score ? 1 - obj.score : 0 }}>
-                                { key.name }
-                            </h3>
-                            <div className='card__divider'></div>
-                            <div className='card__meta'>
-                                <span className={`card__location ${ fieldHasMatch(obj, 'location') ? 'search_match' : '' }`}
-                                style={{ '--match-opacity': fieldHasMatch(obj, 'location') && obj.score ? 1 - obj.score : 0 }}>
-                                { key.locations }
-                                </span>
-                                <span className={`card__pronouns ${ fieldHasMatch(obj, 'pronouns') ? 'search_match' : '' }`}
-                                style={{ '--match-opacity': fieldHasMatch(obj, 'pronouns') && obj.score ? 1 - obj.score : 0 }}>
-                                { key.pronouns }
-                                </span>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </Link>   
-              )}) : ( <p>No results found!</p> )
-          }
-        </section>
+      </section>
+      <section className='section_search'>
+        <div className='input__group text'>
+          <label htmlFor='fuzzy'>Search any keywords here or use the advanced search feature to narrow your results.</label>
+          <input type='text' name='fuzzy' onChange={formik.handleChange} value={formik.values.fuzzy} placeholder='Keyword'/>
+        </div>
+        <button onClick={() => setFilterVisibility(!filtersAreVisible)} className='advanced-btn'>
+          Advanced Search
+          <svg className='advanced-arrow' style={{transform: `rotate(${filtersAreVisible ? 180 : 0}deg)`}} viewBox='0 0 4 4'>
+            <path d='M .5 2 l 1.5 -1.5 l 1.5 1.5'></path>
+          </svg> 
+        </button>
+      </section>
+      <section className={`section_filters ${filtersAreVisible ? 'active' : ''}`}>
+        <Filters formik={formik} filters={filters} />
+        {/* <button onClick={formik.handleReset}>Clear Advanced Search</button> */}
+      </section>
+      <section className='key__grid'>
+          {searchResults[0] ? searchResults.map((obj, i, arr) => 
+          <ArtistCard obj={obj} index={i} />) : ( <p>No results found!</p> )
+        }
+      </section>
         {/* <Popup closed={false} /> */}
     </Layout> 
 )}
@@ -216,6 +158,9 @@ export const query = graphql`
           headshot {
             url
           }
+          featuredImage {
+            url
+          }
           mainLocation
           locations
           pronouns
@@ -230,39 +175,16 @@ export const query = graphql`
   }
 `
 
-export function fieldHasMatch(obj, fieldName) {
-  return obj.matches && obj.matches.some(match => match.key.includes(fieldName))
-}
-
-function mergeAllResults(searchResults, filterResults) { // POSSIBLE TODO: FINISH THIS SOPHISTICATED FILTERING SETUP. FOR NOW, GOING WITH CLEANER TAGS
-  const resultsArrays = [searchResults, ...filterResults].flat()
-  const merged = []
-
-  resultsArrays.forEach(elem => {
-    if (merged.length === 0) { merged.push(elem) }
-    else {
-      const foundItem = merged.find(mergedElem => mergedElem.item.node.name === elem.item.node.name)
-      if (!foundItem) { merged.push(elem) }
-      else {
-        foundItem.score += elem.score
-        foundItem.matches.push(elem.matches)
-      }
-    }
-  })
-
-  return merged.sort((a, b) => b.score - a.score)
-}
-
 function getFuzeConfig() {
   return {
     includeScore: true,
     shouldSort: true,
     includeMatches: true,
-    threshold: 0.38,
+    threshold: 0.33,
     location: 0,
     distance: 100,
     maxPatternLength: 32,
-    minMatchCharLength: 2,
+    minMatchCharLength: 3,
   }    
 }
 
