@@ -1,14 +1,12 @@
 import React, { useState } from "react"
 import { graphql, Link } from 'gatsby'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
-import Carousel from '../components/carousel'
-
+import SEO from "../components/seo"
+import Layout from "../components/Layout"
+import Carousel from '../components/Carousel'
 import './index.css'
 // import Img from 'gatsby-image'
-
-import Layout from "../components/layout"
 // import Image from "../components/image"
-import SEO from "../components/seo"
 
 const IndexPage = ({ data }) => {
   const  { keySteps, homepageBody } = data.allDatoCmsHomepage.nodes[0]

@@ -1,7 +1,7 @@
 import React from 'react'
-// import Img from 'gatsby-image'
 import { graphql } from 'gatsby'
-import Layout from '../components/layout'
+// import Img from 'gatsby-image'
+import Layout from '../components/Layout'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 
 export default ({ data }) => {

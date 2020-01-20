@@ -1,9 +1,10 @@
 import React from 'react'
-// import Img from 'gatsby-image'
 import { graphql, Link } from 'gatsby'
-import Layout from '../components/layout'
+// import Img from 'gatsby-image'
+import Layout from '../components/Layout'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import './key.css'
+
 import icon_youtube from '../images/social-icons/icon_youtube.svg'
 import icon_instagram from '../images/social-icons/icon_instagram.svg'
 import icon_facebook from '../images/social-icons/icon_facebook.svg'
