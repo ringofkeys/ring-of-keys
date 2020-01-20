@@ -20,6 +20,7 @@ let pronouns = [
 
 const ApplyForm = () => {
   const [results, setResults] = useState(undefined)
+  const [isLoading, setLoading] = useState(false)
 
   const initialValues = {
       name: '',
@@ -55,7 +56,11 @@ const ApplyForm = () => {
         const filteredValues = {}
         Object.keys(values).filter(key => !key.includes('Other') && values[key]).forEach(key => { filteredValues[key] = values[key] })
 
-        submitApplication(filteredValues).then(user => setResults(user))
+        setLoading(true)
+        submitApplication(filteredValues).then(user => {
+          setLoading(false)
+          setResults(user)
+        })
       },
   });
 
@@ -104,11 +109,11 @@ const ApplyForm = () => {
           <Field type='file' name='headshot' label='Upload your headshot'
             change={event => {
               formik.setFieldValue("headshot", event.currentTarget.files[0]);
-            }} value={formik.values.headshot.fileName}/>
+            }} value={formik.values.headshot ? formik.values.headshot.fileName : ''}/>
           <Field type='file' name='resume' label='Upload your Resumé'
             change={event => {
               formik.setFieldValue("resume", event.currentTarget.files[0]);
-            }} value={formik.values.resume.fileName}/>
+            }} value={formik.values.resume ? formik.values.resume.fileName : ''}/>
         </div>
         <div className='grid_2c-1r'>
           <Field type='textarea' name='whyRok' label='Why do you want to be a Key?' required={true}
@@ -116,7 +121,8 @@ const ApplyForm = () => {
           <Field type='textarea' name='referral' label='How did you learn about Ring of Keys?' required={true}
             change={formik.handleChange} value={formik.values.referral} />
         </div>
-        <button type="submit" className='btn has-arrow bg_slate'>Submit</button>
+        <button type="submit" className={`btn bg_slate ${isLoading ? 'has-loader' : 'has-arrow'}`} disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Submit'}</button>
         {!!results && JSON.stringify(results, null, 2)}
     </form>
   );
@@ -126,22 +132,28 @@ export default ApplyForm
 
 async function submitApplication(data) {
   const newUser = {
-      ...data,
       slug: slugify(data.name),
   }
+  Object.keys(data).forEach(key => {
 
-  const headshotRes = await uploadFile(data.headshot)
-  let resumeUrl = ''
-  if (data.resume) {
-    resumeUrl = await uploadFile(data.resume)
-  }
+    //TODO SEND THESE FIELDS OFF TO THE ADMIN IN AN EMAIL
+    if (key !== 'whyRok' && key !== 'referral') {
+      newUser[key] = data[key]
+    }
+  })
 
-  newUser.headshot = headshotRes[0].id
-  newUser.resume = resumeUrl.url
+  // console.log('newUser = ', newUser)
 
-  console.log('newUser = ', newUser)
+  const headshotRes = await uploadFile(newUser.headshot)
+  newUser.headshot = headshotRes[0].id  
 
-  const newUserRes = await fetch('/.netlify/functions/createDatoUser', {
+  let resumeRes = ''
+  if (newUser.resume) {
+    resumeRes = await uploadFile(newUser.resume)
+    newUser.resume = resumeRes[0].id
+  }  
+
+  const newUserRes = await fetch('http://localhost:53037/.netlify/functions/createDatoUser', {
       method: 'POST',
       body: JSON.stringify(newUser)
   })
@@ -151,7 +163,7 @@ async function submitApplication(data) {
 
 
 async function uploadFile(file) {
-  const signedUrlsRes = await fetch('/.netlify/functions/createDatoImgUrl', {
+  const signedUrlsRes = await fetch('http://localhost:53037/.netlify/functions/createDatoImgUrl', {
       method: 'POST',
       body: JSON.stringify({
           fileName: file.name,
@@ -161,11 +173,11 @@ async function uploadFile(file) {
 
   const datoUrlRes = await signedUrlsRes.json()
 
-  console.log('datorUrlRes = ', datoUrlRes)
+  // console.log('datorUrlRes = ', datoUrlRes)
 
   const fileArray = await readFile(file)
 
-  console.log('fileArray = ', fileArray)
+  // console.log('fileArray = ', fileArray)
 
   const uploadRes = await fetch(datoUrlRes.url, {
       method: 'PUT',
@@ -175,7 +187,7 @@ async function uploadFile(file) {
       body: fileArray,
   }).catch(err => console.err(err))
 
-  console.log('uploadRes = ', uploadRes)
+  // console.log('uploadRes = ', uploadRes)
 
   return [datoUrlRes, uploadRes]
 }
@@ -196,3 +208,4 @@ function readFile(file) {
     fr.readAsArrayBuffer(file);
   });
 }
+

@@ -54,7 +54,7 @@ export default ({ data }) => {
                     {socialMedia.map(socialObj => {
                         const mediaPlatform = Object.keys(socialIcons).filter((key) => socialObj.socialMediaLink.includes(key))[0]
                         return (
-                        <a href={socialObj.socialMediaLink} rel='noopener noreferrer' target='_blank' className='social-icon'>
+                        <a href={socialObj.socialMediaLink} rel='noopener noreferrer' target='_blank' className='social-icon' key={mediaPlatform}>
                             <img src={ socialIcons[mediaPlatform] } alt={`${mediaPlatform} icon`} />
                         </a>
                         )}

@@ -22,6 +22,7 @@ const Dashboard = () => {
     return (
     <Layout>
         <Router>
+            <pre>{JSON.stringify(user)}</pre>
             <Home path={homeDir} />
             <Settings path={homeDir+'/settings'} user={user} />
             <Events path={homeDir+'/events'} />

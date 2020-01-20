@@ -1,87 +1,113 @@
 import React, { useState, useEffect } from 'react'
 import { Link, graphql } from "gatsby"
 import Fuse from 'fuse.js'
+import { useFormik } from 'formik';
 import Layout from "../components/layout"
 import Popup from '../components/popup'
+import { Field } from '../components/formfields'
+import ArtistCard from '../components/artistcard'
 import './directory.css' 
 
-const Artists = ({ data }) => {
+const Directory = ({ data }) => {
   const { edges: searchList } = data.allDatoCmsKey
-  const [searchResults, setSearchResults] = useState(searchList )
 
-  const filterableFields = Object.keys(searchList[0].node).filter(field => field !== 'slug' && field !== 'headshot')
-  const [filterResults, setFilterResults] = useState([])
+  const [filtersAreVisible, setFilterVisibility] = useState(false)
 
+  // add firstName and lastName props by splitting name at first ' '
+  searchList.forEach(({ node }) => {
+    node.firstName = node.name.substr(0, node.name.indexOf(' '))
+    node.lastName = node.name.substr(node.name.indexOf(' ')+1, node.name.length)
+  })
 
-  const searchOptions = {
-    includeScore: true,
-    shouldSort: true,
-    includeMatches: true,
-    threshold: 0.5,
-    location: 0,
-    distance: 100,
-    maxPatternLength: 32,
-    minMatchCharLength: 2,
-    keys: filterableFields.map(field => `node.${field}`),
-  }  
+  // create state of results
+  const [searchResults, setSearchResults] = useState(searchList)
 
-  const fuseSearch = new Fuse(searchList, searchOptions); // "list" is the item array
-  const [currFilter, setCurrFilter] = useState('')
-  const [filters, setFilters] = useState([])
-  const [mergedResults, setMergedResults] = useState(searchList)
+  // get filter object from function below
+  const filters = getFilters()
+  filters.forEach(filter => {
+    filter.results = []
+    if (filter.type === 'dropdown') {
+      filter.values = searchList.map(({node}) => node[filter.field])
+                                .filter((val, i) => val)
+      filter.values = [...new Set(filter.values)]                                
+                                .sort()
+    }
+  })
 
-  function updateSearchResults(e) {
-    setSearchResults(e.target.value.length > 0 ? fuseSearch.search(e.target.value) : searchList)
-    // mergeAllResults()
-  }
+  // get default fuzejs config from function below
+  const fuzeConfig = getFuzeConfig()
 
-  function updateFilters(e) {
-    setCurrFilter(e.target.value)
-    if (!e.target.value || filters.some(f => f.name === e.target.value)) return
+  // mutate config to have filters from above as 'keys' property
+  fuzeConfig.keys = filters.map(filter => `node.${filter.field}`)
+  
+  // build formik config from filters
+  const formik = useFormik({
+    initialValues: buildFormikVals('fuzzy', filters),
+    isInitialValid: true,
+    onSubmit: values => console.log(values),
+  })
 
-    const filterOptions = { ...searchOptions }
-    filterOptions.keys = [`node.${e.target.value}`]
-    const newFilter = { name: e.target.value, filter: new Fuse(searchList, filterOptions), }
-    // if there are no filters, create my first one
-    if (filters.length === 0) setFilters([ newFilter ]) 
-    // if there are filters and none are the one I have selected (covered by first if statement in fn), add it
-    else setFilters([...filters, newFilter])
+  
 
-    //add array to active filters
-    setFilterResults([...filterResults, []])
-  }
+  // Set filters' results arrays when formik.values changes
+  useEffect(() => {
+    
+    function updateSearchResults() {
+      // create a blank search results array
+      let finalResults = []
+  
+      // iterate over results list for each filter (there should be one for each),
+      // and merge or cull the final results array based on that filter's 'logic' property
+      const orFilters = filters.filter(f => f.logic === 'or')
+      const andFilters = filters.filter(f => f.logic === 'and')
+  
+      // OR filters widen the search, adding any results they have that the final list doesn't
+      orFilters.forEach(filter => {
+        if (!filter || filter.results.length === 0) return
+        filter.results.forEach(filterRes => {
+          if (!finalResults.find(finalRes => finalRes.node.name === filterRes.node.name)) {
+            finalResults.push(filterRes)
+          }
+        })
+      })
 
-  function updateFilterResults(e) {
-    if (!currFilter) return
-    const toUpdate = filters.findIndex(f => f.name === currFilter)
-    const resultsCopy = [...filterResults]
-    resultsCopy[toUpdate] = e.target.value.trim().length > 0 ? filters[toUpdate].filter.search(e.target.value) : []
-    setFilterResults(resultsCopy)
-    // mergeAllResults()
-  }
-
-  function mergeAllResults() { // POSSIBLE TODO: FINISH THIS SOPHISTICATED FILTERING SETUP. FOR NOW, GOING WITH CLEANER TAGS
-    const resultsArrays = [searchResults, ...filterResults].flat()
-    const merged = []
-
-    resultsArrays.forEach(elem => {
-      if (merged.length === 0) { merged.push(elem) }
-      else {
-        const foundItem = merged.find(mergedElem => mergedElem.item.node.name === elem.item.node.name)
-        if (!foundItem) { merged.push(elem) }
-        else {
-          foundItem.score += elem.score
-          foundItem.matches.push(elem.matches)
-        }
+      if (finalResults.length === 0) {
+        finalResults = searchList // if there are no OR filters set, use the whole searchable array for AND filtering
       }
-    })
+    
+      // AND filters narrow the search from a larger set
+      andFilters.forEach(filter => {
+        if (!filter || filter.results.length === 0) return
+        finalResults = finalResults.filter(finalRes => filter.results.find(filterRes => finalRes.node.name === filterRes.node.name))
+      })
+  
+      // Apply fuzzy search if there is one, over the final results
+      if (formik.values.fuzzy && formik.values.fuzzy.trim().length > 0) {
+        const fuzeSearch = new Fuse(finalResults, fuzeConfig)
+        finalResults = fuzeSearch.search(formik.values.fuzzy)
+      }
 
-    setMergedResults(merged.sort((a, b) => b.score - a.score))
-  }
+      setSearchResults(finalResults)
+    }
 
-  function fieldHasMatch(obj, fieldName) {
-    return obj.matches && obj.matches.some(match => match.key.includes(fieldName))
-  }
+    for (const filter of filters) {
+      if (formik.values[filter.field]) {
+        if (filter.type === 'checkbox') {
+          const trueVals = filter.values.filter((val, i) => formik.values[filter.field][i])
+
+          filter.results = searchList.filter(({ node }) => node[filter.field] && trueVals[0] &&
+            trueVals.some(val => node[filter.field].toLowerCase().includes(val.toLowerCase())))
+        } else {
+          filter.results = searchList.filter(({ node }) => node[filter.field] &&
+            node[filter.field].toLowerCase().includes(formik.values[filter.field].trim().toLowerCase()))
+        }
+      } else {
+        filter.results = []
+      }
+    }
+
+    updateSearchResults()
+  }, [formik.values])
 
   return (
     <Layout>
@@ -92,58 +118,92 @@ const Artists = ({ data }) => {
           scenic designers, sound designers, choreographers, costume designers, and production managers who self-identify 
           as lesbian, bisexual, trans, queer, femme, masc, non-binary, and the diversity of genders that queerness contains.
         </p>
-        <div className='section_search'>
-          <label>Search: 
-            <input type='text' onChange={e => updateSearchResults(e) } />
-          </label>
-          {/* <label>Filter: 
-            <select onBlur={updateFilters}>
-              <option value=''>Select a field</option>
-              {filterableFields.map(field => (
-                <option value={field}>{ field }</option>
-              ))}
-            </select>
-            <input type='text' onChange={ e => updateFilterResults(e) }/>
-          </label> */}
-        </div>
-        {/* <pre>{ JSON.stringify(searchResults, null, 2) }</pre> */}
+        <section className='section_search'>
+          <div className='input__group text'>
+            <label htmlFor='fuzzy'>Search any keywords here or use the advanced search feature to narrow your results.</label>
+            <input type='text' name='fuzzy' onChange={formik.handleChange} value={formik.values.fuzzy}/>
+          </div>
+          <button onClick={() => setFilterVisibility(!filtersAreVisible)} className='advanced-btn'>
+            Advanced Search
+            <svg className='advanced-arrow' style={{transform: `rotate(${filtersAreVisible ? 180 : 0}deg)`}} viewBox='0 0 4 4'>
+              <path d='M .5 2 l 1.5 -1.5 l 1.5 1.5'></path>
+            </svg> 
+          </button>
+        </section>
+        <section className={`section_filters ${filtersAreVisible ? 'active' : ''}`}>
+          {filters.map(filter => {
+            if (filter.type === 'text') {
+              return (
+                <Field type='text' name={filter.field} label={filter.label}
+                  change={formik.handleChange} value={formik.values[filter.field]} placeholder={filter.placeholder}/>
+              )
+            } else if (filter.type === 'checkbox') {
+              return (<div>
+                <label>{filter.label}</label>
+                <div className={`checkbox__grid ${(filter.field === 'locations' || filter.field === 'affiliations') ? 'two-cols' : ''}`}>
+                  {filter.values.map((val,i) => (
+                    <Field type='checkbox' name={`${filter.field}[${i}]`} label={val} change={formik.handleChange}
+                      value={formik.values[filter.field]} key={val}/>
+                  ))}
+                  {/* <Field type='text' name='locationsOther' change={formik.handleChange} label='Other' value={formik.values.locationsOther} /> */}
+                </div>
+              </div>)
+            } else if (filter.type === 'dropdown') {
+              return (<>
+                <label htmlFor={filter.field}>{filter.label}</label>
+                <select name={filter.field} onChange={formik.handleChange}
+                  value={formik.values[filter.field]}>
+                  <option value=''>{filter.placeholder}</option>
+                  {filter.values.map(value => (
+                      <option value={value}>
+                        { value }
+                      </option>
+                    )
+                  )}
+                </select>
+              </>)
+            }
+          })
+          }
+          {/* <button onClick={formik.handleReset}>Clear Advanced Search</button> */}
+        </section>
         <section className='key__grid'>
             {searchResults[0] ? searchResults.map((obj, i, arr) => {
               const key = obj.item ? obj.item.node : obj.node
               return (
                 <Link to={`/keys/${key.slug}`} className='key__card' key={'key-'+i}
-                style={{'--grad-rotate': Math.random()*360+'deg'}}>
+                  style={{'--grad-rotate': Math.random()*360+'deg'}}>
                     <figure>
                         <div className='card__img'>
                             <img src={ key.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=130&h=130&'} alt={ key.name +' headshot' } />
                         </div>
                         <figcaption>
                             <h3 className={`card__title ${ fieldHasMatch(obj, 'name') ? 'search_match' : '' }`}
-                              style={{ '--match-opacity': fieldHasMatch(obj, 'name') && obj.score ? 1 - obj.score : 0 }}>
-                              { key.name }
+                                style={{ '--match-opacity': fieldHasMatch(obj, 'name') && obj.score ? 1 - obj.score : 0 }}>
+                                { key.name }
                             </h3>
                             <div className='card__divider'></div>
                             <div className='card__meta'>
-                              <span className={`card__location ${ fieldHasMatch(obj, 'location') ? 'search_match' : '' }`}
+                                <span className={`card__location ${ fieldHasMatch(obj, 'location') ? 'search_match' : '' }`}
                                 style={{ '--match-opacity': fieldHasMatch(obj, 'location') && obj.score ? 1 - obj.score : 0 }}>
-                                { key.location }
-                              </span>
-                              <span className={`card__pronouns ${ fieldHasMatch(obj, 'pronouns') ? 'search_match' : '' }`}
+                                { key.locations }
+                                </span>
+                                <span className={`card__pronouns ${ fieldHasMatch(obj, 'pronouns') ? 'search_match' : '' }`}
                                 style={{ '--match-opacity': fieldHasMatch(obj, 'pronouns') && obj.score ? 1 - obj.score : 0 }}>
                                 { key.pronouns }
-                              </span>
+                                </span>
                             </div>
                         </figcaption>
                     </figure>
                 </Link>   
-            )}) : ( <p>No results found!</p> )
+              )}) : ( <p>No results found!</p> )
           }
         </section>
         {/* <Popup closed={false} /> */}
     </Layout> 
 )}
 
-export default Artists
+export default Directory
 
 
 export const query = graphql`
@@ -156,10 +216,135 @@ export const query = graphql`
           headshot {
             url
           }
+          mainLocation
           locations
           pronouns
+          genderIdentity
+          sexualIdentity
+          discipline
+          vocalRange
+          affiliations
         }
       }
     }
   }
 `
+
+export function fieldHasMatch(obj, fieldName) {
+  return obj.matches && obj.matches.some(match => match.key.includes(fieldName))
+}
+
+function mergeAllResults(searchResults, filterResults) { // POSSIBLE TODO: FINISH THIS SOPHISTICATED FILTERING SETUP. FOR NOW, GOING WITH CLEANER TAGS
+  const resultsArrays = [searchResults, ...filterResults].flat()
+  const merged = []
+
+  resultsArrays.forEach(elem => {
+    if (merged.length === 0) { merged.push(elem) }
+    else {
+      const foundItem = merged.find(mergedElem => mergedElem.item.node.name === elem.item.node.name)
+      if (!foundItem) { merged.push(elem) }
+      else {
+        foundItem.score += elem.score
+        foundItem.matches.push(elem.matches)
+      }
+    }
+  })
+
+  return merged.sort((a, b) => b.score - a.score)
+}
+
+function getFuzeConfig() {
+  return {
+    includeScore: true,
+    shouldSort: true,
+    includeMatches: true,
+    threshold: 0.38,
+    location: 0,
+    distance: 100,
+    maxPatternLength: 32,
+    minMatchCharLength: 2,
+  }    
+}
+
+function buildFormikVals(fuzzyVal, filters) {
+  const formikInitialVals = {}
+
+  formikInitialVals[fuzzyVal] = ''
+
+  for (const filter of filters) {
+    if (filter.type === 'checkbox') {
+      formikInitialVals[filter.field] = [...filter.values.map(val => false)]
+    } else {
+      formikInitialVals[filter.field] = ''
+    }
+  }
+
+  return formikInitialVals
+}
+
+function getFilters() {
+  return [
+    {
+      field: 'firstName',
+      label: 'First Name',
+      type: 'text',
+      logic: 'or',
+    },
+    {
+      field: 'lastName',
+      label: 'Last Name',
+      type: 'text',
+      logic: 'or',
+    },
+    {
+      field: 'discipline',
+      label: 'Discipline',
+      placeholder: '(ie. Actor, Stage Manager, Music Director)',
+      type: 'text',
+      logic: 'or',
+    },
+    {
+      field: 'pronouns',
+      label: 'Pronouns (check as many that apply)',
+      type: 'checkbox',
+      values: ['she / her', 'they / them', 'ze / zir', 'he / him', 'ze / hir', 'xe / xir'],
+      logic: 'and',
+    },
+    {
+      field: 'genderIdentity',
+      label: 'Gender Identity',
+      type: 'checkbox',
+      values: ['cisgender','non-binary', 'transgender', 'gender-expansive', 'multi-gender', 'agender', 'queered'],
+      logic: 'and',
+    },
+    {
+      field: 'sexualIdentity',
+      label: 'Sexual Identity',
+      type: 'checkbox',
+      values: ['queer', 'bisexual', 'fluid', 'lesbian', 'pansexual', 'other'],
+      logic: 'and',
+    },
+    {
+      field: 'locations',
+      label: 'Region (check as many that apply)',
+      type: 'checkbox',
+      values: [
+        "Chicago", "Los Angeles", "Philadelphia", "Northern California", "Minneapolis / St. Paul", "Colorado", "Florida",
+        "Washington, D.C. / Baltimore", "Seattle", "Oregon", "Boston", "New York City", "Louisville", "St. Louis", "Las Vegas", "Austin",
+        "Salt Lake City", "Toronto", "London",
+      ],
+      logic: 'and',
+    },
+    {
+      field: 'affiliations',
+      label: 'Unions & Affiliations (check as many that apply)',
+      type: 'checkbox',
+      values: [
+        'AEA', 'CSA', 'EMC', 'SAG / AFTRA', 'BMI', 'ASCAP', 'SDC',
+        'AGMA', 'AGVA', 'SAFD', 'LMDA',
+        'AFM', 'Non-Union',
+      ],
+      logic: 'and',
+    }
+  ]
+}

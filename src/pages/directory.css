@@ -1,3 +1,67 @@
+.section_search {
+    margin: 2em 0;
+}
+
+.section_search .input__group {
+    display: inline-block;
+    margin-inline-end: 2em; 
+}
+
+.advanced-btn {
+    background: transparent;
+    border: none;
+    text-transform: uppercase;
+    padding: .5em 1em;
+    color: #6d7278;
+}
+
+.section_search .advanced-arrow {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin: 0 1em;
+    transform-origin: 50% 50%;
+    transition: transform .12s ease-in-out;
+}
+.section_search .advanced-arrow path {
+    fill: none;
+    stroke: #6d7278;
+    stroke-width: .5;
+    stroke-linecap: round;
+}
+
+.section_search .input__group input {
+    width: 100%;
+}
+
+/* Filter inputs  */
+.section_filters {
+    background: #f7f7f7;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1em;
+    transition: all .12s ease-in-out;
+    opacity: 0;
+    height: 0;
+    padding: 0 2em;
+}
+
+.section_filters.active {
+    opacity: 1;
+    height: 100%;
+    padding: 2em;
+}
+
+.section_filters .checkbox__grid.two-cols {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.section_filters input[type='text'] {
+    width: 80%;
+    min-width: 200px;
+}
+
+/* Artist Cards */
 .key__grid {
     display: flex;
     justify-content: center;

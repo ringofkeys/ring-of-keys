@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=EB+Garamond|Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond|Raleway:400,400i,600,900&display=swap');
 
 :root {
     font-family: 'EB Garamond', serif;
@@ -92,6 +92,13 @@ p, blockquote {
     justify-content: center;
     align-items: center;
     font-size: .8em;    
+    transition: all .12s ease-in-out;
+}
+
+.btn:hover, .btn:focus {
+    transform: scale(1.04);
+    box-shadow: 0 0.2vh 0.8vh rgba(0,0,0,0.1),
+                0 0.9vh 1.4vh rgba(0,0,0,0.05);
 }
 
 .has-arrow {
@@ -110,10 +117,13 @@ p, blockquote {
     border: solid 1px;
 }
 
-.btn-link_ghost:hover {
+.btn-link_ghost:hover,
+.btn-link_ghost:focus {
     background: var(--rok-slate-blue_hex);
     color: white;
     border-color: white;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Icon-Heading-Labels */

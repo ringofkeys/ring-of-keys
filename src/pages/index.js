@@ -29,17 +29,24 @@ const IndexPage = ({ data }) => {
   return (
     <Layout classNames={['fullwidth']}>
       <SEO title="Home" />
-      <div className='hero'></div>
-      <div className='bar__learn-more'>
-        <div>
-          <h1 className='heading__inline'>Ring of Keys</h1> is a national network of queer women, trans, and gender non-conforming artists working on and offstage in musical theatre.
+      <div className='index_hero'>
+        <h1><span>
+          <span>Q</span>
+          <span>u</span>
+          <span>e</span>
+          <span>e</span>
+          <span>r</span>
+          </span> The Stage</h1>
+        <div class='index_hero__right-col'>
+          Ring of Keys is a national network of queer women, trans, and gender non-conforming artists working on and offstage 
+          in musical theatre.
+          <a href='#learn-more' className='btn btn__learn-more has-arrow'>Learn More</a>
         </div>
-        <a href='#learn-more' className='btn btn__learn-more'>Learn More</a>
-      </div> 
+      </div>
       <div className='section_icon-heading-labels'>
         {keySteps.map(step => (
           <div className='icon-heading-label' key={step.icon.url} alt={step.icon.alt}>
-            <img src={ step.icon.url } alt={ step.icon.alt} />
+            <img src={ step.icon.url } alt={ step.icon.alt} key={step.icon.alt} />
             { renderHtmlToReact(step.headingNode.childMarkdownRemark.htmlAst) }
             { renderHtmlToReact(step.labelNode.childMarkdownRemark.htmlAst) }
           </div>
