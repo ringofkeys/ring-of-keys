@@ -8,12 +8,10 @@ sgMail.setApiKey(process.env.SENDGRID_KEY)
 
 
 exports.handler = async (event) => {
-    const data = event.body
+    const data = JSON.parse(event.body)
 
     try {
-        const datoUser = await client.items.find(data.toArtist).catch(err => err)
-
-
+        const datoUser = await client.items.find(parseInt(data.toArtist))
 
         const msg = {
             to: datoUser.email,
@@ -37,6 +35,8 @@ exports.handler = async (event) => {
             body: JSON.stringify(emailRes),
         }
     } catch(err) {
+        console.error(err)
+
         return {
             statusCode: 500,
             headers: {
