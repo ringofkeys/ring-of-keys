@@ -102,7 +102,7 @@ async function sendWelcomeEmail(email, pwdResetUrl) {
     to: email,
     from: 'test@example.com',
     subject: 'Welcome to Ring of Keys',
-    text: 'You can set up your password at '+pwdResetUrl,
+    text: 'You can set up your password at '+ pwdResetUrl,
     html:  `<h1>Welcome to Ring of Keys!</h1><p>To confirm your email address and set up your password, visit <a href='${pwdResetUrl}' rel='noopener'>this link</a></p>`,
   }
 

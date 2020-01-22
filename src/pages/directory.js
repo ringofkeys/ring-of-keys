@@ -133,6 +133,7 @@ const Directory = ({ data }) => {
         </button>
       </section>
       <section className={`section_filters ${filtersAreVisible ? 'active' : ''}`}>
+        <button className='visually-hidden' onClick={() => document.querySelector('a.key__card').focus()}>Skip to Artists' Cards</button>
         <Filters formik={formik} filters={filters} />
         {/* <button onClick={formik.handleReset}>Clear Advanced Search</button> */}
       </section>

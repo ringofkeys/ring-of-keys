@@ -153,7 +153,7 @@ async function submitApplication(data) {
     newUser.resume = resumeRes[0].id
   }  
 
-  const newUserRes = await fetch('http://localhost:53037/.netlify/functions/createDatoUser', {
+  const newUserRes = await fetch('/.netlify/functions/createDatoUser', {
       method: 'POST',
       body: JSON.stringify(newUser)
   })
@@ -163,7 +163,7 @@ async function submitApplication(data) {
 
 
 async function uploadFile(file) {
-  const signedUrlsRes = await fetch('http://localhost:53037/.netlify/functions/createDatoImgUrl', {
+  const signedUrlsRes = await fetch('/.netlify/functions/createDatoImgUrl', {
       method: 'POST',
       body: JSON.stringify({
           fileName: file.name,

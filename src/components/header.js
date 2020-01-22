@@ -32,6 +32,7 @@ const Header = ({ siteTitle, isLoggedIn, path }) => {
 
   return (
     <header>
+      <button className='visually-hidden' onClick={() => document.querySelector('#main-content').focus()}>Skip to main content</button>
       <nav className='top-nav' >
         <Link to='/' className='site-logo' >
           <img src={ rok_logo } alt='Ring of Keys' />

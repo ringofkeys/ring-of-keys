@@ -49,7 +49,7 @@
 .artist_hero h1 {
     font-size: 3.5rem;
     margin: 1rem 0;
-    font-weight: bold;
+    font-weight: 600;
     text-transform: capitalize;
 }
 
@@ -126,4 +126,10 @@
     border-bottom: solid 1px lightgrey;
     padding-bottom: .25em;
     margin: 1em 0;
+}
+
+.btn_resume {
+    padding: .75em 2.5em;
+    font-weight: normal;
+    margin: 2.5em 0;    
 }

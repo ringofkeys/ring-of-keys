@@ -83,7 +83,7 @@ p, blockquote {
     border: 1px solid transparent;
     border-radius: .2em;
     padding: .3em 1.25em;
-    font-weight: 700;
+    font-weight: normal;
     text-decoration: none;
     white-space: nowrap;
     position: relative;

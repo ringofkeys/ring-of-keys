@@ -35,7 +35,10 @@ const Layout = ({ path, children, classNames }) => {
       <Helmet link={tags.filter(tag => tag.tagName === 'link').map(tag => tag.attributes)}
         meta={tags.filter(tag => tag.tagName === 'meta').map(tag => tag.attributes)} />
       <Header siteTitle={data.site.siteMetadata.title} path={path} />
-        <main className={classNames && classNames.join(' ')}>{children}</main>
+        <main className={classNames && classNames.join(' ')}>
+          <a id='main-content' href='#' className='visually-hidden'>Main content.</a>
+          {children}
+        </main>
       <Footer />
     </>
   )

@@ -25,7 +25,7 @@ const ArtistCard = ({ obj, index }) => {
                       {  (artist.locations.indexOf(',') >= 0) ? artist.locations.slice(0, artist.locations.indexOf(',')) : artist.locations }
                       </span>
                   </div>
-                <Link to={`/keys/${artist.slug}`} className='btn btn-link_ghost bg_copper has-arrow' >View Profile</Link>
+                <Link to={`/keys/${artist.slug}`} className='btn btn-link_ghost bg_copper has-arrow' tabindex='-1' >View Profile</Link>
               </figcaption>
           </figure>
       </Link>   

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import Img from 'gatsby-image'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
+import MessagePopup from '../components/messagepopup'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
+
 import './key.css'
 import icon_youtube from '../images/social-icons/icon_youtube.svg'
 import icon_instagram from '../images/social-icons/icon_instagram.svg'
@@ -21,17 +23,19 @@ const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
 export default ({ data }) => {
     const { name,
+            id,
             pronouns,
-            email,
             website,
             socialMedia,
             headshot,
             featuredImage,
             genderIdentity,
             sexualIdentity,
+            mainLocation,
             vocalRange,
             discipline,
-            bioNode
+            bioNode,
+            resume,
         } = data.datoCmsKey
 
     const bodyFields = [
@@ -41,6 +45,9 @@ export default ({ data }) => {
         {label: 'Discipline', data: discipline},
         {label:'Website', data: website},
     ]
+
+    const [isMessageOpen, setMessageOpen] = useState(false)
+
     return (
         <Layout classNames={['fullwidth']}>
             <div className='artist_hero'
@@ -48,7 +55,11 @@ export default ({ data }) => {
                 <img src={ headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
                 <div className='artist_bio'>
                     <h1>{ name }</h1>
+                    { mainLocation && <p>Based in {mainLocation.replace(', ', ' · ')}</p> }
                     <p>{ pronouns }</p>
+                    <button className='btn btn_message' onClick={() => {
+                        console.log('attempting to open!')
+                        setMessageOpen(true)}}>Message</button>
                 </div>
                 {socialMedia && (<div className='artist_social-icons'>
                     {socialMedia.map(socialObj => {
@@ -73,7 +84,9 @@ export default ({ data }) => {
                     <p>{ !data.includes('http') ? data
                          : <a href={data} rel='noopener noreferrer' target='_blank'>{data}</a> }</p>
                 </>))}
+                { resume && resume.url && <a className='btn btn_resume' href={ resume.url } rel='noopener noreferrer' target='_blank'>View Resume</a> }
             </section>
+            <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} />
         </Layout>
     )
 }
@@ -82,6 +95,7 @@ export const query = graphql`
     query KeyQuery($slug: String!) {
         datoCmsKey(slug: { eq: $slug }) {
             name
+            id
             pronouns
             headshot {
                 url
@@ -98,12 +112,16 @@ export const query = graphql`
             }
             genderIdentity
             sexualIdentity
+            mainLocation
             vocalRange
             discipline
             bioNode {
                 childMarkdownRemark {
                     htmlAst
                 }
+            }
+            resume {
+                url
             }
         }
     }
