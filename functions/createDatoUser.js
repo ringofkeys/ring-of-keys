@@ -34,8 +34,10 @@ exports.handler = async (event) => {
                     }
                 }
             }
-        })
+        }).catch(err => err)
         data.headshot = { uploadId: headshotUpload.id }
+
+        console.log('data.headshot = ', data.headshot)
 
         if (newUser.resume && !newUser.resume.uploadId) {
             let resumeUpload = ''
@@ -52,7 +54,7 @@ exports.handler = async (event) => {
                         }
                     }
                 }
-            })
+            }).catch(err => err)
             data.resume = { uploadId: resumeUpload.id }
         }
 
