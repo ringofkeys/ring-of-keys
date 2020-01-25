@@ -2,7 +2,7 @@ require('dotenv').config({
     path: `.env.${process.env.NODE_ENV}`,
   })
 const SiteClient = require('datocms-client').SiteClient
-const client = new SiteClient('8659675496697de204bc49751ca198')
+const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
 const otherFields = ['genderconsultantbio','isGenderConsultant','mainLocation','locations','socialMedia','featuredImage','headshot','resume','discipline','vocalRange','sexualIdentity','genderIdentity','name','isemailpublic','website','isMeetupAmbassador','keyTeamPosition','slug','quickBio','bio','keyTeamMember','email','pronouns']
 const blankUser = {}
@@ -13,7 +13,7 @@ blankUser.featuredImage = { uploadId: '1213483' }
 blankUser.resume = { uploadId: '1213541' }
 
 exports.handler = async (event) => {
-    console.log(event)
+    console.log(event.body)
 
     const newUser = JSON.parse(event.body)
     const data = Object.assign(blankUser, newUser)
