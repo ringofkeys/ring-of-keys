@@ -37,7 +37,7 @@ exports.handler = async (event) => {
         })
         data.headshot = { uploadId: headshotUpload.id }
 
-        if (newUser.resume) {
+        if (newUser.resume && !newUser.resume.uploadId) {
             let resumeUpload = ''
             resumeUpload = await client.uploads.create({
                 path:   data.resume,
