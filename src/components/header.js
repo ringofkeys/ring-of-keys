@@ -1,7 +1,7 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
-import rok_logo from '../images/rok_logo.png'
+import rok_logo from '../images/rok_logo_beta.png'
 import './header.css'
 import { getProfile, isAuthenticated, logout } from "../utils/auth"
 
