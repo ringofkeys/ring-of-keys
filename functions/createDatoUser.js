@@ -40,6 +40,7 @@ exports.handler = async (event) => {
         console.log('data.headshot = ', data.headshot)
 
         if (newUser.resume && !newUser.resume.uploadId) {
+            console.log('attempting resume upload!', newUser.resume)
             let resumeUpload = ''
             resumeUpload = await client.uploads.create({
                 path:   data.resume,
@@ -60,7 +61,7 @@ exports.handler = async (event) => {
 
         const newUser = await client.items.create({
             ...data,
-            itemType: '177050',
+            itemType: '177050'
         }).catch(err => err)
 
         return {

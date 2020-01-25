@@ -5,7 +5,7 @@ import rok_logo from '../images/rok_logo_beta.png'
 import './header.css'
 import { getProfile, isAuthenticated, logout } from "../utils/auth"
 
-const Header = ({ siteTitle, isLoggedIn, path }) => {
+const Header = ({ path }) => {
   let secondaryNav = (
     <div className='nav__login'>
       <Link to='/apply'>Apply to be a key</Link>
