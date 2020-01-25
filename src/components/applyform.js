@@ -136,13 +136,11 @@ async function submitApplication(data) {
   }
   Object.keys(data).forEach(key => {
 
-    //TODO SEND THESE FIELDS OFF TO THE ADMIN IN AN EMAIL
+    //TODO: SEND THESE FIELDS OFF TO THE ADMIN IN AN EMAIL
     if (key !== 'whyRok' && key !== 'referral') {
       newUser[key] = data[key]
     }
   })
-
-  // console.log('newUser = ', newUser)
 
   const headshotRes = await uploadFile(newUser.headshot)
   newUser.headshot = headshotRes[0].id  
@@ -153,31 +151,33 @@ async function submitApplication(data) {
     newUser.resume = resumeRes[0].id
   }  
 
-  const newUserRes = await fetch('/.netlify/functions/createDatoUser', {
+  console.log('newUser = ', JSON.stringify(newUser))
+
+  const newUserRes = await fetch('http://localhost:61216/.netlify/functions/createDatoUser', {
       method: 'POST',
       body: JSON.stringify(newUser)
   })
 
-  return await newUserRes.json().catch(err => err)
+  return await newUserRes.json().catch(err => console.error(err))
 }
 
 
 async function uploadFile(file) {
-  const signedUrlsRes = await fetch('/.netlify/functions/createDatoImgUrl', {
+  const signedUrlsRes = await fetch('http://localhost:61216/.netlify/functions/createDatoImgUrl', {
       method: 'POST',
       body: JSON.stringify({
           fileName: file.name,
           fileType: file.type,
       }),
-  })
+  }).catch(err => console.err(err))
 
   const datoUrlRes = await signedUrlsRes.json()
 
-  // console.log('datorUrlRes = ', datoUrlRes)
+  console.log('datorUrlRes = ', datoUrlRes)
 
   const fileArray = await readFile(file)
 
-  // console.log('fileArray = ', fileArray)
+  console.log('fileArray = ', fileArray)
 
   const uploadRes = await fetch(datoUrlRes.url, {
       method: 'PUT',
