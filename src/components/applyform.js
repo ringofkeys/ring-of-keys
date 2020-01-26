@@ -169,7 +169,7 @@ async function uploadFile(file) {
           fileName: file.name,
           fileType: file.type,
       }),
-  }).catch(err => console.err(err))
+  }).catch(err => console.err(JSON.parse(err)))
 
   const datoUrlRes = await signedUrlsRes.json()
 

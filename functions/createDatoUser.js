@@ -56,19 +56,24 @@ exports.handler = async (event) => {
                     }
                 }
             }).catch(err => {
-                console.error('the issue is the Resume Upload!')
+                console.log('the issue is the Resume Upload!')
                 return err
             })
             data.resume = { uploadId: resumeUpload.id }
         }
 
+        console.log('data.resume = ', data.resume)
+
         const newUser = await client.items.create({
             ...data,
             itemType: '177050'
         }).catch(err => {
-            console.error('the issue is the User Upload!'. data)
+            console.log('the issue is the User Upload!'. data)
             return err
         })
+
+        console.log('newUser = ', newUser)
+
 
         return {
             statusCode: 200,
@@ -83,7 +88,7 @@ exports.handler = async (event) => {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            body: err.message,
+            body: JSON.stringify(err),
         }
     }
 }
