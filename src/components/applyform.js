@@ -153,12 +153,11 @@ async function submitApplication(data) {
 
   console.log('newUser = ', JSON.stringify(newUser))
 
-  const newUserRes = await fetch('/.netlify/functions/createDatoUser', {
+  return await fetch('/.netlify/functions/createDatoUser', {
       method: 'POST',
       body: JSON.stringify(newUser)
   }).catch(err => console.error(err))
 
-  return JSON.parse(newUserRes)
 }
 
 

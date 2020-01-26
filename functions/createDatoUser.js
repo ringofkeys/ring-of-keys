@@ -83,6 +83,8 @@ exports.handler = async (event) => {
             body: JSON.stringify(newUser),
         }
     } catch (err) {
+        console.log('An error was found!', err)
+
         return {
             statusCode: 500,
             headers: {
