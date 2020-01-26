@@ -4,7 +4,7 @@ require('dotenv').config({
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
-const otherFields = ['genderconsultantbio','isGenderConsultant','mainLocation','locations','socialMedia','featuredImage','headshot','resume','discipline','vocalRange','sexualIdentity','genderIdentity','name','isemailpublic','website','isMeetupAmbassador','keyTeamPosition','slug','quickBio','bio','keyTeamMember','email','pronouns']
+const otherFields = ['genderconsultantbio','isGenderConsultant','mainLocation','locations','socialMedia','featuredImage','headshot','resume','discipline','vocalRange','sexualIdentity','genderIdentity','name','isemailpublic','website','isMeetupAmbassador','keyTeamPosition','slug','quickBio','bio','keyTeamMember','email','pronouns','memberSince']
 const blankUser = {}
 otherFields.forEach(field => blankUser[field] = field.substr(0, 2) === 'is' ? false : '')
 blankUser.keyTeamMember = false
@@ -66,7 +66,7 @@ exports.handler = async (event) => {
         console.log('data.resume = ', data.resume)
 
         const newUserRes = await client.items.create(data).catch(err => {
-            console.log('the issue is the User Upload!'. data)
+            console.log('the issue is the User Upload!', data)
             return err
         })
 
