@@ -17,7 +17,7 @@
     position: relative;
 }
 
-.top-nav a:not(.site-logo)::after {
+.top-nav a:not(.site-logo):not(.login_avatar)::after {
     position: absolute;
     content: '';
     top: 100%;
@@ -28,9 +28,9 @@
     transition: width .13s ease-in-out;
 }
 
-.top-nav a:hover {
+/* .top-nav a:hover {
     transform: scale(1.08);
-}
+} */
 
 .site-logo {
     max-height: 100%;
@@ -133,4 +133,21 @@
     opacity: 1;
     box-shadow: 0 5vh 1.5vh rgba(0,0,0,0.06),
                 0 1.3vh 2.8vh rgba(0,0,0,0.02);
+}
+
+.nav__login {
+    display: flex;
+    align-items: center;
+}
+
+.top-nav .login_avatar {
+     display: flex;
+     align-items: center;
+     height: 2.25em;
+}
+
+.top-nav .login_avatar img {
+    margin: 0 .5em;
+    max-height: 100%;
+    object-fit: scale-down;
 }

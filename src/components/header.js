@@ -1,4 +1,4 @@
-import { Link } from "gatsby"
+import { Link, useStaticQuery, graphql } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import rok_logo from '../images/rok_logo_beta.png'
@@ -6,6 +6,22 @@ import './header.css'
 import { getProfile, isAuthenticated, logout } from "../utils/auth"
 
 const Header = ({ path }) => {
+  const users = useStaticQuery(graphql`
+    query HeaderLoggedInQuery {
+      data: allDatoCmsKey{
+        edges {
+          node {
+            name
+            headshot {
+              url
+            }
+            slug
+          }
+        }
+      }
+    }
+    `)
+
   let secondaryNav = (
     <div className='nav__login'>
       <Link to='/apply'>Apply to be a key</Link>
@@ -15,12 +31,16 @@ const Header = ({ path }) => {
 
   if (isAuthenticated() === true) {
     const profile = getProfile()
+    const artist = users.data.edges.filter(({node}) => node.name === profile.name)[0].node
+
+    console.log('artist = ', artist)
 
     secondaryNav = (
       <div className='nav__login'>
-        <span>
+        <Link to={'/keys/'+artist.slug} className='login_avatar'>
+        <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } />
           { profile.name }
-        </span>
+        </Link>
         {/* <Link to='/dashboard' id='btn__login'>Dashboard</Link> */}
         <a href='#logout' onClick={e => {
             logout()
