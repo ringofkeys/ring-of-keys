@@ -57,9 +57,16 @@ const ApplyForm = () => {
         Object.keys(values).filter(key => !key.includes('Other') && values[key]).forEach(key => { filteredValues[key] = values[key] })
 
         setLoading(true)
-        submitApplication(filteredValues).then(user => {
+        submitApplication(filteredValues).then(res => {
+          console.log('res = ', res)
+          if (res.status === 200) {
+            setResults('success!')
+            sendTxtMsg(formik.values.name)
+          } else {
+            setResults('failed.')
+          }
+
           setLoading(false)
-          setResults(user)
         })
       },
   });
@@ -206,5 +213,16 @@ function readFile(file) {
     };
     fr.readAsArrayBuffer(file);
   });
+}
+
+async function sendTxtMsg(name) {
+  const txtMsgRes = await fetch('/.netlify/functions/newUserTxtMessage', {
+      method: 'POST',
+      body: JSON.stringify({
+          name
+      }),
+  }).catch(err => console.error(err))
+
+  console.log('Twilio response: ', txtMsgRes)
 }
 
