@@ -64,7 +64,7 @@ exports.handler = async (event) => {
 
         console.log('data.resume = ', data.resume)
 
-        const newUser = await client.items.create({
+        const newUserRes = await client.items.create({
             ...data,
             itemType: '177050'
         }).catch(err => {
@@ -72,7 +72,7 @@ exports.handler = async (event) => {
             return err
         })
 
-        console.log('newUser = ', newUser)
+        console.log('newUser = ', newUserRes)
 
 
         return {
@@ -80,7 +80,7 @@ exports.handler = async (event) => {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify(newUser),
+            body: JSON.stringify(newUserRes),
         }
     } catch (err) {
         console.log('An error was found!', err)
