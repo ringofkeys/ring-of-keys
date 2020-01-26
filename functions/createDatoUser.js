@@ -55,14 +55,20 @@ exports.handler = async (event) => {
                         }
                     }
                 }
-            }).catch(err => err)
+            }).catch(err => {
+                console.error('the issue is the Resume Upload!')
+                return err
+            })
             data.resume = { uploadId: resumeUpload.id }
         }
 
         const newUser = await client.items.create({
             ...data,
             itemType: '177050'
-        }).catch(err => err)
+        }).catch(err => {
+            console.error('the issue is the User Upload!'. data)
+            return err
+        })
 
         return {
             statusCode: 200,
