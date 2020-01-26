@@ -13,7 +13,7 @@ blankUser.featuredImage = { uploadId: '1213483' }
 blankUser.resume = { uploadId: '1213541' }
 
 exports.handler = async (event) => {
-    console.log(event.body)
+    console.log('function is called!', event.body)
 
     const newUser = JSON.parse(event.body)
     const data = Object.assign(blankUser, newUser)
