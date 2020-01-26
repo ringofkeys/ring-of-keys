@@ -19,6 +19,15 @@ exports.handler = async (event) => {
     const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
     console.log('authToken = ', authToken)
 
+    const userExistsRes = JSON.parse(await checkUserExists(auth, userData.name).catch(err => JSON.stringify(err)))
+    console.log('doesUserExist = ', userExistsRes)
+    if (userExistsRes.length > 0) {
+      return {
+        statusCode: 200,
+        body: `User with name ${ userData.name } already exists!`,
+      }
+    }
+
     const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
     console.log('User Created: ', createUserResponse)
     
@@ -49,6 +58,17 @@ function getAuth0Token() {
       grant_type: "client_credentials",
       scope: 'create:users',
     }),
+  }
+
+  return rp(options)
+}
+
+function checkUserExists(auth, name) {
+  const options = {
+    method: 'GET',
+    url: 'https://ringofkeys.auth0.com/api/v2/users',
+    qs: {q: `name:"${ name }"`, search_engine: 'v3'},
+    headers: {authorization: `${auth['token_type']} ${auth['access_token']}`},
   }
 
   return rp(options)
