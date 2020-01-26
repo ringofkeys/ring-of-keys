@@ -11,6 +11,7 @@ blankUser.keyTeamMember = false
 blankUser.socialMedia = []
 blankUser.featuredImage = { uploadId: '1213483' }
 blankUser.resume = { uploadId: '1213541' }
+blankUser.itemType = '177050'
 
 exports.handler = async (event) => {
     console.log('function is called!', event.body)
@@ -64,10 +65,7 @@ exports.handler = async (event) => {
 
         console.log('data.resume = ', data.resume)
 
-        const newUserRes = await client.items.create({
-            ...data,
-            itemType: '177050'
-        }).catch(err => {
+        const newUserRes = await client.items.create(data).catch(err => {
             console.log('the issue is the User Upload!'. data)
             return err
         })
