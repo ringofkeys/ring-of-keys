@@ -62,6 +62,7 @@ const ApplyForm = () => {
           if (res.status === 200) {
             setResults('success!')
             sendTxtMsg(formik.values.name)
+            sendAdminEmail(filteredValues)
           } else {
             setResults('failed.')
           }
@@ -226,3 +227,11 @@ async function sendTxtMsg(name) {
   console.log('Twilio response: ', txtMsgRes)
 }
 
+async function sendAdminEmail(userData) {
+  const emailRes = await fetch('/.netlify/functions/newUserEmail', {
+      method: 'POST',
+      body: JSON.stringify(userData),
+  }).catch(err => console.error(err))
+
+  console.log('SendGrid response: ', emailRes)
+}
