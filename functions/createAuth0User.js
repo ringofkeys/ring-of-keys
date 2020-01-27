@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
     console.log('authToken = ', authToken)
 
-    const userExistsRes = JSON.parse(await checkUserExists(auth, userData.name).catch(err => JSON.stringify(err)))
+    const userExistsRes = JSON.parse(await checkUserExists(authToken, userData.name).catch(err => JSON.stringify(err)))
     console.log('doesUserExist = ', userExistsRes)
     if (userExistsRes.length > 0) {
       return {

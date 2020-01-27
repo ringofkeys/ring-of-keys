@@ -42,3 +42,29 @@ footer nav a:first-child {
     margin-top: 1.5em;
 }
 
+footer a svg {
+    height: 1.2em;
+    margin-inline-end: .5em;
+}
+
+footer .social-link {
+    display: flex;
+    align-items: center;
+}
+
+footer .icon_facebook #fb_blue {
+    fill: var(--rok-slate-blue_hex);
+}
+
+footer .icon_instagram path,
+footer .icon_instagram circle {
+    fill: var(--rok-peach-1_hex);
+}    
+
+footer .icon_twitter path {
+    fill: var(--rok-gold-1_hex);
+}
+
+footer .icon_linkedin path {
+    fill: var(--rok-pale-green-1_hex);
+}
