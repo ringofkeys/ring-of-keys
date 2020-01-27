@@ -36,7 +36,7 @@
 }
 
 .index_hero h1 {
-    font-size: 6.5rem;
+    font-size: 8.5vw;
     font-weight: 900;
     font-family: 'Raleway', sans-serif;
     text-align: right;
@@ -47,7 +47,7 @@
 }
 
 .index_hero h1 > span {
-    font-size: 14rem;
+    font-size: 15vw;
 }
 
 .index_hero h1 > span > span:nth-child(2) { color: var(--rok-pale-green-1_hex); }
