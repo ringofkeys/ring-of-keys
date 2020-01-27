@@ -27,6 +27,12 @@
     color: #6d7278;
 }
 
+.btn_search {
+    padding: .75em 2em;
+    border-radius: .25vmax;
+    text-transform: uppercase;
+}
+
 .section_search .advanced-arrow {
     display: inline-block;
     width: 1em;
@@ -49,14 +55,23 @@
 /* Filter inputs  */
 .section_filters {
     background: #f7f7f7;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5em 1em;
     transition: all .12s ease-in-out;
     opacity: 0;
     height: 0;
     box-sizing: border-box;
     padding: 0 12.5vw;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5em 1em;
+}
+
+.btn_filters {
+    margin: 1.5em 0;
+    text-transform: uppercase;
+    padding: .75em 2em;
 }
 
 .directory > .section_filters {

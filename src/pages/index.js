@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { graphql, Link } from 'gatsby'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import Carousel from '../components/carousel'
+import icon_key from '../images/icon_key.svg'
 
 import './index.css'
 // import Img from 'gatsby-image'
@@ -14,15 +15,12 @@ const IndexPage = ({ data }) => {
   const  { keySteps, homepageBody } = data.allDatoCmsHomepage.nodes[0]
   const { edges: newsItems } = data.allDatoCmsNews
 
-  const { quoteAttribution, quoteTextNode } = homepageBody[0]
+  const { quoteAttribution, quoteText } = homepageBody[0]
 
   keySteps.forEach(step => { // Markdown wraps everything in <p> tags but I want these in h3's
     const ast = step.headingNode.childMarkdownRemark.htmlAst
     ast.children[0].tagName = 'h3'
   })
-
-  const quoteAst = quoteTextNode.childMarkdownRemark.htmlAst
-  quoteAst.children[0].tagName = 'blockquote'
 
   const [currIndex, setIndex] = useState(0)
 
@@ -52,15 +50,16 @@ const IndexPage = ({ data }) => {
           </div>
         ))}
       </div>
+      <div className='section_news'>
+        <h2>News</h2>
+        <Carousel itemList={ newsItems } recordType='news' />
+      </div>
       <div className='section_quote-block'>
+        <img className='icon_key' src={ icon_key } alt='key icon' />
         <div>
-          { renderHtmlToReact(quoteAst) }
+          <blockquote>{ quoteText }</blockquote>
           <p>— { quoteAttribution }</p>
         </div>
-      </div>
-      <div className='section_news'>
-        <h2>Industry News</h2>
-        <Carousel itemList={ newsItems } recordType='news' />
       </div>
     </Layout>
   )
@@ -72,11 +71,7 @@ export const query = graphql`
     allDatoCmsHomepage {
       nodes {
         homepageBody {
-          quoteTextNode {
-            childMarkdownRemark {
-              htmlAst
-            }
-          }
+          quoteText
           quoteAttribution
         }
         keySteps {

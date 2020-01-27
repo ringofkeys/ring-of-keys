@@ -197,7 +197,7 @@ export const query = graphql`
     }
 `
 
-async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdate, handleClose}) {
+async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdate, handleClose, resetForm}) {
     e.preventDefault()
     setSubmitting(true)
     
@@ -209,6 +209,8 @@ async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdat
         if (updateRes.status === 200) {
             handleUpdate(e.target.elements[0].value)
             handleClose()
+        } else {
+            
         }
     } catch (err) {
         console.error(err)

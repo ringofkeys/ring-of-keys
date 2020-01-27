@@ -125,6 +125,11 @@ const Directory = ({ data }) => {
           <label htmlFor='fuzzy'>Search any keywords here or use the advanced search feature to narrow your results.</label>
           <input type='text' name='fuzzy' onChange={formik.handleChange} value={formik.values.fuzzy} placeholder='Keyword'/>
         </div>
+        <button className='btn bg_slate btn_search' onClick={() => window.scrollTo(
+          {
+            top: document.getElementById('key__grid').getBoundingClientRect().top - 100,
+            behavior: 'smooth',
+          })} >Search</button>
         <button onClick={() => setFilterVisibility(!filtersAreVisible)} className='advanced-btn'>
           Advanced Search
           <svg className='advanced-arrow' style={{transform: `rotate(${filtersAreVisible ? 180 : 0}deg)`}} viewBox='0 0 4 4'>
@@ -133,11 +138,24 @@ const Directory = ({ data }) => {
         </button>
       </section>
       <section className={`section_filters ${filtersAreVisible ? 'active' : ''}`}>
-        <button className='visually-hidden' onClick={() => document.querySelector('a.key__card').focus()}>Skip to Artists' Cards</button>
-        <Filters formik={formik} filters={filters} />
-        {/* <button onClick={formik.handleReset}>Clear Advanced Search</button> */}
+        <div className='filters'>
+          <button className='visually-hidden' onClick={() => document.querySelector('a.key__card').focus()}>Skip to Artists' Cards</button>
+          <Filters formik={formik} filters={filters} />
+        </div>
+        <button className='btn btn-link_ghost btn_filters' onClick={() => {
+          Object.keys(formik.values).forEach(value => {
+            if (formik.values[value] instanceof Array) {
+              formik.values[value].forEach((val,i) => { formik.values[value][i] = false })
+            }
+          });
+          new Array().slice.call(document.querySelectorAll('.filters [type="checkbox"]'))
+            .forEach(input => {
+              input.checked = false
+            })
+          formik.handleReset.call()
+        }}>Clear Advanced Search</button>
       </section>
-      <section className='key__grid'>
+      <section id='key__grid' className='key__grid'>
           {searchResults[0] ? searchResults.map((obj, i, arr) => 
           <ArtistCard obj={obj} index={i} />) : ( <p>No results found!</p> )
         }

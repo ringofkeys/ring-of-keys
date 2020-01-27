@@ -8,9 +8,8 @@ const Consultancy = ({ data }) => (
     <SidebarLayout>
         <h1>Ring of Keys Consultancy</h1>
         <blockquote class='quote_graphic-bar'>
-            The Ring of Keys Consultancy is a resource for producers, casting directors,
-            and theatremakers who are in need of a Gender Consultant
-            or Queer Consultant for their theatrical projects.
+            Ring of Keys is an arts advocacy organization that promotes the hiring of musical theatre professionals - onstage 
+            and off - who self-identify as queer women, transgender, and gender non-conforming artists.
         </blockquote>
         <p>
             As part of our mission to promote the hiring of queer women, trans, and gender non-conforming
