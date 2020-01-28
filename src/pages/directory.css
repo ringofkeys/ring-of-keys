@@ -28,6 +28,7 @@
 }
 
 .btn_search {
+    display: inline-block;
     padding: .75em 2em;
     border-radius: .25vmax;
     text-transform: uppercase;
@@ -107,7 +108,6 @@
 .key__card {
     --b-rad: .2em;
     width: 20vw;
-    height: 40vh;
     min-width: 240px;
     margin: 2vw;
     background: linear-gradient(var(--grad-rotate), var(--rok-gold-1_hex), var(--rok-peach-1_hex));
@@ -124,7 +124,6 @@
 .key__card figure {
     margin: 0;
     margin-top: 12.5vh;
-    height: 27.5vh;
     background: white;
     display: flex;
     flex-direction: column;
