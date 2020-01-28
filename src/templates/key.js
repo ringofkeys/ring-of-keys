@@ -56,6 +56,7 @@ export default ({ data }) => {
             vocalRange,
             discipline,
             bioNode,
+            memberSince,
             resume,
         } = data.datoCmsKey
 
@@ -99,8 +100,8 @@ export default ({ data }) => {
                 }
                 <div className='artist_bio'>
                     <h1>{ name }</h1>
-                    { mainLocation && <p>Based in {mainLocation.replace(', ', ' · ')}</p> }
-                    <p>{ pronouns }</p>
+                    { mainLocation && <p>Based in {mainLocation.replace(', ', ' • ')}</p> }
+                    <p>{ pronouns }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
                     { !isEditable
                         ? (<button className='btn btn_message' onClick={() => setMessageOpen(true)}>Message</button>)
                         : (<div className='message_group'>
@@ -184,6 +185,7 @@ export const query = graphql`
             }
             email
             website
+            memberSince
             socialMedia {
                 socialMediaLink
             }

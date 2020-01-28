@@ -65,13 +65,10 @@ const Header = ({ path }) => {
             <Link to='/consultancy' className={ path === '/consultancy' ? 'active' : '' }>Consultancy</Link>
             {/* <Link to='/resources' className={ path === '/resources' ? 'active' : '' }>Resources</Link> */}
             <Link to='/donate' className={ path === '/donate' ? 'active' : '' }>Donate</Link>
-            { (isAuthenticated() === true) ? (
-            <div className='dropdown-group'>
-              <Link to='/dashboard' className='has-dropdown'>Dashboard</Link>
-              <nav className='nav__dropdown'>
-                <Link to='/dashboard/settings'>Settings</Link>
-              </nav>
-            </div>) : (<></>) }
+            { (isAuthenticated() === true) 
+              ? <Link to='/dashboard' className='has-dropdown'>Dashboard</Link>
+              : <Link to='/contact' className={ path === '/contact' ? 'active' : '' }>Contact</Link>
+            }
           </div>
         </div>
       </nav>
