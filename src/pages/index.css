@@ -13,6 +13,7 @@
     align-items: center;
     box-sizing: border-box;
     padding: 1.5em 5vw;
+    font-size: calc(.6em + 1vw);
 }
 
 .bar__learn-more > div {
@@ -22,6 +23,8 @@
 
 .btn__learn-more {
     display: block;
+    padding: .6em 1.5em;
+    font-size: 1em;
 }
 
 .index_hero {
@@ -58,12 +61,15 @@
 
 .index_hero__right-col {
     padding-right: 2rem;
+    font-size: calc(.6em + .5vw);
 }
 
 .index_hero .btn {
-    font-size: 1rem;
+    font-size: .6em;
     font-weight: 400;
     margin-top: 1.5rem;
+    display: block;
+    padding: 1em 3em;
 }
 
 .section_icon-heading-labels {

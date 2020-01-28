@@ -38,7 +38,7 @@ const IndexPage = ({ data }) => {
         <div class='index_hero__right-col'>
           Ring of Keys is a national network of queer women, trans, and gender non-conforming artists working on and offstage 
           in musical theatre.
-          <Link to='/about' className='btn btn__learn-more has-arrow'>Learn More</Link>
+          <Link to='/about' className='btn btn__learn-more'>Learn More</Link>
         </div>
       </div>
       <div className='section_icon-heading-labels'>
