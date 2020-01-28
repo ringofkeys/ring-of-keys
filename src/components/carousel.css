@@ -119,6 +119,10 @@
     margin-top: .5em;
 }
 
+.carousel_card p {
+    color: #6d7278;
+}
+
 .carousel_card p:last-of-type {
     margin-bottom: 1em;
 }   
