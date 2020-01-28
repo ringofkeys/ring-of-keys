@@ -4,9 +4,10 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Ring of Keys`,
+    description: `Ring of Keys is a musical theatre advocacy program for queer women, transgender,
+    and gender non-conforming artists.`,
+    author: `@ringofkeysorg`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
