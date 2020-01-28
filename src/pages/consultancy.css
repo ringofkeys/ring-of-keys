@@ -1,14 +1,14 @@
+.btn_consultant {
+    padding: .75em 3em;
+}
+
 .consultant_bio-group {
-    display: grid;
-    grid-template-columns: 200px auto;
-    grid-gap: 1.5em;
-    align-items: center; 
-    margin: 3em 1em;   
+    margin: 2em 1em;   
 }
 
 .consultant_bio-group .avatar_placeholder {
     align-self: center;
-    margin: 1.5em;
+    margin: 1em 0;
 }
 
 .consultant_bio-img,
@@ -25,11 +25,27 @@
     margin-bottom: 0;
 }
 
+.consultant_bio-heading {
+    display: grid;
+    grid-template-columns: 100px auto;
+    gap: 1em;
+}
+
+.consultant_bio-img {
+    max-width: 100%;
+    object-fit: scale-down;
+}
+
 a.h2_conversational {
     text-transform: capitalize;
     text-decoration: none;
 }
 
+a.h2_conversational h2 {
+    text-transform: capitalize;
+}
+
 .consultant_bio-heading p {
     margin: .5em 0;
+    font-weight: 300;
 }

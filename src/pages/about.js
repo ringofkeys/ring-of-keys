@@ -1,6 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import SidebarLayout from '../components/sidebarlayout'
+import QuoteBlock from '../components/quoteblock'
 import './about.css'
 import andrea_headshot from '../images/andrea_headshot.png'
 import royer_headshot from '../images/rory_headshot.png'
@@ -108,6 +109,7 @@ const ourStory = () => {
                 <img src={ logo_nqt } alt='National Queer Theater' />
                 <img src={ logo_maestra } alt='Maestra' />
             </div>
+            
         </SidebarLayout>
     )
 }

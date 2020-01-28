@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 // import Img from 'gatsby-image'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
-import MessagePopup from '../components/messagepopup'
+// import MessagePopup from '../components/messagepopup'
+import Popup from '../components/popup'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import { getProfile, isAuthenticated } from "../utils/auth"
 
@@ -156,7 +157,13 @@ export default ({ data }) => {
                 </>))}
                 { resume && resume.url && <a className='btn btn_resume' href={ resume.url } rel='noopener noreferrer' target='_blank'>View Resume</a> }
             </section>
-            <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} />
+            {/* <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} /> */}
+            <Popup isOpen={isMessageOpen} onClose={() => setMessageOpen(false)} >
+                <h2>Messaging is coming soon!</h2>
+                <p>
+                    Our developers actually have it working, and are planning to roll it out on February 3rd to beta testers!
+                </p>
+            </Popup>
         </Layout>
     )
 }

@@ -2,7 +2,6 @@ import React from 'react'
 // import { Link } from 'gatsby'
 import { Router } from '@reach/router'
 import { login, isAuthenticated, getProfile } from '../../utils/auth.js'
-import Settings from './settings.js'
 import Layout from '../../components/layout'
 
 const homeDir = '/dashboard'
@@ -24,7 +23,6 @@ const Dashboard = () => {
         <pre>{JSON.stringify(user, null, 2)}</pre>
         <Router>
             <Home path={homeDir} />
-            <Settings path={homeDir+'/settings'} user={user} />
             <Events path={homeDir+'/events'} />
         </Router>
     </Layout>

@@ -8,77 +8,101 @@ const Consultancy = ({ data }) => (
     <SidebarLayout>
         <h1>Ring of Keys Consultancy</h1>
         <blockquote class='quote_graphic-bar'>
-            Ring of Keys is an arts advocacy organization that promotes the hiring of musical theatre professionals - onstage 
-            and off - who self-identify as queer women, transgender, and gender non-conforming artists.
+            The Ring of Keys Consultancy is a resource for producers, casting directors, and theatremakers who are 
+            in need of a Gender Consultant or Queer Consultant for their theatrical projects.
         </blockquote>
         <p>
-            As part of our mission to promote the hiring of queer women, trans, and gender non-conforming
-            artists, our consultancy services provide our theatre community with the necessary
-            resources for projects with queer & trans themes, while also advocating for our Members. While
-            no individual could ever represent the entirety of the queer or transgender communities, these 
-            artists are adept at supporting producers in creating these project in an informed and thoughtful way.
+            As part of our mission to promote the hiring of queer women, trans, and gender non-conforming artists, 
+            our consultancy services provide our theatre community with the necessary resources for projects with 
+            queer & trans themes, while also advocating for our Members. While no individual could ever represent 
+            the entirety of the queer or transgender communities, these artists are adept at supporting producers 
+            in creating these projects in an informed and thoughtful way. 
         </p>
+        <button className='btn bg_slate btn_consultant' onClick={() => {
+            window.scrollTo({
+                top: document.querySelector('#consultancy-form').getBoundingClientRect().top - 100,
+                behavior: 'smooth',
+            })
+        }}>
+            Find a Consultant
+        </button>
+        <div className='divider'></div>
         <h2 class='txt_center'>What does a gender consultant do?</h2>
         <section className='flex_center' style={{ margin: '1em 0' }}>
             <div className='icon-heading-label' style={{ margin: '1em auto', width: '40%' }}>
                 <div className='icon_placeholder'></div>
                 <h3>Speaks the Language</h3>
-                <p>Provides language support for casting notices, press releases, etc.</p>
+                <p>
+                    Provides language support for casting notices, press releases, etc.
+                </p>
             </div>
             <div className='icon-heading-label'>
                 <div className='icon_placeholder'></div>
                 <h3>Impacts Truth</h3>
-                <p>Gives your production the greatest impact to telling a truthful story.</p>
+                <p>
+                    Gives your production the greatest impact to telling a truthful story.
+                </p>
             </div>
             <div className='icon-heading-label'>
                 <div className='icon_placeholder'></div>
                 <h3>Provides Support</h3>
-                <p>Supports playwright / director / dramaturg</p>
+                <p>
+                    Supports playwright / director / dramaturg
+                </p>
             </div>
             <div className='icon-heading-label'>
                 <div className='icon_placeholder'></div>
                 <h3>Educates</h3>
-                <p>Communicates gruidance and provides education for your institution at large, including marketing,
-                    company management, front of house, etc.
+                <p>
+                Communicates guidance and provides education for your institution at large, including marketing, 
+                company management, front of house, etc.
                 </p>
             </div>
             <div className='icon-heading-label'>
                 <div className='icon_placeholder'></div>
                 <h3>Creates Safe Space</h3>
-                <p>Facilitates a safe and supportive environment for queer artists in your production so they can do
-                    their best work.
+                <p>
+                Facilitates a safe and supportive environment for queer artists in your production 
+                so they can do their best work.
                 </p>
             </div>    
         </section>
+        <section style={{display: 'grid', gridTemplateColumns: '50% 50%'}} >
         {data.allDatoCmsKey.edges.map(({ node }) => (
             <div className='consultant_bio-group'>
-                { node.headshot && node.slug
-                ? <Link to={`/keys/${ node.slug }`} className='consultant_bio-img'>
-                    <img src={ node.headshot.url + '?fit=facearea&faceindex=1&facepad=15&mask=ellipse&w=200&h=200&' } alt={ node.headshot.title } />
-                  </Link>
-                : <div className='avatar_placeholder'></div> }
-                <div className='consultant_bio-heading'>
-                    { node.slug && 
-                      <Link to={`/keys/${ node.slug }`} className='h2_conversational'>
-                        <h2 className='has-arrow'>Meet { node.name }</h2>
-                      </Link>
+                { node.slug && 
+                <Link to={`/keys/${ node.slug }`} className='consultant_bio-heading h2_conversational'>
+                    {node.headshot && 
+                    <img className='consultant_bio-img' src={ node.headshot.url + '?fit=facearea&faceindex=1&facepad=15&mask=ellipse&w=150&h=150&' } alt={ node.headshot.title } />
                     }
-                    <p>{ node.keyTeamMember ? 'Ring of Keys ' + node.keyTeamPosition : 'Independent Gender Consultant' }</p>
+                    <div>
+                        <h2>{ node.name }</h2>
+                        <p>{ node.keyTeamMember ? 'Ring of Keys ' + node.keyTeamPosition : 'Ring of Keys     Consultant' }</p>
+                    </div>
+                </Link>
+                }
+                <div className='consultant_bio-body'>
+                    { node.pronouns &&
+                        <p><strong>Pronouns</strong> { node.pronouns }</p>
+                    }
+                    { node.locations && <p><strong>Location: </strong>{ node.locations }</p> }
+                    { renderHtmlToReact(node.genderconsultantbioNode.childMarkdownRemark.htmlAst) }
                     { node.website &&
                         <p><a href={ node.website } rel='noopener noreferrer' target='_blank'>
                         { node.website.substr(node.website.indexOf('//')+2, node.website.length) }</a></p>
                     }
-                    { node.location && <p><strong>Location: </strong>{ node.location }</p> }
-                    { renderHtmlToReact(node.genderconsultantbioNode.childMarkdownRemark.htmlAst) }
                 </div>
             </div>
         ))}
-        <p>Our Key Consultants have a variety of life experiences, expertise, and experiences consulting in theatre settings.
-            They have all been vetted by our Consultancy Director Josephine Kearns. If you are a casting director, theatremaker,
-            or producer working on a production that requires a Gender / Queer Consultant, or are looking for a consultant with a
-            particular area of expertise or with particular theatrical experience, fill out our form!
+        </section>
+        <p>
+            Our Key Consultants have a variety of life experiences, expertise, and experiences consulting 
+            in theatre settings. They have all been vetted by our Consultancy Director, Josephine Kearns. 
+            If you are a casting director, theatremaker, or producer working on a production that requires 
+            a Gender / Queer Consultant, or are looking for a consultant with a particular area of expertise 
+            or with particular theatrical experience, fill out this form!
         </p>
-        <form>
+        <form id='consultancy-form'>
             <label>
                 Name
                 <input type='text' />
@@ -136,6 +160,7 @@ export const query = graphql`
                     name
                     pronouns
                     bio
+                    locations
                     keyTeamMember
                     keyTeamPosition
                     website

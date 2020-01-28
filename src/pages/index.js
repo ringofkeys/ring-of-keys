@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { graphql, Link } from 'gatsby'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import Carousel from '../components/carousel'
-import icon_key from '../images/icon_key.svg'
+import QuoteBlock from '../components/quoteblock'
 
 import './index.css'
 // import Img from 'gatsby-image'
@@ -55,13 +55,7 @@ const IndexPage = ({ data }) => {
         <h2>News</h2>
         <Carousel itemList={ newsItems } recordType='news' />
       </div>
-      <div className='section_quote-block'>
-        <img className='icon_key' src={ icon_key } alt='key icon' />
-        <div>
-          <blockquote>{ quoteText }</blockquote>
-          <p>— { quoteAttribution }</p>
-        </div>
-      </div>
+      <QuoteBlock quoteText={ quoteText } quoteAttribution={ quoteAttribution } />
     </Layout>
   )
 }

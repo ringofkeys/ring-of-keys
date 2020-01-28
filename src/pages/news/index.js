@@ -6,7 +6,7 @@ import './news.css'
 
 const News = ({ data }) => (
     <Layout classNames={['fullwidth']}>
-        <div className='view-all_nav' >
+        {/* <div className='view-all_nav' >
             <h1>News</h1>
             <nav styl={{display: 'none'}}>
                 <a href='/'>All</a>
@@ -14,7 +14,7 @@ const News = ({ data }) => (
                 <a href='/'>Press</a>
                 <a href='/'>Events</a>
             </nav>
-        </div>
+        </div> */}
         <div className='section_news bg_white'>
             <h2>RoK News</h2>
             <Carousel itemList={ data.newsletters.edges } classNames={['carousel__gray']} />
