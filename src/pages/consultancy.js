@@ -3,6 +3,11 @@ import { graphql, Link } from 'gatsby'
 import SidebarLayout from "../components/sidebarlayout"
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import './consultancy.css'
+import educates from '../images/consultancy/educates.svg'
+import safeSpace from '../images/consultancy/safe-space.svg'
+import speaksLanguage from '../images/consultancy/speaks-language.svg'
+import support from '../images/consultancy/support.svg'
+import truth from '../images/consultancy/truth.svg'
 
 const Consultancy = ({ data }) => (
     <SidebarLayout>
@@ -29,29 +34,29 @@ const Consultancy = ({ data }) => (
         <div className='divider'></div>
         <h2 class='txt_center'>What does a gender consultant do?</h2>
         <section className='flex_center' style={{ margin: '1em 0' }}>
-            <div className='icon-heading-label' style={{ margin: '1em auto', width: '40%' }}>
-                <div className='icon_placeholder'></div>
+            <div className='icon-heading-label' >
+                <img src={ speaksLanguage } alt='icon of person speaking' />
                 <h3>Speaks the Language</h3>
                 <p>
                     Provides language support for casting notices, press releases, etc.
                 </p>
             </div>
             <div className='icon-heading-label'>
-                <div className='icon_placeholder'></div>
+                <img src={ truth } alt='icon of scales' />
                 <h3>Impacts Truth</h3>
                 <p>
                     Gives your production the greatest impact to telling a truthful story.
                 </p>
             </div>
             <div className='icon-heading-label'>
-                <div className='icon_placeholder'></div>
+                <img src={ support } alt='icon of a hand and an heart' />
                 <h3>Provides Support</h3>
                 <p>
                     Supports playwright / director / dramaturg
                 </p>
             </div>
             <div className='icon-heading-label'>
-                <div className='icon_placeholder'></div>
+                <img src={ educates } alt='icon of a conversation' />
                 <h3>Educates</h3>
                 <p>
                 Communicates guidance and provides education for your institution at large, including marketing, 
@@ -59,7 +64,7 @@ const Consultancy = ({ data }) => (
                 </p>
             </div>
             <div className='icon-heading-label'>
-                <div className='icon_placeholder'></div>
+                <img src={ safeSpace } alt='icon of an umbrella' />
                 <h3>Creates Safe Space</h3>
                 <p>
                 Facilitates a safe and supportive environment for queer artists in your production 

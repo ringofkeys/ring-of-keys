@@ -14,9 +14,6 @@ let affiliations = [
   'AFM (American Federation Of Musicians)',
 ]
 affiliations = affiliations.sort()
-let pronouns = [
-  'She/Her', 'He/Him', 'They/Them', 'Ze/Hir', 'Ze/Zir', 'Xe/Xir'
-]
 
 const ApplyForm = () => {
   const [results, setResults] = useState(undefined)
@@ -30,8 +27,7 @@ const ApplyForm = () => {
       locationsOther: '',
       affiliations: [...affiliations.map(a => false)],
       affiliationsOther: '',
-      pronouns: [...pronouns.map(p => false)],
-      pronounsOther: '',
+      pronouns: '',
       genderIdentity: '',
       sexualIdentity: '',
       website: '',
@@ -47,7 +43,7 @@ const ApplyForm = () => {
         const arrayFields = [
           {ref:locations,name:'locations'},
           {ref:affiliations,name:'affiliations'},
-          {ref:pronouns,name:'pronouns'}]
+        ]
 
         arrayFields.forEach(field => {
           values[field.name] = [...field.ref.filter((c, i) => values[field.name][i])].join(', ')
@@ -79,46 +75,47 @@ const ApplyForm = () => {
         <h2>Tell us about yourself</h2>
         <div className='basic_info'>
           <Field type='text' name='name' label='Name' required={true}
-            change={formik.handleChange} value={formik.values.name} />
-          <Field type='email' name='email' label='Email' required={true}
-            change={formik.handleChange} value={formik.values.email} />
+            change={formik.handleChange} value={formik.values.name} 
+            placeholder='First Last'/>
+          <Field type='email' name='email' label='Email Address' required={true}
+            change={formik.handleChange} value={formik.values.email} 
+            placeholder='Email Address'/>
           <Field type='text' name='discipline' label='Discipline' required={true}
             change={formik.handleChange} value={formik.values.discipline}
-            placeholder='ex. "Actor / Singer / Dramaturg"'/>
+            placeholder='ex: Actor, Stage Manager, Music Director'/>
         </div>
-        <h3>Locations you work in</h3>
+        <h3>Region (check as many that apply):</h3>
         <div className='checkbox__grid'>
           {locations.map((city,i) => (<Field type='checkbox' name={`locations[${i}]`} label={locations[i]} change={formik.handleChange} value={formik.values.locations[i]} key={locations[i]} />))}
           <Field type='text' name='locationsOther' change={formik.handleChange} label='Other' value={formik.values.locationsOther} />
         </div>
-        <h3>Union affiliations</h3>
+        <h3>Unions & Affiliations (check as many that apply) [optional]:</h3>
         <div className='checkbox__grid'>
           {affiliations.map((aff,i) => (<Field type='checkbox' name={`affiliations[${i}]`} label={affiliations[i]} change={formik.handleChange} value={formik.values.affiliations[i]}/>))}
           <Field type='text' name='affiliationsOther' change={formik.handleChange} label='Other' value={formik.values.affiliationsOther} />
         </div>
         <div className='divider'></div>
         <h2>How do you identify?</h2>
-        <div className='grid_2c-2r' style={{alignItems: 'flex-start'}}>
-          <div className='checkbox__grid' style={{gridTemplateColumns: '1fr 1fr'}}>
-            {pronouns.map((aff,i) => (<Field type='checkbox' name={`pronouns[${i}]`} label={pronouns[i]} change={formik.handleChange} value={formik.values.pronouns[i]}/>))}
-            <Field type='text' name='pronounsOther' change={formik.handleChange} label='Other' value={formik.values.pronounsOther} />
-          </div>
+        <div className='grid_2c-2r' style={{alignItems: 'flex-start', gap: '2em 1em'}}>
+          <Field type='text' name='pronouns' label='Pronouns (Use your own words)' required={true}
+              change={formik.handleChange} value={formik.values.pronouns}
+              placeholder='ex. They / Them or They / She / He'/>
           <Field type='text' name='genderIdentity' change={formik.handleChange} required={true}
             label='Gender Identity' value={formik.values.genderIdentity}
-            placeholder='ex. "Transgender masc" or "Non-binary"'/>
+            placeholder='ex. Agender / Gender Fluid'/>
           <Field type='text' name='sexualIdentity' change={formik.handleChange} required={true}
             label='Sexual Identity' value={formik.values.sexualIdentity}
-            placeholder='ex. "lesbian", "pansexual", "queer"'/>
+            placeholder='ex. Queer or Lesbian'/>
         </div>
         <div className='divider'></div>
         <h2>Just a little bit more...</h2>
-        <Field type='text' name='website' label='Website URL' change={formik.handleChange} value={formik.values.website} />
+        <Field type='text' name='website' label='Website URL [optional]' change={formik.handleChange} value={formik.values.website} />
         <div className='grid_2c-1r'>
           <Field type='file' name='headshot' label='Upload your headshot'
             change={event => {
               formik.setFieldValue("headshot", event.currentTarget.files[0]);
             }} value={formik.values.headshot ? formik.values.headshot.fileName : ''}/>
-          <Field type='file' name='resume' label='Upload your Resumé'
+          <Field type='file' name='resume' label='Upload your Resumé [optional]'
             change={event => {
               formik.setFieldValue("resume", event.currentTarget.files[0]);
             }} value={formik.values.resume ? formik.values.resume.fileName : ''}/>
@@ -129,7 +126,8 @@ const ApplyForm = () => {
           <Field type='textarea' name='referral' label='How did you learn about Ring of Keys?' required={true}
             change={formik.handleChange} value={formik.values.referral} />
         </div>
-        <button type="submit" className={`btn bg_slate ${isLoading ? 'has-loader' : 'has-arrow'}`} disabled={isLoading}>
+        <button type="submit" className={`btn bg_slate ${isLoading ? 'has-loader' : 'has-arrow'}`} disabled={isLoading}
+        style={{ padding: '.75em 3em'}}>
           {isLoading ? 'Loading...' : 'Submit'}</button>
         {!!results && JSON.stringify(results, null, 2)}
     </form>

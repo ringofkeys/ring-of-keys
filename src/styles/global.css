@@ -220,12 +220,12 @@ label {
     margin-block-end: .25em;
 }
 
-label.is-required::after {
+/* label.is-required::after {
     color: crimson;
     content: '*';
     font-size: 1.3em;
     white-space: nowrap;
-}
+} */
 
 input[type='text'] {
     box-sizing: border-box;
