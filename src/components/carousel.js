@@ -49,8 +49,8 @@ const Carousel = ({ recordType, itemList, classNames }) => {
                 }
                 <p>{ node.bodyNode ? renderHtmlToReact(node.bodyNode.childMarkdownRemark.excerptAst) : '' }</p>
                 { node.isExternalNews 
-                ? <a href={ node.externalUrl } className='btn has-arrow btn-link_ghost' rel='noopener noreferrer' target='_blank'>Read More</a>
-                : <Link to={ (recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#') } className='btn has-arrow btn-link_ghost'>
+                ? <a href={ node.externalUrl } className='btn btn-link_ghost' rel='noopener noreferrer' target='_blank'>Read More</a>
+                : <Link to={ (recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#') } className='btn btn-link_ghost'>
                   Read More</Link> }
               </div>
             ))

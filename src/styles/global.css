@@ -75,14 +75,16 @@ p, blockquote {
 
 /* Buttons */
 .btn {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: fit-content;
     background: var(--rok-copper-1_hex);
     color: white;
     font-family: 'Raleway', sans-serif;
     border: 1px solid transparent;
-    border-radius: .2em;
-    padding: .3em 1.25em;
+    border-radius: 5px;
+    padding: 1.75em 1.85em;
     font-weight: normal;
     text-decoration: none;
     white-space: nowrap;
@@ -90,6 +92,7 @@ p, blockquote {
     font-size: .8em;    
     margin-inline-end: 1em;
     transition: all .12s ease-in-out;
+    text-transform: uppercase;
 }
 
 .btn:hover, .btn:focus {

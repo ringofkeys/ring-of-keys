@@ -68,8 +68,7 @@
 
 .section_icon-heading-labels {
     display: flex;
-    align-items: center;
-    justify-content: center;
+        justify-content: center;
     margin: 0 5vw;
     box-sizing: border-box;
 }
@@ -86,7 +85,7 @@
 }
 
 .section_quote-block img {
-    max-height: 17vh;
+    max-height: 6em;
 }
 
 .section_quote-block blockquote {
@@ -95,7 +94,7 @@
     color: var(--rok-peach-1_hex);
     line-height: 1.6;
     font-weight: bold;
-    margin-inline-start: 0;
+    margin: 0;
     margin-block-end: .5em;
 }
 
@@ -125,7 +124,7 @@
 }
 
 .section_quote-block p {
-    margin-inline-start: 0;
+    margin: 0;
     margin-block-start: .5em;
 }
 
