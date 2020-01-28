@@ -28,3 +28,31 @@ h1, h2 {
     display: inline-block;
     width: fit-content;
 }
+
+.co-founders img {
+    width: 8vmin;
+    height: 8vmin;
+}
+
+.co-founders img:first-of-type {
+    margin-inline-end: .5vmax;
+}
+
+.co-founders p {
+    font-weight: 600;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    margin: .75em 0;
+    font-size: .8em;
+    letter-spacing: .75px;
+}
+
+.about-beliefs {
+    margin: 2vh 0;
+    margin-inline-end: 2vw;
+}
+
+.partner-logos img {
+    height: 5vh;
+    margin-inline-end: 1em;
+}

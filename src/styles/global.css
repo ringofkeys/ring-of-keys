@@ -64,6 +64,10 @@ p, blockquote {
     max-width: 960px;
 }
 
+p {
+    color: #6d7278;
+}
+
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -236,13 +240,13 @@ input[type='text'] {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    align-items: center
+    align-items: center;
 }
 .grid_2c-1r {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
-    align-items: center
+    align-items: center;
 }
 
 
