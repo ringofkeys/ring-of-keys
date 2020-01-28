@@ -25,6 +25,7 @@ const Sidebar = () => {
               name
               slug
               keyTeamPosition
+              keyTeamOrder
               pronouns
             }
           }
@@ -66,12 +67,14 @@ const Sidebar = () => {
                 <Link to={`/events/${node.slug}`} className='event' key={node.slug}>
                     <div className='date'>
                       <span className='month'>{ getMonth(node.startTime) }</span> 
-                      { getDate(node.startTime) }</div>
+                      <span className='day'>{ getDate(node.startTime) }</span>
+                    </div>
                     <h4>{ node.title }</h4>
                 </Link>
             ))}
-            <h3>Key Team</h3>
-            {data.team.edges.map(({ node }) => (
+            <h3>Key Volunteer Team</h3>
+            {data.team.edges.sort((a,b) => a.node.keyTeamOrder - b.node.keyTeamOrder)
+            .map(({ node }) => (
                 <Link to={`/keys/${node.slug}`} className='teammate' key={node.slug}>
                   <strong>{ node.name }</strong> <em>({ node.pronouns })<br/>{ node.keyTeamPosition }</em>
                 </Link>

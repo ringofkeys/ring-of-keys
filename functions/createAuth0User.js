@@ -69,6 +69,7 @@ function checkUserExists(auth, name) {
     url: 'https://ringofkeys.auth0.com/api/v2/users',
     qs: {q: `name:"${ name }"`, search_engine: 'v3'},
     headers: {authorization: `${auth['token_type']} ${auth['access_token']}`},
+    scope: 'read:users',
   }
 
   return rp(options)

@@ -50,10 +50,11 @@
 
 
 .sidebar .date {
-    font-family: 'Raleway', sans-serif;
-    background: var(--rok-gold-1_hex);
+    font-family: Arial, sans-serif;
+    background: var(--rok-peach-1_hex);
     color: white;
-    font-weight: bold;
+    font-weight: 400;
+    text-transform: uppercase;
     border-radius: 3.5vmin;
     width: 7vmin;
     height: 7vmin;
