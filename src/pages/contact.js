@@ -4,6 +4,12 @@ import './contact.css'
 
 const Contact = () => {
     const [formStatus, setFormStatus] = useState('unsent')
+    const formLabels = {
+        sending: 'Loading...',
+        unsent: 'Submit',
+        success: 'Sent!',
+        failure: 'Please Try Again Later',
+    }
 
     async function handleFormSubmit(e) {
         setFormStatus('sending')
@@ -55,7 +61,7 @@ const Contact = () => {
                         <textarea id='field-message' name='message' required/>
                     </div>
                     <button type='submit' className={`btn bg_slate has-arrow ${ formStatus }`} disabled={ formStatus === 'sending' || formStatus === 'success'}>
-                        Submit
+                        { formLabels[formStatus] }
                     </button>
                 </form>
             </section>
