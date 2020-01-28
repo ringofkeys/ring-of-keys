@@ -48,12 +48,13 @@
 
 .index_hero h1 > span {
     font-size: 15vw;
+    color: var(--rok-gold-1_hex);
 }
 
-.index_hero h1 > span > span:nth-child(2) { color: var(--rok-pale-green-1_hex); }
-.index_hero h1 > span > span:nth-child(3) { color: var(--rok-gold-1_hex); }
-.index_hero h1 > span > span:nth-child(4) { color: var(--rok-copper-1_hex); }
-.index_hero h1 > span > span:last-child { color: var(--rok-peach-1_hex); }
+.index_hero h1 > span > span:nth-child(2) { color: var(--rok-slate-blue_hex); }
+.index_hero h1 > span > span:nth-child(3) { color: var(--rok-peach-1_hex); }
+.index_hero h1 > span > span:nth-child(4) { color: var(--rok-pale-green-1_hex); }
+.index_hero h1 > span > span:last-child { color: var(--rok-copper-1_hex); }
 
 .index_hero__right-col {
     padding-right: 2rem;
