@@ -43,7 +43,7 @@ footer nav a:first-child {
 }
 
 footer a svg {
-    height: 1.2em;
+    width: 1.3em;
     margin-inline-end: .5em;
 }
 
@@ -67,4 +67,8 @@ footer .icon_twitter path {
 
 footer .icon_linkedin path {
     fill: var(--rok-pale-green-1_hex);
+}
+
+footer .icon_youtube #Lozenge {
+    fill: var(--rok-copper-1_hex);
 }
