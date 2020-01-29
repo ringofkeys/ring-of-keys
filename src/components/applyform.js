@@ -15,6 +15,15 @@ let affiliations = [
 affiliations = affiliations.sort()
 
 const ApplyForm = () => {
+  const [formStatus, setFormStatus] = useState('unsent')
+  const formLabels = {
+      sending: 'Loading...',
+      unsent: 'Submit',
+      success: 'Sent!',
+      failure: 'Please Try Again Later',
+  }
+
+
   const [results, setResults] = useState(undefined)
   const [isLoading, setLoading] = useState(false)
 
@@ -39,6 +48,8 @@ const ApplyForm = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: values => {
+        setFormStatus('sending')
+
         const arrayFields = [
           {ref:locations,name:'locations'},
           {ref:affiliations,name:'affiliations'},
@@ -53,16 +64,13 @@ const ApplyForm = () => {
 
         setLoading(true)
         submitApplication(filteredValues).then(res => {
-          console.log('res = ', res)
           if (res.status === 200) {
-            setResults('success!')
+            setFormStatus('success')
             sendTxtMsg(formik.values.name)
             sendAdminEmail(filteredValues)
           } else {
-            setResults('failed.')
+            setFormStatus('failure')
           }
-
-          setLoading(false)
         })
       },
   });
@@ -129,10 +137,10 @@ const ApplyForm = () => {
             <input type='checkbox' required />
             I agree with the&nbsp;<a href='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>&nbsp;and Terms of Use
         </label>
-        <button type="submit" className={`btn bg_slate ${isLoading ? 'has-loader' : ''}`} disabled={isLoading}
-        style={{ padding: '.75em 3em', margin: '2em 0'}}>
-          {isLoading ? 'Loading...' : 'Submit'}</button>
-        {!!results && JSON.stringify(results, null, 2)}
+        <button type='submit' className={`btn bg_slate ${ formStatus }`} 
+          disabled={ formStatus === 'sending' || formStatus === 'success'} style={{ padding: '.75em 3em', margin: '2em 0'}}>
+            { formLabels[formStatus] }
+        </button>
     </form>
   );
 };
