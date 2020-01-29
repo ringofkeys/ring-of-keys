@@ -234,25 +234,28 @@ function getFilters() {
     {
       field: 'firstName',
       label: 'First Name',
+      placeholder: 'First Name',
       type: 'text',
       logic: 'or',
     },
     {
       field: 'lastName',
       label: 'Last Name',
+      placeholder: 'Last Name',
       type: 'text',
       logic: 'or',
     },
     {
       field: 'discipline',
       label: 'Discipline',
-      placeholder: '(ie. Actor, Stage Manager, Music Director)',
+      placeholder: 'Ex: Actor, Stage Manager, Music Director',
       type: 'text',
       logic: 'or',
     },
     {
       field: 'pronouns',
       label: 'Pronouns (Use your own words)',
+      placeholder: 'Ex: They / Them or They / She / He',
       type: 'fuzzy',
       threshold: .25,
       logic: 'and',
@@ -260,6 +263,7 @@ function getFilters() {
     {
       field: 'genderIdentity',
       label: 'Gender Identity',
+      placeholder: 'Ex: Straight Leaning',
       type: 'fuzzy',
       threshold: .38,
       logic: 'and',
@@ -267,6 +271,7 @@ function getFilters() {
     {
       field: 'sexualIdentity',
       label: 'Sexual Identity',
+      placeholder: 'Ex: Agender / Gender Fluid',
       type: 'fuzzy',
       threshold: .3,
       logic: 'and',

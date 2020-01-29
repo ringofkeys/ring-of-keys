@@ -81,10 +81,10 @@ const Footer = () => {
             </div>
             <div>
                 <p>Contact Us</p>
-                <a href='mailto:info@ringofkeys.org'>info@ringofkeys.org</a>
-                <a href='mailto:consultancy@ringofkeys.org'>consultancy@ringofkeys.org</a>
-                <a href='mailto:auditions@ringofkeys.org'>auditions@ringofkeys.org</a>
-                <a href='mailto:newwork@ringofkeys.org'>newwork@ringofkeys.org</a>
+                <Link to='/contact'>General</Link>
+                <Link to='/contact/?subject=job-submission'>Job Submissions</Link>
+                <Link to='/contact/?subject=hiring'>Hiring</Link>
+                <Link to='/contact/?subject=volunteer'>Volunteer</Link>
             </div>
             <div>
                 <p>Log In</p>
