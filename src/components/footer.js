@@ -88,9 +88,8 @@ const Footer = () => {
             </div>
             <div>
                 <p>Log In</p>
-                <Link to='/dashboard'>Log in</Link>
-                <Link to='/dashboard/settings'>Edit profile</Link>
-                <Link to='/apply'>Apply to be a key</Link>
+                <Link to='/dashboard'>Sign In</Link>
+                <Link to='/apply'>Apply to be a Key</Link>
             </div>
             <div>
                 <p>Follow Us</p>

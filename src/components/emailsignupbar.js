@@ -27,11 +27,11 @@ const EmailSignupForm = ({ handleHasSignedUp }) => {
         <form className='email-signup-bar' method='POST' onSubmit={handleSignup}>
             <label className='email-input'>
                 <span>Receive news and updates from Ring of Keys</span>
-                <input type='email' placeholder='Sign up for our newsletter' required />
+                <input type='email' placeholder='Email Address' required />
             </label>
             <label className='privacy-consent'>
                 <input type='checkbox' required />
-                I agree with the Privacy Policy and Terms of Use
+                I agree with the&nbsp;<a href='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>&nbsp;and Terms of Use
             </label>
             <button className={`btn ${ submitStatus }`} type='submit' disabled={ submitStatus === 'sending' }>
                 <svg viewBox='0 0 5 7'>
