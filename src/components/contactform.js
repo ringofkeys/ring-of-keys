@@ -56,7 +56,7 @@ const ContactForm = ({ search }) => {
                 <label htmlFor='message'>Message</label>
                 <textarea id='field-message' name='message' required/>
             </div>
-            <button type='submit' className={`btn bg_slate has-arrow ${ formStatus }`} disabled={ formStatus === 'sending' || formStatus === 'success'}>
+            <button type='submit' className={`btn bg_slate ${ formStatus }`} disabled={ formStatus === 'sending' || formStatus === 'success'}>
                 { formLabels[formStatus] }
             </button>
         </form>
