@@ -82,7 +82,7 @@ const Sidebar = () => {
             <h3>Meetup Ambassadors</h3>
             {data.ambassadors.edges.map(({ node }) => (
               <Link to={`/keys/${node.slug}`} className='ambassador' key={node.slug}>
-                <strong>{ node.name }</strong> ({ node.pronouns.toLowerCase() }) — { node.locations.substr(0, node.locations.indexOf(',') ? node.locations.indexOf(',') : node.locations.length) }
+                <strong>{ node.name }</strong> ({ node.pronouns.toLowerCase() }) <br/>{ node.locations.substr(0, ((node.locations.indexOf(',') > 0) ? node.locations.indexOf(',') : node.locations.length)) }
               </Link>
             ))}
         </aside>

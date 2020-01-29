@@ -88,7 +88,7 @@ const Consultancy = ({ data }) => (
                 }
                 <div className='consultant_bio-body'>
                     { node.pronouns &&
-                        <p><strong>Pronouns</strong> { node.pronouns }</p>
+                        <p><strong>Pronouns:</strong> { node.pronouns }</p>
                     }
                     { node.locations && <p><strong>Location: </strong>{ node.locations }</p> }
                     { renderHtmlToReact(node.genderconsultantbioNode.childMarkdownRemark.htmlAst) }
