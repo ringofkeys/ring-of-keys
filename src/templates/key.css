@@ -46,6 +46,10 @@
     margin-left: 1.5vw;
 }
 
+.artist_bio p {
+    color: white;
+}
+
 .artist_hero .btn_message {
     padding: .5em 2.5em;
     font-size: .95em;
