@@ -40,6 +40,7 @@ const Sidebar = () => {
               name
               pronouns
               locations
+              meetupAmbassadorOrder
               slug
             }
           }
@@ -76,13 +77,16 @@ const Sidebar = () => {
             {data.team.edges.sort((a,b) => a.node.keyTeamOrder - b.node.keyTeamOrder)
             .map(({ node }) => (
                 <Link to={`/keys/${node.slug}`} className='teammate' key={node.slug}>
-                  <strong>{ node.name }</strong> <em>({ node.pronouns })<br/>{ node.keyTeamPosition }</em>
+                  <strong>{ node.name }</strong> <em>({ node.pronouns })</em><br/>
+                  <em style={{color: '#6d7278'}}>{ node.keyTeamPosition }</em>
                 </Link>
             ))}
             <h3>Meetup Ambassadors</h3>
-            {data.ambassadors.edges.map(({ node }) => (
+            {data.ambassadors.edges.sort((a,b) => a.node.meetupAmbassadorOrder - b.node.meetupAmbassadorOrder)
+            .map(({ node }) => (
               <Link to={`/keys/${node.slug}`} className='ambassador' key={node.slug}>
-                <strong>{ node.name }</strong> ({ node.pronouns.toLowerCase() }) <br/>{ node.locations.substr(0, ((node.locations.indexOf(',') > 0) ? node.locations.indexOf(',') : node.locations.length)) }
+                <strong>{ node.name }</strong> ({ node.pronouns.toLowerCase() }) <br/>
+                <em style={{color: '#6d7278'}}>{ node.locations.substr(0, ((node.locations.indexOf(',') > 0) ? node.locations.indexOf(',') : node.locations.length)) }</em>
               </Link>
             ))}
         </aside>

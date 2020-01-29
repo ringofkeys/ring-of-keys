@@ -6,7 +6,7 @@ const QuoteBlock = ({ quoteText, quoteAttribution, bg}) => (
     <div className='section_quote-block' style={{background: bg ? bg : ''}}>
         <img className='icon_key' src={ icon_key } alt='key icon' />
         <div>
-          <blockquote>{ quoteText }</blockquote>
+          { quoteText }
           <p style={{color: 'white'}}>— { quoteAttribution }</p>
         </div>
     </div>

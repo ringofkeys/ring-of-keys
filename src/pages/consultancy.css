@@ -19,7 +19,7 @@
 .consultant_bio-img:hover,
 .consultant_bio-heading h2:hover {
     transform: scale(1.03);
-}
+} 
 
 .consultant_bio-heading h2 {
     margin-bottom: 0;
@@ -48,4 +48,10 @@ a.h2_conversational h2 {
 .consultant_bio-heading p {
     margin: .5em 0;
     font-weight: 300;
+}
+
+.gender-consultant_explain .icon-heading-label {
+    --margin-inline: 1vw;
+    margin: 3vh 0;
+    width: calc(33% - 2 * var(--margin-inline));
 }

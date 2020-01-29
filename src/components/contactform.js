@@ -72,6 +72,12 @@ ContactForm.propTypes = {
 async function sendAdminEmail(data) {
     return await fetch('/.netlify/functions/sendAdminEmail', {
         method: 'POST',
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+            subject: `New Contact Submission from ${data.email}`,
+            text: 'A new Contact form submission through Ring of Keys',
+            to: 'frankjohnson1993@gmail.com',
+            from: 'info@ringofkeys.org',
+            data,
+        })
     })
 }

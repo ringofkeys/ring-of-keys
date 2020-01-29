@@ -48,3 +48,7 @@
     background: lightpink;
     content: 'Try Again';
 }
+
+.contact_form textarea {
+    min-height: 15vh;
+}

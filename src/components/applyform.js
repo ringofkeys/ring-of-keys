@@ -3,15 +3,14 @@ import { useFormik } from 'formik';
 import slugify from '../utils/slugify'
 import { Field } from './formfields'
 let locations = [
-  "Chicago", "Los Angeles", "Philadelphia", "Northern California", "Minneapolis / St. Paul", "Colorado", "Florida",
-  "Washington, D.C. / Baltimore", "Seattle", "Oregon", "Boston", "New York City", "Louisville", "St. Louis", "Las Vegas", "Austin",
-  "Salt Lake City", "Toronto", "London",
+  "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
+  "Boulder", "Orlando", "Sarasota", "Louisville", "Baltimore", "Boston", "St. Louis", "Las Vegas", "Raleigh", "Cleveland",
+  "Ashland", "Portland, OR", "Pittsburgh", "Austin", "Salt Lake City", "Washington, D.C.", "Seattle", "Toronto", "Ontario",
+  "London",
 ]
 locations = locations.sort()
 let affiliations = [
-  'AEA', 'EMC', 'SAG / AFTRA', 'BMI', 'ASCAP', 'SDC (Society of Stage Directors and Choreographers)', 'Non-Union',
-  'CSA (Casting Society of America)', 'AGMA', 'AGVA', 'SAFD (Society of American Fight Directors)', 'LMDA (Literary Managers and Dramaturgs of the Americas!)',
-  'AFM (American Federation Of Musicians)',
+  "AEA", "AFM", "AGMA", "AGVA", "ASCAP", "BMI", "CSA", "EMC", "IATSE",  "LMDA", "SAFD", "SAG/AFTRA", "SDC", "USA", "Non-union",
 ]
 affiliations = affiliations.sort()
 
@@ -82,7 +81,7 @@ const ApplyForm = () => {
             placeholder='Email Address'/>
           <Field type='text' name='discipline' label='Discipline' required={true}
             change={formik.handleChange} value={formik.values.discipline}
-            placeholder='ex: Actor, Stage Manager, Music Director'/>
+            placeholder='ie: Actor, Stage Manager, Music Director'/>
         </div>
         <h3>Region (check as many that apply):</h3>
         <div className='checkbox__grid'>
@@ -99,13 +98,13 @@ const ApplyForm = () => {
         <div className='grid_2c-2r' style={{alignItems: 'flex-start', gap: '2em 1em'}}>
           <Field type='text' name='pronouns' label='Pronouns (Use your own words)' required={true}
               change={formik.handleChange} value={formik.values.pronouns}
-              placeholder='ex. They / Them or They / She / He'/>
+              placeholder='ie: They / Them or They / She / He'/>
           <Field type='text' name='genderIdentity' change={formik.handleChange} required={true}
             label='Gender Identity' value={formik.values.genderIdentity}
-            placeholder='ex. Agender / Gender Fluid'/>
+            placeholder='ie: Bisexual / Queer'/>
           <Field type='text' name='sexualIdentity' change={formik.handleChange} required={true}
             label='Sexual Identity' value={formik.values.sexualIdentity}
-            placeholder='ex. Queer or Lesbian'/>
+            placeholder='ie: Non-Binary / Gender Fluid'/>
         </div>
         <div className='divider'></div>
         <h2>Just a little bit more...</h2>
@@ -126,8 +125,12 @@ const ApplyForm = () => {
           <Field type='textarea' name='referral' label='How did you learn about Ring of Keys?' required={true}
             change={formik.handleChange} value={formik.values.referral} />
         </div>
-        <button type="submit" className={`btn bg_slate ${isLoading ? 'has-loader' : 'has-arrow'}`} disabled={isLoading}
-        style={{ padding: '.75em 3em'}}>
+        <label className='privacy-consent'>
+            <input type='checkbox' required />
+            I agree with the&nbsp;<a href='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>&nbsp;and Terms of Use
+        </label>
+        <button type="submit" className={`btn bg_slate ${isLoading ? 'has-loader' : ''}`} disabled={isLoading}
+        style={{ padding: '.75em 3em', margin: '2em 0'}}>
           {isLoading ? 'Loading...' : 'Submit'}</button>
         {!!results && JSON.stringify(results, null, 2)}
     </form>

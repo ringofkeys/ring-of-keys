@@ -3,32 +3,26 @@ sgMail.setApiKey(process.env.SENDGRID_KEY)
 
 
 exports.handler = async (event) => {
-    const data = JSON.parse(event.body)
+    const {subject, text, to, from, data} = JSON.parse(event.body)
 
     console.log('sent data = ', data)
 
     try {
         const msg = {
-            to: 'frankjohnson1993@gmail.com',
-            from: 'info@ringofkeys.org',
-            subject: `New Contact Submission from ${data.email}`,
-            text: 'A new Contact form submission through Ring of Keys',
+            to,
+            from,
+            subject,
+            text,
             html:  `
                 <h1>Ring of Keys Contact</h1>
                 <table>
                     <tbody>
-                        <tr>
-                            <th>From Email:</th>
-                            <td>${ data.email }</td>
-                        </tr>
-                        <tr>
-                            <th>Subject:</th>
-                            <td>${ data.subject }</td>
-                        </tr>
-                        <tr>
-                            <th>Message:</th>
-                            <td>${ data.message }</td>
-                        </tr>
+                        ${ Object.keys(data).map(key =>
+                            `<tr>
+                                <th>${ key }</th>
+                                <td>${ data[key] }</td>
+                            </tr>`
+                        )}
                     </tbody>
                 </table>
             `,

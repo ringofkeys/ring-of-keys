@@ -15,7 +15,9 @@ const IndexPage = ({ data }) => {
   const  { keySteps, homepageBody } = data.allDatoCmsHomepage.nodes[0]
   const { edges: newsItems } = data.allDatoCmsNews
 
-  const { quoteAttribution, quoteText } = homepageBody[0]
+  const { quoteAttribution, quoteTextNode } = homepageBody[0]
+
+  quoteTextNode.childMarkdownRemark.htmlAst.children[0].tagName = 'blockquote'
 
   keySteps.forEach(step => { // Markdown wraps everything in <p> tags but I want these in h3's
     const ast = step.headingNode.childMarkdownRemark.htmlAst
@@ -55,7 +57,7 @@ const IndexPage = ({ data }) => {
         <h2>News</h2>
         <Carousel itemList={ newsItems } recordType='news' />
       </div>
-      <QuoteBlock quoteText={ quoteText } quoteAttribution={ quoteAttribution } />
+      <QuoteBlock quoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) } quoteAttribution={ quoteAttribution } />
     </Layout>
   )
 }
@@ -66,7 +68,11 @@ export const query = graphql`
     allDatoCmsHomepage {
       nodes {
         homepageBody {
-          quoteText
+          quoteTextNode {
+            childMarkdownRemark {
+              htmlAst
+            }
+          }
           quoteAttribution
         }
         keySteps {

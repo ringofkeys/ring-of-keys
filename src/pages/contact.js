@@ -9,7 +9,7 @@ const Contact = () => {
             <section className='contact_page'>
                 <div className='contact_header'>
                     <h1>Contact Us</h1>
-                    <p>Let's queer the state.</p>
+                    <p>Let's queer the stage.</p>
                 </div>
                 <ContactForm />
             </section>

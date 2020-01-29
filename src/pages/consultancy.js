@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import SidebarLayout from "../components/sidebarlayout"
+import ConsultantForm from '../components/consultantform'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import './consultancy.css'
 import educates from '../images/consultancy/educates.svg'
@@ -33,7 +34,7 @@ const Consultancy = ({ data }) => (
         </button>
         <div className='divider'></div>
         <h2 class='txt_center'>What does a gender consultant do?</h2>
-        <section className='flex_center' style={{ margin: '1em 0' }}>
+        <section className='flex_center gender-consultant_explain' style={{ margin: '1em 0' }}>
             <div className='icon-heading-label' >
                 <img src={ speaksLanguage } alt='icon of person speaking' />
                 <h3>Speaks the Language</h3>
@@ -107,51 +108,7 @@ const Consultancy = ({ data }) => (
             a Gender / Queer Consultant, or are looking for a consultant with a particular area of expertise 
             or with particular theatrical experience, fill out this form!
         </p>
-        <form id='consultancy-form'>
-            <label>
-                Name
-                <input type='text' />
-            </label>
-            <label>
-                Email Address
-                <input type='email' />
-            </label>
-            <fieldset className='pronoun_checkbox-group'>
-                <legend>Pronouns (check as many that apply)</legend>
-                <label>
-                    <input type='checkbox' />
-                    She / Her
-                </label>
-                <label>
-                    <input type='checkbox' />
-                    They / Them
-                </label>
-                <label>
-                    <input type='checkbox' />
-                    Ze / Zir
-                </label>
-                <label>
-                    <input type='checkbox' />
-                    He / Him
-                </label>
-                <label>
-                    <input type='checkbox' />
-                    Ze / Hir
-                </label>
-                <label>
-                    <input type='checkbox' />
-                    Xe / Xir
-                </label>
-            </fieldset>
-            <label>
-                Tell us more about the scope of your project and the kind of support your looking for?
-                <textarea />
-            </label>
-            <label></label>
-            <button className='btn btn-link_ghost btn_grayed'>Cancel</button>
-            <button className='btn btn_has-arrow bg_slate'>Submit</button>
-        </form>
-        
+        <ConsultantForm />
     </SidebarLayout>
 )
 

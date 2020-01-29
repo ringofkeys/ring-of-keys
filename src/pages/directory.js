@@ -248,14 +248,14 @@ function getFilters() {
     {
       field: 'discipline',
       label: 'Discipline',
-      placeholder: 'Ex: Actor, Stage Manager, Music Director',
+      placeholder: 'ie: Actor, Stage Manager, Music Director',
       type: 'text',
       logic: 'or',
     },
     {
       field: 'pronouns',
       label: 'Pronouns (Use your own words)',
-      placeholder: 'Ex: They / Them or They / She / He',
+      placeholder: 'ie: They / Them or They / She / He',
       type: 'fuzzy',
       threshold: .25,
       logic: 'and',
@@ -263,7 +263,7 @@ function getFilters() {
     {
       field: 'genderIdentity',
       label: 'Gender Identity',
-      placeholder: 'Ex: Straight Leaning',
+      placeholder: 'ie: Bisexual / Queer',
       type: 'fuzzy',
       threshold: .38,
       logic: 'and',
@@ -271,7 +271,7 @@ function getFilters() {
     {
       field: 'sexualIdentity',
       label: 'Sexual Identity',
-      placeholder: 'Ex: Agender / Gender Fluid',
+      placeholder: 'ie: Non-Binary / Gender Fluid',
       type: 'fuzzy',
       threshold: .3,
       logic: 'and',
@@ -281,9 +281,10 @@ function getFilters() {
       label: 'Region (check as many that apply)',
       type: 'checkbox',
       values: [
-        "Chicago", "Los Angeles", "Philadelphia", "Northern California", "Minneapolis / St. Paul", "Colorado", "Florida",
-        "Washington, D.C. / Baltimore", "Seattle", "Oregon", "Boston", "New York City", "Louisville", "St. Louis", "Las Vegas", "Austin",
-        "Salt Lake City", "Toronto", "London",
+        "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
+        "Boulder", "Orlando", "Sarasota", "Louisville", "Baltimore", "Boston", "St. Louis", "Las Vegas", "Raleigh", "Cleveland",
+        "Ashland", "Portland, OR", "Pittsburgh", "Austin", "Salt Lake City", "Washington, D.C.", "Seattle", "Toronto", "Ontario",
+        "London",
       ],
       logic: 'and',
     },
@@ -292,9 +293,7 @@ function getFilters() {
       label: 'Unions & Affiliations (check as many that apply)',
       type: 'checkbox',
       values: [
-        'AEA', 'CSA', 'EMC', 'SAG / AFTRA', 'BMI', 'ASCAP', 'SDC',
-        'AGMA', 'AGVA', 'SAFD', 'LMDA',
-        'AFM', 'Non-Union',
+        "AEA", "AFM", "AGMA", "AGVA", "ASCAP", "BMI", "CSA", "EMC", "IATSE",  "LMDA", "SAFD", "SAG/AFTRA", "SDC", "USA", "Non-union",
       ],
       logic: 'and',
     }

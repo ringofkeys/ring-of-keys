@@ -8,6 +8,10 @@ import royer_headshot from '../images/rory_headshot.png'
 import logo_mtf from '../images/logo_mtf.jpg'
 import logo_nqt from '../images/logo_nqt.jpg'
 import logo_maestra from '../images/logo_maestra.png'
+import solidarity from '../images/about/solidarity.svg'
+import multiplicity from '../images/about/multiplicity.svg'
+import safety from '../images/about/safety.svg'
+import possibility from '../images/about/possibility.svg'
 
 const ourStory = () => {
 
@@ -17,7 +21,7 @@ const ourStory = () => {
                 <link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,600,900,900i&display=swap" rel="stylesheet" />
             </Helmet>
             <h1>Our Story</h1>
-            <blockquote class='quote_graphic-bar'>
+            <blockquote class='quote_graphic-bar' style={{borderColor: 'var(--rok-peach-1_hex'}}>
                 Pssst. Andrea, you should meet your cast mate Royer. She's...a lesbian!
             </blockquote>
             <p>
@@ -40,6 +44,8 @@ const ourStory = () => {
             <p>
                 Ring of Keys is an arts advocacy organization that promotes the hiring of musical theatre professionals - 
                 onstage and off - who self-identify as queer women, transgender, and gender non-conforming artists.
+            </p>
+            <p>
                 The only network of its kind, our membership is made up of actors, directors, dancers, singers, stage managers, 
                 lighting designers, dramaturgs, artistic directors, producers, casting directors, librettists, lyricists, composers, 
                 props designers, scenic designers, sound designers, choreographers, costume designers, and production managers who 
@@ -74,32 +80,34 @@ const ourStory = () => {
             <h2 className='about_h2'>Key Beliefs</h2>
             <section className='grid_2c-2r' style={{alignItems: 'flex-start'}}>
                 <div class='icon-heading-label flex-left about-beliefs'>
-                    <div class='icon_placeholder'></div>
-                    <h3>Coming Together</h3>
+                    <img src={ solidarity } alt='icon of a dance party' />
+                    <h3>Solidarity</h3>
                     <p>
-                        We believe that by coming togeter we build intersectional awareness and community within our industry.
+                        By standing together, we build intersectional awareness and community within our industry.
                     </p>
                 </div>
                 <div class='icon-heading-label flex-left about-beliefs'>
-                    <div class='icon_placeholder'></div>
-                    <h3>Diversifying</h3>
+                    <img src={ safety } alt='icon of an umbrella' />
+                    <h3>Safety</h3>
                     <p>
-                        We believe that our diversity is an asset to the musical theatre landscape.
+                    By prioritizing the full and fearless participation of our Members, we hold space for marginalized 
+                    voices within our own queer community and beyond.
                     </p>
                 </div>
                 <div class='icon-heading-label flex-left about-beliefs'>
-                    <div class='icon_placeholder'></div>
-                    <h3>Elevating</h3>
+                    <img src={ multiplicity } alt='icon of a crowd' />
+                    <h3>Multiplicity</h3>
                     <p>
-                        We believe that by elevating queer women, trans, and gender non-conforming artists in our industry, we give
-                        conscious and subconscious permission to other queer artists to elevate themselves.
+                        By representing a multitude of intersectional identities, we redefine the meaning and necessity 
+                        of diversity within our industry.
                     </p>
                 </div>
                 <div class='icon-heading-label flex-left about-beliefs'>
-                    <div class='icon_placeholder'></div>
-                    <h3>Making Space</h3>
+                    <img src={ possibility } alt='icon of two people helping each other climb' />
+                    <h3>Possibility</h3>
                     <p>
-                        We believe in making space for marginalized voices within our own queer community.
+                        By elevating queer women, transgender, and gender non-conforming artists in our industry, we give 
+                        conscious and subconscious permission to all queer artists to elevate themselves.
                     </p>
                 </div>
             </section>

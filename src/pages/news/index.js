@@ -16,20 +16,16 @@ const News = ({ data }) => (
             </nav>
         </div> */}
         <div className='section_news bg_white'>
-            <h2>RoK News</h2>
+            <h2>Ring of Keys Newsletter</h2>
             <Carousel itemList={ data.newsletters.edges } classNames={['carousel__gray']} />
-        </div>
-        <div className='section_news bg_white'>
-            <h2>Industry News</h2>
-            <Carousel itemList={ data.industryNews.edges } classNames={['carousel__gray']} />
-        </div>
-        <div className='section_news bg_white'>
-            <h2>Press Releases</h2>
-            <Carousel itemList={ data.pressReleases.edges } recordType='news' classNames={['carousel__gray']} />
         </div>
         <div className='section_news bg_white'>
             <h2>Events</h2>
             <Carousel itemList={ data.events.edges } recordType='events' classNames={['carousel__gray']} />
+        </div>
+        <div className='section_news bg_white'>
+            <h2>Press</h2>
+            <Carousel itemList={ data.pressReleases.edges } recordType='news' classNames={['carousel__gray']} />
         </div>
     </Layout>
 )

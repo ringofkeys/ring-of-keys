@@ -39,9 +39,10 @@ h1, h2 {
 }
 
 .co-founders p {
-    font-weight: 600;
+    font-weight: 700;
     font-family: 'Raleway', sans-serif;
     text-transform: uppercase;
+    color: var(--rok-slate-blue_hex);
     margin: .75em 0;
     font-size: .8em;
     letter-spacing: .75px;

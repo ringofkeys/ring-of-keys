@@ -208,6 +208,10 @@ textarea {
 }
 
 
+.txt_center {
+    text-align: center;
+}
+
 /* Forms & Inputs */
 label {
     display: block;
@@ -231,6 +235,7 @@ input[type='text'] {
     box-sizing: border-box;
     padding: .25em .5em;
 }
+
 
 
 
