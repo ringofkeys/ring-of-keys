@@ -198,3 +198,7 @@ span.card__location {
     padding: .6em 2.25em;
     font-weight: normal;
 }
+
+.filters .locations {
+    grid-column: span 2;
+}

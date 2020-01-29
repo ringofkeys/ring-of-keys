@@ -31,14 +31,18 @@ const Directory = ({ data }) => {
                                 .filter((val, i) => val)
       filter.values = [...new Set(filter.values)]                                
                                 .sort()
+    } else if (filter.type === 'fuzzy') {
+      const fuseConfig = getFuseConfig(filter.threshold)
+      fuseConfig.keys = [`node.${ filter.field }`]
+      filter.fuse = new Fuse(searchList, fuseConfig)
     }
   })
 
   // get default fuzejs config from function below
-  const fuzeConfig = getFuzeConfig()
+  const globalSearchConfig = getFuseConfig()
 
   // mutate config to have filters from above as 'keys' property
-  fuzeConfig.keys = Object.keys(searchList[0].node).map(key => `node.${key}`)
+  globalSearchConfig.keys = Object.keys(searchList[0].node).map(key => `node.${key}`)
   
   // build formik config from filters
   const formik = useFormik({
@@ -83,8 +87,8 @@ const Directory = ({ data }) => {
   
       // Apply fuzzy search if there is one, over the final results
       if (formik.values.fuzzy && formik.values.fuzzy.trim().length > 0) {
-        const fuzeSearch = new Fuse(finalResults, fuzeConfig)
-        finalResults = fuzeSearch.search(formik.values.fuzzy)
+        const globalSearch = new Fuse(finalResults, globalSearchConfig)
+        finalResults = globalSearch.search(formik.values.fuzzy)
       }
 
       setSearchResults(finalResults)
@@ -97,6 +101,8 @@ const Directory = ({ data }) => {
 
           filter.results = searchList.filter(({ node }) => node[filter.field] && trueVals[0] &&
             trueVals.some(val => node[filter.field].toLowerCase().includes(val.toLowerCase())))
+        } else if (filter.type === 'fuzzy') {
+          filter.results = filter.fuse.search(formik.values[filter.field]).map(result => result.item) 
         } else {
           filter.results = searchList.filter(({ node }) => node[filter.field] &&
             node[filter.field].toLowerCase().includes(formik.values[filter.field].trim().toLowerCase()))
@@ -107,7 +113,7 @@ const Directory = ({ data }) => {
     }
 
     updateSearchResults()
-  }, [formik.values])
+  }, [formik.values, searchList])
 
   return (
     <Layout classNames={['fullwidth', 'directory']}>
@@ -194,12 +200,12 @@ export const query = graphql`
   }
 `
 
-function getFuzeConfig() {
+function getFuseConfig(thresh = 0.33) {
   return {
     includeScore: true,
     shouldSort: true,
     includeMatches: true,
-    threshold: 0.33,
+    threshold: thresh,
     location: 0,
     distance: 100,
     maxPatternLength: 32,
@@ -246,23 +252,23 @@ function getFilters() {
     },
     {
       field: 'pronouns',
-      label: 'Pronouns (check as many that apply)',
-      type: 'checkbox',
-      values: ['she / her', 'they / them', 'ze / zir', 'he / him', 'ze / hir', 'xe / xir'],
+      label: 'Pronouns (Use your own words)',
+      type: 'fuzzy',
+      threshold: .25,
       logic: 'and',
     },
     {
       field: 'genderIdentity',
       label: 'Gender Identity',
-      type: 'checkbox',
-      values: ['cisgender','non-binary', 'transgender', 'gender-expansive', 'multi-gender', 'agender', 'queered'],
+      type: 'fuzzy',
+      threshold: .38,
       logic: 'and',
     },
     {
       field: 'sexualIdentity',
       label: 'Sexual Identity',
-      type: 'checkbox',
-      values: ['queer', 'bisexual', 'fluid', 'lesbian', 'pansexual', 'other'],
+      type: 'fuzzy',
+      threshold: .3,
       logic: 'and',
     },
     {

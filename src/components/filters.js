@@ -1,15 +1,10 @@
 import React from 'react'
 import { Field } from '../components/formfields'
-
+ 
 const Filters = ({formik, filters}) => {
     return filters.map(filter => {
-        if (filter.type === 'text') {
-            return (
-            <Field type='text' name={filter.field} label={filter.label}
-                change={formik.handleChange} value={formik.values[filter.field]} placeholder={filter.placeholder}/>
-            )
-        } else if (filter.type === 'checkbox') {
-            return (<div>
+        if (filter.type === 'checkbox') {
+            return (<div className={ filter.field }>
             <label>{filter.label}</label>
             <div className={`checkbox__grid ${(filter.field === 'locations' || filter.field === 'affiliations') ? 'two-cols' : ''}`}>
                 {filter.values.map((val,i) => (
@@ -33,6 +28,11 @@ const Filters = ({formik, filters}) => {
                 )}
             </select>
             </>)
+        } else {
+            return (
+            <Field type='text' name={filter.field} label={filter.label}
+                change={formik.handleChange} value={formik.values[filter.field]} placeholder={filter.placeholder}/>
+            )
         }
         })
 }
