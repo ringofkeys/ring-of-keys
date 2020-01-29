@@ -30,18 +30,20 @@ const ConsultantForm = () => {
     }
 
     return (
-        <form id='consultancy-form' className='contact_form' onSubmit={handleFormSubmit} method='POST'>
-            <div className='input__group name'>
-                <label htmlFor='name'>Name</label>
-                <input id='field-name' name='name' type='text' placeholder='Full Name' required />
-            </div>
-            <div className='input__group email'>
-                <label htmlFor='email'>Email</label>
-                <input id='field-email' name='email' type='email' placeholder='Email Address' required />
-            </div>
-            <div className='input__group pronouns'>
-                <label htmlFor='pronouns'>Pronouns (Use your own words)</label>
-                <input id='field-pronouns' name='pronouns' type='text' placeholder='id: They / Them or They / She / He' required />
+        <form id='consultancy-form' onSubmit={handleFormSubmit} method='POST'>
+            <div className='text-inputs'>
+                <div className='input__group name'>
+                    <label htmlFor='name'>Name</label>
+                    <input id='field-name' name='name' type='text' placeholder='Full Name' required />
+                </div>
+                <div className='input__group email'>
+                    <label htmlFor='email'>Email</label>
+                    <input id='field-email' name='email' type='email' placeholder='Email Address' required />
+                </div>
+                <div className='input__group pronouns'>
+                    <label htmlFor='pronouns'>Pronouns (Use your own words)</label>
+                    <input id='field-pronouns' name='pronouns' type='text' placeholder='id: They / Them or They / She / He' />
+                </div>
             </div>
             <div className='input__group more-info'>
                 <label htmlFor='more-info'>
@@ -52,13 +54,15 @@ const ConsultantForm = () => {
             <div className='input__group able-to-pay'>
                 <label htmlFor='able-to-pay'>
                     <input type='checkbox' name='able-to-pay' id='field-able-to-pay'/>
-                    Tell us more about the scope of your project and the kind of support you're looking for?
+                    Are you anticipating being able to pay a Consultant for this project?
                 </label>
             </div>
-            <button type='reset' className='btn btn-link_ghost'>Reset Form</button>
-            <button type='submit' className={`btn bg_slate has-arrow ${ formStatus }`} disabled={ formStatus === 'sending' || formStatus === 'success'}>
-                { formLabels[formStatus] }
-            </button>
+            <div className='btn-container'>
+                <button type='reset' className='btn btn-link_ghost'>Reset Form</button>
+                <button type='submit' className={`btn bg_slate ${ formStatus }`} disabled={ formStatus === 'sending' || formStatus === 'success'}>
+                    { formLabels[formStatus] }
+                </button>
+            </div>
         </form>
     )
 }

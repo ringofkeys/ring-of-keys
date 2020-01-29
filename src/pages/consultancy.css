@@ -55,3 +55,36 @@ a.h2_conversational h2 {
     margin: 3vh 0;
     width: calc(33% - 2 * var(--margin-inline));
 }
+
+#consultancy-form .text-inputs {
+    display: grid; 
+    grid-template-columns: 50% 50%;
+    gap: 2em 2em;
+    margin-block-end: 2em;
+}
+
+#consultancy-form input[type='text'],
+#consultancy-form input[type='email'] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    padding: .5em 1em;
+}
+
+#consultancy-form textarea {
+    width: 100%;
+    min-height: 15vh;
+    margin-block-end: 1em;
+}
+
+#consultancy-form .btn-container {
+    margin-block-start: 1em;
+    display: flex;
+}
+
+#consultancy-form .btn {
+    padding: .75em 3em;
+}
+
