@@ -1,11 +1,13 @@
+import React, { useState } from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
 import PropTypes from "prop-types"
-import React from "react"
 import rok_logo from '../images/rok_logo_beta.png'
 import './header.css'
 import { getProfile, isAuthenticated, logout } from "../utils/auth"
 
 const Header = ({ path }) => {
+  const [isNavOpen, setNavOpen] = useState(false)
+
   const users = useStaticQuery(graphql`
     query HeaderLoggedInQuery {
       data: allDatoCmsKey{
@@ -24,7 +26,7 @@ const Header = ({ path }) => {
 
   let secondaryNav = (
     <div className='nav__login'>
-      <Link to='/apply'>Apply to be a key</Link>
+      <Link to='/apply' className={isNavOpen ? 'btn btn-link_ghost' : ''}>Apply to be a key</Link>
       <Link to='/dashboard' id='btn__login' >Log In</Link>  
     </div>
   )
@@ -57,7 +59,14 @@ const Header = ({ path }) => {
         <Link to='/' className='site-logo' >
           <img src={ rok_logo } alt='Ring of Keys' />
         </Link>
-        <div>
+        <button className={'hamburger ' + (isNavOpen ? 'open' : 'closed')} onClick={() => setNavOpen(!isNavOpen)}>
+          <svg viewBox="0 0 10 10">
+            <path d="M 1 5, l 8 0"></path>
+            <path d="M 1 1, l 8 0"></path>
+            <path d="M 1 9, l 8 0"></path>
+          </svg>
+        </button>
+        <div className={'nav__mobile-wrap ' + (isNavOpen ? 'open' : 'closed')}>
           { secondaryNav }
           <div className='nav__main'>
             <Link to='/directory' className={ path === '/directory' ? 'active' : '' }>Directory</Link>
