@@ -1,11 +1,13 @@
 const SiteClient = require('datocms-client').SiteClient
-const client = new SiteClient('8659675496697de204bc49751ca198')
+const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
 exports.handler = async (event) => {
     try {
         const { id, data } = JSON.parse(event.body)
 
-        const updateRes = client.items.update(id, data)
+        const updateRes = await client.items.update(id, data).catch(err => console.error(err))
+
+        console.log('updateRes = ', updateRes)
 
         return {
             statusCode: 200,
