@@ -20,7 +20,7 @@ exports.handler = async (event) => {
     // console.log('authToken = ', authToken)
 
     const userExistsRes = JSON.parse(await checkUserExists(authToken, userData.name).catch(err => JSON.stringify(err)))
-    // console.log('doesUserExist = ', userExistsRes)
+    console.log('doesUserExist = ', userExistsRes)
     if (userExistsRes.length > 0) {
       return {
         statusCode: 200,
@@ -29,8 +29,8 @@ exports.handler = async (event) => {
     }
 
     const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
-    // console.log('User Created: ', createUserResponse)
-    if (createUserResponse.status === 409) {
+    console.log('User Created: ', createUserResponse)
+    if (!(createUserResponse.statusCode >= 200 && createUserResponse.statusCode < 300)) {
       return {
         statusCode: 409,
         body: `User with email ${ userData.email } already exists!`,
