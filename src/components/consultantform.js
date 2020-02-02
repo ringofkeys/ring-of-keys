@@ -41,8 +41,8 @@ const ConsultantForm = () => {
                     <input id='field-email' name='email' type='email' placeholder='Email Address' required />
                 </div>
                 <div className='input__group pronouns'>
-                    <label htmlFor='pronouns'>Pronouns (Use your own words)</label>
-                    <input id='field-pronouns' name='pronouns' type='text' placeholder='id: They / Them or They / She / He' />
+                    <label htmlFor='pronouns'>Pronouns</label>
+                    <input id='field-pronouns' name='pronouns' type='text' placeholder='ie They / Them or She / Her' />
                 </div>
             </div>
             <div className='input__group more-info'>

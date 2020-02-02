@@ -75,13 +75,13 @@ const Footer = () => {
             </div>
             <div>
                 <p>About Us</p>
-                <Link to='/about/#our-story'>Our Story</Link>
+                <Link to='/about'>Our Story</Link>
                 <Link to='/about/#who-are-we'>Who We Are</Link>
                 <Link to='/about/#what-we-do'>What We Do</Link>
             </div>
             <div>
                 <p>Contact Us</p>
-                <Link to='/contact'>General</Link>
+                <Link to='/contact/?subject=general'>General</Link>
                 <Link to='/contact/?subject=job-submission'>Job Submissions</Link>
                 <Link to='/contact/?subject=hiring'>Hiring</Link>
                 <Link to='/contact/?subject=volunteer'>Volunteer</Link>

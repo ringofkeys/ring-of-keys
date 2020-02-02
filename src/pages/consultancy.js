@@ -66,7 +66,7 @@ const Consultancy = ({ data }) => (
             </div>
             <div className='icon-heading-label'>
                 <img src={ safeSpace } alt='icon of an umbrella' />
-                <h3>Creates Safe Space</h3>
+                <h3>Creates a Safe Space</h3>
                 <p>
                 Facilitates a safe and supportive environment for queer artists in your production 
                 so they can do their best work.

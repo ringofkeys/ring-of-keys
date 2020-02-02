@@ -254,8 +254,8 @@ function getFilters() {
     },
     {
       field: 'pronouns',
-      label: 'Pronouns (Use your own words)',
-      placeholder: 'ie: They / Them or They / She / He',
+      label: 'Pronouns',
+      placeholder: 'ie They / Them or She / Her',
       type: 'fuzzy',
       threshold: .25,
       logic: 'and',

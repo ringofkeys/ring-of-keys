@@ -22,7 +22,7 @@ const ourStory = () => {
             </Helmet>
             <h1>Our Story</h1>
             <blockquote class='quote_graphic-bar' style={{borderColor: 'var(--rok-peach-1_hex'}}>
-                Pssst. Andrea, you should meet your cast mate Royer. She's...a lesbian!
+                Pssst. Andrea, you should meet your cast member Royer. She's...a lesbian!
             </blockquote>
             <p>
                 Queer identities have a history of being whispered in our industry. This is, in fact, how we met. 
@@ -42,7 +42,7 @@ const ourStory = () => {
                 <img src={ royer_headshot } alt='royer' />
                 <p class='co-founders_names'>Andrea & Royer</p>
             </div>
-            <h2 id='#who-we-are' className='about_h2'>Who We Are</h2>
+            <h2 id='who-we-are' className='about_h2'>Who We Are</h2>
             <p><strong>Mission</strong></p>
             <p>
                 Ring of Keys is an arts advocacy organization that promotes the hiring of musical theatre professionals - 
@@ -56,7 +56,7 @@ const ourStory = () => {
                 queerness contains. We represent 350+ members in 40 U.S. cities, Toronto, and London. We strive to kick (ball-change) 
                 the closet door open to create a vibrant, diverse musical theatre landscape for the future.
             </p>
-            <h2 id='#what-we-do' className='about_h2'>What We Do</h2>
+            <h2 id='what-we-do' className='about_h2'>What We Do</h2>
             <p><strong>Vision</strong></p>
             <p>
                 Ring of Keys promotes the hiring of self-identifying queer women, transgender, 
@@ -114,12 +114,12 @@ const ourStory = () => {
                     </p>
                 </div>
             </section>
-            <h2>Partners</h2>
+            {/* <h2>Partners</h2>
             <div className='partner-logos'>
                 <img src={ logo_mtf } alt='Musical Theatre Factory' />
                 <img src={ logo_nqt } alt='National Queer Theater' />
                 <img src={ logo_maestra } alt='Maestra' />
-            </div>
+            </div> */}
             
         </SidebarLayout>
     )

@@ -104,9 +104,9 @@ const ApplyForm = () => {
         <div className='divider'></div>
         <h2>How do you identify?</h2>
         <div className='grid_2c-2r' style={{alignItems: 'flex-start', gap: '2em 1em'}}>
-          <Field type='text' name='pronouns' label='Pronouns (Use your own words)' required={true}
+          <Field type='text' name='pronouns' label='Pronouns' required={true}
               change={formik.handleChange} value={formik.values.pronouns}
-              placeholder='ie: They / Them or They / She / He'/>
+              placeholder='ie They / Them or She / Her'/>
           <Field type='text' name='genderIdentity' change={formik.handleChange} required={true}
             label='Gender Identity' value={formik.values.genderIdentity}
             placeholder='ie: Non-Binary, Cis, Gender Fluid'/>
@@ -118,7 +118,7 @@ const ApplyForm = () => {
         <h2>Just a little bit more...</h2>
         <Field type='text' name='website' label='Website URL [optional]' change={formik.handleChange} value={formik.values.website} />
         <div className='grid_2c-1r'>
-          <Field type='file' name='headshot' label='Upload your headshot'
+          <Field type='file' name='headshot' label='Upload your headshot or picture'
             change={event => {
               formik.setFieldValue("headshot", event.currentTarget.files[0]);
             }} value={formik.values.headshot ? formik.values.headshot.fileName : ''}/>
