@@ -86,7 +86,7 @@ export default ({ data }) => {
 
     return (
         <Layout classNames={['fullwidth']}>
-            <div className='artist_hero'
+            <section className='artist_hero'
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
                 { !isEditable
                     ? <img src={ headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
@@ -131,12 +131,13 @@ export default ({ data }) => {
                         <span className='tooltip'>Change Cover Photo</span>
                     </button> }
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
-            </div>
+            </section>
             <section className='artist_body'>
+                { bioNode.childMarkdownRemark.htmlAst.length > 0 &&
                 <div className='my_story'>
                     <h2>My Story</h2>
                     { renderHtmlToReact(bioNode.childMarkdownRemark.htmlAst) }
-                </div>
+                </div>}
                 {bodyFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => data && (<>
                     <h3>{ label }</h3>
                     { !isEditable

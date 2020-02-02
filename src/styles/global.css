@@ -259,3 +259,12 @@ input[type='text'] {
 .bg_slate {
     background: var(--rok-slate-blue_hex);
 }
+
+
+/* Mobile styles */
+@media (max-width: 700px) {
+    .icon-heading-label {
+        width: 100%;
+        max-width: 80vw;
+    }
+}

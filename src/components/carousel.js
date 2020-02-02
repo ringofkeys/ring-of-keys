@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import PropTypes, { node } from "prop-types"
+import React, { useState, useEffect} from 'react'
+import PropTypes from "prop-types"
 import { Link } from 'gatsby'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import './carousel.css'
@@ -24,6 +24,13 @@ const CarouselBtn = ({ classNames, callback }) => (
 
 const Carousel = ({ recordType, itemList, classNames }) => {
     const [currIndex, setIndex] = useState(0)
+    const [numCardsVisible, setNumCardsVisible] = useState(3)
+
+    useEffect(() => window.addEventListener('resize', resize), [])
+
+    function resize() {
+        setNumCardsVisible((window.innerWidth < 700) ? 1 : 3)
+    } 
 
     function wrapLink(node, classNames, children) {
         return node.isExternalNews 
@@ -36,7 +43,7 @@ const Carousel = ({ recordType, itemList, classNames }) => {
             <CarouselBtn classNames={['carousel_btn_prev', currIndex === 0 ? 'disabled' : '']} 
                 callback={() => { if (currIndex > 0) { setIndex(currIndex - 1) }}} />
           {
-            itemList.slice(currIndex, currIndex+3).map(({ node }) => (
+            itemList.slice(currIndex, currIndex + numCardsVisible).map(({ node }) => (
               <div className='carousel_card hover_scale'>
                 { wrapLink(node, 'img_wrapper fullwidth', node.featuredImage 
                     ? <img src={node.featuredImage.url} alt={node.featuredImage.alt} />
@@ -55,8 +62,8 @@ const Carousel = ({ recordType, itemList, classNames }) => {
               </div>
             ))
           }
-          <CarouselBtn classNames={['carousel_btn_next', currIndex === itemList.length-3 ? 'disabled' : '']} 
-                callback={() => { if (currIndex < itemList.length-3) { setIndex(currIndex + 1)}}} />
+          <CarouselBtn classNames={['carousel_btn_next', currIndex === itemList.length - numCardsVisible ? 'disabled' : '']} 
+                callback={() => { if (currIndex < itemList.length - numCardsVisible) { setIndex(currIndex + 1)}}} />
         </div>
     )
 }

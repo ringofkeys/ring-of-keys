@@ -146,3 +146,41 @@
     margin-left: 12.5%;
     border-bottom: solid 1px;
 }
+
+
+/* Mobile styling */
+@media (max-width: 700px) {
+    .index_hero {
+        display: block;
+        width: 100%;
+    }
+
+    .index_hero h1 {
+        padding-inline-start: 1vw;
+    }
+
+    .index_hero  h1 > span {
+        font-size: 20vw;
+        display: block;
+    }
+
+    .index_hero .index_hero__right-col {
+        text-align: center;
+        margin: auto;
+        margin-block-start: 3vh;
+        padding: 0;
+    }
+
+    .index_hero__right-col .btn {
+        margin: 0 auto;
+        margin-block-start: 3vh;
+    }
+
+    .section_icon-heading-labels {
+        flex-direction: column;
+        margin: 5vh auto;
+        margin-block-start: 0;
+        width: 70vw;
+        min-width: 200px;
+    }
+}

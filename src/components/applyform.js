@@ -109,10 +109,10 @@ const ApplyForm = () => {
               placeholder='ie: They / Them or They / She / He'/>
           <Field type='text' name='genderIdentity' change={formik.handleChange} required={true}
             label='Gender Identity' value={formik.values.genderIdentity}
-            placeholder='ie: Bisexual / Queer'/>
+            placeholder='ie: Non-Binary, Cis, Gender Fluid'/>
           <Field type='text' name='sexualIdentity' change={formik.handleChange} required={true}
-            label='Sexual Identity' value={formik.values.sexualIdentity}
-            placeholder='ie: Non-Binary / Gender Fluid'/>
+            label='Sexual Orientation' value={formik.values.sexualIdentity}
+            placeholder='ie: Bisexual, Queer, Lesbian'/>
         </div>
         <div className='divider'></div>
         <h2>Just a little bit more...</h2>

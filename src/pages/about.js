@@ -34,6 +34,9 @@ const ourStory = () => {
                 in 40 U.S. cities, Toronto, and London, as well as hundreds of allies and associated organizations worldwide. 
                 Welcome to the Ring. Do you hear our hearts saying hi?
             </p>
+            <p>
+                — Andrea Prestinario and Royer Bockus, Co-Founders
+            </p>
             <div class='co-founders'>
                 <img src={ andrea_headshot } alt='andrea' />
                 <img src={ royer_headshot } alt='royer' />

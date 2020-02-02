@@ -263,15 +263,15 @@ function getFilters() {
     {
       field: 'genderIdentity',
       label: 'Gender Identity',
-      placeholder: 'ie: Bisexual / Queer',
+      placeholder: 'ie: Non-Binary, Cis, Gender Fluid',
       type: 'fuzzy',
       threshold: .38,
       logic: 'and',
     },
     {
       field: 'sexualIdentity',
-      label: 'Sexual Identity',
-      placeholder: 'ie: Non-Binary / Gender Fluid',
+      label: 'Sexual Orientation',
+      placeholder: 'ie: Bisexual, Queer, Lesbian',
       type: 'fuzzy',
       threshold: .3,
       logic: 'and',
