@@ -56,7 +56,7 @@ function getAuth0Token() {
       client_secret: `${process.env.AUTH_SECRET}`,
       audience: `https://${ process.env.AUTH0_DOMAIN }/api/v2/`,
       grant_type: "client_credentials",
-      scope: 'create:users, read:users',
+      scope: 'create:users read:users',
     }),
   }
 
