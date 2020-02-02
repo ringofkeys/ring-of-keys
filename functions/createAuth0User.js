@@ -56,7 +56,7 @@ function getAuth0Token() {
       client_secret: `${process.env.AUTH_SECRET}`,
       audience: `https://${ process.env.AUTH0_DOMAIN }/api/v2/`,
       grant_type: "client_credentials",
-      scope: 'create:users',
+      scope: 'create:users, read:users',
     }),
   }
 
@@ -69,7 +69,6 @@ function checkUserExists(auth, name) {
     url: 'https://ringofkeys.auth0.com/api/v2/users',
     qs: {q: `name:"${ name }"`, search_engine: 'v3'},
     headers: {authorization: `${auth['token_type']} ${auth['access_token']}`},
-    scope: 'read:users',
   }
 
   return rp(options)
