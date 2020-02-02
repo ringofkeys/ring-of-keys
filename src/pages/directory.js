@@ -9,7 +9,9 @@ import ArtistCard from '../components/artistcard'
 import './directory.css' 
 
 const Directory = ({ data }) => {
-  const { edges: searchList } = data.allDatoCmsKey
+  const searchList = data.allDatoCmsKey.edges.filter(({ node }) => node.showInDirectory)
+
+  // Filter out artist whose showInDirectory
 
   const [filtersAreVisible, setFilterVisibility] = useState(false)
 
@@ -113,7 +115,7 @@ const Directory = ({ data }) => {
     }
 
     updateSearchResults()
-  }, [formik.values, searchList])
+  }, [formik.values])
 
   return (
     <Layout classNames={['fullwidth', 'directory']}>
@@ -186,6 +188,7 @@ export const query = graphql`
           featuredImage {
             url
           }
+          showInDirectory
           mainLocation
           locations
           pronouns
