@@ -1,0 +1,16 @@
+.dashboard .block {
+    border: solid 1px;
+    margin: 4vh 1vw;
+    padding: 2vh 2vw;
+}
+
+.dashboard .block_intro {
+    display: grid;
+    grid-template-columns: 20% auto;
+    grid-auto-flow: dense;
+}
+
+.dashboard .block_intro img {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}

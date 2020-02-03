@@ -166,7 +166,7 @@
     max-width: 100%;
 }
 
-.btn_edit .tooltip {
+.tooltip {
     position: absolute;
     background: rgba(0, 0, 0, 0.8);
     border-radius: .5vmin;
@@ -181,8 +181,8 @@
     transition: opacity .12s ease-in-out, transform .12s .04s ease-in-out;
 }
 
-.btn_edit:hover .tooltip,
-.btn_edit:focus .tooltip {
+*:hover > .tooltip,
+*:focus > .tooltip {
     transform: translateY(0);
     opacity: 1;
 }
@@ -255,4 +255,22 @@
 
 .profile_field_group .tooltip {
     max-width: 100vw;
+}
+
+.file-drop_btns {
+    margin: 0 auto;
+    margin-block-start: 1.5em;
+    width: fit-content;
+}
+
+.file-drop_btns .btn {
+    display: inline;
+    margin: 0 1.5em;
+    padding: .75em 2em;
+    width: fit-content;
+}
+
+.file-drop_btns .btn-link_ghost {
+    color: var(--rok-copper-1_hex);
+    border-color: var(--rok-copper-1_hex);
 }

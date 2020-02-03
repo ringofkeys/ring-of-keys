@@ -52,6 +52,7 @@
     font-size: 2.2rem;    
     text-transform: capitalize;
     margin-bottom: 0;
+    color: var(--rok-slate-blue_hex);
 }
 
 .popup__card p {

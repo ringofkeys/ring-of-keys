@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import slugify from '../utils/slugify'
+import { uploadFile } from '../utils/datoUploads'
 import { Field } from './formfields'
 let locations = [
   "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
@@ -174,55 +175,6 @@ async function submitApplication(data) {
       method: 'POST',
       body: JSON.stringify(newUser)
   }).catch(err => console.error(err))
-
-}
-
-
-async function uploadFile(file) {
-  const signedUrlsRes = await fetch('/.netlify/functions/createDatoImgUrl', {
-      method: 'POST',
-      body: JSON.stringify({
-          fileName: file.name,
-          fileType: file.type,
-      }),
-  }).catch(err => console.err(JSON.parse(err)))
-
-  const datoUrlRes = await signedUrlsRes.json()
-
-  console.log('datorUrlRes = ', datoUrlRes)
-
-  const fileArray = await readFile(file)
-
-  console.log('fileArray = ', fileArray)
-
-  const uploadRes = await fetch(datoUrlRes.url, {
-      method: 'PUT',
-      headers: {
-          'Content-Type': file.type,
-      },
-      body: fileArray,
-  }).catch(err => console.err(err))
-
-  // console.log('uploadRes = ', uploadRes)
-
-  return [datoUrlRes, uploadRes]
-}
-
-
-function readFile(file) {
-  const fr = new FileReader()
-
-  return new Promise((resolve, reject) => {
-    fr.onerror = () => {
-      fr.abort();
-      reject(new DOMException("Problem parsing input file."));
-    };
-
-    fr.onload = async () => {
-      resolve(fr.result);
-    };
-    fr.readAsArrayBuffer(file);
-  });
 }
 
 async function sendTxtMsg(name) {

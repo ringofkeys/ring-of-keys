@@ -4,7 +4,9 @@ import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 // import MessagePopup from '../components/messagepopup'
 import Popup from '../components/popup'
+import FileDrop from '../components/filedrop'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
+import { uploadFile } from '../utils/datoUploads'
 import { getProfile, isAuthenticated } from "../utils/auth"
 
 import './key.css'
@@ -29,7 +31,7 @@ const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 const FieldEditForm = ({ id, userId, field, handleClose, isSubmitting, setSubmitting, handleUpdate}) => (<div id={id} className='profile_field_group'>
     <form onSubmit={e => {
         e.persist()
-        handleUpdateSubmit(e, {userId, field, handleClose, setSubmitting, handleUpdate, handleClose})
+        handleUpdateSubmit(e, {userId, field, handleClose, setSubmitting, handleUpdate})
     }}>
         <input type='text' required />
         <button className='btn bg_slate btn_submit' type='submit'>
@@ -37,7 +39,7 @@ const FieldEditForm = ({ id, userId, field, handleClose, isSubmitting, setSubmit
         </button>
     </form>
     <button className='btn_edit edit_field' onClick={handleClose}>
-        <img src={ icon_close } className='icon_edit' alt={`close contact`} />
+        <img src={ icon_close } className='icon_edit' alt={`close`} />
         <span className='tooltip'>Cancel Edit</span>
     </button>
 </div>)
@@ -62,6 +64,20 @@ export default ({ data }) => {
 
     let isEditable = (isAuthenticated() && (getProfile().name === name))
 
+    const heroFields = {
+        headshot: {data: headshot, fieldName: 'headshot', },
+        featuredImage: {data: featuredImage, fieldName: 'featuredImage', },
+    }
+    Object.keys(heroFields).forEach(key => {
+        const [fieldValue, setFieldValue] = useState(heroFields[key].data)
+        heroFields[key].data = fieldValue
+        heroFields[key].setFieldValue = setFieldValue
+    
+        const [isEditing, setEditing] = useState(false)
+        heroFields[key].isEditing = isEditing
+        heroFields[key].setEditing = setEditing
+    })
+    
 
     const bodyFields = [
         {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', },
@@ -75,7 +91,7 @@ export default ({ data }) => {
         const [fieldValue, setFieldValue] = useState(field.data)
         field.data = fieldValue
         field.setFieldValue = setFieldValue
-
+    
         const [isEditing, setEditing] = useState(false)
         field.isEditing = isEditing
         field.setEditing = setEditing
@@ -123,13 +139,38 @@ export default ({ data }) => {
                         )}
                     )}
                 </div>)}
-                { featuredImage && 
-                    <img src={ featuredImage.url } alt={ featuredImage.alt } className='featured_image' /> }
+                { heroFields.featuredImage.data && 
+                    <img src={ heroFields.featuredImage.data.url } alt={ heroFields.featuredImage.data.alt } className='featured_image' /> }
                 { isEditable &&
-                    <button className='btn_edit edit_featuredImage'>
+                    <button className='btn_edit edit_featuredImage' onClick={() => heroFields.featuredImage.setEditing(true)}>
                         <img src={ icon_camera } className='icon_edit' alt={`edit cover icon`} />
                         <span className='tooltip'>Change Cover Photo</span>
                     </button> }
+                { heroFields.featuredImage.isEditing && 
+                    <Popup isOpen={ heroFields.featuredImage.isEditing } onClose={ () => heroFields.featuredImage.setEditing(false) } >
+                        <h2>Change Cover Photo</h2>
+                        <form onSubmit={e => {
+                            e.persist()
+                            handleUpdateSubmit(e, {
+                                userId: id,
+                                field: 'featuredImage',
+                                setSubmitting,
+                                handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue(newVal),
+                                handleClose: () => heroFields.featuredImage.setEditing(false)
+                            })
+                        }}>
+                            <FileDrop />
+                            <div className='file-drop_btns'>
+                                <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
+                                    Cancel
+                                </button>
+                                <button className='btn' type='submit'>
+                                    { heroFields.featuredImage.isSubmitting ? 'Loading...' : 'Save' }
+                                </button>
+                            </div>
+                        </form>
+                    </Popup>
+                }
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
             </section>
             <section className='artist_body'>
@@ -207,20 +248,32 @@ export const query = graphql`
     }
 `
 
-async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdate, handleClose, resetForm}) {
+async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdate, handleClose }) {
     e.preventDefault()
     setSubmitting(true)
     
     let updateRes = {status: 500}
 
     try {
-        updateRes = await updateField(userId.match(/-(\d+)-/)[1], { [field]: e.target.elements[0].value})
+        let dataValue = e.target.elements[0].value
+
+        if (e.target.elements[0].files) {
+            console.log(e.target.elements[0].files)
+            const uploadRes = await uploadFile(e.target.elements[0].files[0]).catch(err => console.error(err))
+            console.log('uploaded!', uploadRes[0])
+            dataValue = { uploadId: uploadRes[0] }
+        }
+
+        updateRes = await updateField(userId.match(/-(\d+)-/)[1], { [field]: dataValue})
+        console.log('updateRes = ', updateRes)
+
         
         if (updateRes.status === 200) {
-            handleUpdate(e.target.elements[0].value)
+            handleUpdate(e.target.elements[0].files
+                ? URL.createObjectURL(e.target.elements[0].files[0])
+                : e.target.elements[0].value)
             handleClose()
         } else {
-            
         }
     } catch (err) {
         console.error(err)

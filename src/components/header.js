@@ -35,13 +35,12 @@ const Header = ({ path }) => {
     const profile = getProfile()
     const artist = users.data.edges.filter(({node}) => node.name === profile.name)[0].node
 
-    console.log('artist = ', artist)
-
     secondaryNav = (
       <div className='nav__login'>
-        <Link to={'/keys/'+artist.slug} className='login_avatar'>
-        <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } />
+        <Link to='/dashboard' className='login_avatar'>
+          <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } />
           { profile.name }
+          <span className='tooltip'>My Account</span>
         </Link>
         {/* <Link to='/dashboard' id='btn__login'>Dashboard</Link> */}
         <a href='#logout' onClick={e => {

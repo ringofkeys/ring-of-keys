@@ -1,0 +1,42 @@
+.file-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4vh 3vw;
+    max-width: 100%;
+    box-sizing: border-box;
+    border: dashed 2px rgba(109, 114, 120, 0.3);
+    border-radius: .5vmax;
+    position: relative;
+}
+
+.file-drop .file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.drag-over .file-drop {
+    border-color: lightgreen;
+}
+
+.file-drop p {
+    font-size: 1.4em;
+    color: var(--rok-slate-blue_hex);
+    font-weight: 400;
+}
+
+.file-drop img {
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.file-drop path {
+    stroke-width: .5;
+    stroke: #6d7278;
+    width: 2.5vw;
+    height: 2.5vw;
+}
