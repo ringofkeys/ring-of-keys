@@ -7,20 +7,19 @@ exports.handler = async (event) => {
 
         if (isFile) {
             const uploadRes = await client.uploads.create({
-                path:   data.headshot,
-                author: data.name,
-                copyright: data.name +' '+ new Date().getFullYear(),
+                path:   data,
+                author: 'via profile editor',
                 defaultFieldMetadata: {
                     en: {
-                        alt: data.name,
-                        title: data.name+' '+Date.now(),
+                        alt: [],
+                        title: id+' via Editor'++Date.now(),
                         customData: {
                             watermark: false,
                         }
                     }
                 }
-            }).catch(err => err)
-            data = { uploadId: headshotUpload.id }
+            }).catch(err => console.error(err))
+            data = { uploadId: uploadRes.id }
         }
 
         const updateRes = await client.items.update(id, data).catch(err => console.error(err))
