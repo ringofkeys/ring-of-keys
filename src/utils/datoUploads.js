@@ -24,7 +24,7 @@ export const uploadFile = async (file) => {
         }),
     }).catch(err => console.err('error getting image url: ', JSON.parse(err)))
   
-    const datoUrlRes = await signedUrlsRes
+    const datoUrlRes = await signedUrlsRes.json()
   
     console.log('datorUrlRes = ', datoUrlRes)
   
@@ -40,7 +40,7 @@ export const uploadFile = async (file) => {
         body: fileArray,
     }).catch(err => console.err(err))
   
-    console.log('uploadRes = ', uploadRes)
+    // console.log('uploadRes = ', uploadRes)
   
     return [datoUrlRes, uploadRes]
   }
