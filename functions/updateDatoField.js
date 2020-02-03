@@ -11,7 +11,7 @@ exports.handler = async (event) => {
                 author: 'via profile editor',
                 defaultFieldMetadata: {
                     en: {
-                        alt: [],
+                        alt: 'editor-uploaded image',
                         title: id+' via Editor'+Date.now(),
                         customData: {
                             watermark: false,
