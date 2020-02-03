@@ -123,16 +123,7 @@ export default ({ data }) => {
                     <h1>{ name }</h1>
                     { mainLocation && <p>Based in {mainLocation.replace(', ', ' • ')}</p> }
                     <p>{ pronouns }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
-                    { !isEditable
-                        ? (<button className='btn btn_message' onClick={() => setMessageOpen(true)}>Message</button>)
-                        : (<div className='message_group'>
-                            <button className='btn btn_message' onClick={() => setMessageOpen(true)}>Message</button>
-                            <button className='btn_edit edit_contactMethod'>
-                                <img src={ icon_pencil } className='icon_edit' alt={`edit contact`} />
-                                <span className='tooltip'>Change Contact Method</span>
-                            </button>
-                        </div>)
-                    }
+                    <button className='btn btn_message' onClick={() => setMessageOpen(true)}>Message</button>
                 </div>
                 {socialMedia && (<div className='artist_social-icons'>
                     {socialMedia.map(socialObj => {

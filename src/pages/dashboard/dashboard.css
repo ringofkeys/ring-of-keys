@@ -1,16 +1,49 @@
+.dashboard_container {
+    display: flex;
+}
+
+.dashboard_container > img {
+    order: -1;
+    width: 30vw;
+}
+
+.dashboard_container > div {
+    box-sizing: border-box;
+    margin: 10vh 4vw;
+}
+
 .dashboard .block {
-    border: solid 1px;
+    border: solid 1px #6d727840;
     margin: 4vh 1vw;
-    padding: 2vh 2vw;
+    padding: 4vh 4vw;
+    box-sizing: border-box;
 }
 
 .dashboard .block_intro {
-    display: grid;
-    grid-template-columns: 20% auto;
-    grid-auto-flow: dense;
+    display: flex;
+    align-items: center;
+}
+
+.block_intro h2 {
+    margin-block-start: 0;
 }
 
 .dashboard .block_intro img {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
+    order: -1;
+    margin-inline-end: 2vw;
+    width: 8vmin;
+    height: 8vmin;
+    align-self: flex-start;
+}
+
+.block_intro .btn {
+    padding: .75em 2.5em;
+    border-color: var(--rok-copper-1_hex);
+    color: var(--rok-copper-1_hex);
+}
+
+.block_intro .btn:hover,
+.block_intro .btn:focus {
+    background: var(--rok-copper-1_hex);
+    color: white;
 }
