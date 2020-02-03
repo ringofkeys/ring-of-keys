@@ -274,3 +274,8 @@
     color: var(--rok-copper-1_hex);
     border-color: var(--rok-copper-1_hex);
 }
+
+.file-drop_btns .btn-link_ghost:hover {
+    color: white;
+    background: var(--rok-copper-1_hex);
+}

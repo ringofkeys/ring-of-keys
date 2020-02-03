@@ -108,7 +108,7 @@ export default ({ data }) => {
                     ? <img src={ headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
                     : (<div className='headshot_group'>
                         <img src={ headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
-                        <button className='btn_edit edit_headshot'>
+                        <button className='btn_edit edit_headshot' onClick={() => heroFields.headshot.setEditing(true)}>
                             <img src={ icon_camera } className='icon_edit' alt={`edit headshot`} />
                             <span className='tooltip'>Change Profile Photo</span>
                         </button>
@@ -146,31 +146,6 @@ export default ({ data }) => {
                         <img src={ icon_camera } className='icon_edit' alt={`edit cover icon`} />
                         <span className='tooltip'>Change Cover Photo</span>
                     </button> }
-                { heroFields.featuredImage.isEditing && 
-                    <Popup isOpen={ heroFields.featuredImage.isEditing } onClose={ () => heroFields.featuredImage.setEditing(false) } >
-                        <h2>Change Cover Photo</h2>
-                        <form onSubmit={e => {
-                            e.persist()
-                            handleUpdateSubmit(e, {
-                                userId: id,
-                                field: 'featuredImage',
-                                setSubmitting,
-                                handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
-                                handleClose: () => heroFields.featuredImage.setEditing(false)
-                            })
-                        }}>
-                            <FileDrop />
-                            <div className='file-drop_btns'>
-                                <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
-                                    Cancel
-                                </button>
-                                <button className='btn' type='submit' disabled={ isSubmitting }>
-                                    { isSubmitting ? 'Loading...' : 'Save' }
-                                </button>
-                            </div>
-                        </form>
-                    </Popup>
-                }
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
             </section>
             <section className='artist_body'>
@@ -207,6 +182,56 @@ export default ({ data }) => {
                     Our developers actually have it working, and are planning to roll it out on February 3rd to beta testers!
                 </p>
             </Popup>
+            { heroFields.headshot.isEditing && 
+                    <Popup isOpen={ heroFields.headshot.isEditing } onClose={ () => heroFields.headshot.setEditing(false) } >
+                        <h2>Change Profile Photo</h2>
+                        <form id='edit-headshot' onSubmit={e => {
+                            e.persist()
+                            handleUpdateSubmit(e, {
+                                userId: id,
+                                field: 'headshot',
+                                setSubmitting,
+                                handleUpdate: (newVal) => heroFields.headshot.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
+                                handleClose: () => heroFields.headshot.setEditing(false)
+                            })
+                        }}>
+                            <FileDrop />
+                            <div className='file-drop_btns'>
+                                <button className='btn btn-link_ghost' onClick={() => heroFields.headshot.setEditing(false)}>
+                                    Cancel
+                                </button>
+                                <button className='btn' type='submit' disabled={ isSubmitting }>
+                                    { isSubmitting ? 'Loading...' : 'Save' }
+                                </button>
+                            </div>
+                        </form>
+                    </Popup>
+                }
+                { heroFields.featuredImage.isEditing && 
+                    <Popup isOpen={ heroFields.featuredImage.isEditing } onClose={ () => heroFields.featuredImage.setEditing(false) } >
+                        <h2>Change Cover Photo</h2>
+                        <form id='edit-featured-image' onSubmit={e => {
+                            e.persist()
+                            handleUpdateSubmit(e, {
+                                userId: id,
+                                field: 'featuredImage',
+                                setSubmitting,
+                                handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
+                                handleClose: () => heroFields.featuredImage.setEditing(false)
+                            })
+                        }}>
+                            <FileDrop />
+                            <div className='file-drop_btns'>
+                                <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
+                                    Cancel
+                                </button>
+                                <button className='btn' type='submit' disabled={ isSubmitting }>
+                                    { isSubmitting ? 'Loading...' : 'Save' }
+                                </button>
+                            </div>
+                        </form>
+                    </Popup>
+                }
         </Layout>
     )
 }
