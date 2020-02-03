@@ -145,17 +145,17 @@ const ApplyForm = () => {
           disabled={ formStatus === 'sending' || formStatus === 'success'} style={{ padding: '.75em 3em', margin: '2em 0'}}>
             { formLabels[formStatus] }
         </button>
-        <Popup isOpen={isPopupOpen} onClose={() => setPopupOpen(false)} >
-            <h2>Thank You</h2>
-            <p>for your submission</p>
-            <div className='divider'></div>
-            <p>
-              You will receive an email soon alerting you of your acceptance to be a Key! Please add info@ringofkeys.org to 
-              your contacts. Once accepted, you will be able to customize your Key profile. <br/>We look forward to queering the 
-              stage with you.
-            </p>
-        </Popup>
     </form>
+    <Popup isOpen={isPopupOpen} onClose={() => setPopupOpen(false)} >
+        <h2>Thank You</h2>
+        <p>for your submission</p>
+        <div className='divider'></div>
+        <p>
+          You will receive an email soon alerting you of your acceptance to be a Key! Please add info@ringofkeys.org to 
+          your contacts. Once accepted, you will be able to customize your Key profile. <br/>We look forward to queering the 
+          stage with you.
+        </p>
+    </Popup>
   );
 };
 export default ApplyForm
