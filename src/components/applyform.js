@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { Field } from './formfields'
-import { Popup } from './popup'
+import Popup from './popup'
 import slugify from '../utils/slugify'
 import { uploadFile } from '../utils/datoUploads'
 let locations = [
