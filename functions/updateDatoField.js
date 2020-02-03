@@ -28,6 +28,8 @@ exports.handler = async (event) => {
 
         const publishRes = await client.items.publish(id)
 
+        console.log('publishRes = ', publishRes)
+
         return {
             statusCode: 200,
             headers: {
