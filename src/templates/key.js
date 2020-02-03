@@ -62,14 +62,17 @@ export default ({ data }) => {
             resume,
         } = data.datoCmsKey
 
-    let isEditable = (isAuthenticated() && (getProfile().name === name))
+    const [isEditable, setEditable] = useState(isAuthenticated() && (getProfile().name === name))
 
     const heroFields = {
         headshot: {data: headshot, fieldName: 'headshot', },
         featuredImage: {data: featuredImage, fieldName: 'featuredImage', },
     }
     Object.keys(heroFields).forEach(key => {
-        const [fieldValue, setFieldValue] = useState(heroFields[key].data + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&')
+        if (key === 'headshot') {
+            heroFields[key].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
+        }
+        const [fieldValue, setFieldValue] = useState(heroFields[key].data)
         heroFields[key].data = fieldValue
         heroFields[key].setFieldValue = setFieldValue
     
@@ -77,6 +80,8 @@ export default ({ data }) => {
         heroFields[key].isEditing = isEditing
         heroFields[key].setEditing = setEditing
     })
+
+    
     
 
     const bodyFields = [
