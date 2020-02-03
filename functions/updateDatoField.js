@@ -7,7 +7,7 @@ exports.handler = async (event) => {
 
         if (isFile) {
             const uploadRes = await client.uploads.create({
-                path:   data,
+                path:   data[Object.keys(data)[0]],
                 author: 'via profile editor',
                 defaultFieldMetadata: {
                     en: {
@@ -19,7 +19,7 @@ exports.handler = async (event) => {
                     }
                 }
             }).catch(err => console.error(err))
-            data = { uploadId: uploadRes.id }
+            data[Object.keys(data)[0]] = { uploadId: uploadRes.id }
         }
 
         const updateRes = await client.items.update(id, data).catch(err => console.error(err))
