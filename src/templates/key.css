@@ -261,6 +261,11 @@
     max-width: 100vw;
 }
 
+.file-drop_h2 {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
 .file-drop_btns {
     margin: 0 auto;
     margin-block-start: 1.5em;

@@ -193,7 +193,7 @@ export default ({ data }) => {
             </Popup>
             { heroFields.headshot.isEditing && 
                     <Popup isOpen={ heroFields.headshot.isEditing } onClose={ () => heroFields.headshot.setEditing(false) } >
-                        <h2>Change Profile Photo</h2>
+                        <h2 className='file-drop_h2'>Change Profile Photo</h2>
                         <form id='edit-headshot' onSubmit={e => {
                             e.persist()
                             handleUpdateSubmit(e, {
@@ -218,7 +218,7 @@ export default ({ data }) => {
                 }
                 { heroFields.featuredImage.isEditing && 
                     <Popup isOpen={ heroFields.featuredImage.isEditing } onClose={ () => heroFields.featuredImage.setEditing(false) } >
-                        <h2>Change Cover Photo</h2>
+                        <h2 className='file-drop_h2'>Change Cover Photo</h2>
                         <form id='edit-featured-image' onSubmit={e => {
                             e.persist()
                             handleUpdateSubmit(e, {

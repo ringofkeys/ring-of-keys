@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { Field } from './formfields'
+import { Popup } from './popup'
 import slugify from '../utils/slugify'
 import { uploadFile } from '../utils/datoUploads'
-import { Field } from './formfields'
 let locations = [
   "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
   "Boulder", "Orlando", "Sarasota", "Louisville", "Baltimore", "Boston", "St. Louis", "Las Vegas", "Raleigh", "Cleveland",
@@ -27,6 +28,7 @@ const ApplyForm = () => {
 
   const [results, setResults] = useState(undefined)
   const [isLoading, setLoading] = useState(false)
+  const [isPopupOpen, setPopupOpen] = useState(false)
 
   const initialValues = {
       name: '',
@@ -67,6 +69,7 @@ const ApplyForm = () => {
         submitApplication(filteredValues).then(res => {
           if (res.status === 200) {
             setFormStatus('success')
+            setPopupOpen(true)
             sendTxtMsg(formik.values.name)
             sendAdminEmail(filteredValues)
           } else {
@@ -142,6 +145,16 @@ const ApplyForm = () => {
           disabled={ formStatus === 'sending' || formStatus === 'success'} style={{ padding: '.75em 3em', margin: '2em 0'}}>
             { formLabels[formStatus] }
         </button>
+        <Popup isOpen={isPopupOpen} onClose={() => setPopupOpen(false)} >
+            <h2>Thank You</h2>
+            <p>for your submission</p>
+            <div className='divider'></div>
+            <p>
+              You will receive an email soon alerting you of your acceptance to be a Key! Please add info@ringofkeys.org to 
+              your contacts. Once accepted, you will be able to customize your Key profile. <br/>We look forward to queering the 
+              stage with you.
+            </p>
+        </Popup>
     </form>
   );
 };
