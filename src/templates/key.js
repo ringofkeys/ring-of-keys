@@ -69,7 +69,7 @@ export default ({ data }) => {
         featuredImage: {data: featuredImage, fieldName: 'featuredImage', },
     }
     Object.keys(heroFields).forEach(key => {
-        const [fieldValue, setFieldValue] = useState(heroFields[key].data)
+        const [fieldValue, setFieldValue] = useState(heroFields[key].data + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&')
         heroFields[key].data = fieldValue
         heroFields[key].setFieldValue = setFieldValue
     
@@ -77,9 +77,6 @@ export default ({ data }) => {
         heroFields[key].isEditing = isEditing
         heroFields[key].setEditing = setEditing
     })
-
-    // Getting fancy headshot cropping for initial headshot load
-    heroFields.headshot.data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
     
 
     const bodyFields = [
