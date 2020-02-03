@@ -256,7 +256,7 @@ async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdat
 
     try {
         let dataValue = e.target.elements[0].value
-        const isFile = !!e.target.elemetns[0].files
+        const isFile = !!e.target.elements[0].files
 
         if (isFile) {
             console.log(e.target.elements[0].files)
