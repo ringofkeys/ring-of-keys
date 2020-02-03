@@ -155,7 +155,7 @@ export default ({ data }) => {
                                 userId: id,
                                 field: 'featuredImage',
                                 setSubmitting,
-                                handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue(newVal),
+                                handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
                                 handleClose: () => heroFields.featuredImage.setEditing(false)
                             })
                         }}>
@@ -164,8 +164,8 @@ export default ({ data }) => {
                                 <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
                                     Cancel
                                 </button>
-                                <button className='btn' type='submit'>
-                                    { heroFields.featuredImage.isSubmitting ? 'Loading...' : 'Save' }
+                                <button className='btn' type='submit' disabled={ isSubmitting }>
+                                    { isSubmitting ? 'Loading...' : 'Save' }
                                 </button>
                             </div>
                         </form>
