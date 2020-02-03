@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './filedrop.css'
 
-const FileDrop = () => {
+const FileDrop = ({ helpText }) => {
     const [currFile, setFile] = useState('')
 
     return (<div className='drop-target' onDragOver={handleDragOver} onDragLeave={handleDragLeave}
@@ -21,7 +21,8 @@ const FileDrop = () => {
             <span>{ currFile }</span>
             <span className='help-text'>or</span>
             <span className='btn bg_slate'>Browse Files</span>
-            <span className='help-text'>(For best results, use a 3:1 aspect ratio)</span>
+            {helpText &&
+                <span className='help-text'>{ helpText }</span>}
         </>)
         : (<>
             <img src={ URL.createObjectURL(currFile) } alt='uploaded image' />

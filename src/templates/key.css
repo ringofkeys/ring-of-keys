@@ -253,6 +253,10 @@
     background: #6d727877;
 }
 
+.profile_field_group .btn_submit {
+    padding: .75em 3em;
+}
+
 .profile_field_group .tooltip {
     max-width: 100vw;
 }

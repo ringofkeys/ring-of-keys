@@ -178,7 +178,11 @@ export default ({ data }) => {
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>  
                     }
                 </>))}
-                { resume && resume.url && <a className='btn btn_resume' href={ resume.url } rel='noopener noreferrer' target='_blank'>View Resume</a> }
+                { resume && resume.url && 
+                    <a className='btn btn_resume' href={ resume.url } rel='noopener noreferrer' target='_blank'>
+                        View Resume
+                    </a>
+                }
             </section>
             {/* <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} /> */}
             <Popup isOpen={isMessageOpen} onClose={() => setMessageOpen(false)} >
@@ -225,7 +229,7 @@ export default ({ data }) => {
                                 handleClose: () => heroFields.featuredImage.setEditing(false)
                             })
                         }}>
-                            <FileDrop />
+                            <FileDrop helpText='(For best results, use a 3:1 aspect ratio)'/>
                             <div className='file-drop_btns'>
                                 <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
                                     Cancel
