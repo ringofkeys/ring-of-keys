@@ -272,10 +272,10 @@ async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdat
             if (e.target.elements[0].files) {
                 const newUrl = URL.createObjectURL(e.target.elements[0].files[0])
                 console.log('new URL = ', newUrl)
-                handleChange(newUrl)
+                handleUpdate(newUrl)
             } else {
                 
-                handleChange(e.target.elements[0].value)
+                handleUpdate(e.target.elements[0].value)
             }
             handleClose()
         } else {
