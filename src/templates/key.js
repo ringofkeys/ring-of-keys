@@ -107,7 +107,7 @@ export default ({ data }) => {
                 { !isEditable
                     ? <img src={ headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
                     : (<div className='headshot_group'>
-                        <img src={ headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
+                        <img src={ heroFields.headshot.data.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
                         <button className='btn_edit edit_headshot' onClick={() => heroFields.headshot.setEditing(true)}>
                             <img src={ icon_camera } className='icon_edit' alt={`edit headshot`} />
                             <span className='tooltip'>Change Profile Photo</span>

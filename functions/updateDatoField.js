@@ -26,12 +26,14 @@ exports.handler = async (event) => {
 
         console.log('updateRes = ', updateRes)
 
+        const publishRes = await client.items.publish(id)
+
         return {
             statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify(updateRes),
+            body: JSON.stringify(publishRes),
         }
     } catch (err) {
         return {
