@@ -256,20 +256,21 @@ async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdat
 
     try {
         let dataValue = e.target.elements[0].value
+        const isFile = !!e.target.elemetns[0].files
 
-        if (e.target.elements[0].files) {
+        if (isFile) {
             console.log(e.target.elements[0].files)
             const uploadRes = await uploadFile(e.target.elements[0].files[0]).catch(err => console.error(err))
             console.log('uploaded!', uploadRes[0].id)
-            dataValue = { uploadId: uploadRes[0].id }
+            dataValue = uploadRes[0].id
         }
 
-        updateRes = await updateField(userId.match(/-(\d+)-/)[1], { [field]: dataValue})
+        updateRes = await updateField(userId.match(/-(\d+)-/)[1], { [field]: dataValue}, isFile)
         console.log('updateRes = ', updateRes)
 
         
         if (updateRes.status === 200) {
-            if (e.target.elements[0].files) {
+            if (isFile) {
                 const newUrl = URL.createObjectURL(e.target.elements[0].files[0])
                 console.log('new URL = ', newUrl)
                 handleUpdate(newUrl)
@@ -288,12 +289,13 @@ async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdat
     setSubmitting(false)    
 }
 
-async function updateField(id, data) {
+async function updateField(id, data, isFile) {
     const fieldEditRes = await fetch('/.netlify/functions/updateDatoField', {
         method: 'POST',
         body: JSON.stringify({
             id,
             data,
+            isFile
         }),
     }).catch(err => console.error(err))
 
