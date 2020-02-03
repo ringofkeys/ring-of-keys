@@ -12,7 +12,7 @@ exports.handler = async (event) => {
                 defaultFieldMetadata: {
                     en: {
                         alt: [],
-                        title: id+' via Editor'++Date.now(),
+                        title: id+' via Editor'+Date.now(),
                         customData: {
                             watermark: false,
                         }
