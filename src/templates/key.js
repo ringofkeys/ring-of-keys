@@ -77,6 +77,9 @@ export default ({ data }) => {
         heroFields[key].isEditing = isEditing
         heroFields[key].setEditing = setEditing
     })
+
+    // Getting fancy headshot cropping for initial headshot load
+    heroFields.headshot.data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
     
 
     const bodyFields = [
@@ -105,9 +108,9 @@ export default ({ data }) => {
             <section className='artist_hero'
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
                 { !isEditable
-                    ? <img src={ headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
+                    ? <img src={ headshot.url } alt={ headshot.title } className='avatar' />
                     : (<div className='headshot_group'>
-                        <img src={ heroFields.headshot.data.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&' } alt={ headshot.title } className='avatar' />
+                        <img src={ heroFields.headshot.data.url } alt={ headshot.title } className='avatar' />
                         <button className='btn_edit edit_headshot' onClick={() => heroFields.headshot.setEditing(true)}>
                             <img src={ icon_camera } className='icon_edit' alt={`edit headshot`} />
                             <span className='tooltip'>Change Profile Photo</span>
