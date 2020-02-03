@@ -81,7 +81,7 @@ const ApplyForm = () => {
 
   // useEffect(() => console.log(formik.values))
 
-  return (
+  return (<>
     <form onSubmit={formik.handleSubmit} className='apply__form'>
         <h2>Tell us about yourself</h2>
         <div className='basic_info'>
@@ -156,7 +156,7 @@ const ApplyForm = () => {
           stage with you.
         </p>
     </Popup>
-  );
+  </>);
 };
 export default ApplyForm
 
