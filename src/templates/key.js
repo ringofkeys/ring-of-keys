@@ -260,8 +260,8 @@ async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdat
         if (e.target.elements[0].files) {
             console.log(e.target.elements[0].files)
             const uploadRes = await uploadFile(e.target.elements[0].files[0]).catch(err => console.error(err))
-            console.log('uploaded!', uploadRes[0])
-            dataValue = { uploadId: uploadRes[0] }
+            console.log('uploaded!', uploadRes[0].id)
+            dataValue = { uploadId: uploadRes[0].id }
         }
 
         updateRes = await updateField(userId.match(/-(\d+)-/)[1], { [field]: dataValue})
@@ -269,11 +269,17 @@ async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdat
 
         
         if (updateRes.status === 200) {
-            handleUpdate(e.target.elements[0].files
-                ? URL.createObjectURL(e.target.elements[0].files[0])
-                : e.target.elements[0].value)
+            if (e.target.elements[0].files) {
+                const newUrl = URL.createObjectURL(e.target.elements[0].files[0])
+                console.log('new URL = ', newUrl)
+                handleChange(newUrl)
+            } else {
+                
+                handleChange(e.target.elements[0].value)
+            }
             handleClose()
         } else {
+            console.log('bad response!')
         }
     } catch (err) {
         console.error(err)
