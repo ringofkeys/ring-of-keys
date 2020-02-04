@@ -331,11 +331,23 @@ export default ({ data }) => {
                             e.preventDefault()
                             e.persist()
 
-                            const val = Object.assign(socialMedia, ([]).slice.call(e.target.elements).filter(el => el.value).map(el => {
-                                return {
-                                    socialMediaLink: el.value
+                            const newSocial = ([]).slice.call(e.target.elements).map(el => el.value)
+
+                            const val = Object.keys(socialIcons).map(domain => {
+                                const foundNewLink = newSocial.find(link => link.includes(domain))
+                                const foundOldLink = socialMedia.find(link => link.socialMediaLink.includes(domain))
+                                if (foundNewLink) {
+                                    return {
+                                        socialMediaLink: foundOldLink
+                                    }
+                                } else if (foundOldLink) {
+                                    return foundOldLink
+                                } else {
+                                    ''
                                 }
-                            }))
+                            }).filter(el => el)
+
+                            console.log('submitting the following val = ', val)
 
                             handleUpdateSubmit(val, {
                                 userId: id,
