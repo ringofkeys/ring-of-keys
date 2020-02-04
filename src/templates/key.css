@@ -145,6 +145,11 @@
     position: relative;
 }
 
+.toggle_group:focus-within {
+    outline: solid var(--rok-gold-1_hex);
+    outline-offset: 3px;
+}
+
 .toggle_group .toggle::after {
     content: '';
     position: absolute;
@@ -186,7 +191,8 @@
     transform: translateY(-50%);
 }
 
-.artist_hero .back_link:hover > span {
+.artist_hero .back_link:hover > span,
+.artist_hero .back_link:focus > span {
     transform: translate(0);
     opacity: 1;
 }
@@ -198,6 +204,11 @@
 
 .my_story {
     margin-bottom: 4em;
+}
+
+.artist_body h2 {
+    border-bottom: solid 1px lightgrey;
+    padding-bottom: .25em;
 }
 
 .artist_body h3 {
@@ -318,12 +329,22 @@
 .profile_field_group {
     display: flex;
     align-items: center;
+
 }
 
 .profile_field_group p,
 .profile_field_group a {
     width: 100%;
     max-width: revert;
+}
+
+.profile_field_group form {
+    width: 100%;
+}
+
+.profile_field_group textarea {
+    width: 100%;
+    height: 6em;
 }
 
 .profile_field_group .btn_edit {
@@ -335,8 +356,13 @@
     background: #6d727877;
 }
 
+.profile_field_group .btn_resume {
+    width: initial;
+}
+
 .profile_field_group .btn_submit {
     padding: .75em 3em;
+    margin-block-start: 1em;
 }
 
 .profile_field_group .tooltip {

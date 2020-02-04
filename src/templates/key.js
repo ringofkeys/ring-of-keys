@@ -5,7 +5,6 @@ import Layout from '../components/layout'
 import MessagePopup from '../components/messagepopup'
 import Popup from '../components/popup'
 import FileDrop from '../components/filedrop'
-import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import { uploadFile } from '../utils/datoUploads'
 import { getProfile, isAuthenticated } from "../utils/auth"
 
@@ -28,12 +27,24 @@ const socialIcons = {
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
-const FieldEditForm = ({ id, userId, field, handleClose, isSubmitting, setSubmitting, handleUpdate}) => (<div id={id} className='profile_field_group'>
+const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, setSubmitting, handleUpdate, type}) => (<div id={id} className='profile_field_group'>
     <form onSubmit={e => {
         e.persist()
-        handleUpdateSubmit(e, {userId, field, handleClose, setSubmitting, handleUpdate})
+
+        const isFile = !!e.target.elements[0].files
+        let dataVal = ''
+        if (isFile) {
+            dataVal = e.target.elements[0].files
+        } else {
+            dataVal = e.target.elements[0].value
+        }
+
+        handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
     }}>
-        <input type='text' required />
+        { type !== 'textarea'
+            ? <input type={ type } placeholder={ val } required />
+            : <textarea placeholder={ val } required />
+        }
         <button className='btn bg_slate btn_submit' type='submit'>
             { isSubmitting ? 'Loading...' : 'Update' }
         </button>
@@ -57,7 +68,7 @@ export default ({ data }) => {
             mainLocation,
             vocalRange,
             discipline,
-            bioNode,
+            bio,
             memberSince,
             resume,
         } = data.datoCmsKey
@@ -83,13 +94,21 @@ export default ({ data }) => {
         heroFields[key].setEditing = setEditing
     })
     
+    const bioField = {label: 'Bio', data: bio, fieldName: 'bio',}
+    const [bioValue, setBioValue] = useState(bioField.data)
+    bioField.data = bioValue
+    bioField.setFieldValue = setBioValue
+
+    const [isEditingBio, setEditingBio] = useState(false)
+    bioField.isEditing = isEditingBio
+    bioField.setEditing = setEditingBio
 
     const bodyFields = [
         {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', },
         {label: 'Sexual Identity', data: sexualIdentity, fieldName: 'sexualIdentity', },
         {label: 'Vocal Range', data: vocalRange, fieldName: 'vocalRange', },
         {label: 'Discipline', data: discipline, fieldName: 'discipline', },
-        {label:'Website', data: website, fieldName: 'website', },
+        {label:'Website', data: website, fieldName: 'website', }
     ]
 
     bodyFields.forEach(field => {
@@ -101,6 +120,15 @@ export default ({ data }) => {
         field.isEditing = isEditing
         field.setEditing = setEditing
     })
+
+    const resumeField = {label: 'Resume', data: resume, fieldName: 'resume',}
+    const [resumeValue, setResumeValue] = useState(resumeField.data)
+    resumeField.data = resumeValue
+    resumeField.setFieldValue = setResumeValue
+
+    const [isEditingResume, setEditingResume] = useState(false)
+    resumeField.isEditing = isEditingResume
+    resumeField.setEditing = setEditingResume
 
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)
@@ -168,10 +196,25 @@ export default ({ data }) => {
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
             </section>
             <section className='artist_body'>
-                { bioNode.childMarkdownRemark.htmlAst.children &&
+                { bio &&
                 <div className='my_story'>
                     <h2>My Story</h2>
-                    { renderHtmlToReact(bioNode.childMarkdownRemark.htmlAst) }
+                    <p>
+                        { !isEditable
+                            ? <p>{ bioField.data }</p>
+                            :  (!bioField.isEditing)
+                                ? <div className='profile_field_group'>
+                                    <p>{ bioField.data }</p>
+                                    <button className='btn_edit edit_field' onClick={() => bioField.setEditing(true)}>
+                                        <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
+                                        <span className='tooltip'>Change { bioField.label }</span>
+                                    </button>
+                                </div>
+                                : <FieldEditForm type='textarea' key={bioField.fieldName+'-form'} userId={ id } handleClose={() => bioField.setEditing(false)}
+                                    field={bioField.fieldName} val={bioField.data} handleUpdate={(newVal) => bioField.setFieldValue(newVal)}
+                                    isSubmitting={isSubmitting} setSubmitting={bioField.setSubmitting}/>
+                        }
+                    </p>
                 </div>
                 }
                 {bodyFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => data && (<>
@@ -188,15 +231,32 @@ export default ({ data }) => {
                                     <span className='tooltip'>Change { label }</span>
                                 </button>
                               </div>)
-                            : <FieldEditForm key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
-                                field={fieldName} handleUpdate={(newVal) => setFieldValue(newVal)}
-                                isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>  
+                            : <FieldEditForm type='text' key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
+                                field={fieldName} val={data} handleUpdate={(newVal) => setFieldValue(newVal)}
+                                isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
                 </>))}
                 { resume && resume.url && 
-                    <a className='btn btn_resume' href={ resume.url } rel='noopener noreferrer' target='_blank'>
+                    !isEditable
+                    ? <a className='btn btn_resume' href={ resumeField.data } rel='noopener noreferrer' target='_blank'>
                         View Resume
                     </a>
+                    : !resumeField.isEditing
+                        ? <div className='profile_field_group'>
+                            <a className='btn btn_resume' href={ resumeField.data } rel='noopener noreferrer' target='_blank'>
+                                View Resume
+                            </a>
+                            <button className='btn_edit edit_field' onClick={() => resumeField.setEditing(true)}>
+                                <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
+                                <span className='tooltip'>Change { resumeField.label }</span>
+                            </button>
+                        </div>
+                        : <>
+                            <h3>Resume</h3>
+                            <FieldEditForm type='file' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
+                            field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => resumeField.setFieldValue(newVal)}
+                            isSubmitting={isSubmitting} setSubmitting={resumeField.setSubmitting}/>
+                        </>
                 }
             </section>
             <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} />
@@ -334,11 +394,7 @@ export const query = graphql`
             mainLocation
             vocalRange
             discipline
-            bioNode {
-                childMarkdownRemark {
-                    htmlAst
-                }
-            }
+            bio
             resume {
                 url
             }
