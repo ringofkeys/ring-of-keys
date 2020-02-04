@@ -340,7 +340,7 @@ export default ({ data }) => {
                                 const foundOldLink = socialMedia.find(link => link.socialMediaLink.includes(domain))
                                 if (foundNewLink) {
                                     return {
-                                        socialMediaLink: foundOldLink
+                                        socialMediaLink: foundNewLink
                                     }
                                 } else if (foundOldLink) {
                                     return foundOldLink
