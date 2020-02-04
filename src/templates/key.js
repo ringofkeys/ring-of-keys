@@ -333,6 +333,8 @@ export default ({ data }) => {
 
                             const newSocial = ([]).slice.call(e.target.elements).map(el => el.value)
 
+                            console.log('newSocial = ', newSocial)
+
                             const val = Object.keys(socialIcons).map(domain => {
                                 const foundNewLink = newSocial.find(link => link.includes(domain))
                                 const foundOldLink = socialMedia.find(link => link.socialMediaLink.includes(domain))
