@@ -239,12 +239,12 @@ export default ({ data }) => {
                 </>))}
                 { resume && resume.url && 
                     !isEditable
-                    ? <a className='btn btn_resume' href={ resumeField.data } rel='noopener noreferrer' target='_blank'>
+                    ? <a className='btn btn_resume' href={ resumeField.data.url } rel='noopener noreferrer' target='_blank'>
                         View Resume
                     </a>
                     : !resumeField.isEditing
                         ? <div className='profile_field_group'>
-                            <a className='btn btn_resume' href={ resumeField.data } rel='noopener noreferrer' target='_blank'>
+                            <a className='btn btn_resume' href={ resumeField.data.url } rel='noopener noreferrer' target='_blank'>
                                 View Resume
                             </a>
                             <button className='btn_edit edit_field' onClick={() => resumeField.setEditing(true)}>
