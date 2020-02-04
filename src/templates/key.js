@@ -35,7 +35,7 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, setS
         const isFile = !!e.target.elements[0].files
         let dataVal = ''
         if (isFile) {
-            dataVal = e.target.elements[0].files
+            dataVal = e.target.elements[0].files[0]
         } else {
             dataVal = e.target.elements[0].value
         }
