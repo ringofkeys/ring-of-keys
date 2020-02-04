@@ -237,7 +237,7 @@ export default ({ data }) => {
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
                 </>))}
-                { resume && resume.url && 
+                { (resume && resume.url) && 
                     !isEditable
                     ? <a className='btn btn_resume' href={ resumeField.data.url } rel='noopener noreferrer' target='_blank'>
                         View Resume
