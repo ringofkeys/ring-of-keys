@@ -237,7 +237,7 @@ export default ({ data }) => {
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
                 </>))}
-                { (resume && resume.url) && 
+                { (resume && resume.url) && (
                     !isEditable
                     ? <a className='btn btn_resume' href={ resumeField.data.url } rel='noopener noreferrer' target='_blank'>
                         View Resume
@@ -258,7 +258,7 @@ export default ({ data }) => {
                             field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => resumeField.setFieldValue(newVal)}
                             isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                         </>
-                }
+                )}
             </section>
             <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} />
             {/* <Popup isOpen={isMessageOpen} onClose={() => setMessageOpen(false)} >
