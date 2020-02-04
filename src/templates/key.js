@@ -62,7 +62,8 @@ export default ({ data }) => {
             resume,
         } = data.datoCmsKey
 
-    const [isEditable, setEditable] = useState(isAuthenticated() && (getProfile().name === name))
+    const isProfileOwner = isAuthenticated() && (getProfile().name === name)
+    const [isEditable, setEditable] = useState(isProfileOwner)
 
     const heroFields = {
         headshot: {data: headshot, fieldName: 'headshot', },
@@ -157,6 +158,13 @@ export default ({ data }) => {
                         <img src={ icon_camera } className='icon_edit' alt={`edit cover icon`} />
                         <span className='tooltip'>Change Cover Photo</span>
                     </button> }
+                { isProfileOwner && 
+                    <label className='toggle_group'>
+                        <input type='checkbox' className='visually-hidden' checked={isEditable} onChange={() => setEditable(!isEditable)}/>
+                        <span className='toggle'></span>
+                        <span className='toggle_label'>Toggle Editing View</span>
+                    </label>
+                }
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
             </section>
             <section className='artist_body'>

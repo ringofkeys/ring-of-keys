@@ -40,8 +40,10 @@
 .artist_hero .avatar {
     border-radius: 50%;
     border: solid 3px white;
-    max-width: 180px;
-    max-height: 180px;
+    width: 180px;
+    height: 180px;
+    max-width: 20vw;
+    max-height: 20vw;
     object-fit: cover;
 }
 
@@ -127,6 +129,39 @@
     display: none;
 }
 
+.artist_hero .toggle_group {
+    position: absolute;
+    bottom: 5vh;
+    left: 5vw;
+    color: white;
+}
+
+.toggle_group .toggle {
+    display: inline-block;
+    width: 2em;
+    height: 1em;
+    margin-inline-end: 1em;
+    border-radius: .5em;
+    background: white;
+    position: relative;
+}
+
+.toggle_group .toggle::after {
+    content: '';
+    position: absolute;
+    top: .05em;
+    left: .05em;
+    height: .9em;
+    width: .9em;
+    border-radius: 50%;
+    background: gray;
+    transition: all .12s ease-in-out;
+}
+
+.toggle_group input:checked + .toggle::after {
+    transform: translate(calc(100% + .1em));
+    background: var(--rok-gold-1_hex);
+}
 
 .artist_hero .back_link {
     position: absolute;
