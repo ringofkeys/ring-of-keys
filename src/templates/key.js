@@ -30,6 +30,7 @@ const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, setSubmitting, handleUpdate, type}) => (<div id={id} className='profile_field_group'>
     <form onSubmit={e => {
         e.persist()
+        e.preventDefault()
 
         const isFile = !!e.target.elements[0].files
         let dataVal = ''
