@@ -145,11 +145,12 @@ export default ({ data }) => {
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
             </section>
             <section className='artist_body'>
-                { bioNode.childMarkdownRemark.htmlAst.length > 0 &&
+                { bioNode.childMarkdownRemark.htmlAst.children &&
                 <div className='my_story'>
                     <h2>My Story</h2>
                     { renderHtmlToReact(bioNode.childMarkdownRemark.htmlAst) }
-                </div>}
+                </div>
+                }
                 {bodyFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => data && (<>
                     <h3>{ label }</h3>
                     { !isEditable
