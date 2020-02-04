@@ -344,7 +344,7 @@ async function handleUpdateSubmit(dataValue, { userId, field, setSubmitting, han
     let updateRes = {status: 500}
 
     try {
-        const file = {}
+        let file = {}
         if (isFile) {
             file = dataValue
             const uploadRes = await uploadFile(dataValue).catch(err => console.error(err))
