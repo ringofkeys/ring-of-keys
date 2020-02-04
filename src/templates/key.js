@@ -262,11 +262,13 @@ export default ({ data }) => {
                             e.preventDefault()
                             e.persist()
 
-                            handleUpdateSubmit(e.target.elements.filter(el => el.value).map(el => {
+                            const val = Object.assign(socialMedia, e.target.elements.filter(el => el.value).map(el => {
                                 return {
                                     socialMediaLink: el.value
                                 }
-                            }), {
+                            }))
+
+                            handleUpdateSubmit(val, {
                                 userId: id,
                                 field: 'socialMedia',
                                 setSubmitting,
@@ -280,7 +282,7 @@ export default ({ data }) => {
                             <div className='icon-field'>
                                 <img src={ socialIcons[key] } />
                                 <label>{ key + ' Link' }
-                                    <input type='text' name={ key } value={ s ? s.socialMediaLink : '' }/>
+                                    <input type='text' name={ key } placeholder={ s ? s.socialMediaLink : '' }/>
                                 </label>
                             </div>
                             )})}
