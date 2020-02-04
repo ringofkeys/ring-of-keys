@@ -109,8 +109,9 @@ export default ({ data }) => {
         <Layout classNames={['fullwidth']}>
             <section className='artist_hero'
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
+                <div className='avatar'>
                 { !isEditable
-                    ? <img src={ headshot.url } alt={ headshot.title } className='avatar' />
+                    ? <img src={ headshot.url } alt={ headshot.title } />
                     : (<div className='headshot_group'>
                         <img src={ heroFields.headshot.data.url } alt={ headshot.title } className='avatar' />
                         <button className='btn_edit edit_headshot' onClick={() => heroFields.headshot.setEditing(true)}>
@@ -118,7 +119,7 @@ export default ({ data }) => {
                             <span className='tooltip'>Change Profile Photo</span>
                         </button>
                     </div>)
-                }
+                }</div>
                 <div className='artist_bio'>
                     <h1>{ name }</h1>
                     { mainLocation && <p>Based in {mainLocation.replace(', ', ' • ')}</p> }
