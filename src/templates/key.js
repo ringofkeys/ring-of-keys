@@ -67,6 +67,7 @@ export default ({ data }) => {
     const heroFields = {
         headshot: {data: headshot, fieldName: 'headshot', },
         featuredImage: {data: featuredImage, fieldName: 'featuredImage', },
+        socialMedia: {data: socialMedia, fieldName: 'socialMedia', },
     }
     Object.keys(heroFields).forEach(key => {
         if (key === 'headshot') {
@@ -80,8 +81,6 @@ export default ({ data }) => {
         heroFields[key].isEditing = isEditing
         heroFields[key].setEditing = setEditing
     })
-
-    
     
 
     const bodyFields = [
@@ -111,9 +110,9 @@ export default ({ data }) => {
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
                 <div className='avatar'>
                 { !isEditable
-                    ? <img src={ headshot.url } alt={ headshot.title } />
+                    ? <img src={ headshot.url } alt={ headshot.title } className='headshot' />
                     : (<div className='headshot_group'>
-                        <img src={ heroFields.headshot.data.url } alt={ headshot.title } />
+                        <img src={ heroFields.headshot.data.url } alt={ headshot.title } className='headshot' />
                         <button className='btn_edit edit_headshot' onClick={() => heroFields.headshot.setEditing(true)}>
                             <img src={ icon_camera } className='icon_edit' alt={`edit headshot`} />
                             <span className='tooltip'>Change Profile Photo</span>
@@ -126,7 +125,8 @@ export default ({ data }) => {
                     <p>{ pronouns }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
                     <button className='btn btn_message' onClick={() => setMessageOpen(true)}>Message</button>
                 </div>
-                {socialMedia && (<div className='artist_social-icons'>
+                { !isEditable
+                    ? ( socialMedia && (<div className='artist_social-icons'>
                     {socialMedia.map(socialObj => {
                         const mediaPlatform = Object.keys(socialIcons).filter((key) => socialObj.socialMediaLink.includes(key))[0]
                         return (
@@ -135,7 +135,21 @@ export default ({ data }) => {
                         </a>
                         )}
                     )}
-                </div>)}
+                    </div>))
+                    : (<div className='artist_social-icons'>
+                        { Object.keys(socialIcons).map(key => {
+                            const hasLink = socialMedia.find(socialObj => socialObj.socialMediaLink.includes(key))
+                            return (
+                                <div className='social-icon'>
+                                    <img src={ socialIcons[key] } alt={`${ key }`} className={!hasLink ? 'inactive' : ''}/>
+                                </div>
+                            )
+                        })}
+                        <button className='btn_edit edit_social' onClick={() => heroFields.socialMedia.setEditing(true)}>
+                            <img src={ icon_pencil } className='icon_edit' alt={`edit pencil`} />
+                            <span className='tooltip from-above'>Change Social Media Links</span>
+                        </button>
+                    </div>) }
                 { heroFields.featuredImage.data && 
                     <img src={ heroFields.featuredImage.data.url } alt={ heroFields.featuredImage.data.alt } className='featured_image' /> }
                 { isEditable &&
@@ -188,14 +202,16 @@ export default ({ data }) => {
                     <Popup isOpen={ heroFields.headshot.isEditing } onClose={ () => heroFields.headshot.setEditing(false) } >
                         <h2 className='file-drop_h2'>Change Profile Photo</h2>
                         <form id='edit-headshot' onSubmit={e => {
+                            e.preventDefault()
                             e.persist()
-                            handleUpdateSubmit(e, {
+
+                            handleUpdateSubmit(e.target.elements[0].files[0], {
                                 userId: id,
                                 field: 'headshot',
                                 setSubmitting,
                                 handleUpdate: (newVal) => heroFields.headshot.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
                                 handleClose: () => heroFields.headshot.setEditing(false)
-                            })
+                            }, true)
                         }}>
                             <FileDrop />
                             <div className='file-drop_btns'>
@@ -212,19 +228,64 @@ export default ({ data }) => {
                 { heroFields.featuredImage.isEditing && 
                     <Popup isOpen={ heroFields.featuredImage.isEditing } onClose={ () => heroFields.featuredImage.setEditing(false) } >
                         <h2 className='file-drop_h2'>Change Cover Photo</h2>
-                        <form id='edit-featured-image' onSubmit={e => {
+                        <form id='edit-featured-image' onSubmit={ e => {
+                            e.preventDefault()
                             e.persist()
-                            handleUpdateSubmit(e, {
+
+                            handleUpdateSubmit(e.target.elements[0].files[0], {
                                 userId: id,
                                 field: 'featuredImage',
                                 setSubmitting,
                                 handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
                                 handleClose: () => heroFields.featuredImage.setEditing(false)
-                            })
+                            }, true)
                         }}>
                             <FileDrop helpText='(For best results, use a 3:1 aspect ratio)'/>
                             <div className='file-drop_btns'>
                                 <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
+                                    Cancel
+                                </button>
+                                <button className='btn' type='submit' disabled={ isSubmitting }>
+                                    { isSubmitting ? 'Loading...' : 'Save' }
+                                </button>
+                            </div>
+                        </form>
+                    </Popup>
+                }
+                { heroFields.socialMedia.isEditing && 
+                    <Popup isOpen={ heroFields.socialMedia.isEditing } onClose={ () => heroFields.socialMedia.setEditing(false) } >
+                        <h2 className=''>Set Social Media Links</h2>
+                        <p>
+                            Go to your social media profile and copy &amp; paste the URL from the browser in the appropriate field 
+                        </p>
+                        <form id='edit-social-media' onSubmit={e => {
+                            e.preventDefault()
+                            e.persist()
+
+                            handleUpdateSubmit(e.target.elements.filter(el => el.value).map(el => {
+                                return {
+                                    socialMediaLink: el.value
+                                }
+                            }), {
+                                userId: id,
+                                field: 'socialMedia',
+                                setSubmitting,
+                                handleUpdate: (newVal) => heroFields.socialMedia.setFieldValue(newVal),
+                                handleClose: () => heroFields.socialMedia.setEditing(false)
+                            }, false)
+                        }}>
+                            { Object.keys(socialIcons).map(key => {
+                                const s = socialMedia.find(socialObj => socialObj.socialMediaLink.includes(key))
+                                return (
+                            <div className='icon-field'>
+                                <img src={ socialIcons[key] } />
+                                <label>{ key + ' Link' }
+                                    <input type='text' name={ key } value={ s ? s.socialMediaLink : '' }/>
+                                </label>
+                            </div>
+                            )})}
+                            <div className='file-drop_btns'>
+                                <button className='btn btn-link_ghost' onClick={() => heroFields.socialMedia.setEditing(false)}>
                                     Cancel
                                 </button>
                                 <button className='btn' type='submit' disabled={ isSubmitting }>
@@ -275,35 +336,30 @@ export const query = graphql`
     }
 `
 
-async function handleUpdateSubmit(e, { userId, field, setSubmitting, handleUpdate, handleClose }) {
-    e.preventDefault()
+async function handleUpdateSubmit(dataValue, { userId, field, setSubmitting, handleUpdate, handleClose }, isFile) {
     setSubmitting(true)
     
     let updateRes = {status: 500}
 
     try {
-        let dataValue = e.target.elements[0].value
-        const isFile = !!e.target.elements[0].files
-
+        const file = {}
         if (isFile) {
-            console.log(e.target.elements[0].files)
-            const uploadRes = await uploadFile(e.target.elements[0].files[0]).catch(err => console.error(err))
-            console.log('uploaded!', uploadRes[0].id)
+            file = dataValue
+            const uploadRes = await uploadFile(dataValue).catch(err => console.error(err))
             dataValue = uploadRes[0].id
         }
 
-        updateRes = await updateField(userId.match(/-(\d+)-/)[1], { [field]: dataValue}, isFile)
+        updateRes = await updateField(userId.match(/-(\d+)-/)[1], { [field]: dataValue }, isFile)
         console.log('updateRes = ', updateRes)
 
         
         if (updateRes.status === 200) {
             if (isFile) {
-                const newUrl = URL.createObjectURL(e.target.elements[0].files[0])
+                const newUrl = URL.createObjectURL(file)
                 console.log('new URL = ', newUrl)
                 handleUpdate(newUrl)
             } else {
-                
-                handleUpdate(e.target.elements[0].value)
+                handleUpdate(dataValue)
             }
             handleClose()
         } else {
