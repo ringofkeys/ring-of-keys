@@ -331,7 +331,7 @@ export default ({ data }) => {
                             e.preventDefault()
                             e.persist()
 
-                            const val = Object.assign(socialMedia, e.target.elements.filter(el => el.value).map(el => {
+                            const val = Object.assign(socialMedia, ([]).slice.call(e.target.elements).filter(el => el.value).map(el => {
                                 return {
                                     socialMediaLink: el.value
                                 }
