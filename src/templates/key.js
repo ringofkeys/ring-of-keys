@@ -213,7 +213,7 @@ export default ({ data }) => {
                                 </div>
                                 : <FieldEditForm type='textarea' key={bioField.fieldName+'-form'} userId={ id } handleClose={() => bioField.setEditing(false)}
                                     field={bioField.fieldName} val={bioField.data} handleUpdate={(newVal) => bioField.setFieldValue(newVal)}
-                                    isSubmitting={isSubmitting} setSubmitting={bioField.setSubmitting}/>
+                                    isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                         }
                     </p>
                 </div>
@@ -256,7 +256,7 @@ export default ({ data }) => {
                             <h3>Resume</h3>
                             <FieldEditForm type='file' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
                             field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => resumeField.setFieldValue(newVal)}
-                            isSubmitting={isSubmitting} setSubmitting={resumeField.setSubmitting}/>
+                            isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                         </>
                 }
             </section>
