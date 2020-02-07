@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useStaticQuery, graphql } from 'gatsby'
+import { Link, graphql } from 'gatsby'
 import { Router } from '@reach/router'
 import { login, isAuthenticated, getProfile } from '../../utils/auth.js'
 import Layout from '../../components/layout'
@@ -35,9 +35,19 @@ const Dashboard = ({ data }) => {
         return <p>Redirecting to login...</p>
     }
 
-    const userProfile = getProfile()
+    let userProfile = getProfile()
 
-    const user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)[0].node
+    if (!userProfile) {
+      login()
+      userProfile = getProfile()
+    }
+
+    console.log('userProfile = ', userProfile)
+
+    const user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
+    if (user) {
+      user = user[0].node
+    }
 
     return (
     <Layout classNames={['dashboard', 'fullwidth']}>
