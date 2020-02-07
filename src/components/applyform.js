@@ -33,16 +33,6 @@ const ApplyForm = () => {
       const formEls = ([]).slice.call(e.target.elements)
       const formData = {}
 
-      const headshot = e.target.querySelector('[name="headshot"]')
-
-      if (headshot.files[0].size > 2000000) {
-        headshot.setCustomValidity('Please choose a file smaller than 2Mb')
-      } else if (!headshot.files[0].type.includes('image')) {
-        headshot.setCustomValidity('Please select an image file')
-      } else {
-        headshot.setCustomValidity('')
-      }
-
       const arrayFields = [{ref:locations, name:'locations'}, {ref:affiliations, name:'affiliations'}]
 
       // gather up all checkbox fields into arrays
@@ -50,7 +40,7 @@ const ApplyForm = () => {
         formData[field.name] = formEls.filter(el => el.name.includes(field.name) && (el.value || el.checked)).map((el, i) => {
           if (el.checked) return field.ref[i]
           else if (el.value) return el.value
-        })
+        }).join(', ')
       })
 
       // save the rest of the formdata
@@ -99,7 +89,7 @@ const ApplyForm = () => {
         </div>
         <h3>Unions & Affiliations (check as many that apply) [optional]:</h3>
         <div className='checkbox__grid'>
-          {affiliations.map((aff,i) => (<Field type='checkbox' name={`affiliations[${i}]`} label={affiliations[i]} />))}
+          {affiliations.map((aff,i) => (<Field type='checkbox' name={`affiliations[${i}]`} label={affiliations[i]} key={affiliations[i]} />))}
           <Field type='text' name='affiliationsOther' label='Other' />
         </div>
         <div className='divider'></div>
