@@ -14,10 +14,12 @@ const ConsultantForm = () => {
         e.preventDefault()
         e.persist()
 
-        const formEls = [].slice.call(e.target.querySelectorAll('input[name]'))
+        const formEls = [].slice.call(e.target.elements)
         
         const formData = {}
         formEls.forEach(el => { formData[el.name] = el.value })
+
+        console.log('formData = ', formData)
 
         const emailRes = await sendAdminEmail(formData)
 
