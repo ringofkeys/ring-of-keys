@@ -44,7 +44,7 @@ const Dashboard = ({ data }) => {
 
     console.log('userProfile = ', userProfile)
 
-    const user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
+    let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
     if (user) {
       user = user[0].node
     }
