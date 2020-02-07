@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
 import { Field } from './formfields'
 import Popup from './popup'
 import slugify from '../utils/slugify'
@@ -25,117 +24,102 @@ const ApplyForm = () => {
       failure: 'Please Try Again Later',
   }
 
-
-  const [results, setResults] = useState(undefined)
-  const [isLoading, setLoading] = useState(false)
   const [isPopupOpen, setPopupOpen] = useState(false)
 
-  const initialValues = {
-      name: '',
-      email: '',
-      discipline: '',
-      locations: [...locations.map(c => false)],
-      locationsOther: '',
-      affiliations: [...affiliations.map(a => false)],
-      affiliationsOther: '',
-      pronouns: '',
-      genderIdentity: '',
-      sexualIdentity: '',
-      website: '',
-      headshot: '',
-      resume: '',
-      whyRok: '',
-      referral: '',
-  }
+  function handleSubmit(e) {
+      e.preventDefault()
+      setFormStatus('sending')
 
-  const formik = useFormik({
-    initialValues,
-    onSubmit: values => {
-        setFormStatus('sending')
+      const formEls = ([]).slice.call(e.target.elements)
+      const formData = {}
 
-        const arrayFields = [
-          {ref:locations,name:'locations'},
-          {ref:affiliations,name:'affiliations'},
-        ]
+      const headshot = e.target.querySelector('[name="headshot"]')
 
-        arrayFields.forEach(field => {
-          values[field.name] = [...field.ref.filter((c, i) => values[field.name][i])].join(', ')
-          if (values[field.name+'Other']) { values[field.name] += ', '+values[field.name+'Other'] }
+      if (headshot.files[0].size > 2000000) {
+        headshot.setCustomValidity('Please choose a file smaller than 2Mb')
+      } else if (!headshot.files[0].type.includes('image')) {
+        headshot.setCustomValidity('Please select an image file')
+      } else {
+        headshot.setCustomValidity('')
+      }
+
+      const arrayFields = [{ref:locations, name:'locations'}, {ref:affiliations, name:'affiliations'}]
+
+      // gather up all checkbox fields into arrays
+      arrayFields.forEach(field => {
+        formData[field.name] = formEls.filter(el => el.name.includes(field.name) && (el.value || el.checked)).map((el, i) => {
+          if (el.checked) return field.ref[i]
+          else if (el.value) return el.value
         })
-        const filteredValues = {}
-        Object.keys(values).filter(key => !key.includes('Other') && values[key]).forEach(key => { filteredValues[key] = values[key] })
+      })
 
-        setLoading(true)
-        submitApplication(filteredValues).then(res => {
-          if (res.status === 200) {
-            setFormStatus('success')
-            setPopupOpen(true)
-            sendTxtMsg(formik.values.name)
-            sendAdminEmail(filteredValues)
+      // save the rest of the formdata
+      formEls.filter(el => el.name && !arrayFields.some(field => el.name.includes(field.name)) && (el.value || el.checked || el.files[0]))
+        .forEach(el => {
+          if (el.files) {
+            formData[el.name] = el.files[0]
           } else {
-            setFormStatus('failure')
+            formData[el.name] = el.value
           }
         })
-      },
-  });
 
-  // useEffect(() => console.log(formik.values))
+      if (formData.website && !formData.website.startsWith('https://')) {
+        formData.website = 'https://' + formData.website
+      }
+
+      console.log('formData = ', formData)
+
+      submitApplication(formData).then(res => {
+        if (res.status === 200) {
+          setFormStatus('success')
+          setPopupOpen(true)
+          sendTxtMsg(formData.name)
+          sendAdminEmail(formData)
+        } else {
+          setFormStatus('failure')
+        }
+      }).catch(err => {
+        console.error(err)
+        setFormStatus('failure')
+      })
+  }
 
   return (<>
-    <form onSubmit={formik.handleSubmit} className='apply__form'>
+    <form onSubmit={ handleSubmit } className='apply__form'>
         <h2>Tell us about yourself</h2>
         <div className='basic_info'>
-          <Field type='text' name='name' label='Name' required={true}
-            change={formik.handleChange} value={formik.values.name} 
-            placeholder='First Last'/>
-          <Field type='email' name='email' label='Email Address' required={true}
-            change={formik.handleChange} value={formik.values.email} 
-            placeholder='Email Address'/>
-          <Field type='text' name='discipline' label='Discipline' required={true}
-            change={formik.handleChange} value={formik.values.discipline}
-            placeholder='ie: Actor, Stage Manager, Music Director'/>
+          <Field type='text' name='name' label='Name' required={true} placeholder='First Last'/>
+          <Field type='email' name='email' label='Email Address' required={true} placeholder='Email Address'/>
+          <Field type='text' name='discipline' label='Discipline' required={true} placeholder='ie: Actor, Stage Manager, Music Director'/>
         </div>
         <h3>Region (check as many that apply):</h3>
         <div className='checkbox__grid'>
-          {locations.map((city,i) => (<Field type='checkbox' name={`locations[${i}]`} label={locations[i]} change={formik.handleChange} value={formik.values.locations[i]} key={locations[i]} />))}
-          <Field type='text' name='locationsOther' change={formik.handleChange} label='Other' value={formik.values.locationsOther} />
+          {locations.map((city,i) => (<Field type='checkbox' name={`locations[${i}]`} label={locations[i]} key={locations[i]} />))}
+          <Field type='text' name='locationsOther' label='Other' />
         </div>
         <h3>Unions & Affiliations (check as many that apply) [optional]:</h3>
         <div className='checkbox__grid'>
-          {affiliations.map((aff,i) => (<Field type='checkbox' name={`affiliations[${i}]`} label={affiliations[i]} change={formik.handleChange} value={formik.values.affiliations[i]}/>))}
-          <Field type='text' name='affiliationsOther' change={formik.handleChange} label='Other' value={formik.values.affiliationsOther} />
+          {affiliations.map((aff,i) => (<Field type='checkbox' name={`affiliations[${i}]`} label={affiliations[i]} />))}
+          <Field type='text' name='affiliationsOther' label='Other' />
         </div>
         <div className='divider'></div>
         <h2>How do you identify?</h2>
         <div className='grid_2c-2r' style={{alignItems: 'flex-start', gap: '2em 1em'}}>
           <Field type='text' name='pronouns' label='Pronouns' required={true}
-              change={formik.handleChange} value={formik.values.pronouns}
               placeholder='ie They / Them or She / Her'/>
-          <Field type='text' name='genderIdentity' change={formik.handleChange} required={true}
-            label='Gender Identity' value={formik.values.genderIdentity}
-            placeholder='ie: Non-Binary, Cis, Gender Fluid'/>
-          <Field type='text' name='sexualIdentity' change={formik.handleChange} required={true}
-            label='Sexual Orientation' value={formik.values.sexualIdentity}
-            placeholder='ie: Bisexual, Queer, Lesbian'/>
+          <Field type='text' name='genderIdentity' label='Gender Identity' required={true} placeholder='ie: Non-Binary, Cis, Gender Fluid'/>
+          <Field type='text' name='sexualIdentity' label='Sexual Orientation' required={true} placeholder='ie: Bisexual, Queer, Lesbian'/>
         </div>
         <div className='divider'></div>
         <h2>Just a little bit more...</h2>
-        <Field type='text' name='website' label='Website URL [optional]' change={formik.handleChange} value={formik.values.website} />
+        <Field type='text' name='website' label='Website URL [optional]' />
         <div className='grid_2c-1r'>
-          <Field type='file' name='headshot' label='Upload your headshot or picture'
-            change={event => {
-              formik.setFieldValue("headshot", event.currentTarget.files[0]);
-            }} value={formik.values.headshot ? formik.values.headshot.fileName : ''}/>
-          <Field type='file' name='resume' label='Upload your Resumé [optional]'
-            change={event => {
-              formik.setFieldValue("resume", event.currentTarget.files[0]);
-            }} value={formik.values.resume ? formik.values.resume.fileName : ''}/>
+          <Field type='file' name='headshot' required={true} label='Upload your headshot or picture' accept='image/*' />
+          <Field type='file' name='resume' label='Upload your Resumé [optional]' accept='.pdf,.doc,.docx' />
         </div>
         <div className='grid_2c-1r'>
-          <Field type='textarea' name='whyRok' label='Why do you want to be a Key?' required={true}
-            change={formik.handleChange} value={formik.values.whyRok} />
-          <Field type='textarea' name='referral' label='How did you learn about Ring of Keys?' required={true}
-            change={formik.handleChange} value={formik.values.referral} />
+          <Field type='textarea' name='whyRok' label='Why do you want to be a Key?' required={true} />
+          <Field type='textarea' name='referral' label='How did you learn about Ring of Keys?' required={true} />
         </div>
         <label className='privacy-consent'>
             <input type='checkbox' required />
@@ -180,7 +164,7 @@ async function submitApplication(data) {
   if (newUser.resume) {
     resumeRes = await uploadFile(newUser.resume)
     newUser.resume = resumeRes[0].id
-  }  
+  }
 
   console.log('newUser = ', JSON.stringify(newUser))
 
