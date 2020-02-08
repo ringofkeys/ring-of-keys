@@ -1,4 +1,4 @@
-const SiteClient = require('datocms-client').SiteClient
+const { SiteClient, buildModularBlock } = require('datocms-client')
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
 exports.handler = async (event) => {
@@ -22,6 +22,15 @@ exports.handler = async (event) => {
             data[Object.keys(data)[0]] = { uploadId: uploadRes.id }
         }
 
+        if (data.socialMedia) {
+            data.socialMedia = data.socialMedia.map(link => buildModularBlock({
+                socialMediaLink: link,
+                itemType: '181488',
+            }))
+
+            console.log('data.socialMedia = ', data)
+        }
+
         const updateRes = await client.items.update(id, data).catch(err => console.error(err))
 
         console.log('updateRes = ', updateRes)
@@ -39,7 +48,7 @@ exports.handler = async (event) => {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify(publishRes),
+            body: JSON.stringify(updatRes),
         }
     } catch (err) {
         return {

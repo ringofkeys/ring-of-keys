@@ -17,6 +17,7 @@
 .popup.open {
     left: 0;
     opacity: 1;
+    z-index: 10;
 }
 
 .popup__card {

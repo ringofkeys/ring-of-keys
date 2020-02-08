@@ -134,8 +134,7 @@ export default ({ data }) => {
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)
 
-    return (
-        <Layout classNames={['fullwidth']} title={ name }
+    return (<><Layout classNames={['fullwidth']} title={ name }
             description={`(${ pronouns }) - ${ name } is a ${ discipline }, and a member of Ring of Keys.`}>
             <section className='artist_hero'
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
@@ -261,137 +260,129 @@ export default ({ data }) => {
                         </>
                 )}
             </section>
-            <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} />
-            {/* <Popup isOpen={isMessageOpen} onClose={() => setMessageOpen(false)} >
-                <h2>Messaging is coming soon!</h2>
-                <p>
-                    Our developers actually have it working, and are planning to roll it out on February 3rd to beta testers!
-                </p>
-            </Popup> */}
-            { heroFields.headshot.isEditing && 
-                    <Popup isOpen={ heroFields.headshot.isEditing } onClose={ () => heroFields.headshot.setEditing(false) } >
-                        <h2 className='file-drop_h2'>Change Profile Photo</h2>
-                        <form id='edit-headshot' onSubmit={e => {
-                            e.preventDefault()
-                            e.persist()
-
-                            handleUpdateSubmit(e.target.elements[0].files[0], {
-                                userId: id,
-                                field: 'headshot',
-                                setSubmitting,
-                                handleUpdate: (newVal) => heroFields.headshot.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
-                                handleClose: () => heroFields.headshot.setEditing(false)
-                            }, true)
-                        }}>
-                            <FileDrop />
-                            <div className='file-drop_btns'>
-                                <button className='btn btn-link_ghost' onClick={() => heroFields.headshot.setEditing(false)}>
-                                    Cancel
-                                </button>
-                                <button className='btn' type='submit' disabled={ isSubmitting }>
-                                    { isSubmitting ? 'Loading...' : 'Save' }
-                                </button>
-                            </div>
-                        </form>
-                    </Popup>
-                }
-                { heroFields.featuredImage.isEditing && 
-                    <Popup isOpen={ heroFields.featuredImage.isEditing } onClose={ () => heroFields.featuredImage.setEditing(false) } >
-                        <h2 className='file-drop_h2'>Change Cover Photo</h2>
-                        <form id='edit-featured-image' onSubmit={ e => {
-                            e.preventDefault()
-                            e.persist()
-
-                            handleUpdateSubmit(e.target.elements[0].files[0], {
-                                userId: id,
-                                field: 'featuredImage',
-                                setSubmitting,
-                                handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
-                                handleClose: () => heroFields.featuredImage.setEditing(false)
-                            }, true)
-                        }}>
-                            <FileDrop helpText='(For best results, use a 3:1 aspect ratio)'/>
-                            <div className='file-drop_btns'>
-                                <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
-                                    Cancel
-                                </button>
-                                <button className='btn' type='submit' disabled={ isSubmitting }>
-                                    { isSubmitting ? 'Loading...' : 'Save' }
-                                </button>
-                            </div>
-                        </form>
-                    </Popup>
-                }
-                { heroFields.socialMedia.isEditing && 
-                    <Popup isOpen={ heroFields.socialMedia.isEditing } onClose={ () => heroFields.socialMedia.setEditing(false) } >
-                        <h2 className=''>Set Social Media Links</h2>
-                        <p>
-                            Go to your social media profile and copy &amp; paste the URL from the browser in the appropriate field 
-                        </p>
-                        <form id='edit-social-media' onSubmit={e => {
-                            e.preventDefault()
-                            e.persist()
-
-                            const newSocial = ([]).slice.call(e.target.elements).map(el => el.value)
-
-                            console.log('newSocial = ', newSocial)
-
-                            const val = Object.keys(socialIcons).map(domain => {
-                                const foundNewLink = newSocial.find(link => link.includes(domain))
-                                const foundOldLink = socialMedia.find(link => link.socialMediaLink.includes(domain))
-                                if (foundNewLink) {
-                                    return {
-                                        type: 'socialMediaLink',
-                                        attributes: {
-                                            socialMediaLink: foundNewLink,
-                                        },
-                                        relationships: '',
-                                    }
-                                } else if (foundOldLink) {
-                                    return {
-                                        type: 'socialMediaLink',
-                                        attributes: {
-                                            socialMediaLink: foundOldLink,
-                                        },
-                                        relationships: '',
-                                    }
-                                } else {
-                                    return ''
-                                }
-                            }).filter(el => el)
-
-                            console.log('submitting the following val = ', val)
-
-                            handleUpdateSubmit(val, {
-                                userId: id,
-                                field: 'socialMedia',
-                                setSubmitting,
-                                handleUpdate: (newVal) => heroFields.socialMedia.setFieldValue(newVal),
-                                handleClose: () => heroFields.socialMedia.setEditing(false)
-                            }, false)
-                        }}>
-                            { Object.keys(socialIcons).map(key => {
-                                const s = socialMedia.find(socialObj => socialObj.socialMediaLink.includes(key))
-                                return (
-                            <div className='icon-field'>
-                                <img src={ socialIcons[key] } />
-                                <label>{ key + ' Link' }
-                                    <input type='text' name={ key } placeholder={ s ? s.socialMediaLink : '' }/>
-                                </label>
-                            </div>
-                            )})}
-                            <div className='file-drop_btns'>
-                                <button className='btn btn-link_ghost' onClick={() => heroFields.socialMedia.setEditing(false)}>
-                                    Cancel
-                                </button>
-                                <button className='btn' type='submit' disabled={ isSubmitting }>
-                                    { isSubmitting ? 'Loading...' : 'Save' }
-                                </button>
-                            </div>
-                        </form>
-                    </Popup>
-                }
         </Layout>
+        <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} />
+        {/* <Popup isOpen={isMessageOpen} onClose={() => setMessageOpen(false)} >
+            <h2>Messaging is coming soon!</h2>
+            <p>
+                Our developers actually have it working, and are planning to roll it out on February 3rd to beta testers!
+            </p>
+        </Popup> */}
+        { heroFields.headshot.isEditing && 
+            <Popup isOpen={ heroFields.headshot.isEditing } onClose={ () => heroFields.headshot.setEditing(false) } >
+                <h2 className='file-drop_h2'>Change Profile Photo</h2>
+                <form id='edit-headshot' onSubmit={e => {
+                    e.preventDefault()
+                    e.persist()
+
+                    handleUpdateSubmit(e.target.elements[0].files[0], {
+                        userId: id,
+                        field: 'headshot',
+                        setSubmitting,
+                        handleUpdate: (newVal) => heroFields.headshot.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
+                        handleClose: () => heroFields.headshot.setEditing(false)
+                    }, true)
+                }}>
+                    <FileDrop />
+                    <div className='file-drop_btns'>
+                        <button className='btn btn-link_ghost' onClick={() => heroFields.headshot.setEditing(false)}>
+                            Cancel
+                        </button>
+                        <button className='btn' type='submit' disabled={ isSubmitting }>
+                            { isSubmitting ? 'Loading...' : 'Save' }
+                        </button>
+                    </div>
+                </form>
+            </Popup>
+        }
+        { heroFields.featuredImage.isEditing && 
+            <Popup isOpen={ heroFields.featuredImage.isEditing } onClose={ () => heroFields.featuredImage.setEditing(false) } >
+                <h2 className='file-drop_h2'>Change Cover Photo</h2>
+                <form id='edit-featured-image' onSubmit={ e => {
+                    e.preventDefault()
+                    e.persist()
+
+                    handleUpdateSubmit(e.target.elements[0].files[0], {
+                        userId: id,
+                        field: 'featuredImage',
+                        setSubmitting,
+                        handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
+                        handleClose: () => heroFields.featuredImage.setEditing(false)
+                    }, true)
+                }}>
+                    <FileDrop helpText='(For best results, use a 3:1 aspect ratio)'/>
+                    <div className='file-drop_btns'>
+                        <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
+                            Cancel
+                        </button>
+                        <button className='btn' type='submit' disabled={ isSubmitting }>
+                            { isSubmitting ? 'Loading...' : 'Save' }
+                        </button>
+                    </div>
+                </form>
+            </Popup>
+        }
+        { heroFields.socialMedia.isEditing && 
+            <Popup isOpen={ heroFields.socialMedia.isEditing } onClose={ () => heroFields.socialMedia.setEditing(false) } >
+                <h2 className=''>Set Social Media Links</h2>
+                <p>
+                    Go to your social media profile and copy &amp; paste the URL from the browser in the appropriate field 
+                </p>
+                <form id='edit-social-media' onSubmit={e => {
+                    e.preventDefault()
+                    e.persist()
+
+                    const newSocial = ([]).slice.call(e.target.elements).map(el => el.value)
+
+                    console.log('newSocial = ', newSocial)
+
+                    const data = Object.keys(socialIcons).map(domain => {
+                        const foundNewLink = newSocial.find(link => link.includes(domain))
+                        if (foundNewLink) return foundNewLink
+
+                        const foundOldLink = socialMedia.find(link => link.socialMediaLink.includes(domain))
+                        if (foundOldLink) return foundOldLink.socialMediaLink
+
+                        return ''
+                    }).filter(el => el)
+
+                    console.log('data = ', data)
+                    
+                    data.forEach((link, i) => { data[i] = link.startsWith('http') ? link : `https://${link}` })
+
+                    console.log('submitting the following val = ', data)
+
+                    handleUpdateSubmit(data, {
+                        userId: id,
+                        field: 'socialMedia',
+                        setSubmitting,
+                        handleUpdate: (newVal) => heroFields.socialMedia.setFieldValue(newVal),
+                        handleClose: () => heroFields.socialMedia.setEditing(false)
+                    }, false)
+                }}>
+                    { Object.keys(socialIcons).map(key => {
+                        const s = socialMedia.find(socialObj => socialObj.socialMediaLink.includes(key))
+                        return (
+                    <div className='icon-field'>
+                        <img src={ socialIcons[key] } />
+                        <label>{ key + ' Link' }
+                            <input type='text' name={ key } placeholder={ s ? s.socialMediaLink : '' }
+                            pattern='^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'/>
+                        </label>
+                    </div>
+                    )})}
+                    <div className='file-drop_btns'>
+                        <button className='btn btn-link_ghost' onClick={() => heroFields.socialMedia.setEditing(false)}>
+                            Cancel
+                        </button>
+                        <button className='btn' type='submit' disabled={ isSubmitting }>
+                            { isSubmitting ? 'Loading...' : 'Save' }
+                        </button>
+                    </div>
+                </form>
+            </Popup>
+        }
+        </>
     )
 }
 

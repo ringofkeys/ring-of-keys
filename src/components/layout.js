@@ -38,7 +38,7 @@ const Layout = ({ path, children, classNames, title, description }) => {
       { (title || description) &&
         <SEO title={ title ? title : 'Home' } description={description ? description 
           : `Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
-             transgender, or gender non-conforming artists.`} /> }
+             transgender, or gender non-conforming artists.`} />
       }
       <Header siteTitle={data.site.siteMetadata.title} path={path} />
         <main className={classNames && classNames.join(' ')}>
