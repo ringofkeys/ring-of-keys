@@ -459,7 +459,7 @@ async function handleUpdateSubmit(dataValue, { userId, field, setSubmitting, han
             console.log('bad response!')
         }
     } catch (err) {
-        console.error(err, JSON.parse(err.body))
+        console.error(err, 'response body = ', JSON.parse(err.body))
     }
 
     setSubmitting(false)    

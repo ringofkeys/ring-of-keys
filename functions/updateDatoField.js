@@ -35,7 +35,7 @@ exports.handler = async (event) => {
 
         console.log('updateRes = ', updateRes)
 
-        const publishRes = await client.items.publish(id)
+        const publishRes = await client.items.publish(id).catch(err => console.error(err))
 
         console.log('publishRes = ', publishRes)
 
@@ -48,7 +48,7 @@ exports.handler = async (event) => {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify(updatRes),
+            body: JSON.stringify(publishRes),
         }
     } catch (err) {
         return {
