@@ -197,7 +197,7 @@ export default ({ data }) => {
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
             </section>
             <section className='artist_body'>
-                { bio &&
+                { (bio || isEditable) &&
                 <div className='my_story'>
                     <h2>My Story</h2>
                     <p>
@@ -205,7 +205,13 @@ export default ({ data }) => {
                             ? <p>{ bioField.data }</p>
                             :  (!bioField.isEditing)
                                 ? <div className='profile_field_group'>
-                                    <p>{ bioField.data }</p>
+                                    <p>{ bioField.data
+                                        ? bioField.data
+                                        : <span className='unfilled-field'>
+                                            Here is where you can add your bio so people know your background, your interests,
+                                            and all your strengths. Tell us your story!
+                                          </span>
+                                    }</p>
                                     <button className='btn_edit edit_field' onClick={() => bioField.setEditing(true)}>
                                         <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
                                         <span className='tooltip'>Change { bioField.label }</span>
@@ -218,15 +224,17 @@ export default ({ data }) => {
                     </p>
                 </div>
                 }
-                {bodyFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => data && (<>
-                    <h3>{ label }</h3>
+                {bodyFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => (<>
+                    { (data || isEditable) && <h3>{ label }</h3> }
                     { !isEditable
-                        ? (<p>{ !data.includes('http') ? data
-                            : <a href={data} rel='noopener noreferrer' target='_blank'>{data}</a> }</p>)
+                        ? data && (<p>{ !data.includes('http') ? data
+                            : <a href={ data } rel='noopener noreferrer' target='_blank'>{ data }</a> }</p>)
                         : (!isEditing) 
                             ? (<div className='profile_field_group'>
-                                <p>{ !data.includes('http') ? data
-                                    : <a href={data} rel='noopener noreferrer' target='_blank'>{data}</a> }</p>
+                                <p>{ (!data.includes('http')) ? (data ? data : <span className='unfilled-field'>Add some info here!</span>)
+                                    : <a href={ data ? data : ''} rel='noopener noreferrer' target='_blank'>{
+                                    data ? data : <span className='unfilled-field'>'Add a URL here!'</span>
+                                }</a> }</p>
                                 <button className='btn_edit edit_field' onClick={() => setEditing(true)}>
                                     <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
                                     <span className='tooltip'>Change { label }</span>

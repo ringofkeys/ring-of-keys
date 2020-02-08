@@ -360,6 +360,10 @@
     width: initial;
 }
 
+.unfilled-field {
+    color: var(--rok-copper-1_hex);
+}
+
 .profile_field_group .btn_submit {
     padding: .75em 3em;
     margin-block-start: 1em;
