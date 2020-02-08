@@ -32,7 +32,7 @@ exports.handler = async (event) => {
 
         deployEnvironmentId = '6240'
         // const deployRes = await client.deploymentEnvironments.trigger(deployEnvironmentId)
-        // console.log('deployRes = ', deployRes)
+        // console.log('deployRes = ', deployRes) 
 
         return {
             statusCode: 200,

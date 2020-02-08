@@ -156,7 +156,7 @@ export default ({ data }) => {
                     <p>{ pronouns }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
                     <button className='btn btn_message' onClick={() => setMessageOpen(true)}>Message</button>
                 </div>
-                { (true === true) // will update to '!isEditable' when I get the editor for Social Links working
+                { !isEditable // will update to '!isEditable' when I get the editor for Social Links working
                     ? ( socialMedia && (<div className='artist_social-icons'>
                     {socialMedia.map(socialObj => {
                         const mediaPlatform = Object.keys(socialIcons).filter((key) => socialObj.socialMediaLink.includes(key))[0]

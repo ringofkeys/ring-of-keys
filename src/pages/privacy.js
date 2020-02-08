@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '../components/layout'
 
 const Privacy = () => (
-    <Layout>
+    <Layout title='Privacy Policy' description='The privacy policy of Ring of Keys organization.'>
         <h1>Privacy Policy</h1>
         <p><strong>Collection and Use of Your Information</strong></p>
         <p>

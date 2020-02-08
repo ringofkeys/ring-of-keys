@@ -11,7 +11,8 @@ import support from '../images/consultancy/support.svg'
 import truth from '../images/consultancy/truth.svg'
 
 const Consultancy = ({ data }) => (
-    <SidebarLayout>
+    <SidebarLayout title='Consultancy' description='The Ring of Keys Consultancy is a resource for producers, casting directors, 
+    and theatremakers who are in need of a Gender Consultant or Queer Consultant for their theatrical projects.'>
         <h1>Ring of Keys Consultancy</h1>
         <blockquote class='quote_graphic-bar'>
             The Ring of Keys Consultancy is a resource for producers, casting directors, and theatremakers who are 

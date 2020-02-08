@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useFormik } from 'formik'
+import { Link } from 'gatsby'
 import { Field } from './formfields'
 import Popup from './popup'
 import './popup.css'
@@ -49,7 +49,7 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
             <Field type='textarea' name='message' label='Your Message' required={true} />
             <label className='checkbox is-required'>
                 <input type='checkbox' required />
-                I have read and accepted the Terms and Conditions and Privacy Policy.
+                I have read and accepted the <Link to='/privacy'>Terms and Conditions and Privacy Policy.</Link>
             </label>
             <label className='checkbox is-required'>
                 <input type='checkbox' required />

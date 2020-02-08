@@ -118,7 +118,9 @@ const Directory = ({ data }) => {
   }, [formik.values])
 
   return (
-    <Layout classNames={['fullwidth', 'directory']}>
+    <Layout classNames={['fullwidth', 'directory']} title='Artist Directory'
+      description='Ring of Keys has curated a directory of theatremakers that identify as queer women, trans, or gender non-conforming
+      artist.'>
       <section className='section_intro'>
         <h1>Directory</h1>
         <p>
