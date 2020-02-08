@@ -105,6 +105,13 @@ p {
                 0 0.9vh 1.4vh rgba(0,0,0,0.05);
 }
 
+.btn.success {
+    background: lightgreen;
+}
+.btn.failure {
+    background: lightpink;
+}
+
 .has-arrow {
     width: fit-content;
     position: relative;

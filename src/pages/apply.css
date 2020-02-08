@@ -27,13 +27,6 @@
     margin-bottom: 1em;
 }
 
-.apply__form button.success {
-    background: lightgreen;
-}
-.apply__form button.failure {
-    background: lightpink;
-}
-
 .checkbox__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

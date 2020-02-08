@@ -5,7 +5,8 @@ import Carousel from '../../components/carousel'
 import './news.css'
 
 const News = ({ data }) => (
-    <Layout classNames={['fullwidth']}>
+    <Layout classNames={['fullwidth']} 
+        title='News' description='Get the latest news from around the Ring of Keys theatre world.'>
         {/* <div className='view-all_nav' >
             <h1>News</h1>
             <nav styl={{display: 'none'}}>

@@ -135,7 +135,8 @@ export default ({ data }) => {
     const [isMessageOpen, setMessageOpen] = useState(false)
 
     return (
-        <Layout classNames={['fullwidth']}>
+        <Layout classNames={['fullwidth']} title={ name }
+            description={`(${ pronouns }) - ${ name } is a ${ discipline }, and a member of Ring of Keys.`}>
             <section className='artist_hero'
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
                 <div className='avatar'>

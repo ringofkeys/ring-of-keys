@@ -6,7 +6,7 @@ const ConsultantForm = () => {
         sending: 'Loading...',
         unsent: 'Submit',
         success: 'Sent!',
-        failure: 'Please Try Again Later',
+        failure: 'Something Went Wrong',
     }
 
     async function handleFormSubmit(e) {

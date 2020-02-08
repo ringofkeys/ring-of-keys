@@ -5,9 +5,9 @@ import QuoteBlock from '../components/quoteblock'
 import './about.css'
 import andrea_headshot from '../images/andrea_headshot.png'
 import royer_headshot from '../images/rory_headshot.png'
-import logo_mtf from '../images/logo_mtf.jpg'
-import logo_nqt from '../images/logo_nqt.jpg'
-import logo_maestra from '../images/logo_maestra.png'
+// import logo_mtf from '../images/logo_mtf.jpg'
+// import logo_nqt from '../images/logo_nqt.jpg'
+// import logo_maestra from '../images/logo_maestra.png'
 import solidarity from '../images/about/solidarity.svg'
 import multiplicity from '../images/about/multiplicity.svg'
 import safety from '../images/about/safety.svg'
@@ -16,7 +16,8 @@ import possibility from '../images/about/possibility.svg'
 const ourStory = () => {
 
     return (
-        <SidebarLayout>
+        <SidebarLayout title='About' description='Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
+        transgender, or gender non-conforming artists.'>
             <Helmet>
                 <link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,600,900,900i&display=swap" rel="stylesheet" />
             </Helmet>

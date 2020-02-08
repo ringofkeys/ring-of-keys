@@ -10,9 +10,9 @@ exports.handler = async (event) => {
 
     try {
         const msg = {
-            to: 'info@ringofkeys.org',
-            from: 'info@ringofkeys.org',
-            bcc: [{ email: 'frank.ringofkeys@gmail.com' }],
+            to: 'frank.ringofkeys@gmail.com',
+            from: 'website@ringofkeys.org',
+            // bcc: [{ email: 'frank.ringofkeys@gmail.com' }],
             subject: `New RoK User: ${ data.name }`,
             text: 'There is a new RoK user pending approval',
             html:  `
@@ -32,7 +32,7 @@ exports.handler = async (event) => {
                                 <td>${ key }</td>
                                 <td>${ data[key] }</td>
                             </tr>`
-                        )) }
+                        )).join('') }
                     </tbody>
                 </table>
             `,

@@ -3,6 +3,7 @@ import { Link, graphql } from 'gatsby'
 import { Router } from '@reach/router'
 import { login, isAuthenticated, getProfile } from '../../utils/auth.js'
 import Layout from '../../components/layout'
+import SEO from '../../components/seo'
 import ROKMosaic_Dashboard from '../../images/ROKMosaic_Dashboard.jpg'
 import './dashboard.css'
 
@@ -50,7 +51,8 @@ const Dashboard = ({ data }) => {
     }
 
     return (
-    <Layout classNames={['dashboard', 'fullwidth']}>
+    <Layout classNames={['dashboard', 'fullwidth']}
+      title={`Dashboard - ${ user.name }`} description='User dashboard for your Ring of Keys profile'>
         <div className='dashboard_container'>
           <Router>
               <Home path={homeDir} user={ user } />

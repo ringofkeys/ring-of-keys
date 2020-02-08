@@ -2,7 +2,7 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 const rp = require("request-promise")
-const sgMail = require('@sendgrid/mail')
+constgit sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_KEY)
 
 exports.handler = async (event) => {
