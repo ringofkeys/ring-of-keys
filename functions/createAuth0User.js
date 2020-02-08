@@ -20,7 +20,7 @@ exports.handler = async (event) => {
 
     if (!userData.hasLoginAccess) {
         return {
-            statusCode: 204,
+            statusCode: 200,
             body: `Not running Auth0 function because "Has Login Access" is set to false on user's profile.`,
         }
     }
@@ -32,7 +32,7 @@ exports.handler = async (event) => {
     console.log('doesUserExist = ', userExistsRes)
     if (userExistsRes.length > 0) {
       return {
-        statusCode: 204,
+        statusCode: 200,
         body: `User with name ${ userData.name } already exists!`,
       }
     }
