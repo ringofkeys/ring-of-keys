@@ -28,7 +28,7 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
 
         console.log('values = ', values)
 
-        const sendRes = {} //await sendMessage(values)
+        const sendRes = await sendMessage(values)
 
         if (sendRes.status === 200) {
             setMessageStatus('success')
@@ -79,4 +79,6 @@ async function sendMessage(data) {
     }
 
     console.log('messageRes = ', await messageRes.json())
+
+    return messageRes
 }
