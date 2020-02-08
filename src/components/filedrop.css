@@ -18,6 +18,8 @@
     left: 0;
     top: 0;
     z-index: 2;
+    opacity: 0;
+    background: lightblue;
 }
 
 .drag-over .file-drop {

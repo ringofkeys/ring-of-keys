@@ -4,17 +4,19 @@ import './filedrop.css'
 const FileDrop = ({ helpText }) => {
     const [currFile, setFile] = useState('')
 
-    return (<div className='drop-target' onDragOver={handleDragOver} onDragLeave={handleDragLeave}
-    onDrop={e => {
-        e.preventDefault()
-        e.target.classList.remove('drag-over')
-        const file = e.dataTransfer.items ? e.dataTransfer.items[0].getAsFile() : e.dataTransfer.files[0]
-        console.log('dropped!', file, e.target)
-        e.target.querySelector("input[type='file']").files[0] = file
-        setFile(file)}
-    }>
+    // onDragOver={handleDragOver} onDragLeave={handleDragLeave}
+    // onDrop={e => {
+    //     e.preventDefault()
+    //     e.target.classList.remove('drag-over')
+    //     const file = e.dataTransfer.items ? e.dataTransfer.items[0].getAsFile() : e.dataTransfer.files[0]
+    //     console.log('dropped!', file, e.target)
+    //     e.target.querySelector("input[type='file']").files[0] = file
+    //     setFile(file)}
+    // }
+
+    return (<div className='drop-target'>
     <label className='file-drop'>
-        <input type='file' className='visually-hidden' onChange={e => setFile(e.target.files[0])} required/>
+        <input type='file' className='file-input' onChange={e => setFile(e.target.files[0])} required/>
         { !currFile
         ? (<>
             <p>Drag and drop your image here.</p>

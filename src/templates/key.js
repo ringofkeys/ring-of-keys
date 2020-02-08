@@ -449,6 +449,8 @@ async function handleUpdateSubmit(dataValue, { userId, field, setSubmitting, han
                 const newUrl = URL.createObjectURL(file)
                 console.log('new URL = ', newUrl)
                 handleUpdate(newUrl)
+            } else if (field === 'socialMedia') {
+                handleUpdate(dataValue.map(link => { return { socialMediaLink: link }})) // transform back into the format of the API
             } else {
                 handleUpdate(dataValue)
             }
@@ -457,7 +459,7 @@ async function handleUpdateSubmit(dataValue, { userId, field, setSubmitting, han
             console.log('bad response!')
         }
     } catch (err) {
-        console.error(err)
+        console.error(err, JSON.parse(err.body))
     }
 
     setSubmitting(false)    
