@@ -15,6 +15,15 @@ exports.handler = async (event) => {
     }
     
     const userData = JSON.parse(event.body)
+
+    console.log('userData = ', userData)
+
+    if (userData.hasLoginAccess || userData['has_login_access']) {
+        return {
+            statusCode: 200,
+            body: `Not running Auth0 function because "Has Login Access" is set to false on user's profile.`,
+        }
+    }
     
     const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
     // console.log('authToken = ', authToken)
