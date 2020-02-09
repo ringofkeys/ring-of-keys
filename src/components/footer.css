@@ -39,7 +39,7 @@ footer nav a {
 }
 
 footer nav a:first-child {
-    margin-top: 1.5em;
+    margin-block-start: 1.5em;
 }
 
 footer a svg {
@@ -50,6 +50,7 @@ footer a svg {
 footer .social-link {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 footer .icon_facebook #fb_blue {
@@ -71,4 +72,51 @@ footer .icon_linkedin path {
 
 footer .icon_youtube #Lozenge {
     fill: var(--rok-copper-1_hex);
+}
+
+@media (max-width: 700px) {
+    footer {
+        padding-inline-start: 10vw;
+        padding-inline-end: 10vw;
+    }
+
+    footer > nav,
+    footer nav > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer > nav a:not(.visible_mobile),
+    footer > nav p:not(.visible_mobile) {
+        display: none;
+    }
+
+    footer .account_nav {
+        margin-block-end: 4vh;
+    }
+
+    footer > nav .social-links {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    nav .social-link {
+        margin-inline-start: 3vw;
+        margin-inline-end: 3vw;
+    }
+
+    nav .social-links a:first-child {
+        margin-block-start: 1em;
+    }
+
+    .social-link_label {
+        display: none;
+    }
+
+    footer nav p::after {
+        left: 50%;
+        transform: translate(-50%); 
+    }
 }

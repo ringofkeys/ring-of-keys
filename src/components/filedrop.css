@@ -19,11 +19,33 @@
     top: 0;
     z-index: 2;
     opacity: 0;
-    background: lightblue;
 }
 
-.drag-over .file-drop {
-    border-color: lightgreen;
+.file-drop_h2 {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.file-drop_btns {
+    margin: 0 auto;
+    margin-block-start: 1.5em;
+    width: fit-content;
+}
+
+.file-drop_btns .btn {
+    display: inline-block;
+    margin: 0 1.5em;
+    padding: .75em 2em;
+}
+
+.file-drop_btns .btn-link_ghost {
+    color: var(--rok-copper-1_hex);
+    border-color: var(--rok-copper-1_hex);
+}
+
+.file-drop_btns .btn-link_ghost:hover {
+    color: white;
+    background: var(--rok-copper-1_hex);
 }
 
 .file-drop p {
@@ -42,4 +64,10 @@
     stroke: #6d7278;
     width: 2.5vw;
     height: 2.5vw;
+}
+
+@media (max-width: 700px) {
+    .file-drop_btns .btn {
+        margin: 1vh 0;
+    }
 }

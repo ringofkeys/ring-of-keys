@@ -1,6 +1,6 @@
 .email-signup-bar {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr auto;
     margin-block-start: 2vh;
 }
 
@@ -69,4 +69,11 @@
 
 .email-signup-bar button.sent path {
     d: path('M 1 4.5 l 1.5 1.5 l 2 -5');
+}
+
+@media (max-width: 700px) {
+    .privacy-consent {
+        display: block;
+        font-weight: normal;
+    }
 }

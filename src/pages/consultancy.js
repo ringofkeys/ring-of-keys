@@ -35,7 +35,7 @@ const Consultancy = ({ data }) => (
         </button>
         <div className='divider'></div>
         <h2 class='txt_center'>What does a gender consultant do?</h2>
-        <section className='flex_center gender-consultant_explain' style={{ margin: '1em 0' }}>
+        <section className='flex_center gender-consultant_explain'>
             <div className='icon-heading-label' >
                 <img src={ speaksLanguage } alt='icon of person speaking' />
                 <h3>Speaks the Language</h3>
@@ -74,7 +74,7 @@ const Consultancy = ({ data }) => (
                 </p>
             </div>    
         </section>
-        <section style={{display: 'grid', gridTemplateColumns: '50% 50%'}} >
+        <section className='section_consultant-bios' >
         {data.allDatoCmsKey.edges.map(({ node }) => (
             <div className='consultant_bio-group'>
                 { node.slug && 

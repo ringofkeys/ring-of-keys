@@ -66,7 +66,7 @@ const Footer = () => {
     <footer>
         <nav>
             <div>
-                <p>Menu</p>
+                <p className='visible_mobile'>Menu</p>
                 <Link to='/directory'>Directory</Link>
                 <Link to='/news'>News</Link>
                 <Link to='/consultancy'>Consultancy</Link>
@@ -75,30 +75,35 @@ const Footer = () => {
             </div>
             <div>
                 <p>About Us</p>
+                <Link className='visible_mobile invisible_desktop' to='/about'>About Us</Link>
                 <Link to='/about'>Our Story</Link>
                 <Link to='/about/#who-are-we'>Who We Are</Link>
                 <Link to='/about/#what-we-do'>What We Do</Link>
             </div>
             <div>
                 <p>Contact Us</p>
+                <Link className='visible_mobile invisible_desktop' to='/contact'>Contact Us</Link>
                 <Link to='/contact/?subject=general'>General</Link>
                 <Link to='/contact/?subject=job-submission'>Job Submissions</Link>
                 <Link to='/contact/?subject=hiring'>Hiring</Link>
                 <Link to='/contact/?subject=volunteer'>Volunteer</Link>
             </div>
-            <div>
+            <div className='account_nav'>
                 <p>Log In</p>
+                <Link className='visible_mobile invisible_desktop' to='/dashboard'>Account</Link>
                 <Link to='/dashboard'>Sign In</Link>
-                <Link to='/apply'>Apply to be a Key</Link>
+                <Link className='visible_mobile' to='/apply'>Apply to be a Key</Link>
             </div>
-            <div>
-                <p>Follow Us</p>
+            <div className='visible_mobile'>
+                <p className='visible_mobile'>Follow Us</p>
+                <div className='social-links visible_mobile'>
                 { socialLinks.map((link, i) => (
-                    <a className='social-link' href={ link.href } target='_blank' rel='noopener noreferrer' key={'social-link_'+link.label}>
+                    <a className='social-link visible_mobile' href={ link.href } target='_blank' rel='noopener noreferrer' key={'social-link_'+link.label}>
                         { link.icon }
-                        { link.label }
+                        <span className='social-link_label'>{ link.label }</span>
                     </a>
                 ))}
+                </div>
             </div>
         </nav>
         <EmailSignupBar />

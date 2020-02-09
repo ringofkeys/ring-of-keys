@@ -191,6 +191,7 @@
 .top-nav .login_avatar img {
     margin: 0 .5em;
     max-height: 100%;
+    border-radius: 50%;
     object-fit: scale-down;
 }
 
@@ -234,13 +235,23 @@
         flex-direction: column;
     }
 
+    .nav__login a {
+        font-size: 1rem;
+    }
+
+    
+
     .top-nav .nav__main > a {
         padding: 4vh 8vw;
-        border: solid .5px;
+        border-top: solid .5px;
         display: block;
         width: 100%;
         margin: 0;
         box-sizing: border-box;
+    }
+
+    .top-nav .nav__main > a:last-child {
+        border-bottom: solid .5px;
     }
 
     .top-nav .nav__login {
@@ -252,7 +263,19 @@
         box-shadow: var(--rok-shadow_bottom);
     }
     
-    .top-nav .nav__login > a,
+    .top-nav .nav__login > a {
+        margin: 1vh 0;
+        font-size: 1.25em; 
+    }
+
+    .top-nav .nav__login [href='#logout'] {
+        font-size: .8rem;
+        border: solid 1px var(--rok-slate-blue_hex);
+        color: var(--rok-slate-blue_hex);
+        padding: .5em 1.5em;
+        border-radius: .25em;
+    }
+
     #btn__login {
         margin: 0;
         padding: .75em 2em;

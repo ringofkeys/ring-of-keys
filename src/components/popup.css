@@ -22,6 +22,10 @@
 
 .popup__card {
     width: 20vw;
+    min-width: 350px;
+    max-width: 100vw;
+    max-height: 100vh;
+    box-sizing: border-box;
     display: none;
     opacity: 0;
     flex-direction: column;
@@ -91,6 +95,7 @@
     margin-top: 2em;
     font-weight: normal;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .popup__card .btn_close {
@@ -108,4 +113,10 @@
     stroke-width: 1px;
     stroke: black;
     stroke-linecap: round;
+}
+
+@media (max-width: 700px) {
+    .popup__card {
+        padding: 2vh 8vw;
+    }
 }

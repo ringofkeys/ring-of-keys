@@ -4,7 +4,8 @@ import './apply.css'
 
 const Donate = () => {
     return (
-        <SidebarLayout>
+        <SidebarLayout title='Donate' description={`Your tax-deductible donation supports Ring of Key's mission to promote the hiring of self-identifying 
+        queer women and TGNC artists in the musical theatre industry.`}>
             <h1>Donate</h1>
             <blockquote class='quote_graphic-bar'>
                 Help us change the landscape of <br/>musical theatre.

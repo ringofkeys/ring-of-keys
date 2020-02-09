@@ -6,7 +6,7 @@ import './popup.css'
 
 const messageStatusText = {
     unsent: 'Send Message',
-    loading: 'Loading...',
+    sending: 'Sending...',
     success: 'Sent!',
     failure: 'Something Went Wrong',
 }
@@ -20,7 +20,9 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
         setMessageStatus('sending')
 
         const formVals = ([]).slice.call(e.target.elements)
-        const values = {}
+        const values = {
+            toArtist: artistId,
+        }
 
         formVals.forEach(el => {
             values[el.name] = el.value

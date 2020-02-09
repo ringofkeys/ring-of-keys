@@ -74,3 +74,14 @@
     margin: .5em 0;
     padding: .5em 0;
 }
+
+@media (max-width: 700px) {
+    .has-sidebar {
+        display: block;
+        width: 75vw;
+        margin: 10vh auto;
+    }
+    .sidebar {
+        display: none;
+    }
+}

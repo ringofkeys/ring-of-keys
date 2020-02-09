@@ -70,7 +70,7 @@
 }
 
 .artist_hero h1 {
-    font-size: 3.5rem;
+    font-size: calc(.6rem + 2.5vw);
     margin: 1rem 0;
     font-weight: 600;
     text-transform: capitalize;
@@ -83,11 +83,6 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-}
-
-.btn_edit.edit_social {
-    width: 7vh;
-    height: 7vh;
 }
 
 .artist_social-icons .social-icon img {
@@ -227,17 +222,18 @@
 
 /* PROFILE EDIT UI */
 .btn_edit {
-    border: solid white 2px;
-    width: 4em;
-    height: 4em;
-    border-radius: 2em;
+    --size: calc(.8rem + 5vmin);
+    border: solid white calc(var(--size) * .03);
+    width: var(--size);
+    height: var(--size);
+    border-radius: calc(var(--size) / 2);
     background: rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
-    padding: .75em;
+    padding: calc(var(--size) * .2);
 }
 
 .icon_edit {
@@ -352,6 +348,7 @@
     margin-inline-start: 1em;
     height: 2.5em;
     width: 2.5em;
+    border-radius: 1.25em;
     padding: .5em;
     background: #6d727877;
 }
@@ -373,30 +370,16 @@
     max-width: 100vw;
 }
 
-.file-drop_h2 {
-    text-align: center;
-    font-size: 1.5rem;
-}
 
-.file-drop_btns {
-    margin: 0 auto;
-    margin-block-start: 1.5em;
-    width: fit-content;
-}
+@media (max-width: 700px) {
+    .artist_hero .back_link {
+        top: 3vh;
+        left: 12vw;
+        font-size: .8rem;
+    }
 
-.file-drop_btns .btn {
-    display: inline;
-    margin: 0 1.5em;
-    padding: .75em 2em;
-    width: fit-content;
-}
-
-.file-drop_btns .btn-link_ghost {
-    color: var(--rok-copper-1_hex);
-    border-color: var(--rok-copper-1_hex);
-}
-
-.file-drop_btns .btn-link_ghost:hover {
-    color: white;
-    background: var(--rok-copper-1_hex);
+    .artist_hero .back_link > span {
+        transform: translate(0);
+        opacity: 1;
+    }
 }

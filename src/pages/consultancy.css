@@ -2,6 +2,12 @@
     padding: .75em 3em;
 }
 
+
+.section_consultant-bios {
+    display: 'grid';
+    grid-template-columns: '50% 50%';
+}
+
 .consultant_bio-group {
     margin: 2em 1em;   
 }
@@ -50,6 +56,10 @@ a.h2_conversational h2 {
     font-weight: 300;
 }
 
+.gender-consultant_explain {
+    margin: 1em 0;
+}
+
 .gender-consultant_explain .icon-heading-label {
     --margin-inline: 1vw;
     margin: 3vh 0;
@@ -88,3 +98,12 @@ a.h2_conversational h2 {
     padding: .75em 3em;
 }
 
+@media (max-width: 700px) {
+    .gender-consultant_explain .icon-heading-label {
+        width: 100%;
+    }
+
+    .section_consultant-bios {
+        display: block;
+    }
+}
