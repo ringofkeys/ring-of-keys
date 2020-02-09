@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { graphql, Link } from 'gatsby'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import Carousel from '../components/carousel'
-import QuoteBlock from '../components/quoteblock'
 
 import './index.css'
 // import Img from 'gatsby-image'
@@ -27,7 +26,8 @@ const IndexPage = ({ data }) => {
   const [currIndex, setIndex] = useState(0)
 
   return (
-    <Layout classNames={['fullwidth']}>
+    <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
+      footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'>
       <SEO title="Home" />
       <div className='index_hero'>
         <h1><span>
@@ -57,7 +57,6 @@ const IndexPage = ({ data }) => {
         <h2>News</h2>
         <Carousel itemList={ newsItems } recordType='news' />
       </div>
-      <QuoteBlock quoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) } quoteAttribution={ quoteAttribution } />
     </Layout>
   )
 }

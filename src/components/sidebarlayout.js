@@ -13,7 +13,8 @@ import SEO from './seo'
 import Footer from "./footer"
 import Sidebar from './sidebar'
 
-const SidebarLayout = ({ path, children, title, description }) => {
+const SidebarLayout = ({ path, children, title, description, classNames,
+  footerQuoteText, footerQuoteAttribution, footerQuoteBgColor, footerQuoteTextColor }) => {
 
   const data = useStaticQuery(graphql`
     query SidebarLayoutQuery {
@@ -32,13 +33,14 @@ const SidebarLayout = ({ path, children, title, description }) => {
           : `Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
              transgender, or gender non-conforming artists.`} /> }
       <Header siteTitle={data.site.siteMetadata.title} path={path} />
-        <main className='has-sidebar' >
+        <main className={`has-sidebar ${ classNames ? classNames.join(' ') : '' }`} >
           <div>
             {children}
           </div>
           <Sidebar />
         </main>
-      <Footer />
+        <Footer footerQuoteText={footerQuoteText} footerQuoteAttribution={footerQuoteAttribution}
+          footerQuoteBgColor={footerQuoteBgColor} footerQuoteTextColor={footerQuoteTextColor} />
     </>
   )
 }

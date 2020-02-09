@@ -34,8 +34,8 @@
 
 .file-drop_btns .btn {
     display: inline-block;
-    margin: 0 1.5em;
-    padding: .75em 2em;
+    margin: .25 em .5em;
+    padding: .75em 1.5em;
 }
 
 .file-drop_btns .btn-link_ghost {

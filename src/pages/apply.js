@@ -5,7 +5,13 @@ import './apply.css'
 
 const ApplyPage = () => {
     return (
-        <SidebarLayout>
+        <SidebarLayout footerQuoteAttribution='Kat Griffin, Key Member (they/she/he)' footerQuoteBgColor='var(--rok-pale-green-1_hex)'
+        footerQuoteText={
+            <blockquote>
+                With the help of Ring of Keys, I went from feeling so isolated 
+                to really becoming like, almost overwhelmingly immersed with like-identified theatre people.
+            </blockquote>
+        }>
             <div className='apply__intro'>
                 <h1>Apply to be a Key</h1>
                 <p>

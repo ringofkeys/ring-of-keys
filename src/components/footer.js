@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import EmailSignupBar from '../components/emailsignupbar'
+import EmailSignupBar from './emailsignupbar'
 import './footer.css'
-import EmailSignupForm from '../components/emailsignupbar'
+import QuoteBlock from './quoteblock'
 
 const socialLinks = [
     { label: 'Facebook', href: 'https://www.facebook.com/RingofKeysOrg/', icon: 
@@ -60,9 +60,12 @@ const socialLinks = [
     ) },
 ]
 
-const Footer = () => {
+const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttribution,
+    footerQuoteBgColor: quoteBgColor, footerQuoteTextColor: quoteTextColor }) => {
 
-    return (
+    return (<>
+    <QuoteBlock quoteBgColor={ quoteBgColor } quoteTextColor={ quoteTextColor }
+            quoteText={ quoteText } quoteAttribution={ quoteAttribution } />
     <footer>
         <nav>
             <div>
@@ -108,6 +111,7 @@ const Footer = () => {
         </nav>
         <EmailSignupBar />
     </footer>
+    </>
     )
 }
 export default Footer

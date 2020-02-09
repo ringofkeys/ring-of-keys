@@ -17,7 +17,8 @@ const ourStory = () => {
 
     return (
         <SidebarLayout title='About' description='Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
-        transgender, or gender non-conforming artists.'>
+        transgender, or gender non-conforming artists.' classNames={['about']}
+        footerQuoteText={<blockquote>"You have to see it to be it."</blockquote>} footerQuoteAttribution='Janine Tesori' footerQuoteBgColor='var(--rok-pale-green-1_hex)'>
             <Helmet>
                 <link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,600,900,900i&display=swap" rel="stylesheet" />
             </Helmet>

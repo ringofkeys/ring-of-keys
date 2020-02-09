@@ -13,7 +13,8 @@ import SEO from './seo'
 import Helmet from 'react-helmet'
 import Footer from "./footer"
 
-const Layout = ({ path, children, classNames, title, description }) => {
+const Layout = ({ path, children, classNames, title, description,
+  footerQuoteText, footerQuoteAttribution, footerQuoteBgColor, footerQuoteTextColor }) => {
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -45,7 +46,8 @@ const Layout = ({ path, children, classNames, title, description }) => {
           <a id='main-content' href='#' className='visually-hidden'>Main content.</a>
           {children}
         </main>
-      <Footer />
+      <Footer footerQuoteText={footerQuoteText} footerQuoteAttribution={footerQuoteAttribution}
+        footerQuoteBgColor={footerQuoteBgColor} footerQuoteTextColor={footerQuoteTextColor} />
     </>
   )
 }

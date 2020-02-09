@@ -12,7 +12,14 @@ import truth from '../images/consultancy/truth.svg'
 
 const Consultancy = ({ data }) => (
     <SidebarLayout title='Consultancy' description='The Ring of Keys Consultancy is a resource for producers, casting directors, 
-    and theatremakers who are in need of a Gender Consultant or Queer Consultant for their theatrical projects.'>
+    and theatremakers who are in need of a Gender Consultant or Queer Consultant for their theatrical projects.'
+    footerQuoteAttribution='Woodzick, Key Member (they/them)' footerQuoteBgColor='var(--rok-pale-green-1_hex)'
+    footerQuoteText={
+        <blockquote>
+            Ring of Keys is an invaluable resource and asset for those committed to Equity, Diversity 
+            and Inclusion in the theater industry.
+        </blockquote>
+    }>
         <h1>Ring of Keys Consultancy</h1>
         <blockquote class='quote_graphic-bar'>
             The Ring of Keys Consultancy is a resource for producers, casting directors, and theatremakers who are 
