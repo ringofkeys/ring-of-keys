@@ -78,9 +78,11 @@ const ApplyForm = () => {
     <form onSubmit={ handleSubmit } className='apply__form'>
         <h2>Tell us about yourself</h2>
         <div className='basic_info'>
-          <Field type='text' name='name' label='Name' required={true} placeholder='First Last'/>
+          <Field type='text' name='name' label='Full Name' required={true} placeholder='First Last'/>
           <Field type='email' name='email' label='Email Address' required={true} placeholder='Email Address'/>
           <Field type='text' name='discipline' label='Discipline' required={true} placeholder='ie: Actor, Stage Manager, Music Director'/>
+          <Field type='text' name='vocalRange' label='Vocal Range' required={true} placeholder='ie: Alto / Soprano'/>
+          <Field type='text' name='danceExperience' label='Dance Experience' required={true} placeholder='ie: Ballet / Tap / Jazz'/>
         </div>
         <h3>Region (check as many that apply):</h3>
         <div className='checkbox__grid'>

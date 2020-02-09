@@ -198,6 +198,7 @@ export const query = graphql`
           sexualIdentity
           discipline
           vocalRange
+          danceExperience
           affiliations
         }
       }
@@ -256,6 +257,22 @@ function getFilters() {
       placeholder: 'ie: Actor, Stage Manager, Music Director',
       type: 'text',
       logic: 'or',
+    },
+    {
+      field: 'vocalRange',
+      label: 'Vocal Range',
+      placeholder: 'ie: Alto / Soprano',
+      type: 'fuzzy',
+      threshold: .25,
+      logic: 'and',
+    },
+    {
+      field: 'danceExperience',
+      label: 'Dance Experience',
+      placeholder: 'ie: Ballet / Tap / Jazz',
+      type: 'fuzzy',
+      threshold: .25,
+      logic: 'and',
     },
     {
       field: 'pronouns',
