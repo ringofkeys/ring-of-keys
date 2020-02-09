@@ -64,8 +64,8 @@ const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttri
     footerQuoteBgColor: quoteBgColor, footerQuoteTextColor: quoteTextColor }) => {
 
     return (<>
-    <QuoteBlock quoteBgColor={ quoteBgColor } quoteTextColor={ quoteTextColor }
-            quoteText={ quoteText } quoteAttribution={ quoteAttribution } />
+    { quoteText && <QuoteBlock quoteBgColor={ quoteBgColor } quoteTextColor={ quoteTextColor }
+            quoteText={ quoteText } quoteAttribution={ quoteAttribution } />}
     <footer>
         <nav>
             <div>

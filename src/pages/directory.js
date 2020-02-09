@@ -119,8 +119,12 @@ const Directory = ({ data }) => {
 
   return (
     <Layout classNames={['fullwidth', 'directory']} title='Artist Directory'
-      description='Ring of Keys has curated a directory of theatremakers that identify as queer women, trans, or gender non-conforming
-      artist.'>
+    description='Ring of Keys has curated a directory of theatremakers that identify as queer women, trans, or gender non-conforming
+    artist.' footerQuoteAttribution='Rachel Chavkin' footerQuoteBgColor='var(--rok-slate-blue_hex)  '
+    footerQuoteText={ <blockquote>
+      Who is telling the stories and what stories are they telling?  This is not a pipeline issue. 
+      It is a failure of imagination by a field whose job is to imagine the way the world could be.
+    </blockquote> }>
       <section className='section_intro'>
         <h1>Directory</h1>
         <p>
