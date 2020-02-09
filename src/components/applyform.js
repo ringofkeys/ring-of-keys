@@ -44,7 +44,7 @@ const ApplyForm = () => {
       })
 
       // save the rest of the formdata
-      formEls.filter(el => el.name && !arrayFields.some(field => el.name.includes(field.name)) && (el.value || el.checked || el.files[0]))
+      formEls.filter(el => el.name && !arrayFields.some(field => el.name.includes(field.name)) && (el.value || el.checked || el.files))
         .forEach(el => {
           if (el.files) {
             formData[el.name] = el.files[0]

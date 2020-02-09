@@ -260,7 +260,7 @@ function getFilters() {
     {
       field: 'pronouns',
       label: 'Pronouns',
-      placeholder: 'ie They / Them or She / Her',
+      placeholder: 'ie: They / Them or She / Her',
       type: 'fuzzy',
       threshold: .25,
       logic: 'and',
