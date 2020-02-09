@@ -385,9 +385,7 @@
         opacity: 1;
     }
  
-    *:hover > .tooltip,
-    *:focus > .tooltip {
-        transform: translateY(1vh);
-        opacity: 0;
+    .tooltip {
+        display: none;
     }
 }

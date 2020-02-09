@@ -21,7 +21,7 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
 
         const formVals = ([]).slice.call(e.target.elements)
         const values = {
-            toArtist: artistId,
+            toArtist: (artistId.match(/-(\d+)-/)[1],
         }
 
         formVals.filter(el => el.value && el.name)

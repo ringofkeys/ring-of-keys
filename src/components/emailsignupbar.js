@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { Link } from 'gatsby'
 import addToMailchimp from 'gatsby-plugin-mailchimp'
 import './emailsignupbar.css'
+import { SimpleDB } from 'aws-sdk'
 
 const EmailSignupForm = ({ handleHasSignedUp }) => {
     const [submitStatus, setSubmitStatus] = useState('unsent')
@@ -31,9 +33,9 @@ const EmailSignupForm = ({ handleHasSignedUp }) => {
             </label>
             <label className='privacy-consent'>
                 <input type='checkbox' required />
-                I agree with the&nbsp;<a href='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>&nbsp;and Terms of Use
+                I agree with the&nbsp;<Link to='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</Link>&nbsp;and Terms of Use
             </label>
-            <button className={`btn ${ submitStatus }`} type='submit' disabled={ submitStatus === 'sending' }>
+            <button className={`btn ${ submitStatus }`} type='submit' disabled={ submitStatus === 'sending' || submitStatus === 'sent' }>
                 <svg viewBox='0 0 5 7'>
                     <path stroke='white' strokeLinecap='round'
                         d='M 1 1 l 3 2.5 l -3 2.5' />

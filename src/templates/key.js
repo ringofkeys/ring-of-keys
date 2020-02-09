@@ -153,7 +153,7 @@ export default ({ data }) => {
                     <h1>{ name }</h1>
                     { mainLocation && <p>Based in {mainLocation.replace(', ', ' • ')}</p> }
                     <p>{ pronouns }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
-                    <button className='btn btn_message' onClick={() => setMessageOpen(true)}>Message</button>
+                    <button className='btn btn_message' onClick={ () => setMessageOpen(true) }>Message</button>
                 </div>
                 { !isEditable // will update to '!isEditable' when I get the editor for Social Links working
                     ? ( socialMedia && (<div className='artist_social-icons'>
@@ -270,7 +270,7 @@ export default ({ data }) => {
                 )}
             </section>
         </Layout>
-        <MessagePopup isOpen={isMessageOpen} artistId={id} onClose={() => setMessageOpen(false)} />
+        <MessagePopup isOpen={ isMessageOpen } artistId={ id } onClose={ () => setMessageOpen(false) } />
         {/* <Popup isOpen={isMessageOpen} onClose={() => setMessageOpen(false)} >
             <h2>Messaging is coming soon!</h2>
             <p>
