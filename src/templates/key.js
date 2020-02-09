@@ -245,15 +245,16 @@ export default ({ data }) => {
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
                 </>))}
-                { (resume && resume.url) && (
+                { ((resume && resume.url) || isEditable) && (
                     !isEditable
-                    ? <a className='btn btn_resume' href={ resumeField.data.url } rel='noopener noreferrer' target='_blank'>
+                    ? <a className='btn btn_resume' href={ resumeField.data ? resumeField.data.url : '' } rel='noopener noreferrer' target='_blank'>
                         View Resume
                     </a>
                     : !resumeField.isEditing
                         ? <div className='profile_field_group'>
-                            <a className='btn btn_resume' href={ resumeField.data.url } rel='noopener noreferrer' target='_blank'>
-                                View Resume
+                            <a className={`btn btn_resume ${ resumeField.data ? '' : 'btn-link_ghost' }`}
+                                href={ resumeField.data ? resumeField.data.url : '' } rel='noopener noreferrer' target='_blank'>
+                                { resumeField.data ? 'View Resume' : 'No Resume Uploaded' }
                             </a>
                             <button className='btn_edit edit_field' onClick={() => resumeField.setEditing(true)}>
                                 <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />

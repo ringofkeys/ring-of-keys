@@ -24,7 +24,8 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
             toArtist: artistId,
         }
 
-        formVals.forEach(el => {
+        formVals.filter(el => el.value && el.name)
+        .forEach(el => {
             values[el.name] = el.value
         })
 

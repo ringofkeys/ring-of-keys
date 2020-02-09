@@ -9,8 +9,8 @@ const Popup = ({ isOpen, onClose, children }) => {
             { children }
             <button className='btn_close' onClick={(e) => onClose(e)}><span className='visually-hidden'>Close</span>
                 <svg viewBox='0 0 5 5'>
-                    <path d='M 1 1 l 3 3' />
-                    <path d='M 1 4 l 3 -3' />
+                    <path d='M 1 1 l 3 3' stroke='black' />
+                    <path d='M 1 4 l 3 -3' stroke='black' />
                 </svg>
             </button>
         </div>
