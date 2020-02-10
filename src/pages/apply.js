@@ -5,7 +5,8 @@ import './apply.css'
 
 const ApplyPage = () => {
     return (
-        <SidebarLayout footerQuoteAttribution='Kat Griffin, Key Member (they/she/he)' footerQuoteBgColor='var(--rok-pale-green-1_hex)'
+        <SidebarLayout classNames={['apply']}
+        footerQuoteAttribution='Kat Griffin, Key Member (they/she/he)' footerQuoteBgColor='var(--rok-pale-green-1_hex)'
         footerQuoteText={
             <blockquote>
                 With the help of Ring of Keys, I went from feeling so isolated 

@@ -29,7 +29,7 @@
 
 .btn_search {
     display: inline-block;
-    padding: .9em 3em;
+    padding: .5rem 2rem;
     border-radius: .25vmax;
     text-transform: uppercase;
 }
@@ -85,6 +85,24 @@
     padding: 2em 12.5vw;
 }
 
+.locations > .help_text,
+.affiliations > .help_text {
+    display: none;
+}
+
+.collapse_icon {
+    display: none;
+    width: 100%;
+}
+
+.collapse_icon path {
+    stroke-linecap: round;
+}
+
+.collapse_icon.collapsed path:first-child {
+    stroke-width: 0;
+}
+
 .section_filters .checkbox__grid {
     margin-bottom: 0;
 }
@@ -93,7 +111,8 @@
     grid-template-columns: repeat(2, 1fr);
 }
 
-.section_filters input[type='text'] {
+.section_filters input[type='text'],
+.section_filters input[type='email'] {
     width: 80%;
     min-width: 200px;
 }
@@ -209,4 +228,82 @@ span.card__location {
 
 .filters .locations .checkbox__grid {
     grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 700px) {
+    .btn_search {
+        margin: 1rem 0;
+    }
+
+    .section_filters.active {
+        padding: 5vh 10vw;
+    }
+
+    .filters {
+        display: block;
+    }
+
+    .section_filters .input__group {
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    .section_filters input[type='text'],
+    .section_filters input[type='email'] {
+        width: 100%;
+    }
+
+    .filters .locations,
+    .section_filters .checkbox__grid.two-cols {
+        grid-template-columns: 1fr;
+        gap: 0;
+        margin: 1rem 0;
+    }
+
+    .locations > .help_text.collapsed,
+    .affiliations > .help_text.collapsed {
+        display: none;
+    }
+
+    .locations > .help_text,
+    .affiliations > .help_text {
+        display: block;
+    }
+
+    .locations > label > .help_text,
+    .affiliations > label > .help_text {
+        display: none;
+    }
+
+    .filters .input__group.checkbox {
+        margin: .5em 0;
+    }
+
+    .filters .locations > label,
+    .filters .affiliations > label {
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto 1.25rem;
+        gap: 1em;
+        text-transform: uppercase;
+        color: var(--rok-slate-blue_hex);
+        font-weight: 600;
+        padding: 1em 1em;
+        background: rgba(109, 114, 120, 0.3);
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .section_filters .checkbox__grid.collapsed {
+        height: 0px;
+        overflow: hidden;
+    }
+
+    .section_filters .collapse_icon {
+        display: block;
+    }
+
+    .input__group.checkbox label {
+        font-size: 1rem;
+    }
 }

@@ -93,6 +93,17 @@ const Directory = ({ data }) => {
         finalResults = globalSearch.search(formik.values.fuzzy)
       }
 
+      const filtersAreActive = Object.keys(formik.values).some(field => {
+        if (formik.values[field] instanceof Array) {
+          return formik.values[field].some(v => v)
+        }
+        return formik.values[field].length > 0
+      })
+
+      if (finalResults.length === searchList.length && filtersAreActive) {
+        finalResults = []
+      }
+
       setSearchResults(finalResults)
     }
 
@@ -304,7 +315,8 @@ function getFilters() {
     },
     {
       field: 'locations',
-      label: 'Region (check as many that apply)',
+      label: 'Region',
+      helpText: '(check as many that apply)',
       type: 'checkbox',
       values: [
         "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
@@ -316,7 +328,8 @@ function getFilters() {
     },
     {
       field: 'affiliations',
-      label: 'Unions & Affiliations (check as many that apply)',
+      label: 'Unions & Affiliations',
+      helpText: '(check as many that apply)',
       type: 'checkbox',
       values: [
         "AEA", "AFM", "AGMA", "AGVA", "ASCAP", "BMI", "CSA", "EMC", "IATSE",  "LMDA", "SAFD", "SAG/AFTRA", "SDC", "USA", "Non-union",

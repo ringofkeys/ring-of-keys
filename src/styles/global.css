@@ -243,6 +243,10 @@ input[type='text'] {
     padding: .25em .5em;
 }
 
+textarea {
+    resize: vertical;
+}
+
 
 
 
@@ -273,5 +277,10 @@ input[type='text'] {
     .icon-heading-label {
         width: 100%;
         max-width: 80vw;
+    }
+
+    .grid_2c-1r {
+        grid-template-columns: auto;
+        grid-template-rows: auto;
     }
 }

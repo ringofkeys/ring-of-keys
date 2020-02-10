@@ -265,11 +265,10 @@
     
     .top-nav .nav__login > a {
         margin: 1vh 0;
-        font-size: 1.25em; 
+        font-size: 1rem; 
     }
 
     .top-nav .nav__login [href='#logout'] {
-        font-size: .8rem;
         border: solid 1px var(--rok-slate-blue_hex);
         color: var(--rok-slate-blue_hex);
         padding: .5em 1.5em;
@@ -278,10 +277,11 @@
 
     #btn__login {
         margin: 0;
-        padding: .75em 2em;
+        padding: .5em 2em;
     }
 
     .top-nav .nav__login > a:first-of-type {
         margin-block-end: 3vh;
+        padding: .5em 2em;
     }
 }

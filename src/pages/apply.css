@@ -15,11 +15,17 @@
 .apply__form input[type='email'] {
     width: 100%;
     max-width: 400px;
+    box-sizing: border-box;
 }
 
 .apply__form .basic_info {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.basic_info .input__group {
+    margin: 1rem;
+    max-width: calc(33% - 2rem);
 }
 
 .apply__form .basic_info > * {
@@ -66,8 +72,8 @@
     grid-row: 1 / 3;
 }
 
-.grid_2c-1r {
-    grid-gap: 1em;
+.apply .grid_2c-1r {
+    gap: 1em;
     margin: 2em 0;
 }
 
@@ -75,4 +81,20 @@
     display: block;
     width: 100%;
     height: 8em;
+}
+
+@media(max-width: 700px) {
+    .basic_info .input__group {
+        margin: 1rem 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .checkbox__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .apply .grid_2c-2r {
+        grid-template-columns: 1fr;
+    }
 }
