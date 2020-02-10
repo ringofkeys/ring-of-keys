@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'gatsby'
 import SidebarLayout from "../components/sidebarlayout"
 import ApplyForm from '../components/applyform'
 import './apply.css'
@@ -18,8 +19,8 @@ const ApplyPage = () => {
                 <p>
                 Ring of Keys is a network of industry professionals who identify as queer women, trans, and/or gender 
                 non-conforming. If you aren't a professional musical theatremaker, but you still love Ring of Keys, 
-                be an ally! Check out our news page, sign up for our newsletter, and stay connected to us on social 
-                media. If you’d like to volunteer or stay involved in other ways send a message here.
+                be an ally! Check out <Link to='/news'>our news page</Link>, <a href='#footer'>sign up for our newsletter</a>, and stay connected to us on social 
+                media. If you’d like to volunteer or stay involved in other ways <Link to='/contact'>send a message here.</Link>
                 </p>
             </div>
             <ApplyForm />

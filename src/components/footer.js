@@ -66,7 +66,7 @@ const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttri
     return (<>
     { quoteText && <QuoteBlock quoteBgColor={ quoteBgColor } quoteTextColor={ quoteTextColor }
             quoteText={ quoteText } quoteAttribution={ quoteAttribution } />}
-    <footer>
+    <footer id='footer'>
         <nav>
             <div>
                 <p className='visible_mobile'>Menu</p>

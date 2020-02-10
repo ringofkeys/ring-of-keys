@@ -45,7 +45,7 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
     return (
     <Popup isOpen={isOpen} onClose={onClose}>
         <h2>Send a message</h2>
-        <p>Get connected with this talented artist.</p>
+        <p>Connect directly with this Key Member.</p>
         <form onSubmit={ handleSubmit }>
             <Field type='text' name='fromName' label='Your Name' required={true}/>
             <Field type='email' name='fromEmail' label='Your Email Address' required={true} />
@@ -54,12 +54,6 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
                 <input type='checkbox' required />
                 <span>
                     I have read and accepted the <Link to='/privacy'>Terms and Conditions and Privacy Policy.</Link>
-                </span>
-            </label>
-            <label className='input__group checkbox is-required' style={{margin: '1rem 0'}}>
-                <input type='checkbox' required />
-                <span>
-                    I have read the Ring of Keys Community Guidelines. I promise my message is supportive.
                 </span>
             </label>
             <button type='submit' className={`btn ${ messageStatus === 'unsent' ? 'has-arrow' : '' } ${ messageStatus }`}

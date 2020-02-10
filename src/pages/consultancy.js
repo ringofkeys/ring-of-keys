@@ -117,6 +117,10 @@ const Consultancy = ({ data }) => (
             or with particular theatrical experience, fill out this form!
         </p>
         <ConsultantForm />
+        <p>
+            If you are a Key interested in working as a Gender or Queer Consultant,&nbsp;
+            <a href='https://docs.google.com/forms/d/e/1FAIpQLSfZUQsKql-TFoG4gh6yX9ZkOwsh9Ckih3j9J_-LO7J1ZeDslA/viewform' target='_blank' rel='noopener noreferrer'>fill out this form</a>&nbsp;and we will be in touch!
+        </p>
     </SidebarLayout>
 )
 
