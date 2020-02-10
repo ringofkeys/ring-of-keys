@@ -3,8 +3,8 @@ import { Link, graphql } from 'gatsby'
 import { Router } from '@reach/router'
 import { login, isAuthenticated, getProfile } from '../../utils/auth.js'
 import Layout from '../../components/layout'
-import SEO from '../../components/seo'
 import ROKMosaic_Dashboard from '../../images/ROKMosaic_Dashboard.jpg'
+import Dashboard_Mobile from '../../images/Dashboard_Mobile.jpg'
 import './dashboard.css'
 
 const homeDir = '/dashboard'
@@ -58,7 +58,9 @@ const Dashboard = ({ data }) => {
               <Home path={homeDir} user={ user } />
               <Events path={homeDir+'/events'} user={ user } />
           </Router>
-          <img src={ ROKMosaic_Dashboard } alt='mosaic of dozens of RoK members' />
+          { (window.innerWidth > 700)
+            ? <img src={ ROKMosaic_Dashboard } alt='mosaic of dozens of RoK members' className='img_desktop'/>
+            : <img src={ Dashboard_Mobile } alt='mosaic of dozens of RoK members' className='img_mobile'/>}
         </div>
     </Layout>
     )

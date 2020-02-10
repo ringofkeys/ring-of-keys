@@ -9,6 +9,7 @@ const blankUser = {}
 otherFields.forEach(field => blankUser[field] = field.substr(0, 2) === 'is' ? false : '')
 blankUser.keyTeamMember = false
 blankUser.showInDirectory = true
+blankUser.hasLoginAccess = true
 blankUser.socialMedia = []
 blankUser.featuredImage = { uploadId: '1213483' }
 blankUser.resume = { uploadId: '1213541' }

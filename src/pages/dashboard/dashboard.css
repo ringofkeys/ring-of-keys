@@ -46,3 +46,13 @@
     background: var(--rok-copper-1_hex);
     color: white;
 }
+
+@media (max-width: 700px) {
+    .dashboard_container {
+        flex-direction: column-reverse;
+    }
+
+    .dashboard_container > img {
+        width: 100%;
+    }
+}
