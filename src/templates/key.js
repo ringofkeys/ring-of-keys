@@ -76,6 +76,7 @@ export default ({ data }) => {
 
     const isProfileOwner = isAuthenticated() && (getProfile().name === name)
     const [isEditable, setEditable] = useState(isProfileOwner)
+    const [hasSubmitted, setSubmitted] = useState(false)
 
     const heroFields = {
         headshot: {data: headshot, fieldName: 'headshot', },
@@ -217,7 +218,10 @@ export default ({ data }) => {
                                         <span className='tooltip'>Change { bioField.label }</span>
                                     </button>
                                 </div>
-                                : <FieldEditForm type='textarea' key={bioField.fieldName+'-form'} userId={ id } handleClose={() => bioField.setEditing(false)}
+                                : <FieldEditForm type='textarea' key={bioField.fieldName+'-form'} userId={ id } handleClose={() => {
+                                        bioField.setEditing(false)
+                                        setSubmitted(true)
+                                    }}
                                     field={bioField.fieldName} val={bioField.data} handleUpdate={(newVal) => bioField.setFieldValue(newVal)}
                                     isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                         }
@@ -240,7 +244,10 @@ export default ({ data }) => {
                                     <span className='tooltip'>Change { label }</span>
                                 </button>
                               </div>)
-                            : <FieldEditForm type='text' key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
+                            : <FieldEditForm type='text' key={fieldName+'-form-'+i} userId={ id } handleClose={() => {
+                                    setEditing(false)
+                                    setSubmitted(true)
+                                }}
                                 field={fieldName} val={data} handleUpdate={(newVal) => setFieldValue(newVal)}
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
@@ -263,13 +270,22 @@ export default ({ data }) => {
                         </div>
                         : <>
                             <h3>Resume</h3>
-                            <FieldEditForm type='file' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
+                            <FieldEditForm type='file' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => {
+                                resumeField.setEditing(false)
+                                setSubmitted(true)
+                            }}
                             field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => resumeField.setFieldValue(newVal)}
                             isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                         </>
                 )}
             </section>
         </Layout>
+        { hasSubmitted && <div className='preview-message'>
+            <p>
+                You're viewing a preview of your new profile content. We're rebuilding the site now with your edits, and you
+                should see them across the site within a few minutes.
+            </p>
+        </div>}
         <MessagePopup isOpen={ isMessageOpen } artistId={ id } onClose={ () => setMessageOpen(false) } />
         {/* <Popup isOpen={isMessageOpen} onClose={() => setMessageOpen(false)} >
             <h2>Messaging is coming soon!</h2>
@@ -289,7 +305,10 @@ export default ({ data }) => {
                         field: 'headshot',
                         setSubmitting,
                         handleUpdate: (newVal) => heroFields.headshot.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
-                        handleClose: () => heroFields.headshot.setEditing(false)
+                        handleClose: () => {
+                            heroFields.headshot.setEditing(false)
+                            setSubmitted(true)
+                        }
                     }, true)
                 }}>
                     <FileDrop />
@@ -316,7 +335,10 @@ export default ({ data }) => {
                         field: 'featuredImage',
                         setSubmitting,
                         handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
-                        handleClose: () => heroFields.featuredImage.setEditing(false)
+                        handleClose: () => {
+                            heroFields.featuredImage.setEditing(false)
+                            setSubmitted(true)
+                        }
                     }, true)
                 }}>
                     <FileDrop helpText='(For best results, use a 3:1 aspect ratio)'/>
@@ -366,7 +388,10 @@ export default ({ data }) => {
                         field: 'socialMedia',
                         setSubmitting,
                         handleUpdate: (newVal) => heroFields.socialMedia.setFieldValue(newVal),
-                        handleClose: () => heroFields.socialMedia.setEditing(false)
+                        handleClose: () => {
+                            heroFields.socialMedia.setEditing(false)
+                            setSubmitted(true)
+                        }
                     }, false)
                 }}>
                     { Object.keys(socialIcons).map(key => {

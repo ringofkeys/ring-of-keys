@@ -21,8 +21,8 @@
 }
 
 .popup__card {
-    width: 40vw;
-    min-width: 350px;
+    width: 45vw;
+    min-width: 550px;
     max-width: 100vw;
     max-height: 100vh;
     box-sizing: border-box;
@@ -118,5 +118,12 @@
 @media (max-width: 700px) {
     .popup__card {
         padding: 2vh 8vw;
+        
+    }
+}
+
+@media (max-width: 570px) {
+    .popup__card {
+        min-width: 350px;
     }
 }

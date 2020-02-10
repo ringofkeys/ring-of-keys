@@ -29,13 +29,14 @@
 .file-drop_btns {
     margin: 0 auto;
     margin-block-start: 1.5em;
-    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .file-drop_btns .btn {
-    display: inline-block;
-    margin: .25 em .5em;
+    margin: .25em .5em;
     padding: .75em 1.5em;
+    width: calc(50% - 1em);
 }
 
 .file-drop_btns .btn-link_ghost {
@@ -69,5 +70,6 @@
 @media (max-width: 700px) {
     .file-drop_btns .btn {
         margin: 1vh 0;
+        width: 100%;
     }
 }
