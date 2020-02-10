@@ -8,13 +8,14 @@ exports.handler = async (event) => {
     const data = JSON.parse(event.body)
 
     console.log('data = ', data)
+    data.itemType = '185201'
 
     try {
-        const newMessage = await client.items.create({ 
-            ...data,
-            itemType: '185201',
-        }).catch(err => err)
+        const newMessage = await client.items.create(data)
+            .catch(err => console.error(err))
 
+        console.log('newMessage = ', newMessage)
+        
         return {
             statusCode: 200,
             headers: {
