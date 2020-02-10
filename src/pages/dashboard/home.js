@@ -60,8 +60,8 @@ const Home = ({ user }) => {
         <img src={ RoKBadge_Web } alt='Ring of Keys Badge for web' />
         <div className='divider'></div>
         <div className='section_btns'>
-          <a href='./static/RoKBadge_Web.png' className='btn btn-link_ghost bg_copper' download>For Web</a>
-          <a href='./static/RoKBadge_Print.jpg' className='btn' download>For Print</a>
+          <a href='./RoKBadge_Web.png' className='btn btn-link_ghost bg_copper' download>For Web</a>
+          <a href='./RoKBadge_Print.jpg' className='btn' download>For Print</a>
         </div>
       </div>
       <div className='block'>
