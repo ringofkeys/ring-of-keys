@@ -104,27 +104,6 @@
     margin-block-end: .5em;
 }
 
-/* OLD QUOTE STYLING */
-/* .section_quote-block blockquote strong {
-    font-size: 2em;
-    font-family: 'Raleway', sans-serif;
-    color: #ffffffa2;
-}
-
-.section_quote-block blockquote strong:first-of-type {
-    display: block;
-    line-height: 1em;
-}
-
-.section_quote-block strong:first-of-type + * {
-    vertical-align: top;
-}
-
-.section_quote-block strong:last-of-type {
-    display: inline-block;
-    margin-left: .2em;
-} */
-
 .section_quote-block > div {
     margin-inline-start: 2em;
 }
@@ -169,6 +148,7 @@
         margin: auto;
         margin-block-start: 3vh;
         padding: 0;
+        font-size: 1rem;
     }
 
     .index_hero__right-col .btn {
@@ -182,5 +162,16 @@
         margin-block-start: 0;
         width: 70vw;
         min-width: 200px;
+    }
+
+    .section_quote-block {
+        display: grid;
+        padding: 2em 5vw;
+        grid-template-columns: 12vw 1fr;
+    }
+
+    .section_quote-block img {
+        max-height: initial;
+        width: 100%;
     }
 }
