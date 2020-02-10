@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'gatsby'
 import { Field } from './formfields'
 import Popup from './popup'
 import slugify from '../utils/slugify'
@@ -84,15 +85,45 @@ const ApplyForm = () => {
           <Field type='text' name='vocalRange' label='Vocal Range' required={true} placeholder='ie: Alto / Soprano'/>
           <Field type='text' name='danceExperience' label='Dance Experience' required={true} placeholder='ie: Ballet / Tap / Jazz'/>
         </div>
-        <h3>Region (check as many that apply):</h3>
-        <div className='checkbox__grid'>
-          {locations.map((city,i) => (<Field type='checkbox' name={`locations[${i}]`} label={locations[i]} key={locations[i]} />))}
-          <Field type='text' name='locationsOther' label='Other' />
+        <div className='locations'>
+          <label>
+              <span>Region</span>
+              <span className='help_text'>&nbsp;(check as many that apply):</span>
+              <input className='visually-hidden' type='checkbox'
+              onChange={e => {
+                  e.target.nextSibling.classList.toggle('collapsed');
+                  ([]).slice.call(e.target.parentElement.parentElement.children).forEach(el => el.classList.toggle('collapsed'))
+              }} />
+              <svg className='collapse_icon' viewBox='0 0 10 10'>
+                  <path d='M 5.5 1 l 0 9' stroke='var(--rok-slate-blue_hex)' />
+                  <path d='M 1 5 l 9 0' stroke='var(--rok-slate-blue_hex)' />
+              </svg>
+          </label>
+          <p className='help_text collapsed'>(check as many that apply):</p>
+          <div className='checkbox__grid collapsed'>
+            {locations.map((city,i) => (<Field type='checkbox' name={`locations[${i}]`} label={locations[i]} key={locations[i]} />))}
+            <Field type='text' name='locationsOther' label='Other' />
+          </div>
         </div>
-        <h3>Unions & Affiliations (check as many that apply) [optional]:</h3>
-        <div className='checkbox__grid'>
-          {affiliations.map((aff,i) => (<Field type='checkbox' name={`affiliations[${i}]`} label={affiliations[i]} key={affiliations[i]} />))}
-          <Field type='text' name='affiliationsOther' label='Other' />
+        <div className='affiliations'>
+        <label>
+              <span>Unions & Affiliations</span>
+              <span className='help_text'>&nbsp;(check as many that apply):</span>
+              <input className='visually-hidden' type='checkbox'
+              onChange={e => {
+                  e.target.nextSibling.classList.toggle('collapsed');
+                  ([]).slice.call(e.target.parentElement.parentElement.children).forEach(el => el.classList.toggle('collapsed'))
+              }} />
+              <svg className='collapse_icon' viewBox='0 0 10 10'>
+                  <path d='M 5.5 1 l 0 9' stroke='var(--rok-slate-blue_hex)' />
+                  <path d='M 1 5 l 9 0' stroke='var(--rok-slate-blue_hex)' />
+              </svg>
+          </label>
+          <p className='help_text collapsed'>(check as many that apply):</p>
+          <div className='checkbox__grid collapsed'>
+            {affiliations.map((aff,i) => (<Field type='checkbox' name={`affiliations[${i}]`} label={affiliations[i]} key={affiliations[i]} />))}
+            <Field type='text' name='affiliationsOther' label='Other' />
+          </div>
         </div>
         <div className='divider'></div>
         <h2>How do you identify?</h2>
@@ -113,9 +144,11 @@ const ApplyForm = () => {
           <Field type='textarea' name='whyRok' label='Why do you want to be a Key?' required={true} />
           <Field type='textarea' name='referral' label='How did you learn about Ring of Keys?' required={true} />
         </div>
-        <label className='privacy-consent'>
+        <label className='privacy-consent input__group checkbox'>
             <input type='checkbox' required />
-            I agree with the&nbsp;<a href='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>&nbsp;and Terms of Use
+            <span>
+              I agree to the&nbsp;<Link to='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy and Terms of Use.</Link>
+            </span>
         </label>
         <button type='submit' className={`btn bg_slate ${ formStatus }`} 
           disabled={ formStatus === 'sending' || formStatus === 'success'} style={{ padding: '.75em 3em', margin: '2em 0'}}>

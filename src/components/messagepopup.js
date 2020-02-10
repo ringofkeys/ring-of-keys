@@ -50,11 +50,11 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
             <Field type='text' name='fromName' label='Your Name' required={true}/>
             <Field type='email' name='fromEmail' label='Your Email Address' required={true} />
             <Field type='textarea' name='message' label='Your Message' required={true} />
-            <label className='checkbox is-required'>
+            <label className='input__group checkbox is-required'>
                 <input type='checkbox' required />
                 I have read and accepted the <Link to='/privacy'>Terms and Conditions and Privacy Policy.</Link>
             </label>
-            <label className='checkbox is-required'>
+            <label className='input__group checkbox is-required'>
                 <input type='checkbox' required />
                 I have read the Ring of Keys Community Guidelines. I promise my message is supportive.
             </label>

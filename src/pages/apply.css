@@ -46,24 +46,6 @@
     font-weight: normal;
 }
 
-.input__group.checkbox {
-    display: grid;
-    grid-template-columns: 1.5em auto;
-    grid-gap: .5em;
-    grid-template-rows: 1fr;
-}
-
-.input__group.checkbox label {
-    grid-column: 2 / 3;
-    text-transform: capitalize;
-    font-size: .8rem;  
-}
-
-.input__group [type='checkbox'] {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-}
-
 .checkbox__grid .input__group > * {
     align-self: center;
 }
@@ -81,6 +63,11 @@
     display: block;
     width: 100%;
     height: 8em;
+}
+
+.apply .locations,
+.apply .affiliations {
+    margin: 1.5em 0;
 }
 
 @media(max-width: 700px) {

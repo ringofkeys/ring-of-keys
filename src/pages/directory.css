@@ -253,7 +253,7 @@ span.card__location {
         width: 100%;
     }
 
-    .filters .locations,
+    .locations,
     .section_filters .checkbox__grid.two-cols {
         grid-template-columns: 1fr;
         gap: 0;
@@ -275,12 +275,12 @@ span.card__location {
         display: none;
     }
 
-    .filters .input__group.checkbox {
+    .input__group.checkbox {
         margin: .5em 0;
     }
 
-    .filters .locations > label,
-    .filters .affiliations > label {
+    .locations > label,
+    .affiliations > label {
         width: 100%;
         display: grid;
         grid-template-columns: auto 1.25rem;
@@ -294,16 +294,12 @@ span.card__location {
         box-sizing: border-box;
     }
 
-    .section_filters .checkbox__grid.collapsed {
+    .checkbox__grid.collapsed {
         height: 0px;
         overflow: hidden;
     }
 
-    .section_filters .collapse_icon {
+    .collapse_icon {
         display: block;
-    }
-
-    .input__group.checkbox label {
-        font-size: 1rem;
     }
 }
