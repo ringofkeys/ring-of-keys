@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
 import PropTypes from "prop-types"
 import rok_logo from '../images/rok_logo_beta.png'
+import MenuIcon from './menuicon'
 import './header.css'
 import { getProfile, isAuthenticated, logout } from "../utils/auth"
 
@@ -61,13 +62,7 @@ const Header = ({ path }) => {
         <Link to='/' className='site-logo' >
           <img src={ rok_logo } alt='Ring of Keys' />
         </Link>
-        <button className={'hamburger ' + (isNavOpen ? 'open' : 'closed')} onClick={() => setNavOpen(!isNavOpen)}>
-          <svg viewBox="0 0 10 10">
-            <path d="M 1 5, l 8 0"></path>
-            <path d="M 1 1, l 8 0"></path>
-            <path d="M 1 9, l 8 0"></path>
-          </svg>
-        </button>
+        <MenuIcon onClick={() => setNavOpen(!isNavOpen)} className='hamburger' />
         <div className={'nav__mobile-wrap ' + (isNavOpen ? 'open' : 'closed')}>
           { secondaryNav }
           <div className='nav__main'>

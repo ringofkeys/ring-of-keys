@@ -22,18 +22,21 @@ const News = ({ data }) => (
                 <a href='/'>Events</a>
             </nav>
         </div> */}
+        { (data.newsletters.edges.length > 0) &&
         <div className='section_news bg_white'>
             <h2>Ring of Keys Newsletter</h2>
             <Carousel itemList={ data.newsletters.edges } classNames={['carousel__gray']} />
-        </div>
+        </div>}
+        { (data.events.edges.length > 0) &&
         <div className='section_news bg_white'>
             <h2>Events</h2>
             <Carousel itemList={ data.events.edges } recordType='events' classNames={['carousel__gray']} />
-        </div>
+        </div>}
+        { (data.pressReleases.edges.length > 0) && 
         <div className='section_news bg_white'>
             <h2>Press</h2>
             <Carousel itemList={ data.pressReleases.edges } recordType='news' classNames={['carousel__gray']} />
-        </div>
+        </div>}
     </Layout>
 )
 export default News

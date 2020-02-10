@@ -58,33 +58,6 @@
 /* Hamburger menu base styles (more in mobile media query) */
 .top-nav .hamburger {
     display: none;
-
-    width: 4vh;
-    height: 4vh;
-    border: none;
-    background: none;
-    padding: 0;
-    margin: 0;
-}
-
-.hamburger path {
-    stroke: #000b0b;
-    stroke-width: 1;
-    transition: d .13s ease-in-out, stroke-width .09s ease-in-out;
-    stroke-linecap: round;
-}
-
-.hamburger.open path:nth-child(1),
-.hamburger.open path:nth-child(4) {
-    stroke-width: 0;
-}
-
-.hamburger.open path:nth-child(2) {
-    d: path("M 1 1, l 9 9");
-}
-
-.hamburger.open path:nth-child(3) {
-    d: path("M 1 9, L 9 1");
 }
 
 .nav__mobile-wrap {
