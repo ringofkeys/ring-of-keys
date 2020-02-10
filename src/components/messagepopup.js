@@ -50,16 +50,20 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
             <Field type='text' name='fromName' label='Your Name' required={true}/>
             <Field type='email' name='fromEmail' label='Your Email Address' required={true} />
             <Field type='textarea' name='message' label='Your Message' required={true} />
-            <label className='input__group checkbox is-required'>
+            <label className='input__group checkbox is-required' style={{margin: '1rem 0'}}>
                 <input type='checkbox' required />
-                I have read and accepted the <Link to='/privacy'>Terms and Conditions and Privacy Policy.</Link>
+                <span>
+                    I have read and accepted the <Link to='/privacy'>Terms and Conditions and Privacy Policy.</Link>
+                </span>
             </label>
-            <label className='input__group checkbox is-required'>
+            <label className='input__group checkbox is-required' style={{margin: '1rem 0'}}>
                 <input type='checkbox' required />
-                I have read the Ring of Keys Community Guidelines. I promise my message is supportive.
+                <span>
+                    I have read the Ring of Keys Community Guidelines. I promise my message is supportive.
+                </span>
             </label>
             <button type='submit' className={`btn ${ messageStatus === 'unsent' ? 'has-arrow' : '' } ${ messageStatus }`}
-                style={{ width: '100%' }}>
+                style={{ width: '100%', padding: '1em 0' }}>
                 { messageStatusText[messageStatus] }
             </button>
         </form>

@@ -372,6 +372,20 @@
 
 
 @media (max-width: 700px) {
+    .artist_hero {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .artist_bio {
+        text-align: center;
+        align-items: center;
+    }
+
+    .artist_bio .btn {
+        margin: auto;
+    }
+
     .artist_hero .back_link {
         top: 3vh;
         left: 12vw;

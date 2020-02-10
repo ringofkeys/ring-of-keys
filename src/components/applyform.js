@@ -61,6 +61,8 @@ const ApplyForm = () => {
       console.log('formData = ', formData)
 
       submitApplication(formData).then(res => {
+        console.log('createDatoUser response = ', res)
+
         if (res.status === 200) {
           setFormStatus('success')
           setPopupOpen(true)
