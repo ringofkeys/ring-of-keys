@@ -32,7 +32,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transform: translate(-50%, -50%);
     z-index: -2;
 }
@@ -438,9 +440,12 @@
         height: 5vmin;
         margin-inline-start: 2.5vw;
     }
-
  
     .tooltip {
         display: none;
+    }
+
+    .toggle_group {
+        margin-inline-start: 0;
     }
 }

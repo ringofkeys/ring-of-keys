@@ -78,6 +78,14 @@
     text-align: center;
 }
 
+.block_badge img {
+    max-width: 120px;
+}
+
+.block_badge .btn {
+    display: inline-block;
+}
+
 @media (max-width: 700px) {
     .dashboard_container {
         flex-direction: column-reverse;

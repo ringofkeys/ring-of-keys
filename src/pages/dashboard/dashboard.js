@@ -6,6 +6,8 @@ import Layout from '../../components/layout'
 import ROKMosaic_Dashboard from '../../images/ROKMosaic_Dashboard.jpg'
 import Dashboard_Mobile from '../../images/Dashboard_Mobile.jpg'
 import './dashboard.css'
+import RoKBadge_Print from '../../images/RoKBadge_Print.jpg'
+import RoKBadge_Web from '../../images/RoKBadge_Web.png'
 import { node } from 'prop-types'
 
 const homeDir = '/dashboard'
@@ -36,6 +38,19 @@ const Home = ({ user, messages }) => (<>
       ))
       : <p>No messages yet!</p>
       }
+    </div>
+    <div className='block block_badge'>
+      <h2>Ring of Keys Badge</h2>
+      <p>
+        Click to download your Ring of Keys badge for both web (optimized to use on your 
+        website or digital resume) and print (optimized to be printed at 1.5” square on your paper resume or print materials).
+      </p>
+      <img src={ RoKBadge_Web } alt='Ring of Keys Badge for web' />
+      <div className='divider'></div>
+      <div className='section_btns'>
+        <a href='./static/RoKBadge_Web.png' className='btn btn-link_ghost bg_copper' download>For Web</a>
+        <a href='./static/RoKBadge_Print.jpg' className='btn' download>For Print</a>
+      </div>
     </div>
     <div className='block flex-center'>
       <h2>More features coming soon!</h2>
