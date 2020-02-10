@@ -187,6 +187,9 @@ export default ({ data }) => {
                         <img src={ icon_camera } className='icon_edit' alt={`edit cover icon`} />
                         <span className='tooltip'>Change Cover Photo</span>
                     </button> }
+                <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
+            </section>
+            <section className='artist_body'>
                 { isProfileOwner && 
                     <label className='toggle_group'>
                         <input type='checkbox' className='visually-hidden' checked={isEditable} onChange={() => setEditable(!isEditable)}/>
@@ -194,9 +197,6 @@ export default ({ data }) => {
                         <span className='toggle_label'>Toggle Editing View</span>
                     </label>
                 }
-                <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
-            </section>
-            <section className='artist_body'>
                 { (bio || isEditable) &&
                 <div className='my_story'>
                     <h2>My Story</h2>

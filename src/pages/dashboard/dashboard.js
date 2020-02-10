@@ -33,7 +33,9 @@ const Dashboard = ({ data }) => {
     if (!isAuthenticated()) {
         login()
 
-        return <p>Redirecting to login...</p>
+        return <Layout>
+          <p>Redirecting to login...</p>
+        </Layout>
     }
 
     let userProfile = getProfile()

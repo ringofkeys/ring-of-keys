@@ -123,20 +123,18 @@
     display: none;
 }
 
-.artist_hero .toggle_group {
-    position: absolute;
-    bottom: 5vh;
-    left: 5vw;
-    color: white;
+.toggle_group {
+    display: flex;
+    align-items: center;
 }
 
 .toggle_group .toggle {
     display: inline-block;
-    width: 2em;
-    height: 1em;
+    width: 3em;
+    height: 1.5em;
     margin-inline-end: 1em;
-    border-radius: .5em;
-    background: white;
+    border-radius: .75em;
+    background: #e7e7e7;
     position: relative;
 }
 
@@ -148,10 +146,10 @@
 .toggle_group .toggle::after {
     content: '';
     position: absolute;
-    top: .05em;
-    left: .05em;
-    height: .9em;
-    width: .9em;
+    top: .075em;
+    left: .075em;
+    height: 1.35em;
+    width: 1.35em;
     border-radius: 50%;
     background: gray;
     transition: all .12s ease-in-out;
@@ -386,6 +384,11 @@
         margin: auto;
     }
 
+    .btn_edit.edit_headshot {
+        left: 0;
+        
+    }
+
     .artist_hero .back_link {
         top: 3vh;
         left: 12vw;
@@ -396,6 +399,16 @@
         transform: translate(0);
         opacity: 1;
     }
+
+    .artist_social-icons {
+        bottom: 3vh;
+    }
+
+    .artist_social-icons .social-icon img {
+        height: 5vmin;
+        margin-inline-start: 2.5vw;
+    }
+
  
     .tooltip {
         display: none;
