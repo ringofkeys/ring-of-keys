@@ -52,6 +52,38 @@ const Home = ({ user, messages }) => (<>
         <a href='./static/RoKBadge_Print.jpg' className='btn' download>For Print</a>
       </div>
     </div>
+    <div className='block'>
+      <h2>Facebook</h2>
+      <p>
+        Join our private facebook group for Keys only.
+      </p>
+      <div className='divider'></div>
+      <a href='https://www.facebook.com/groups/141065616564104/' className='btn btn-link_ghost bg_copper' target="_blank" rel='noopener noreferrer'>Go to Facebook</a>
+    </div>
+    <div className='block'>
+      <h2>Key Spotlight</h2>
+      <p>
+      Submit news on an upcoming job to have featured on the Ring of Keys social platforms at our Key Member News Submission Portal.
+      </p>
+      <div className='divider'></div>
+      <a href='https://forms.gle/gnjjZJ69JDMSYtW8A' className='btn btn-link_ghost bg_copper' target="_blank" rel='noopener noreferrer'>Submit News</a>
+    </div>
+    <div className='block'>
+      <h2>Casting Letter</h2>
+      <p>
+        Use our Casting Letter to submit to theatre organizations to help advocate for authentic representation and queer the stage.
+      </p>
+      <div className='divider'></div>
+      <a href='https://docs.google.com/document/d/1jQ5rl1SUrvPqGhBkWj_eR1tBIUURjAcxy3-1KQ5-Zls/edit#' className='btn btn-link_ghost bg_copper' target="_blank" rel='noopener noreferrer'>Go to Google Docs</a>
+    </div>
+    <div className='block'>
+      <h2>RoK News</h2>
+      <p>
+      Stay up to date with our Exclusive Key Monthly Workshop Series and Monthly Meetups by visiting our News page. 
+      </p>
+      <div className='divider'></div>
+      <Link to='/news' className='btn btn-link_ghost bg_copper'>Go to RoK News</Link>
+    </div>
     <div className='block flex-center'>
       <h2>More features coming soon!</h2>
       <p>Email <a href='mailto:info@ringofkeys.org'>info@ringofkeys.org</a> if you have any feedback, questions, or concerns!</p>
