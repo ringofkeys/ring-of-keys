@@ -418,7 +418,8 @@
 
     .btn_edit.edit_headshot {
         left: 0;
-
+        top: 50%;
+        transform: translate(-60%, -50%);
     }
 
     .artist_hero .back_link {
