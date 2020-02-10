@@ -215,7 +215,6 @@
     .nav__login a {
         font-size: 1rem;
     }
-
     
 
     .top-nav .nav__main > a {
@@ -233,9 +232,8 @@
 
     .top-nav .nav__login {
         background: #f7f7f7;
-        flex-direction: column;
+        display: block;
         max-width: 100%;
-        align-items: flex-start;
         padding: 5vh 8vw;
         box-shadow: var(--rok-shadow_bottom);
     }
@@ -243,6 +241,7 @@
     .top-nav .nav__login a {
         margin: 1vh 0;
         font-size: 1rem; 
+        display: block;
     }
 
     .top-nav .nav__login [href='#logout'] {
@@ -255,6 +254,7 @@
     #btn__login {
         margin: 0;
         padding: .5em 2em;
+        width: fit-content;
     }
 
     .nav__login a:first-of-type {
