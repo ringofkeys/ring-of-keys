@@ -27,8 +27,10 @@ const Header = ({ path }) => {
 
   let secondaryNav = (
     <div className='nav__login'>
-      <Link to='/apply' className={isNavOpen ? 'btn btn-link_ghost' : ''}>Apply to be a key</Link>
-      <Link to='/dashboard' id='btn__login' >Log In</Link>  
+      <div className='login_wrap'>
+        <Link to='/apply' className={isNavOpen ? 'btn btn-link_ghost' : ''}>Apply to be a key</Link>
+        <Link to='/dashboard' id='btn__login' >Log In</Link>  
+      </div>
     </div>
   )
 
