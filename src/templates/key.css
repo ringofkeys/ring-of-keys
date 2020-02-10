@@ -124,6 +124,7 @@
 }
 
 .toggle_group {
+    margin-inline-start: auto;
     display: flex;
     align-items: center;
 }
@@ -139,7 +140,7 @@
 }
 
 .toggle_group:focus-within {
-    outline: solid var(--rok-gold-1_hex);
+    outline: solid var(--rok-gold-1_hex) 1px;
     outline-offset: 3px;
 }
 

@@ -6,11 +6,12 @@ import Layout from '../../components/layout'
 import ROKMosaic_Dashboard from '../../images/ROKMosaic_Dashboard.jpg'
 import Dashboard_Mobile from '../../images/Dashboard_Mobile.jpg'
 import './dashboard.css'
+import { node } from 'prop-types'
 
 const homeDir = '/dashboard'
 
 const Events = ({ user }) => <h1>Events</h1>
-const Home = ({ user }) => (<>
+const Home = ({ user, messages }) => (<>
     <h1>Dashboard</h1>
     <div className='block block_intro'>
       <div>
@@ -22,6 +23,19 @@ const Home = ({ user }) => (<>
         <Link to={ '/keys/' + user.slug } className='btn btn-link_ghost'>View / Edit Profile</Link>
       </div>
       <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' />
+    </div>
+    <div className='block block_messages'>
+      <h2>Messages</h2>
+      { (messages.length > 0)
+      ? messages.map(message => (
+        <div className='message'>
+          <h3>From: { message.fromName }</h3>
+          <a href={`mailto:${ message.fromEmail }`}>{ message.fromEmail }</a>
+          <p>{ message.message }</p>
+        </div>
+      ))
+      : <p>No messages yet!</p>
+      }
     </div>
     <div className='block flex-center'>
       <h2>More features coming soon!</h2>
@@ -48,8 +62,11 @@ const Dashboard = ({ data }) => {
     console.log('userProfile = ', userProfile)
 
     let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
+    let messages = data.allDatoCmsMessage.edges.filter(({node}) => node.toArtist.name === userProfile.name)
+
     if (user) {
       user = user[0].node
+      messages = messages.map(({ node }) => node)
     }
 
     return (
@@ -57,7 +74,7 @@ const Dashboard = ({ data }) => {
       title={`Dashboard - ${ user.name }`} description='User dashboard for your Ring of Keys profile'>
         <div className='dashboard_container'>
           <Router>
-              <Home path={homeDir} user={ user } />
+              <Home path={homeDir} user={ user } messages={ messages }/>
               <Events path={homeDir+'/events'} user={ user } />
           </Router>
           { (window.innerWidth > 700)
@@ -79,6 +96,18 @@ query DashboardQuery {
           url
         }
         slug
+      }
+    }
+  }
+  allDatoCmsMessage {
+    edges {
+      node {
+        fromEmail
+        fromName
+        message
+        toArtist {
+          name
+        }
       }
     }
   }

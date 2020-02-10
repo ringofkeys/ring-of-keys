@@ -68,6 +68,7 @@ export default ({ data }) => {
             sexualIdentity,
             mainLocation,
             vocalRange,
+            danceExperience,
             discipline,
             bio,
             memberSince,
@@ -109,6 +110,7 @@ export default ({ data }) => {
         {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', },
         {label: 'Sexual Identity', data: sexualIdentity, fieldName: 'sexualIdentity', },
         {label: 'Vocal Range', data: vocalRange, fieldName: 'vocalRange', },
+        {label: 'Dance Experience', data: danceExperience, fieldName: 'danceExperience', },
         {label: 'Discipline', data: discipline, fieldName: 'discipline', },
         {label:'Website', data: website, fieldName: 'website', }
     ]
@@ -444,6 +446,7 @@ export const query = graphql`
             sexualIdentity
             mainLocation
             vocalRange
+            danceExperience
             discipline
             bio
             resume {
