@@ -240,7 +240,7 @@
         box-shadow: var(--rok-shadow_bottom);
     }
     
-    .top-nav .nav__login > a {
+    .top-nav .nav__login a {
         margin: 1vh 0;
         font-size: 1rem; 
     }
@@ -257,12 +257,12 @@
         padding: .5em 2em;
     }
 
-    .nav__login > a:first-of-type {
+    .nav__login a:first-of-type {
         margin-block-end: 3vh;
         padding: .5em 2em;
     }
 
-    .top-nav .nav__login > a.login_avatar {
+    .top-nav .nav__login a.login_avatar {
         padding: .5em 0;
     }
 }
