@@ -78,6 +78,11 @@
     margin: 0 1.5em;
 }
 
+.top-nav .login_wrap {
+    display: flex;
+    align-items: center;
+}
+
 .top-nav [aria-current]:not([aria-current="false"]) {
     position: relative;
     font-weight: 600;
@@ -236,6 +241,10 @@
         max-width: 100%;
         padding: 5vh 8vw;
         box-shadow: var(--rok-shadow_bottom);
+    }
+
+    .top-nav .login_wrap {
+        display: block;
     }
     
     .top-nav .nav__login a {
