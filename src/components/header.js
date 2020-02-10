@@ -39,18 +39,20 @@ const Header = ({ path }) => {
 
     secondaryNav = (
       <div className='nav__login'>
-        <Link to='/dashboard' className='login_avatar'>
-          {artist && 
-            <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } />
-          }
-          { profile.name }
-          {/* <span className='tooltip'>My Account</span> */}
-        </Link>
-        {/* <Link to='/dashboard' id='btn__login'>Dashboard</Link> */}
-        <a href='#logout' onClick={e => {
-            logout()
-            e.preventDefault()
-        }}>Log Out</a>
+        <div className='login_wrap'>
+          <Link to='/dashboard' className='login_avatar'>
+            {artist && 
+              <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } />
+            }
+            { profile.name }
+            {/* <span className='tooltip'>My Account</span> */}
+          </Link>
+          {/* <Link to='/dashboard' id='btn__login'>Dashboard</Link> */}
+          <a href='#logout' onClick={e => {
+              logout()
+              e.preventDefault()
+          }}>Log Out</a>
+        </div>
       </div>
     )
   }
