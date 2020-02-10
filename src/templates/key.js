@@ -220,11 +220,11 @@ export default ({ data }) => {
                                         <span className='tooltip'>Change { bioField.label }</span>
                                     </button>
                                 </div>
-                                : <FieldEditForm type='textarea' key={bioField.fieldName+'-form'} userId={ id } handleClose={() => {
-                                        bioField.setEditing(false)
+                                : <FieldEditForm type='textarea' key={bioField.fieldName+'-form'} userId={ id } handleClose={() => bioField.setEditing(false)}
+                                    field={bioField.fieldName} val={bioField.data} handleUpdate={(newVal) => {
+                                        bioField.setFieldValue(newVal)
                                         setSubmitted(true)
                                     }}
-                                    field={bioField.fieldName} val={bioField.data} handleUpdate={(newVal) => bioField.setFieldValue(newVal)}
                                     isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                         }
                     </p>
@@ -246,11 +246,11 @@ export default ({ data }) => {
                                     <span className='tooltip'>Change { label }</span>
                                 </button>
                               </div>)
-                            : <FieldEditForm type='text' key={fieldName+'-form-'+i} userId={ id } handleClose={() => {
-                                    setEditing(false)
+                            : <FieldEditForm type='text' key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
+                                field={fieldName} val={data} handleUpdate={(newVal) => {
+                                    setFieldValue(newVal)
                                     setSubmitted(true)
                                 }}
-                                field={fieldName} val={data} handleUpdate={(newVal) => setFieldValue(newVal)}
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
                 </>))}
@@ -272,11 +272,11 @@ export default ({ data }) => {
                         </div>
                         : <>
                             <h3>Resume</h3>
-                            <FieldEditForm type='file' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => {
-                                resumeField.setEditing(false)
+                            <FieldEditForm type='file' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
+                            field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => {
+                                resumeField.setFieldValue(newVal)
                                 setSubmitted(true)
                             }}
-                            field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => resumeField.setFieldValue(newVal)}
                             isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                         </>
                 )}
@@ -306,11 +306,11 @@ export default ({ data }) => {
                         userId: id,
                         field: 'headshot',
                         setSubmitting,
-                        handleUpdate: (newVal) => heroFields.headshot.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
-                        handleClose: () => {
-                            heroFields.headshot.setEditing(false)
+                        handleUpdate: (newVal) => {
+                            heroFields.headshot.setFieldValue({ url: newVal, alt: 'newly uploaded image'})
                             setSubmitted(true)
-                        }
+                        },
+                        handleClose: () => heroFields.headshot.setEditing(false)
                     }, true)
                 }}>
                     <FileDrop />
@@ -336,11 +336,11 @@ export default ({ data }) => {
                         userId: id,
                         field: 'featuredImage',
                         setSubmitting,
-                        handleUpdate: (newVal) => heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'}),
-                        handleClose: () => {
-                            heroFields.featuredImage.setEditing(false)
+                        handleUpdate: (newVal) => {
+                            heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'})
                             setSubmitted(true)
-                        }
+                        },
+                        handleClose: () => heroFields.featuredImage.setEditing(false),
                     }, true)
                 }}>
                     <FileDrop helpText='(For best results, use a 3:1 aspect ratio)'/>
@@ -389,11 +389,11 @@ export default ({ data }) => {
                         userId: id,
                         field: 'socialMedia',
                         setSubmitting,
-                        handleUpdate: (newVal) => heroFields.socialMedia.setFieldValue(newVal),
-                        handleClose: () => {
-                            heroFields.socialMedia.setEditing(false)
+                        handleUpdate: (newVal) => {
+                            heroFields.socialMedia.setFieldValue(newVal)
                             setSubmitted(true)
-                        }
+                        },
+                        handleClose: () => heroFields.socialMedia.setEditing(false)
                     }, false)
                 }}>
                     { Object.keys(socialIcons).map(key => {
