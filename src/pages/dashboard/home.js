@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, graphql, useStaticQuery } from 'gatsby'
 import RoKBadge_Web from '../../images/RoKBadge_Web.png'
 
-const Home = ({ user }) => {
+const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
     const data = useStaticQuery(graphql`
       query MessagesQuery {
         allDatoCmsMessage {
