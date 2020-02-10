@@ -77,7 +77,7 @@ export const query = graphql`
                 }
             }
         }
-        newsletters: allDatoCmsNews(filter: {newsType: {eq: "newsletter"}}, limit: 10) {
+        newsletters: allDatoCmsNews(filter: {newsType: {eq: "newsletter"}}, sort: {fields: publishDate, order: DESC}, limit: 10) {
             edges {
               node {
                 isExternalNews

@@ -23,8 +23,6 @@ const IndexPage = ({ data }) => {
     ast.children[0].tagName = 'h3'
   })
 
-  const [currIndex, setIndex] = useState(0)
-
   return (
     <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
       footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'>
@@ -91,7 +89,7 @@ export const query = graphql`
           }
         }
       }
-    } allDatoCmsNews(limit: 10, sort: {fields: meta___publishedAt, order: DESC}) {
+    } allDatoCmsNews(limit: 10, sort: {fields: publishDate, order: DESC}) {
       edges {
         node {
           title
