@@ -329,7 +329,7 @@ export default ({ data }) => {
                         <button className='btn btn-link_ghost' onClick={() => heroFields.headshot.setEditing(false)}>
                             Cancel
                         </button>
-                        <button className='btn' type='submit' disabled={ isSubmitting }>
+                        <button className='btn' type='submit' disabled={ isSubmitting } className={ isSubmitting ? 'submitting' : '' }>
                             { isSubmitting ? 'Loading...' : 'Save' }
                         </button>
                     </div>
@@ -359,7 +359,7 @@ export default ({ data }) => {
                         <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
                             Cancel
                         </button>
-                        <button className='btn' type='submit' disabled={ isSubmitting }>
+                        <button className='btn' type='submit' disabled={ isSubmitting } className={ isSubmitting ? 'submitting' : '' }>
                             { isSubmitting ? 'Loading...' : 'Save' }
                         </button>
                     </div>
@@ -422,7 +422,7 @@ export default ({ data }) => {
                         <button className='btn btn-link_ghost' onClick={() => heroFields.socialMedia.setEditing(false)}>
                             Cancel
                         </button>
-                        <button className='btn' type='submit' disabled={ isSubmitting }>
+                        <button className='btn' type='submit' disabled={ isSubmitting } className={ isSubmitting ? 'submitting' : '' }>
                             { isSubmitting ? 'Loading...' : 'Save' }
                         </button>
                     </div>

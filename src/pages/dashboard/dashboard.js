@@ -7,7 +7,6 @@ import Home from './home'
 import ROKMosaic_Dashboard from '../../images/ROKMosaic_Dashboard.jpg'
 import Dashboard_Mobile from '../../images/Dashboard_Mobile.jpg'
 import './dashboard.css'
-import { node } from 'prop-types'
 
 const homeDir = '/dashboard'
 

@@ -14,7 +14,9 @@ const Directory = ({ data }) => {
     const aNameToken = a.node.name.split(' ')
     const bNameToken = b.node.name.split(' ')
 
-    return (aNameToken[aNameToken.length] > bNameToken[bNameToken.length]) ? 1 : -1
+    if (aNameToken[aNameToken.length-1] < bNameToken[bNameToken.length-1]) { return -1; }
+    if (aNameToken[aNameToken.length-1] > bNameToken[bNameToken.length-1]) { return 1; }
+    return 0;
   })
   // Filter out artist whose showInDirectory
 
@@ -281,7 +283,7 @@ function getFilters() {
     {
       field: 'vocalRange',
       label: 'Vocal Range',
-      placeholder: 'ie: Alto / Soprano',
+      placeholder: 'ie: Soprano, Tenor',
       type: 'fuzzy',
       threshold: .25,
       logic: 'and',
@@ -289,7 +291,7 @@ function getFilters() {
     {
       field: 'danceExperience',
       label: 'Dance Experience',
-      placeholder: 'ie: Ballet / Tap / Jazz',
+      placeholder: 'ie: Ballet, Tap, Jazz',
       type: 'fuzzy',
       threshold: .25,
       logic: 'and',

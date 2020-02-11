@@ -91,7 +91,7 @@ const Consultancy = ({ data }) => (
                     }
                     <div>
                         <h2>{ node.name }</h2>
-                        <p>{ node.keyTeamMember ? 'Ring of Keys ' + node.keyTeamPosition : 'Ring of Keys     Consultant' }</p>
+                        <p>{ node.keyTeamMember ? 'Ring of Keys ' + node.keyTeamPosition : 'Ring of Keys Consultant' }</p>
                     </div>
                 </Link>
                 }

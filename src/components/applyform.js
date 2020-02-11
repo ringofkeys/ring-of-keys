@@ -84,8 +84,8 @@ const ApplyForm = () => {
           <Field type='text' name='name' label='Full Name' required={true} placeholder='First Last'/>
           <Field type='email' name='email' label='Email Address' required={true} placeholder='Email Address'/>
           <Field type='text' name='discipline' label='Discipline' required={true} placeholder='ie: Actor, Stage Manager, Music Director'/>
-          <Field type='text' name='vocalRange' label='Vocal Range [optional]' placeholder='ie: Alto / Soprano'/>
-          <Field type='text' name='danceExperience' label='Dance Experience [optional]' placeholder='ie: Ballet / Tap / Jazz'/>
+          <Field type='text' name='vocalRange' label='Vocal Range [optional]' placeholder='ie: Soprano, Tenor'/>
+          <Field type='text' name='danceExperience' label='Dance Experience [optional]' placeholder='ie: Ballet, Tap, Jazz'/>
         </div>
         <div className='locations'>
           <label>
