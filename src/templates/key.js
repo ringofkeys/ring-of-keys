@@ -59,6 +59,10 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, labe
                 .map((el,i) => el.checked ? val[i] : el.value)
                 .filter(value => value)
                 .join(', ')
+        } else if (type === 'link') {
+            dataVal = e.target.elements[0].value.startsWith('https://')
+                ? e.target.elements[0].value
+                : 'https://' + e.target.elements[0].value
         } else {
             dataVal = e.target.elements[0].value
         }
@@ -322,7 +326,7 @@ export default ({ data }) => {
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>)
                     }
                 </>))}
-                { ((resume && resume.url) || isEditable) && (
+                { (resume || isEditable) && (
                     !isEditable
                     ? <a className='btn btn_resume' href={ resumeField.data ? resumeField.data : '' } rel='noopener noreferrer' target='_blank'>
                         View Resume
@@ -331,7 +335,7 @@ export default ({ data }) => {
                         ? <div className='profile_field_group file'>
                             <a className={`btn btn_resume ${ resumeField.data ? '' : 'btn-link_ghost' }`}
                                 href={ resumeField.data ? resumeField.data : '' } rel='noopener noreferrer' target='_blank'>
-                                { resumeField.data ? 'View Resume' : 'No Resume Link' }
+                                    { resumeField.data ? 'View Resume' : 'No Resume Link' }
                             </a>
                             <button className='btn_edit edit_field' onClick={() => resumeField.setEditing(true)}>
                                 <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
@@ -340,7 +344,7 @@ export default ({ data }) => {
                         </div>
                         : <>
                             <h3>Resume</h3>
-                            <FieldEditForm type='text' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
+                            <FieldEditForm type='link' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
                             field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => {
                                 resumeField.setFieldValue(newVal)
                                 setSubmitted(true)
