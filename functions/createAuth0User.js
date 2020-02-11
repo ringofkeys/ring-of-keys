@@ -100,6 +100,11 @@ function checkUserExists(auth, name) {
   return rp(options)
 }
 
+const randChars = ['!','-','L', 'A','c','o','W', 'era','Georg3', 'C99', 'asdg', '2aa']
+const pwd = Math.random().toString(36).slice(-12)
+const splitPt = Math.floor(Math.random()*pwd.length)
+pwd = pwd.substr(0, splitPt) + randChars[Math.floor(Math.random()*randChars.length)] + pwd.substr(splitPt)
+
 function createUser(auth, userInfo) {
   const options = {
     method: 'POST',
@@ -111,7 +116,7 @@ function createUser(auth, userInfo) {
     body: JSON.stringify({
       email: userInfo.email,
       name: userInfo.name,
-      password: Math.random().toString(36).slice(-12),
+      password: pwd,
       user_metadata: {
         entity_id: userInfo.entity_id.toString(),
       },
