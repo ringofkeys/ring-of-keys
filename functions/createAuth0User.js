@@ -101,7 +101,7 @@ function checkUserExists(auth, name) {
 }
 
 const randChars = ['!','-','L', 'A','c','o','W', 'era','Georg3', 'C99', 'asdg', '2aa']
-const pwd = Math.random().toString(36).slice(-12)
+let pwd = Math.random().toString(36).slice(-12)
 const splitPt = Math.floor(Math.random()*pwd.length)
 pwd = pwd.substr(0, splitPt) + randChars[Math.floor(Math.random()*randChars.length)] + pwd.substr(splitPt)
 
