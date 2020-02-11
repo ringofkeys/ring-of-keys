@@ -509,9 +509,7 @@ export const query = graphql`
             danceExperience
             discipline
             bio
-            resume {
-                url
-            }
+            resume
         }
     }
 `
