@@ -362,6 +362,18 @@
     color: var(--rok-copper-1_hex);
 }
 
+.key-profile input[type='text'],
+.key-profile input[type='email'],
+.key-profile textarea {
+    font-size: 1.15rem;
+    font-family: 'Raleway', Arial, sans-serif;
+}
+
+.key-profile textarea {
+    box-sizing: border-box;
+    padding: .5em 1em;
+}
+
 .profile_field_group .btn_submit {
     padding: .75em 3em;
     margin-block-start: 1em;

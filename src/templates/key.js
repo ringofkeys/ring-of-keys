@@ -126,7 +126,7 @@ export default ({ data }) => {
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)
 
-    return (<><Layout classNames={['fullwidth']} title={ name }
+    return (<><Layout classNames={['fullwidth','key-profile']} title={ name }
             description={`(${ pronouns }) - ${ name } is a ${ discipline }, and a member of Ring of Keys.`}>
             <section className='artist_hero'
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
@@ -324,7 +324,7 @@ export default ({ data }) => {
                         handleClose: () => heroFields.headshot.setEditing(false)
                     }, true)
                 }}>
-                    <FileDrop />
+                    <FileDrop helpText='For best results, keep file size below 2Mb'/>
                     <div className='file-drop_btns'>
                         <button className='btn btn-link_ghost' onClick={() => heroFields.headshot.setEditing(false)}>
                             Cancel
@@ -354,7 +354,7 @@ export default ({ data }) => {
                         handleClose: () => heroFields.featuredImage.setEditing(false),
                     }, true)
                 }}>
-                    <FileDrop helpText='(For best results, use a 3:1 aspect ratio)'/>
+                    <FileDrop helpText='For best results, use a 3:1 aspect ratio and keep file size below 2Mb'/>
                     <div className='file-drop_btns'>
                         <button className='btn btn-link_ghost' onClick={() => heroFields.featuredImage.setEditing(false)}>
                             Cancel
