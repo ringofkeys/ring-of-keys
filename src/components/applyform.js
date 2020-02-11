@@ -131,7 +131,7 @@ const ApplyForm = () => {
         <h2>How do you identify?</h2>
         <div className='grid_2c-2r' style={{alignItems: 'flex-start', gap: '2em 1em'}}>
           <Field type='text' name='pronouns' label='Pronouns' required={true}
-              placeholder='ie They / Them or She / Her'/>
+              placeholder='ie: They / Them or She / Her'/>
           <Field type='text' name='genderIdentity' label='Gender Identity' required={true} placeholder='ie: Non-Binary, Cis, Gender Fluid'/>
           <Field type='text' name='sexualIdentity' label='Sexual Orientation' required={true} placeholder='ie: Bisexual, Queer, Lesbian'/>
         </div>

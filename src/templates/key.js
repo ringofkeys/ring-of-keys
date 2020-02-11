@@ -147,7 +147,7 @@ export default ({ data }) => {
                     <p>{ infoFields[1].data }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
                     <button className='btn btn_message' onClick={ () => setMessageOpen(true) }>Message</button>
                 </div>
-                { !isEditable // will update to '!isEditable' when I get the editor for Social Links working
+                { !isEditable
                     ? ( socialMedia && (<div className='artist_social-icons'>
                     {socialMedia.map(socialObj => {
                         const mediaPlatform = Object.keys(socialIcons).filter((key) => socialObj.socialMediaLink.includes(key))[0]
@@ -480,9 +480,10 @@ async function handleUpdateSubmit(dataValue, { userId, field, setSubmitting, han
             dataValue = uploadRes[0].id
         }
 
-        updateRes = await updateField(userId.match(/-(\d+)-/)[1], { [field]: dataValue }, isFile)
-        console.log('updateRes = ', updateRes)
+        const itemId = userId.match(/-(\d+)-/)[1]
 
+        updateRes = await updateField(itemId, { [field]: dataValue }, isFile)
+        console.log('updateRes = ', updateRes)
         
         if (updateRes.status === 200) {
             if (isFile) {
@@ -495,6 +496,7 @@ async function handleUpdateSubmit(dataValue, { userId, field, setSubmitting, han
                 handleUpdate(dataValue)
             }
             handleClose()
+            publishDato(itemId).then(res => console.log('publishRes = ', res))
         } else {
             console.log('bad response!')
         }
@@ -516,4 +518,15 @@ async function updateField(id, data, isFile) {
     }).catch(err => console.error(err))
 
     return fieldEditRes
+}
+
+async function publishDato(id) {
+    const publishRes = await fetch('/.netlify/functions/publishDeployDato', {
+        method: 'POST',
+        body: JSON.stringify({
+            id
+        }),
+    }).catch(err => console.error(err))
+
+    return publishRes
 }

@@ -27,28 +27,16 @@ exports.handler = async (event) => {
                 socialMediaLink: link,
                 itemType: '181488',
             }))
-
-            console.log('data.socialMedia = ', data)
         }
 
         const updateRes = await client.items.update(id, data).catch(err => console.error(err))
-
-        console.log('updateRes = ', updateRes)
-
-        const publishRes = await client.items.publish(id).catch(err => console.error(err))
-
-        console.log('publishRes = ', publishRes)
-
-        const deployEnvironmentId = '6240'
-        const deployRes = await client.deploymentEnvironments.trigger(deployEnvironmentId)
-        console.log('deployRes = ', deployRes) 
 
         return {
             statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify(publishRes),
+            body: JSON.stringify(updateRes),
         }
     } catch (err) {
         return {

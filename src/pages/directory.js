@@ -9,8 +9,13 @@ import ArtistCard from '../components/artistcard'
 import './directory.css' 
 
 const Directory = ({ data }) => {
-  const searchList = data.allDatoCmsKey.edges.filter(({ node }) => node.showInDirectory)
+  let searchList = data.allDatoCmsKey.edges.filter(({ node }) => node.showInDirectory)
+  searchList = searchList.sort((a,b) => {
+    const aNameToken = a.node.name.split(' ')
+    const bNameToken = b.node.name.split(' ')
 
+    return (aNameToken[aNameToken.length] > bNameToken[bNameToken.length]) ? 1 : -1
+  })
   // Filter out artist whose showInDirectory
 
   const [filtersAreVisible, setFilterVisibility] = useState(false)
