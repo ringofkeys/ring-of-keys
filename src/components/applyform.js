@@ -158,7 +158,7 @@ async function submitApplication(data) {
   }
   Object.keys(data).forEach(key => {
 
-    //TODO: SEND THESE FIELDS OFF TO THE ADMIN IN AN EMAIL
+    //Removing these fields from the obj to be uploaded as the new user
     if (key !== 'whyRok' && key !== 'referral') {
       newUser[key] = data[key]
     }
@@ -166,12 +166,6 @@ async function submitApplication(data) {
 
   const headshotRes = await uploadFile(newUser.headshot)
   newUser.headshot = headshotRes[0].id  
-
-  let resumeRes = ''
-  if (newUser.resume) {
-    resumeRes = await uploadFile(newUser.resume)
-    newUser.resume = resumeRes[0].id
-  }
 
   console.log('newUser = ', JSON.stringify(newUser))
 
