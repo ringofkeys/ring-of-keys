@@ -78,7 +78,7 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, labe
             </CheckboxGrid>
         }
         { (type !== 'textarea' && type !== 'checkbox') &&
-            <input type={ type } defaultValue={ val } pattern={ pattern ? pattern : '' } required />
+            <input type={ type } defaultValue={ val } pattern={ pattern ? pattern : '.*' } required />
         }
         <button className='btn bg_slate btn_submit' type='submit'>
             { isSubmitting ? 'Loading...' : 'Update' }
@@ -423,25 +423,19 @@ export default ({ data }) => {
                     e.preventDefault()
                     e.persist()
 
-                    const newSocial = ([]).slice.call(e.target.elements).map(el => el.value)
+                    const data = ([]).slice.call(e.target.elements).filter(el => el.value)
+                        .map(el => { return { socialMediaLink: (el.value.startsWith('https://')) ? el.value : 'https://' + el.value }})
+                        
 
-                    console.log('newSocial = ', newSocial)
+                    const hasNewVals = !Object.keys(heroFields.socialMedia)
+                        .every((socialKey, i) => data.find(obj => obj.socialMediaLink === heroFields.socialMedia[socialKey].socialMediaLink))
 
-                    const data = Object.keys(socialIcons).map(domain => {
-                        const foundNewLink = newSocial.find(link => link.includes(domain))
-                        if (foundNewLink) return foundNewLink
+                    if (hasNewVals) {
+                        heroFields.socialMedia.setEditing(false)
+                        return
+                    }
 
-                        const foundOldLink = socialMedia.find(link => link.socialMediaLink.includes(domain))
-                        if (foundOldLink) return foundOldLink.socialMediaLink
-
-                        return ''
-                    }).filter(el => el)
-
-                    console.log('data = ', data)
-                    
-                    data.forEach((link, i) => { data[i] = link.startsWith('http') ? link : `https://${link}` })
-
-                    console.log('submitting the following val = ', data)
+                    console.log('heres the data Ill send = ', data)
 
                     handleUpdateSubmit(data, {
                         userId: id,
@@ -460,7 +454,7 @@ export default ({ data }) => {
                     <div className='icon-field'>
                         <img src={ socialIcons[key] } />
                         <label>{ key + ' Link' }
-                            <input type='text' name={ key } placeholder={ s ? s.socialMediaLink : '' }
+                            <input type='text' name={ key } defaultValue={ s ? s.socialMediaLink : '' }
                             pattern={ urlRegExpStr }/>
                         </label>
                     </div>
