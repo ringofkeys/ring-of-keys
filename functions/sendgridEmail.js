@@ -10,7 +10,7 @@ sgMail.setApiKey(process.env.SENDGRID_KEY)
 exports.handler = async (event) => {
     console.log('event.body = ', event.body)
 
-    event.body = event.body.replace(/(\r\n|\n|\r)/gm,'<br/>')
+    event.body = event.body.replace(/\r\n|\n|\r/gm,' ')
     console.log('escapes event.body = ', event.body)
 
     const data = JSON.parse(event.body)
