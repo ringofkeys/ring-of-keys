@@ -148,7 +148,7 @@ p {
     --color: var(--rok-copper-1_hex);
 }
 
-.btn .submitting {
+.btn.submitting {
     animation: submit-pulse 1s ease-in-out infinite alternate;
 }
 
