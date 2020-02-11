@@ -138,7 +138,7 @@ function resetPassword(auth, email) {
       result_url: process.env.AUTH0_CALLBACK,
       connection_id: process.env.AUTH0_CONNECTIONID,
       email: email,
-      ttl_sec: 0,
+      ttl_sec: 1209600,
       mark_email_as_verified: true,
     })
   }
