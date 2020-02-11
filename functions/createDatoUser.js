@@ -44,31 +44,7 @@ exports.handler = async (event) => {
 
         console.log('data.headshot = ', data.headshot)
 
-        if (newUser.resume && !newUser.resume.uploadId) {
-            console.log('attempting resume upload!', newUser.resume)
-            let resumeUpload = ''
-            resumeUpload = await client.uploads.create({
-                path:   data.resume,
-                author: data.name,
-                copyright: data.name +' '+ new Date().getFullYear(),
-                defaultFieldMetadata: {
-                    en: {
-                        alt: data.name + " resume",
-                        title: data.name+' '+Date.now(),
-                        customData: {
-                            watermark: false,
-                        }
-                    }
-                }
-            }).catch(err => {
-                console.log('the issue is the Resume Upload!')
-                return err
-            })
-            data.resume = { uploadId: resumeUpload.id }
-        }
-
-        console.log('data.resume = ', data.resume)
-
+        
         const newUserRes = await client.items.create(data).catch(err => {
             console.log('the issue is the User Upload!', data)
             return err
