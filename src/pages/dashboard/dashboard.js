@@ -25,14 +25,16 @@ const Dashboard = ({ data }) => {
 
     if (!userProfile) {
       login()
-      userProfile = getProfile()
+      return <Layout>
+        <p>Reauthenticating..</p>
+      </Layout>
     }
 
     console.log('userProfile = ', userProfile)
 
     let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
 
-    if (user) {
+    if (user.length > 0) {
       user = user[0].node
     }
 

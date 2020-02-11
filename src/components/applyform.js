@@ -20,7 +20,7 @@ affiliations = affiliations.sort()
 const ApplyForm = () => {
   const [formStatus, setFormStatus] = useState('unsent')
   const formLabels = {
-      sending: 'Loading...',
+      submitting: 'Loading...',
       unsent: 'Submit',
       success: 'Sent!',
       failure: 'Please Try Again Later',
@@ -30,7 +30,7 @@ const ApplyForm = () => {
 
   function handleSubmit(e) {
       e.preventDefault()
-      setFormStatus('sending')
+      setFormStatus('submitting')
 
       const formEls = ([]).slice.call(e.target.elements)
       const formData = {}
@@ -134,7 +134,7 @@ const ApplyForm = () => {
             </span>
         </label>
         <button type='submit' className={`btn bg_slate ${ formStatus }`} 
-          disabled={ formStatus === 'sending' || formStatus === 'success'} style={{ padding: '.75em 3em', margin: '2em 0'}}>
+          disabled={ formStatus === 'submitting' || formStatus === 'success'} style={{ padding: '.75em 3em', margin: '2em 0'}}>
             { formLabels[formStatus] }
         </button>
     </form>

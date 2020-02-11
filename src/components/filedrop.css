@@ -39,21 +39,6 @@
     width: calc(50% - 1em);
 }
 
-.file-drop_btns .submitting {
-    animation: submit-pulse 1s ease-in-out infinite alternate;
-}
-
-@keyframes submit-pulse {
-    from {
-        background: var(--rok-slate-blue_hex);
-        transform: scale(1);
-    }
-    to {
-        background: var(--rok-pale-green-1_hex);
-        transform: scale(1.05);
-    }
-}
-
 .file-drop_btns .btn-link_ghost {
     color: var(--rok-copper-1_hex);
     border-color: var(--rok-copper-1_hex);

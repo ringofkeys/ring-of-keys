@@ -148,6 +148,22 @@ p {
     --color: var(--rok-copper-1_hex);
 }
 
+.btn .submitting {
+    animation: submit-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes submit-pulse {
+    from {
+        background: var(--rok-slate-blue_hex);
+        transform: scale(1);
+    }
+    to {
+        background: var(--rok-pale-green-1_hex);
+        transform: scale(1.05);
+    }
+}
+
+
 /* Icon-Heading-Labels */
 .icon-heading-label {
     width: 20vw;

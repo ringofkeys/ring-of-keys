@@ -8,6 +8,8 @@
     --line-border-radius: .5vmin;
     --line-bg: var(--rok-slate-blue_hex);
     --line-spacing: 2vmin;
+
+    height: calc(2 * var(--line-spacing) + 3 * var(--line-height));
   }
   
   .menu-icon:focus {

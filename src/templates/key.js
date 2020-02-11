@@ -57,8 +57,8 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, labe
             dataVal = ([]).slice.call(e.target.elements)
                 .filter(el => !el.classList.contains('visually-hidden'))
                 .map((el,i) => el.checked ? val[i] : el.value)
-                .filter(val => val)
-            console.log('checkbox initial values = ', val.map((el,i) => [el, initialVals[i]]))
+                .filter(value => value)
+                .join(', ')
         } else {
             dataVal = e.target.elements[0].value
         }
@@ -81,7 +81,7 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, labe
         { (type !== 'textarea' && type !== 'checkbox') &&
             <input type={ type } defaultValue={ val } pattern={ pattern ? pattern : '.*' } required />
         }
-        <button className='btn bg_slate btn_submit' type='submit'>
+        <button className='btn bg_slate btn_submit' type='submit' className={`btn ${isSubmitting ? 'submitting' : ''}`}>
             { isSubmitting ? 'Loading...' : 'Update' }
         </button>
     </form>

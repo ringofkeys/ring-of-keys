@@ -1,6 +1,8 @@
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
+const SiteClient = require('datocms-client').SiteClient
+const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 const rp = require("request-promise")
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_KEY)
@@ -39,12 +41,16 @@ exports.handler = async (event) => {
 
     const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
     console.log('User Created: ', createUserResponse)
-    if (createUserResponse.statusCode === 409) {
-      return {
-        statusCode: 409,
-        body: `User with email ${ userData.email } already exists!`,
-      }
+    if (createUserResponse.status > 299) {
+        console.log('User creation failed!')
+        return {
+            statusCode: 409,
+            body: `User with email ${ userData.email } already exists!`,
+        }
     }
+
+    const deployEnvironmentId = '6240'
+    await client.deploymentEnvironments.trigger(deployEnvironmentId)
     
     const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => JSON.stringify(err)))
     console.log('Password Reset: ', resetPasswordResponse)
