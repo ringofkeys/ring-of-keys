@@ -85,8 +85,7 @@
     padding: 2em 12.5vw;
 }
 
-.locations > .help_text,
-.affiliations > .help_text {
+.cb-grid_wrapper > .help_text {
     display: none;
 }
 
@@ -222,11 +221,11 @@ span.card__location {
     font-weight: normal;
 }
 
-.filters .locations {
+.cb-grid_wrapper.locations {
     grid-column: span 2;
 }
 
-.filters .locations .checkbox__grid {
+.locations .checkbox__grid {
     grid-template-columns: repeat(4, 1fr);
 }
 
@@ -253,25 +252,26 @@ span.card__location {
         width: 100%;
     }
 
-    .locations,
-    .section_filters .checkbox__grid.two-cols {
+    .section_filters .checkbox__grid {
         grid-template-columns: 1fr;
         gap: 0;
         margin: 1rem 0;
     }
 
-    .locations > .help_text.collapsed,
-    .affiliations > .help_text.collapsed {
+    .section_filters .locations {
+        margin-block-start: 2rem;
+    }
+
+
+    .cb-grid_wrapper > .help_text.collapsed {
         display: none;
     }
 
-    .locations > .help_text,
-    .affiliations > .help_text {
+    .cb-grid_wrapper > .help_text {
         display: block;
     }
 
-    .locations > label > .help_text,
-    .affiliations > label > .help_text {
+    .cb-grid_wrapper > label > .help_text {
         display: none;
     }
 
@@ -279,8 +279,7 @@ span.card__location {
         margin: .5em 0;
     }
 
-    .locations > label,
-    .affiliations > label {
+    .cb-grid_wrapper > label {
         width: 100%;
         display: grid;
         grid-template-columns: auto 1.25rem;

@@ -55,9 +55,13 @@ const ApplyForm = () => {
           }
         })
 
-      if (formData.website && !formData.website.startsWith('https://')) {
-        formData.website = 'https://' + formData.website
+      function validateURL(url) {
+        return (url.startsWith('https://')) ? url : 'https://' + url
       }
+
+      if (formData.website) { formData.website = validateURL(formData.website) }
+      if (formData.resume) { formData.resume = validateURL(formData.resume) }
+
 
       console.log('formData = ', formData)
 
@@ -90,9 +94,19 @@ const ApplyForm = () => {
           <Field type='text' name='mainLocation' label='Where are you based?' placeholder='ie: New York City, Chicago'/>
         </div>
         <CheckboxGrid className='locations' label='Region(s)' helpText='(check as many as apply)'
-          fieldData={ locations } fieldName='locations' />
+          fieldData={ locations } fieldName='locations' >
+            {locations.map((field,i) => (
+                <Field type='checkbox' name={`${ locations }[${i}]`} label={ locations[i]} key={ locations[i]} />
+            ))}
+            <Field type='text' name={ `locationsOther` } label='Other' />
+          </CheckboxGrid>
         <CheckboxGrid className='affiliations' label='Unions & Affiliations [optional]' helpText='(check as many as apply)'
-          fieldData={ affiliations } fieldName='affiliations' />
+          fieldData={ affiliations } fieldName='affiliations'>
+            {affiliations.map((field,i) => (
+                <Field type='checkbox' name={`${ affiliations }[${i}]`} label={ affiliations[i]} key={ affiliations[i]} />
+            ))}
+            <Field type='text' name={ `affiliationsOther` } label='Other' />
+        </CheckboxGrid>
         <div className='divider'></div>
         <h2>How do you identify?</h2>
         <div className='grid_2c-2r' style={{alignItems: 'flex-start', gap: '2em 1em'}}>
@@ -106,7 +120,7 @@ const ApplyForm = () => {
         <Field type='text' name='website' label='Website URL [optional]' />
         <div className='grid_2c-1r'>
           <Field type='file' name='headshot' required={true} label='Upload your headshot or picture' accept='image/*' />
-          <Field type='file' name='resume' label='Upload your Resumé [optional]' accept='.pdf,.doc,.docx' />
+          <Field type='text' name='resume' label='Resumé URL [optional]' />
         </div>
         <div className='grid_2c-1r'>
           <Field type='textarea' name='whyRok' label='Why do you want to be a Key?' required={true} />

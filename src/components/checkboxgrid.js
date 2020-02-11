@@ -2,10 +2,10 @@ import React from 'react'
 import { Field } from './formfields'
 
 
-const CheckboxGrid = ({ className, label, helpText, fieldData, fieldName }) => {
+const CheckboxGrid = ({ className, label, helpText, fieldData, fieldName, children}) => {
 
     return (
-        <div className={ className }>
+        <div className={ `cb-grid_wrapper ${className ? className : ''}` }>
           <label>
               <span>{ label }</span>
               <span className='help_text'>&nbsp;{ helpText } </span>
@@ -21,8 +21,7 @@ const CheckboxGrid = ({ className, label, helpText, fieldData, fieldName }) => {
           </label>
           <p className='help_text collapsed'>{ helpText }:</p>
           <div className='checkbox__grid collapsed'>
-            {fieldData.map((field,i) => (<Field type='checkbox' name={`${ fieldName }[${i}]`} label={ fieldData[i]} key={ fieldData[i]} />))}
-            <Field type='text' name={ `${ fieldName }Other` } label='Other' />
+            { children }
           </div>
         </div>
     )

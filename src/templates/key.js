@@ -4,6 +4,8 @@ import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import MessagePopup from '../components/messagepopup'
 import Popup from '../components/popup'
+import { Field } from '../components/formfields'
+import CheckboxGrid from '../components/checkboxgrid'
 import FileDrop from '../components/filedrop'
 import { uploadFile } from '../utils/datoUploads'
 import { getProfile, isAuthenticated } from "../utils/auth"
@@ -24,21 +26,25 @@ const socialIcons = {
     twitter: icon_twitter,
     linkedin: icon_linkedin,
 }
-let locations = [
+const urlRegExpStr = '^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'
+
+let locationLabels = [
     "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
     "Boulder", "Orlando", "Sarasota", "Louisville", "Baltimore", "Boston", "St. Louis", "Las Vegas", "Raleigh", "Cleveland",
     "Ashland", "Portland, OR", "Pittsburgh", "Austin", "Salt Lake City", "Washington, D.C.", "Seattle", "Toronto", "Ontario",
     "London",
 ]
-locations = locations.sort()
-let affiliations = [
+locationLabels = locationLabels.sort()
+let affiliationLabels = [
     "AEA", "AFM", "AGMA", "AGVA", "ASCAP", "BMI", "CSA", "EMC", "IATSE",  "LMDA", "SAFD", "SAG/AFTRA", "SDC", "USA", "Non-union",
 ]
-affiliations = affiliations.sort()
+affiliationLabels = affiliationLabels.sort()
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
-const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, setSubmitting, handleUpdate, type}) => (<div id={id} className='profile_field_group'>
+const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, label, pattern,
+    setSubmitting, handleUpdate, type, helpText, initialVals}) => (
+    <div id={id} className={'profile_field_group ' + type}>
     <form onSubmit={e => {
         e.persist()
         e.preventDefault()
@@ -47,15 +53,32 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, setS
         let dataVal = ''
         if (isFile) {
             dataVal = e.target.elements[0].files[0]
+        } else if (type === 'checkbox') {
+            dataVal = ([]).slice.call(e.target.elements)
+                .filter(el => !el.classList.contains('visually-hidden'))
+                .map((el,i) => el.checked ? val[i] : el.value)
+                .filter(val => val)
+            console.log('checkbox initial values = ', val.map((el,i) => [el, initialVals[i]]))
         } else {
             dataVal = e.target.elements[0].value
         }
 
         handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
     }}>
-        { type !== 'textarea'
-            ? <input type={ type } defaultValue={ val } required />
-            : <textarea placeholder={ val } defaultValue={ val } required />
+        { type === 'textarea' &&
+            <textarea placeholder={ val } defaultValue={ val } required />
+        }
+        { type === 'checkbox' &&
+            <CheckboxGrid label={ label } helpText={ helpText } initialVals={ initialVals }
+            fieldData={ val }>
+                {val.map((f,i) => (
+                    <Field type='checkbox' name={`${ field }[${i}]`} label={ f } key={ f } />
+                ))}
+                <Field type='text' name={ `${ field }Other` } label='Other' />
+            </CheckboxGrid>
+        }
+        { (type !== 'textarea' && type !== 'checkbox') &&
+            <input type={ type } defaultValue={ val } pattern={ pattern ? pattern : '' } required />
         }
         <button className='btn bg_slate btn_submit' type='submit'>
             { isSubmitting ? 'Loading...' : 'Update' }
@@ -78,6 +101,8 @@ export default ({ data }) => {
             genderIdentity,
             sexualIdentity,
             mainLocation,
+            locations,
+            affiliations,
             vocalRange,
             danceExperience,
             discipline,
@@ -127,12 +152,19 @@ export default ({ data }) => {
     const resumeField = {label: 'Resume', data: resume, fieldName: 'resume',}
     useFieldStates(resumeField)
 
-    
+
     const infoFields = [
-        {label: 'Name', data: name, fieldName: 'name', fieldType: 'text',},
-        {label: 'Pronouns', data: pronouns, fieldName: 'pronouns', fieldType: 'text'},
-        {label: 'Where are you based?', data: mainLocation, fieldName: 'mainLocation', fieldType: 'text'},
-        {label: 'Region(s) (These control your search page listing)', data: locations, fieldName: 'location', fieldType: 'checkbox'},
+        {label: 'Name', data: name, fieldName: 'name', type: 'text',},
+        {label: 'Pronouns', data: pronouns, fieldName: 'pronouns', type: 'text'},
+        {label: 'Where are you based?', data: mainLocation, fieldName: 'mainLocation', type: 'text'},
+        {label: 'Regions', helpText: '(These control your search page listing)', refArray: locationLabels, 
+        data: locations, fieldName: 'locations', type: 'checkbox',
+        initialVals: locationLabels.map(label => locations.includes(label))
+        },
+        {label: 'Unions & Affiliations', helpText: '(check as many as apply)', refArray: affiliationLabels, 
+        data: affiliations, fieldName: 'affiliations', type: 'checkbox',
+        initialVals: affiliationLabels.map(label => affiliations.includes(label))
+        },
     ]
     infoFields.forEach(useFieldStates)
 
@@ -232,29 +264,7 @@ export default ({ data }) => {
                     </p>
                 </div>
                 }
-                {infoFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => (<>
-                    { isEditable && <h3>{ label }</h3> }
-                    { isEditable &&
-                        (!isEditing
-                            ? (<div className='profile_field_group'>
-                                <p>{ (!data.includes('http')) ? (data ? data : <span className='unfilled-field'>Add some info here!</span>)
-                                    : <a href={ data ? data : ''} rel='noopener noreferrer' target='_blank'>{
-                                    data ? data : <span className='unfilled-field'>'Add a URL here!'</span>
-                                }</a> }</p>
-                                <button className='btn_edit edit_field' onClick={() => setEditing(true)}>
-                                    <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
-                                    <span className='tooltip'>Change { label }</span>
-                                </button>
-                              </div>)
-                            : <FieldEditForm type='text' key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
-                                field={fieldName} val={data} handleUpdate={(newVal) => {
-                                    setFieldValue(newVal)
-                                    setSubmitted(true)
-                                }}
-                                isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>)
-                    }
-                </>))}
-                {bodyFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => (<>
+                {bodyFields.map(({ data, label, isEditing, setEditing, fieldName, setFieldValue }, i) => (<>
                     { (data || isEditable) && <h3>{ label }</h3> }
                     { !isEditable
                         ? data && (<p>{ !data.includes('http') ? data
@@ -278,16 +288,40 @@ export default ({ data }) => {
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
                 </>))}
+                {infoFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue, type, helpText, refArray, initialVals}, i) => (<>
+                    { (isEditable && !(type === 'checkbox' && isEditing)) && <h3>{ label }</h3> }
+                    { isEditable &&
+                        (!isEditing
+                            ? (<div className={'profile_field_group'}>
+                                <p>{ (!data.includes('http')) ? (data ? data : <span className='unfilled-field'>Add some info here!</span>)
+                                    : <a href={ data ? data : ''} rel='noopener noreferrer' target='_blank'>{
+                                    data ? data : <span className='unfilled-field'>Add a URL here!</span>
+                                }</a> }</p>
+                                <button className='btn_edit edit_field' onClick={() => setEditing(true)}>
+                                    <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
+                                    <span className='tooltip'>Change { label }</span>
+                                </button>
+                              </div>)
+                            : <FieldEditForm type={ type } key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
+                                field={fieldName} val={ refArray ? refArray : data} label={ label } helpText={ helpText } initialVals={ initialVals }
+                                handleUpdate={(newVal) => {
+                                    if (newVal instanceof Array) { setFieldValue(newVal.join(', ')) }
+                                    else { setFieldValue(newVal) }
+                                    setSubmitted(true)
+                                }}
+                                isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>)
+                    }
+                </>))}
                 { ((resume && resume.url) || isEditable) && (
                     !isEditable
-                    ? <a className='btn btn_resume' href={ resumeField.data ? resumeField.data.url : '' } rel='noopener noreferrer' target='_blank'>
+                    ? <a className='btn btn_resume' href={ resumeField.data ? resumeField.data : '' } rel='noopener noreferrer' target='_blank'>
                         View Resume
                     </a>
                     : !resumeField.isEditing
-                        ? <div className='profile_field_group'>
+                        ? <div className='profile_field_group file'>
                             <a className={`btn btn_resume ${ resumeField.data ? '' : 'btn-link_ghost' }`}
-                                href={ resumeField.data ? resumeField.data.url : '' } rel='noopener noreferrer' target='_blank'>
-                                { resumeField.data ? 'View Resume' : 'No Resume Uploaded' }
+                                href={ resumeField.data ? resumeField.data : '' } rel='noopener noreferrer' target='_blank'>
+                                { resumeField.data ? 'View Resume' : 'No Resume Link' }
                             </a>
                             <button className='btn_edit edit_field' onClick={() => resumeField.setEditing(true)}>
                                 <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
@@ -296,11 +330,11 @@ export default ({ data }) => {
                         </div>
                         : <>
                             <h3>Resume</h3>
-                            <FieldEditForm type='file' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
+                            <FieldEditForm type='text' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
                             field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => {
                                 resumeField.setFieldValue(newVal)
                                 setSubmitted(true)
-                            }}
+                            }} pattern={ urlRegExpStr }
                             isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                         </>
                 )}
@@ -427,7 +461,7 @@ export default ({ data }) => {
                         <img src={ socialIcons[key] } />
                         <label>{ key + ' Link' }
                             <input type='text' name={ key } placeholder={ s ? s.socialMediaLink : '' }
-                            pattern='^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'/>
+                            pattern={ urlRegExpStr }/>
                         </label>
                     </div>
                     )})}
@@ -469,6 +503,8 @@ export const query = graphql`
             genderIdentity
             sexualIdentity
             mainLocation
+            locations
+            affiliations
             vocalRange
             danceExperience
             discipline

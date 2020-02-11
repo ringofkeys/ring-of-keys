@@ -324,4 +324,8 @@ textarea {
         width: 1.5rem;
         height: 1.5rem;
     }
+
+    .checkbox__grid {
+        grid-template-columns: 1fr;
+    }
 }

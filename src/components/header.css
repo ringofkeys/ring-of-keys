@@ -258,6 +258,7 @@
         color: var(--rok-slate-blue_hex);
         padding: .5em 1.5em;
         border-radius: .25em;
+        width: fit-content;
     }
 
     #btn__login {
@@ -273,5 +274,6 @@
 
     .top-nav .nav__login a.login_avatar {
         padding: .5em 0;
+        display: flex;
     }
 }

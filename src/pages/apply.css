@@ -77,11 +77,15 @@
         max-width: 100%;
     }
 
-    .checkbox__grid {
+    .apply .cb-grid_wrapper .checkbox__grid {
         grid-template-columns: 1fr;
     }
 
     .apply .grid_2c-2r {
         grid-template-columns: 1fr;
+    }
+
+    .apply .grid_2c-1r {
+        gap: 2em 0;
     }
 }

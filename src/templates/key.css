@@ -412,6 +412,22 @@
     }
 }
 
+.profile_field_group .cb-grid_wrapper > label {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    text-transform: capitalize;
+    border-bottom: solid 1px lightgrey;
+    padding-bottom: .25em;
+    margin: 1em 0;
+    width: 100%;
+}
+
 
 @media (max-width: 700px) {
     .artist_hero {
@@ -460,5 +476,32 @@
 
     .toggle_group {
         margin-inline-start: 0;
+    }
+
+    .profile_field_group {
+        margin: 1em 0;
+    }
+
+    .profile_field_group .checkbox__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile_field_group .cb-grid_wrapper > label {
+        width: 100%;
+        display: grid;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: .8rem;
+        padding: 1em 1em;
+    }
+
+    .profile_field_group.text,
+    .profile_field_group.checkbox,
+    .profile_field_group.file {
+        display: block;
+    }
+
+    .profile_field_group .btn_edit {
+        margin-left: auto;
     }
 }
