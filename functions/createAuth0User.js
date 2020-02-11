@@ -49,6 +49,11 @@ exports.handler = async (event) => {
     const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => JSON.stringify(err)))
     console.log('Password Reset: ', resetPasswordResponse)
 
+    if (!resetPasswordResponse.ticket) return {
+        statusCode: 500,
+        body: 'ticket creation unsuccessful, email not sent'
+    }
+
     const emailSendResponse = await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
     console.log('Email Sent: ', emailSendResponse) 
     

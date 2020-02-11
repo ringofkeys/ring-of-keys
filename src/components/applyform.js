@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'gatsby'
 import { Field } from './formfields'
+import CheckboxGrid from './checkboxgrid'
 import Popup from './popup'
 import slugify from '../utils/slugify'
 import { uploadFile } from '../utils/datoUploads'
@@ -86,47 +87,12 @@ const ApplyForm = () => {
           <Field type='text' name='discipline' label='Discipline' required={true} placeholder='ie: Actor, Stage Manager, Music Director'/>
           <Field type='text' name='vocalRange' label='Vocal Range [optional]' placeholder='ie: Soprano, Tenor'/>
           <Field type='text' name='danceExperience' label='Dance Experience [optional]' placeholder='ie: Ballet, Tap, Jazz'/>
+          <Field type='text' name='mainLocation' label='Where are you based?' placeholder='ie: New York City, Chicago'/>
         </div>
-        <div className='locations'>
-          <label>
-              <span>Region</span>
-              <span className='help_text'>&nbsp;(check as many that apply):</span>
-              <input className='visually-hidden' type='checkbox'
-              onChange={e => {
-                  e.target.nextSibling.classList.toggle('collapsed');
-                  ([]).slice.call(e.target.parentElement.parentElement.children).forEach(el => el.classList.toggle('collapsed'))
-              }} />
-              <svg className='collapse_icon' viewBox='0 0 10 10'>
-                  <path d='M 5.5 1 l 0 9' stroke='var(--rok-slate-blue_hex)' />
-                  <path d='M 1 5 l 9 0' stroke='var(--rok-slate-blue_hex)' />
-              </svg>
-          </label>
-          <p className='help_text collapsed'>(check as many that apply):</p>
-          <div className='checkbox__grid collapsed'>
-            {locations.map((city,i) => (<Field type='checkbox' name={`locations[${i}]`} label={locations[i]} key={locations[i]} />))}
-            <Field type='text' name='locationsOther' label='Other' />
-          </div>
-        </div>
-        <div className='affiliations'>
-        <label>
-              <span>Unions & Affiliations [optional]</span>
-              <span className='help_text'>&nbsp;(check as many that apply):</span>
-              <input className='visually-hidden' type='checkbox'
-              onChange={e => {
-                  e.target.nextSibling.classList.toggle('collapsed');
-                  ([]).slice.call(e.target.parentElement.parentElement.children).forEach(el => el.classList.toggle('collapsed'))
-              }} />
-              <svg className='collapse_icon' viewBox='0 0 10 10'>
-                  <path d='M 5.5 1 l 0 9' stroke='var(--rok-slate-blue_hex)' />
-                  <path d='M 1 5 l 9 0' stroke='var(--rok-slate-blue_hex)' />
-              </svg>
-          </label>
-          <p className='help_text collapsed'>(check as many that apply):</p>
-          <div className='checkbox__grid collapsed'>
-            {affiliations.map((aff,i) => (<Field type='checkbox' name={`affiliations[${i}]`} label={affiliations[i]} key={affiliations[i]} />))}
-            <Field type='text' name='affiliationsOther' label='Other' />
-          </div>
-        </div>
+        <CheckboxGrid className='locations' label='Region(s)' helpText='(check as many as apply)'
+          fieldData={ locations } fieldName='locations' />
+        <CheckboxGrid className='affiliations' label='Unions & Affiliations [optional]' helpText='(check as many as apply)'
+          fieldData={ affiliations } fieldName='affiliations' />
         <div className='divider'></div>
         <h2>How do you identify?</h2>
         <div className='grid_2c-2r' style={{alignItems: 'flex-start', gap: '2em 1em'}}>

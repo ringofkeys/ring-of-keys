@@ -24,6 +24,17 @@ const socialIcons = {
     twitter: icon_twitter,
     linkedin: icon_linkedin,
 }
+let locations = [
+    "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
+    "Boulder", "Orlando", "Sarasota", "Louisville", "Baltimore", "Boston", "St. Louis", "Las Vegas", "Raleigh", "Cleveland",
+    "Ashland", "Portland, OR", "Pittsburgh", "Austin", "Salt Lake City", "Washington, D.C.", "Seattle", "Toronto", "Ontario",
+    "London",
+]
+locations = locations.sort()
+let affiliations = [
+    "AEA", "AFM", "AGMA", "AGVA", "ASCAP", "BMI", "CSA", "EMC", "IATSE",  "LMDA", "SAFD", "SAG/AFTRA", "SDC", "USA", "Non-union",
+]
+affiliations = affiliations.sort()
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
@@ -116,10 +127,12 @@ export default ({ data }) => {
     const resumeField = {label: 'Resume', data: resume, fieldName: 'resume',}
     useFieldStates(resumeField)
 
+    
     const infoFields = [
-        {label: 'Name', data: name, fieldName: 'name'},
-        {label: 'Pronouns', data: pronouns, fieldName: 'pronouns'},
-        {label: 'Main Location', data: mainLocation, fieldName: 'mainLocation'},
+        {label: 'Name', data: name, fieldName: 'name', fieldType: 'text',},
+        {label: 'Pronouns', data: pronouns, fieldName: 'pronouns', fieldType: 'text'},
+        {label: 'Where are you based?', data: mainLocation, fieldName: 'mainLocation', fieldType: 'text'},
+        {label: 'Region(s) (These control your search page listing)', data: locations, fieldName: 'location', fieldType: 'checkbox'},
     ]
     infoFields.forEach(useFieldStates)
 
