@@ -8,7 +8,10 @@ sgMail.setApiKey(process.env.SENDGRID_KEY)
 
 
 exports.handler = async (event) => {
-    console.log('event.body type = ', typeof event.body)
+    console.log('event.body = ', event.body)
+
+    event.body.replace('\n','\\n')
+    console.log('escapes event.body = ', event.body)
 
     const data = JSON.parse(event.body)
 
