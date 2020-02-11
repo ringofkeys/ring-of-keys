@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Field = ({ name, label, change, value, type, placeholder, inputClasses, required = false, accept='', defaultChecked}) => (
+export const Field = ({ name, label, change, value, type, placeholder, inputClasses, required = false, accept='', defaultChecked, defaultValue}) => (
     <div className={`input__group ${type}`}>
         {label && <label htmlFor={name} className={`${required ? 'is-required' : ''}`}>{label}</label>}
         {type !== 'textarea' 
@@ -15,6 +15,7 @@ export const Field = ({ name, label, change, value, type, placeholder, inputClas
             required={required}
             accept={accept}
             defaultChecked={defaultChecked}
+            defaultValue={defaultValue}
             />
         : <textarea id={name}
             name={name}
@@ -25,6 +26,7 @@ export const Field = ({ name, label, change, value, type, placeholder, inputClas
             className={inputClasses}
             required={required}
             defaultChecked={defaultChecked}
+            defaultValue={defaultValue}
             />
         }
     </div>

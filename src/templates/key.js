@@ -43,7 +43,7 @@ affiliationLabels = affiliationLabels.sort()
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
 const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, label, pattern,
-    setSubmitting, handleUpdate, type, helpText, initialVals}) => (
+    setSubmitting, handleUpdate, type, helpText, initialVals, initialOther}) => (
     <div id={id} className={'profile_field_group ' + type}>
     <form onSubmit={e => {
         e.persist()
@@ -69,12 +69,13 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, labe
             <textarea placeholder={ val } defaultValue={ val } required />
         }
         { type === 'checkbox' &&
-            <CheckboxGrid label={ label } helpText={ helpText } initialVals={ initialVals }
+            <CheckboxGrid label={ label } helpText={ helpText }
             fieldData={ val }>
                 {val.map((f,i) => (
-                    <Field type='checkbox' name={`${ field }[${i}]`} label={ f } key={ f } />
+                    <Field type='checkbox' name={`${ field }[${i}]`} label={ f } key={ f } defaultChecked={ initialVals[i] } />
                 ))}
-                <Field type='text' name={ `${ field }Other` } label='Other' />
+                <Field type='text' name={ `${ field }Other` } label='Other' 
+                    defaultValue={ initialOther }/>
             </CheckboxGrid>
         }
         { (type !== 'textarea' && type !== 'checkbox') &&
@@ -152,6 +153,11 @@ export default ({ data }) => {
     const resumeField = {label: 'Resume', data: resume, fieldName: 'resume',}
     useFieldStates(resumeField)
 
+    function getInitialOther(string, valArray) {
+        if (!locations) return ''
+        const filteredOther = string.split(', ').filter(val => valArray.indexOf(val) < 0)
+        return filteredOther ? filteredOther[0] : ''
+    }
 
     const infoFields = [
         {label: 'Name', data: name, fieldName: 'name', type: 'text',},
@@ -159,11 +165,13 @@ export default ({ data }) => {
         {label: 'Where are you based?', data: mainLocation, fieldName: 'mainLocation', type: 'text'},
         {label: 'Regions', helpText: '(These control your search page listing)', refArray: locationLabels, 
         data: locations, fieldName: 'locations', type: 'checkbox',
-        initialVals: locationLabels.map(label => locations.includes(label))
+        initialVals: locationLabels.map(label => locations.includes(label)),
+        initialOther: getInitialOther(locations, locationLabels)
         },
         {label: 'Unions & Affiliations', helpText: '(check as many as apply)', refArray: affiliationLabels, 
         data: affiliations, fieldName: 'affiliations', type: 'checkbox',
-        initialVals: affiliationLabels.map(label => affiliations.includes(label))
+        initialVals: affiliationLabels.map(label => affiliations.includes(label)),
+        initialOther: getInitialOther(affiliations, affiliationLabels)
         },
     ]
     infoFields.forEach(useFieldStates)
@@ -288,7 +296,8 @@ export default ({ data }) => {
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
                 </>))}
-                {infoFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue, type, helpText, refArray, initialVals}, i) => (<>
+                {infoFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue, type, 
+                    helpText, refArray, initialVals, initialOther}, i) => (<>
                     { (isEditable && !(type === 'checkbox' && isEditing)) && <h3>{ label }</h3> }
                     { isEditable &&
                         (!isEditing
@@ -303,7 +312,8 @@ export default ({ data }) => {
                                 </button>
                               </div>)
                             : <FieldEditForm type={ type } key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
-                                field={fieldName} val={ refArray ? refArray : data} label={ label } helpText={ helpText } initialVals={ initialVals }
+                                field={fieldName} val={ refArray ? refArray : data} label={ label } helpText={ helpText }
+                                initialVals={ initialVals } initialOther={ initialOther }
                                 handleUpdate={(newVal) => {
                                     if (newVal instanceof Array) { setFieldValue(newVal.join(', ')) }
                                     else { setFieldValue(newVal) }
