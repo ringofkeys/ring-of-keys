@@ -144,12 +144,17 @@ export default ({ data }) => {
 
 
     const bodyFields = [
-        {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', },
         {label: 'Sexual Identity', data: sexualIdentity, fieldName: 'sexualIdentity', },
+        {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', },
+        {label: 'Discipline', data: discipline, fieldName: 'discipline', },
         {label: 'Vocal Range', data: vocalRange, fieldName: 'vocalRange', },
         {label: 'Dance Experience', data: danceExperience, fieldName: 'danceExperience', },
-        {label: 'Discipline', data: discipline, fieldName: 'discipline', },
-        {label:'Website', data: website, fieldName: 'website', }
+        {label: 'Unions & Affiliations', helpText: '(check as many as apply)', refArray: affiliationLabels, 
+        data: affiliations, fieldName: 'affiliations', type: 'checkbox',
+        initialVals: affiliationLabels.map(label => affiliations.includes(label)),
+        initialOther: getInitialOther(affiliations, affiliationLabels)
+        },
+        {label:'Website', data: website, fieldName: 'website', },
     ]
 
     bodyFields.forEach(useFieldStates)
@@ -171,11 +176,6 @@ export default ({ data }) => {
         data: locations, fieldName: 'locations', type: 'checkbox',
         initialVals: locationLabels.map(label => locations.includes(label)),
         initialOther: getInitialOther(locations, locationLabels)
-        },
-        {label: 'Unions & Affiliations', helpText: '(check as many as apply)', refArray: affiliationLabels, 
-        data: affiliations, fieldName: 'affiliations', type: 'checkbox',
-        initialVals: affiliationLabels.map(label => affiliations.includes(label)),
-        initialOther: getInitialOther(affiliations, affiliationLabels)
         },
     ]
     infoFields.forEach(useFieldStates)
@@ -276,30 +276,6 @@ export default ({ data }) => {
                     </p>
                 </div>
                 }
-                {bodyFields.map(({ data, label, isEditing, setEditing, fieldName, setFieldValue }, i) => (<>
-                    { (data || isEditable) && <h3>{ label }</h3> }
-                    { !isEditable
-                        ? data && (<p>{ !data.includes('http') ? data
-                            : <a href={ data } rel='noopener noreferrer' target='_blank'>{ data }</a> }</p>)
-                        : (!isEditing) 
-                            ? (<div className='profile_field_group'>
-                                <p>{ (!data.includes('http')) ? (data ? data : <span className='unfilled-field'>Add some info here!</span>)
-                                    : <a href={ data ? data : ''} rel='noopener noreferrer' target='_blank'>{
-                                    data ? data : <span className='unfilled-field'>'Add a URL here!'</span>
-                                }</a> }</p>
-                                <button className='btn_edit edit_field' onClick={() => setEditing(true)}>
-                                    <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
-                                    <span className='tooltip'>Change { label }</span>
-                                </button>
-                              </div>)
-                            : <FieldEditForm type='text' key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
-                                field={fieldName} val={data} handleUpdate={(newVal) => {
-                                    setFieldValue(newVal)
-                                    setSubmitted(true)
-                                }}
-                                isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
-                    }
-                </>))}
                 {infoFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue, type, 
                     helpText, refArray, initialVals, initialOther}, i) => (<>
                     { (isEditable && !(type === 'checkbox' && isEditing)) && <h3>{ label }</h3> }
@@ -324,6 +300,33 @@ export default ({ data }) => {
                                     setSubmitted(true)
                                 }}
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>)
+                    }
+                </>))}
+                {bodyFields.map(({ data, type, label, isEditing, setEditing, fieldName, setFieldValue, helpText, refArray, initialVals, initialOther }, i) => (<>
+                    { (data || isEditable) && <h3>{ label }</h3> }
+                    { !isEditable
+                        ? data && (<p>{ !data.includes('http') ? data
+                            : <a href={ data } rel='noopener noreferrer' target='_blank'>{ data }</a> }</p>)
+                        : (!isEditing) 
+                            ? (<div className='profile_field_group'>
+                                <p>{ (!data.includes('http')) ? (data ? data : <span className='unfilled-field'>Add some info here!</span>)
+                                    : <a href={ data ? data : ''} rel='noopener noreferrer' target='_blank'>{
+                                    data ? data : <span className='unfilled-field'>'Add a URL here!'</span>
+                                }</a> }</p>
+                                <button className='btn_edit edit_field' onClick={() => setEditing(true)}>
+                                    <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
+                                    <span className='tooltip'>Change { label }</span>
+                                </button>
+                              </div>)
+                            : <FieldEditForm type={ type } key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
+                            field={fieldName} val={ refArray ? refArray : data} label={ label } helpText={ helpText }
+                            initialVals={ initialVals } initialOther={ initialOther }
+                            handleUpdate={(newVal) => {
+                                if (newVal instanceof Array) { setFieldValue(newVal.join(', ')) }
+                                else { setFieldValue(newVal) }
+                                setSubmitted(true)
+                            }}
+                            isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
                     }
                 </>))}
                 { (resume || isEditable) && (
