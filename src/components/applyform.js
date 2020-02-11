@@ -39,10 +39,11 @@ const ApplyForm = () => {
 
       // gather up all checkbox fields into arrays
       arrayFields.forEach(field => {
-        formData[field.name] = formEls.filter(el => el.name.includes(field.name) && (el.value || el.checked)).map((el, i) => {
+        formData[field.name] = formEls.filter(el => el.name.includes(field.name)).map((el, i) => {
           if (el.checked) return field.ref[i]
           else if (el.value) return el.value
-        }).join(', ')
+        }).filter(val => val)
+        .join(', ')
       })
 
       // save the rest of the formdata
@@ -96,14 +97,14 @@ const ApplyForm = () => {
         <CheckboxGrid className='locations' label='Region(s)' helpText='(check as many as apply)'
           fieldData={ locations } fieldName='locations' >
             {locations.map((field,i) => (
-                <Field type='checkbox' name={`${ locations }[${i}]`} label={ locations[i]} key={ locations[i]} />
+                <Field type='checkbox' name={`locations[${i}]`} label={ locations[i]} key={ locations[i]} />
             ))}
             <Field type='text' name={ `locationsOther` } label='Other' />
           </CheckboxGrid>
         <CheckboxGrid className='affiliations' label='Unions & Affiliations [optional]' helpText='(check as many as apply)'
           fieldData={ affiliations } fieldName='affiliations'>
             {affiliations.map((field,i) => (
-                <Field type='checkbox' name={`${ affiliations }[${i}]`} label={ affiliations[i]} key={ affiliations[i]} />
+                <Field type='checkbox' name={`affiliations[${i}]`} label={ affiliations[i]} key={ affiliations[i]} />
             ))}
             <Field type='text' name={ `affiliationsOther` } label='Other' />
         </CheckboxGrid>
