@@ -43,8 +43,8 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, setS
         handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
     }}>
         { type !== 'textarea'
-            ? <input type={ type } placeholder={ val } required />
-            : <textarea placeholder={ val } required />
+            ? <input type={ type } defaultValue={ val } required />
+            : <textarea placeholder={ val } defaultValue={ val } required />
         }
         <button className='btn bg_slate btn_submit' type='submit'>
             { isSubmitting ? 'Loading...' : 'Update' }
@@ -79,32 +79,28 @@ export default ({ data }) => {
     const [isEditable, setEditable] = useState(isProfileOwner)
     const [hasSubmitted, setSubmitted] = useState(false)
 
+            
+    function useFieldStates(field) {
+        const [fieldValue, setFieldValue] = useState(field.data)
+        field.data = fieldValue
+        field.setFieldValue = setFieldValue
+    
+        const [isEditing, setEditing] = useState(false)
+        field.isEditing = isEditing
+        field.setEditing = setEditing
+    }
+
     const heroFields = {
         headshot: {data: headshot, fieldName: 'headshot', },
         featuredImage: {data: featuredImage, fieldName: 'featuredImage', },
         socialMedia: {data: socialMedia, fieldName: 'socialMedia', },
     }
-    Object.keys(heroFields).forEach(key => {
-        if (key === 'headshot') {
-            heroFields[key].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
-        }
-        const [fieldValue, setFieldValue] = useState(heroFields[key].data)
-        heroFields[key].data = fieldValue
-        heroFields[key].setFieldValue = setFieldValue
-    
-        const [isEditing, setEditing] = useState(false)
-        heroFields[key].isEditing = isEditing
-        heroFields[key].setEditing = setEditing
-    })
-    
-    const bioField = {label: 'Bio', data: bio, fieldName: 'bio',}
-    const [bioValue, setBioValue] = useState(bioField.data)
-    bioField.data = bioValue
-    bioField.setFieldValue = setBioValue
+    heroFields['headshot'].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
+    Object.keys(heroFields).forEach(key => useFieldStates(heroFields[key]))
 
-    const [isEditingBio, setEditingBio] = useState(false)
-    bioField.isEditing = isEditingBio
-    bioField.setEditing = setEditingBio
+    const bioField = {label: 'Bio', data: bio, fieldName: 'bio',}
+    useFieldStates(bioField)
+
 
     const bodyFields = [
         {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', },
@@ -115,24 +111,10 @@ export default ({ data }) => {
         {label:'Website', data: website, fieldName: 'website', }
     ]
 
-    bodyFields.forEach(field => {
-        const [fieldValue, setFieldValue] = useState(field.data)
-        field.data = fieldValue
-        field.setFieldValue = setFieldValue
-    
-        const [isEditing, setEditing] = useState(false)
-        field.isEditing = isEditing
-        field.setEditing = setEditing
-    })
+    bodyFields.forEach(useFieldStates)
 
     const resumeField = {label: 'Resume', data: resume, fieldName: 'resume',}
-    const [resumeValue, setResumeValue] = useState(resumeField.data)
-    resumeField.data = resumeValue
-    resumeField.setFieldValue = setResumeValue
-
-    const [isEditingResume, setEditingResume] = useState(false)
-    resumeField.isEditing = isEditingResume
-    resumeField.setEditing = setEditingResume
+    useFieldStates(resumeField)
 
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)

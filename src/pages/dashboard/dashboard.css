@@ -93,6 +93,10 @@
         flex-direction: column-reverse;
     }
 
+    .dashboard_container > div {
+        width: initial;
+    }
+
     .dashboard_container > img {
         width: 100%;
     }
