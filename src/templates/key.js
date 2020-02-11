@@ -116,6 +116,13 @@ export default ({ data }) => {
     const resumeField = {label: 'Resume', data: resume, fieldName: 'resume',}
     useFieldStates(resumeField)
 
+    const infoFields = [
+        {label: 'Name', data: name, fieldName: 'name'},
+        {label: 'Pronouns', data: pronouns, fieldName: 'pronouns'},
+        {label: 'Main Location', data: mainLocation, fieldName: 'mainLocation'},
+    ]
+    infoFields.forEach(useFieldStates)
+
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)
 
@@ -135,9 +142,9 @@ export default ({ data }) => {
                     </div>)
                 }</div>
                 <div className='artist_bio'>
-                    <h1>{ name }</h1>
-                    { mainLocation && <p>Based in {mainLocation.replace(', ', ' • ')}</p> }
-                    <p>{ pronouns }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
+                    <h1>{ infoFields[0].data }</h1>
+                    { infoFields[2].data && <p>Based in {infoFields[2].data.replace(', ', ' • ')}</p> }
+                    <p>{ infoFields[1].data }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
                     <button className='btn btn_message' onClick={ () => setMessageOpen(true) }>Message</button>
                 </div>
                 { !isEditable // will update to '!isEditable' when I get the editor for Social Links working
@@ -212,6 +219,28 @@ export default ({ data }) => {
                     </p>
                 </div>
                 }
+                {infoFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => (<>
+                    { isEditable && <h3>{ label }</h3> }
+                    { isEditable &&
+                        (!isEditing
+                            ? (<div className='profile_field_group'>
+                                <p>{ (!data.includes('http')) ? (data ? data : <span className='unfilled-field'>Add some info here!</span>)
+                                    : <a href={ data ? data : ''} rel='noopener noreferrer' target='_blank'>{
+                                    data ? data : <span className='unfilled-field'>'Add a URL here!'</span>
+                                }</a> }</p>
+                                <button className='btn_edit edit_field' onClick={() => setEditing(true)}>
+                                    <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
+                                    <span className='tooltip'>Change { label }</span>
+                                </button>
+                              </div>)
+                            : <FieldEditForm type='text' key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
+                                field={fieldName} val={data} handleUpdate={(newVal) => {
+                                    setFieldValue(newVal)
+                                    setSubmitted(true)
+                                }}
+                                isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>)
+                    }
+                </>))}
                 {bodyFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue}, i) => (<>
                     { (data || isEditable) && <h3>{ label }</h3> }
                     { !isEditable
