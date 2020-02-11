@@ -437,15 +437,15 @@ export default ({ data }) => {
                         .map(el => { return { socialMediaLink: (el.value.startsWith('https://')) ? el.value : 'https://' + el.value }})
                         
 
-                    const hasNewVals = !Object.keys(heroFields.socialMedia)
-                        .every((socialKey, i) => data.find(obj => obj.socialMediaLink === heroFields.socialMedia[socialKey].socialMediaLink))
+                    // TODO: CONDITIONALLY FIRE, DON'T IF VALUES ARE THE SAME
 
-                    if (hasNewVals) {
-                        heroFields.socialMedia.setEditing(false)
-                        return
-                    }
+                    // const hasNewVals = Object.keys(heroFields.socialMedia)
+                    //     .some((socialKey, i) => !data.find(obj => obj.socialMediaLink === heroFields.socialMedia[socialKey].socialMediaLink))
 
-                    console.log('heres the data Ill send = ', data)
+                    // if (!hasNewVals) {
+                    //     heroFields.socialMedia.setEditing(false)
+                    //     return
+                    // }
 
                     handleUpdateSubmit(data, {
                         userId: id,
