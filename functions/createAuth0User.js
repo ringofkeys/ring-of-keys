@@ -100,10 +100,9 @@ function checkUserExists(auth, name) {
   return rp(options)
 }
 
-const randChars = ['!','-','L', 'A','c','o','W', 'era','Georg3', 'C99', 'asdg', '2aa']
-let pwd = Math.random().toString(36).slice(-12)
-const splitPt = Math.floor(Math.random()*pwd.length)
-pwd = pwd.substr(0, splitPt) + randChars[Math.floor(Math.random()*randChars.length)] + pwd.substr(splitPt)
+// let alpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M', '!']
+let pwd = Math.random().toString(36).slice(-14)
+// pwd[3] = 
 
 function createUser(auth, userInfo) {
   const options = {
