@@ -45,7 +45,7 @@ const ourStory = () => {
                 <p class='co-founders_names'>Andrea & Royer</p>
             </div>
             <h2 id='who-we-are' className='about_h2'>Who We Are</h2>
-            <p style={{color: '#7b8c7d '}}><strong>Mission</strong></p>
+            <p style={{color: '#e8bfb3'}}><strong>Mission</strong></p>
             <p>
                 Ring of Keys is an arts advocacy organization that promotes the hiring of musical theatre professionals - 
                 onstage and off - who self-identify as queer women, transgender, and gender non-conforming artists.
@@ -59,7 +59,7 @@ const ourStory = () => {
                 the closet door open to create a vibrant, diverse musical theatre landscape for the future.
             </p>
             <h2 id='what-we-do' className='about_h2'>What We Do</h2>
-            <p style={{color: '#7b8c7d '}}><strong>Vision</strong></p>
+            <p style={{color: '#e8bfb3'}}><strong>Vision</strong></p>
             <p>
                 Ring of Keys promotes the hiring of self-identifying queer women, transgender, 
                 and gender non-conforming artists in the musical theatre industry - primarily our Members 
@@ -70,13 +70,13 @@ const ourStory = () => {
                 and community partners to mobilize and advance the musical theatre landscape and queer the stage.
             </p>
             <h2>Statement of Inclusion</h2>
-            <p style={{color: '#7b8c7d '}}><strong>What queerness means to Ring of Keys:</strong></p>
+            <p style={{color: '#e8bfb3'}}><strong>What queerness means to Ring of Keys:</strong></p>
             <p>
                 We support the exploration of the ever-expanding definitions of queerness. Queerness speaks to both gender 
                 identity and sexuality without conflating these two identities and can only be determined by an act of 
                 self-identification.
             </p>
-            <p style={{color: '#7b8c7d '}}><strong>What diversity means to Ring of Keys:</strong></p>
+            <p style={{color: '#e8bfb3'}}><strong>What diversity means to Ring of Keys:</strong></p>
             <p>
                 We cannot begin to define the ever-changing human experience at all of its intersections; we support and 
                 believe in every emerging expression of human identity and welcome your collaboration toward equity for our 
