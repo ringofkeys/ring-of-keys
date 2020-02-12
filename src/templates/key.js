@@ -144,11 +144,11 @@ export default ({ data }) => {
 
 
     const bodyFields = [
-        {label: 'Sexual Orientation', data: sexualIdentity, fieldName: 'sexualIdentity', },
-        {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', },
-        {label: 'Discipline', data: discipline, fieldName: 'discipline', },
-        {label: 'Vocal Range', data: vocalRange, fieldName: 'vocalRange', },
-        {label: 'Dance Experience', data: danceExperience, fieldName: 'danceExperience', },
+        {label: 'Sexual Orientation', data: sexualIdentity, fieldName: 'sexualIdentity', type: 'text',},
+        {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', type: 'text',},
+        {label: 'Discipline', data: discipline, fieldName: 'discipline', type: 'text',},
+        {label: 'Vocal Range', data: vocalRange, fieldName: 'vocalRange', type: 'text',},
+        {label: 'Dance Experience', data: danceExperience, fieldName: 'danceExperience', type: 'text',},
         {label: 'Unions & Affiliations', helpText: '(check as many as apply)', refArray: affiliationLabels, 
         data: affiliations, fieldName: 'affiliations', type: 'checkbox',
         initialVals: affiliationLabels.map(label => affiliations.includes(label)),
