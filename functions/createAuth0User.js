@@ -43,16 +43,23 @@ exports.handler = async (event) => {
     console.log('User Created: ', createUserResponse)
     if (createUserResponse.status > 299) {
         console.log('User creation failed!')
+        if (createUserResponse.status === 409) {
+            return {
+                statusCode: 409,
+                body: `User with email ${ userData.email } already exists!`,
+            }
+        }
+
         return {
-            statusCode: 409,
-            body: `User with email ${ userData.email } already exists!`,
+            statusCode: 501,
+            body: 'Auth0 service failure: ' + JSON.parse(createUserResponse.body)
         }
     }
 
     const deployEnvironmentId = '6240'
     await client.deploymentEnvironments.trigger(deployEnvironmentId)
     
-    const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email).catch(err => JSON.stringify(err)))
+    const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email.toLowerCase()).catch(err => JSON.stringify(err)))
     console.log('Password Reset: ', resetPasswordResponse)
 
     if (!resetPasswordResponse.ticket) return {
