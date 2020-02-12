@@ -144,7 +144,7 @@ export default ({ data }) => {
 
 
     const bodyFields = [
-        {label: 'Sexual Identity', data: sexualIdentity, fieldName: 'sexualIdentity', },
+        {label: 'Sexual Orientation', data: sexualIdentity, fieldName: 'sexualIdentity', },
         {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', },
         {label: 'Discipline', data: discipline, fieldName: 'discipline', },
         {label: 'Vocal Range', data: vocalRange, fieldName: 'vocalRange', },
