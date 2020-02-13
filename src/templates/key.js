@@ -441,7 +441,7 @@ export default ({ data }) => {
                     e.persist()
 
                     const data = ([]).slice.call(e.target.elements).filter(el => el.value)
-                        .map(el => (el.value.startsWith('https://')) ? el.value : 'https://' + el.value)
+                        .map(el => (el.value.startsWith('http')) ? el.value : 'https://' + el.value)
                         
 
                     // TODO: CONDITIONALLY FIRE, DON'T IF VALUES ARE THE SAME
