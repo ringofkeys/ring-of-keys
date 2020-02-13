@@ -38,7 +38,11 @@ export const login = () => {
 
 const setSession = (cb = () => {}) => (err, authResult) => {
   if (err) {
-    navigate('/')
+    if (window.location.hostname === 'beta.ringofkeys.org' && window.location.pathname === '/callback') {
+      window.location = 'https://ringofkeys.org/callback'
+    } else {
+      navigate('/')
+    }
     cb()
     return
   }
