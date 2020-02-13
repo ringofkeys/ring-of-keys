@@ -38,7 +38,7 @@ export const login = () => {
 
 const setSession = (cb = () => {}) => (err, authResult) => {
   if (err) {
-    navigate(`https://${ process.env.GATSBY_AUTH0_DOMAIN }/`)
+    navigate('/')
     cb()
     return
   }
