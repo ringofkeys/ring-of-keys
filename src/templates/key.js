@@ -60,7 +60,7 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, labe
                 .filter(value => value)
                 .join(', ')
         } else if (type === 'link') {
-            dataVal = e.target.elements[0].value.startsWith('https://')
+            dataVal = e.target.elements[0].value.startsWith('http')
                 ? e.target.elements[0].value
                 : 'https://' + e.target.elements[0].value
         } else {
