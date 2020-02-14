@@ -17,6 +17,8 @@ exports.handler = async (event) => {
     }
     
     const userData = JSON.parse(event.body)
+    if (userData.name) { userData.name = userData.name.trim() }
+    if (userData.email) { userData.email = userData.email.trim() }
 
     console.log('userData = ', userData)
 
