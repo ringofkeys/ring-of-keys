@@ -109,7 +109,10 @@ const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttri
                 </div>
             </div>
         </nav>
-        <EmailSignupBar />
+        <div className='footer-end'>
+            <EmailSignupBar />
+            <span>Designed by <a href='https://megelliott.design' target='_blank' rel='noopener noreferrer'>Meg Elliott</a>, built by <a href='https://franknoirot.co' target='_blank' rel='noopener noreferrer'>Frank Noirot</a>.</span>
+        </div>
     </footer>
     </>
     )
