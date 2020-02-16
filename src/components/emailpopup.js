@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+import { Link, useStaticQuery, graphql } from 'gatsby'
 import Popup from './popup'
 import EmailSignupBar from './emailsignupbar'
 import { hasEmailSignup, isAuthenticated } from '../utils/auth'
@@ -66,7 +66,7 @@ const EmailPopup = () => {
             <p>To Key Profiles Now</p>
             <div className='divider' style={{margin: '2vh 0'}}></div>
             <EmailSignupBar labelText='Email Address' onSubmit={ submitDatoViewer } afterSubmit={ afterSubmit }/>
-            <p style={{marginBlockStart: '3vh'}}>You'll receive our newsletter, but you can subscribe at any time.</p>
+            <p style={{marginBlockStart: '3vh'}}>Are you a Key? <Link to='/dashboard'>Sign in now.</Link></p>
         </Popup>
     )
 }
