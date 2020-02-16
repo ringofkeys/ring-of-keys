@@ -9,7 +9,7 @@ import CheckboxGrid from '../components/checkboxgrid'
 import FileDrop from '../components/filedrop'
 import { uploadFile } from '../utils/datoUploads'
 import { getProfile, isAuthenticated } from "../utils/auth"
-
+import InfoIcon from '../components/infoicon'
 import './key.css'
 import icon_youtube from '../images/social-icons/icon_youtube.svg'
 import icon_instagram from '../images/social-icons/icon_instagram.svg'
@@ -145,8 +145,10 @@ export default ({ data }) => {
 
 
     const bodyFields = [
-        {label: 'Sexual Orientation', data: sexualIdentity, fieldName: 'sexualIdentity', type: 'text',},
-        {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', type: 'text',},
+        {label: 'Sexual Orientation', data: sexualIdentity, fieldName: 'sexualIdentity', type: 'text',
+         infoText: `Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person `, },
+        {label: 'Gender Identity', data: genderIdentity, fieldName: 'genderIdentity', type: 'text',
+         infoText: `One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.`},
         {label: 'Discipline', data: discipline, fieldName: 'discipline', type: 'text',},
         {label: 'Vocal Range', data: vocalRange, fieldName: 'vocalRange', type: 'text',},
         {label: 'Dance Experience', data: danceExperience, fieldName: 'danceExperience', type: 'text',},
@@ -171,7 +173,8 @@ export default ({ data }) => {
 
     const infoFields = [
         {label: 'Name', data: name, fieldName: 'name', type: 'text',},
-        {label: 'Pronouns', data: pronouns, fieldName: 'pronouns', type: 'text'},
+        {label: 'Pronouns', data: pronouns, fieldName: 'pronouns', type: 'text',
+         infoText: `When a person shares their pronouns, they are naming the pronouns that they want to be referred to by in the singular third person (when referring to that person while talking to someone else`},
         {label: 'Where are you based?', data: mainLocation, fieldName: 'mainLocation', type: 'text'},
         {label: 'Regions', helpText: '(These control your search page listing)', refArray: locationLabels, 
         data: locations, fieldName: 'locations', type: 'checkbox',
@@ -278,8 +281,12 @@ export default ({ data }) => {
                 </div>
                 }
                 {infoFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue, type, 
-                    helpText, refArray, initialVals, initialOther}, i) => (<>
-                    { (isEditable && !(type === 'checkbox' && isEditing)) && <h3>{ label }</h3> }
+                    helpText, refArray, initialVals, initialOther, infoText}, i) => (<>
+                    { (isEditable && !(type === 'checkbox' && isEditing)) 
+                        && <h3>
+                        { label }
+                        { infoText && <InfoIcon infoText={ infoText } /> }
+                       </h3> }
                     { isEditable &&
                         (!isEditing
                             ? (<div className={'profile_field_group'}>
@@ -303,8 +310,12 @@ export default ({ data }) => {
                                 isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>)
                     }
                 </>))}
-                {bodyFields.map(({ data, type, label, isEditing, setEditing, fieldName, setFieldValue, helpText, refArray, initialVals, initialOther }, i) => (<>
-                    { (data || isEditable) && <h3>{ label }</h3> }
+                { bodyFields.map(({ data, type, label, isEditing, setEditing, fieldName, setFieldValue, helpText, refArray, initialVals, initialOther, infoText }, i) => (<>
+                    { (data || isEditable) 
+                        && <h3>
+                            { label }
+                            { infoText && <InfoIcon infoText={ infoText } /> }
+                           </h3> }
                     { !isEditable
                         ? data && (<p>{ !data.includes('http') ? data
                             : <a href={ data } rel='noopener noreferrer' target='_blank'>{ data }</a> }</p>)
