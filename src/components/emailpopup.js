@@ -39,7 +39,7 @@ const EmailPopup = () => {
 
     async function submitDatoViewer(email) {
         if (!isInDatoCMS(email)) {
-            return await fetch('http://localhost:61922/.netlify/functions/createDatoViewer', {
+            return await fetch('/.netlify/functions/createDatoViewer', {
                 method: 'POST',
                 body: JSON.stringify({
                     email

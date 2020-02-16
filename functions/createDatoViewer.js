@@ -2,7 +2,7 @@ require('dotenv').config({
     path: `.env.${process.env.NODE_ENV}`,
   })
 const SiteClient = require('datocms-client').SiteClient
-const client = new SiteClient('8659675496697de204bc49751ca198')
+const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
 exports.handler = async (event) => {
     console.log('function is called!', event.body)
