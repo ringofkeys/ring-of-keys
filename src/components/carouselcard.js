@@ -4,15 +4,15 @@ import useIntersect from '../hooks/useIntersect'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 
 
-const CarouselCard = ({ node, recordType }) => {
-    function wrapLink(node, classNames, children) {
+const CarouselCardInner = ({ node, recordType }) => {
+    function wrapLink(node, className, children) {
         return node.isExternalNews 
-            ? <a href={node.externalUrl} rel='noopener noreferrer' target='_blank' className={classNames} tabIndex='-1'>{ children }</a>
-            : <Link to={(recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#')} className={classNames} tabIndex='-1'>{ children }</Link>
+            ? <a href={node.externalUrl} rel='noopener noreferrer' target='_blank' className={className} tabIndex='-1'>{ children }</a>
+            : <Link to={(recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#')} className={className} tabIndex='-1'>{ children }</Link>
     }
 
     return (
-        <div className='carousel_card hover_scale'>
+    <div className='carousel_card hover_scale'>
             { wrapLink(node, 'img_wrapper fullwidth', node.featuredImage 
                 ? <img src={node.featuredImage.url} alt={node.featuredImage.alt} />
                 : <div className='img_replacement fullwidth' style={{'--grad-rotate': Math.random()*360+'deg'}}></div>
@@ -33,6 +33,20 @@ const CarouselCard = ({ node, recordType }) => {
             : <Link to={ (recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#') } className='btn btn-link_ghost'>
                 Read More</Link> }
         </div>
+    )
+}
+
+const CarouselCard = (props) => {
+    // const buildThresholdArray = (size) => Array.from(Array(size).keys(), i => i / size)
+
+    // const [ref, entry] = useIntersect
+
+    function wrapButton(node, isFirst, children) {
+        return <button className={`carousel_btn carousel_btn_${ isFirst ? 'prev' : 'next'}`}>{ children }</button>
+    }
+
+    return (
+        <CarouselCardInner {...props} />
     )
 }
 export default CarouselCard
