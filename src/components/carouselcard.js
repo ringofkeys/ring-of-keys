@@ -37,16 +37,16 @@ const CarouselCardInner = ({ node, recordType, ratio }) => {
 }
 
 const CarouselCard = props => {
-    const [ref, entry] = useIntersect({
-        threshold: buildThresholdArray(70)
-    })
+    // const [ref, entry] = useIntersect({
+    //     threshold: buildThresholdArray(70)
+    // })
 
     function wrapButton(node, isFirst, children) {
         return <button className={`carousel_btn carousel_btn_${ isFirst ? 'prev' : 'next'}`}>{ children }</button>
     }
 
     return (
-        <CarouselCardInner {...props} ref={ref} ratio={entry.intersectionRatio}/>
+        <CarouselCardInner {...props}/>
     )
 }
 export default CarouselCard
