@@ -95,6 +95,7 @@ export const query = graphql`
           title
           isExternalNews
           externalUrl
+          publishDate(formatString: "LL")
           featuredImage {
             url
           }

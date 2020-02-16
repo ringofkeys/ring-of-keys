@@ -1,9 +1,14 @@
 
 .carousel {
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: 1fr repeat(3, 2fr) 1fr;
-    grid-gap: 1em;
+    margin-inline-start: 12.5%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.carousel_inner {
+    display: flex;
+    width: max-content;
+    padding: 1em 0;
 }
 
 .carousel_btn {
@@ -77,6 +82,12 @@
     position: relative;
     box-sizing: border-box;
     padding-bottom: 1.5em;
+    margin: 0 1em;
+    width: calc(25vw - 2em);
+}
+
+.carousel_card:last-child {
+    margin-inline-end: calc(12.5vw + 1em);
 }
 
 .carousel__gray .carousel_card {
@@ -134,4 +145,7 @@
         grid-template-columns: 1fr 3fr 1fr;
     }
 
+    .carousel_card {
+        width: calc(70vw - 2em);
+    }
 }

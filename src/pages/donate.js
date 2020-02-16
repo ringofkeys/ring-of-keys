@@ -14,7 +14,7 @@ const Donate = () => {
                 Your tax-deductible donation supports our mission to promote the hiring of self-identifying 
                 queer women and TGNC artists in the musical theatre industry.
             </p>
-            <a href='https://fundraising.fracturedatlas.org/ring-of-keys' target='_blank' rel='noopener noreferrer' className='btn bg_slate' style={{padding: '.9em 2.6em'}}>
+            <a href='carousel_card hover_scale' target='_blank' rel='noopener noreferrer' className='btn bg_slate' style={{padding: '.9em 2.6em'}}>
                 Click Here to Donate
             </a>
             <div className='divider'></div>

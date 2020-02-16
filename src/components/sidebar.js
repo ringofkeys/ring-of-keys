@@ -5,7 +5,7 @@ import './sidebar.css'
 const Sidebar = () => {
     const data = useStaticQuery(graphql`
     query SidebarQuery {
-        events: allDatoCmsEvent(limit: 4, sort: {fields: startTime, order: ASC}) {
+        events: allDatoCmsEvent(limit: 4, sort: {fields: startTime, order: DESC}) {
           edges {
             node {
               title
