@@ -488,7 +488,7 @@ export default ({ data }) => {
                 </form>
             </Popup>
         }
-        {/* <EmailPopup /> */}
+        <EmailPopup />
         </>
     )
 }

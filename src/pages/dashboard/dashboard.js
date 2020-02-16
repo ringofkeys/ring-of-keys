@@ -28,9 +28,11 @@ const Dashboard = ({ data }) => {
       return <Layout>
         <p>Reauthenticating..</p>
       </Layout>
+    } else {
+      localStorage.setItem('hasEmailSignup', 'true')
+      console.log('userProfile = ', userProfile)
     }
 
-    console.log('userProfile = ', userProfile)
 
     let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
 

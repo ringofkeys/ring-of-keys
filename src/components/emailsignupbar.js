@@ -3,7 +3,8 @@ import { Link } from 'gatsby'
 import addToMailchimp from 'gatsby-plugin-mailchimp'
 import './emailsignupbar.css'
 
-const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Keys', afterSubmit = () => {} }) => {
+const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Keys', onSubmit = (val) => addToMailchimp(val),
+    afterSubmit = () => {} }) => {
     const [submitStatus, setSubmitStatus] = useState('unsent')
 
     async function handleSignup(e) {
@@ -11,14 +12,14 @@ const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Ke
         e.persist()
         setSubmitStatus('sending')
 
-        const sendRes = await addToMailchimp(e.target.elements[0].value)
+        const sendRes = await onSubmit(e.target.elements[0].value) 
 
         console.log('sendRes = ', sendRes)
 
-        if (sendRes.result === 'success') {
+        if (sendRes.result === 'success' || sendRes.status === 200) {
             setSubmitStatus('sent')
             e.target.disabled = true
-            afterSubmit()
+            afterSubmit(sendRes)
         } else {
             setSubmitStatus('failed')
             e.target.reset()
@@ -26,7 +27,7 @@ const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Ke
     }
 
     return (
-        <form className='email-signup-bar' method='POST' onSubmit={handleSignup}>
+        <form className='email-signup-bar' method='POST' onSubmit={ handleSignup }>
             <label className='email-input'>
                 <span>{ labelText }</span>
                 <input type='email' placeholder='Email Address' required />
