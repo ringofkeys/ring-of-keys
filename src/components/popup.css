@@ -98,7 +98,7 @@
     box-sizing: border-box;
 }
 
-.popup__card .btn_close {
+.btn_close {
     border: 0;
     background: transparent;
     padding: 0;

@@ -393,25 +393,42 @@
     bottom: 0;
     left: 0;
     width: 100%;
+    font-size: 1.2em;
+}
+
+.preview-message .wrapper {
+    position: relative;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2vh 3vw;
     background: var(--rok-pale-green-1_hex);
-    animation: appear-disappear 5s ease-in-out forwards;
+    animation: appear .4s ease-in-out forwards;
 }
+
+.preview-message .btn_close path {
+    stroke: white;
+}
+
+.preview-message.closed {
+    animation: disappear .4s ease-in-out forwards;
+}
+
 
 .preview-message p {
     color: white;
     max-width: 100%;
 }
 
-@keyframes appear-disappear {
-    0% { transform: translateY(100%); }
-    5% { transform: translateY(0); }
-    95% { transform: translateY(0); }
-    100% {
+@keyframes appear {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes disappear {
+    from { transform: translateY(0); }
+    to {
         transform: translateY(100%);
         display: none;
     }
