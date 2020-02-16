@@ -4,25 +4,25 @@ export const useIntersect = ({ root = null, rootMargin, threshold = 0 }) => {
     const [entry, updateEntry] = useState({})
     const [node, setNode] = useState(null)
 
-    const observer = useRef(null)
+    const observer = useRef(
+        new window.IntersectionObserver(([entry]) => {
+            console.log('observed!', entry)
+            updateEntry(entry)
+        }, {
+            root,
+            rootMargin,
+            threshold
+        })
+    )
 
     useEffect(() => {
-        if (observer.current) observer.current.disconnect()
-
-        observer.current = new window.IntersectionObserver(
-            ([entry]) => updateEntry(entry), {
-                root,
-                rootMargin,
-                threshold
-            }
-        )
-
         const { current: currentObserver } = observer
+        currentObserver.disconnect()
 
         if (node) currentObserver.observe(node)
-
+        console.log('now observing node =', node)
         return () => currentObserver.disconnect()
-    }, [node, root, rootMargin])
+    }, [node])
 
     return [setNode, entry]
 }

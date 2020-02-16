@@ -147,7 +147,8 @@
 /* Mobile styles */
 @media(max-width: 700px) {
     .carousel {
-        grid-template-columns: 1fr 3fr 1fr;
+        margin-inline-start: 0%;
+        padding-inline-start: 12.5%;
     }
 
     .carousel_card {

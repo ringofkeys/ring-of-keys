@@ -1,10 +1,11 @@
 import React, { useState, useEffect} from 'react'
 import { Link } from 'gatsby'
-import useIntersect from '../hooks/useIntersect'
+import { useIntersect } from '../hooks/useIntersect'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 
+const buildThresholdArray = (size) => Array.from(Array(size).keys(), i => i / size)
 
-const CarouselCardInner = ({ node, recordType }) => {
+const CarouselCardInner = ({ node, recordType, ratio }) => {
     function wrapLink(node, className, children) {
         return node.isExternalNews 
             ? <a href={node.externalUrl} rel='noopener noreferrer' target='_blank' className={className} tabIndex='-1'>{ children }</a>
@@ -12,7 +13,7 @@ const CarouselCardInner = ({ node, recordType }) => {
     }
 
     return (
-    <div className='carousel_card hover_scale'>
+    <div className='carousel_card hover_scale' style={{ opacity: ratio ? ratio : 1 }}>
             { wrapLink(node, 'img_wrapper fullwidth', node.featuredImage 
                 ? <img src={node.featuredImage.url} alt={node.featuredImage.alt} />
                 : <div className='img_replacement fullwidth' style={{'--grad-rotate': Math.random()*360+'deg'}}></div>
@@ -21,13 +22,12 @@ const CarouselCardInner = ({ node, recordType }) => {
             { wrapLink(node, 'header_link', node.title && 
                 <h3>{ node.title.length > 70 ? node.title.substr(0, 70)+'...' : node.title }</h3>
             )}
-            <p>
+            <div>
                 { (node.startDate || node.publishDate) && <><p><em>
                     { node.startDate ? node.startDate : node.publishDate}
-                    {/* { entry && entry.intersectionRatio } */}
                 </em></p></>}
                 { node.bodyNode ? renderHtmlToReact(node.bodyNode.childMarkdownRemark.excerptAst) : '' }
-            </p>
+            </div>
             { node.isExternalNews 
             ? <a href={ node.externalUrl } className='btn btn-link_ghost' rel='noopener noreferrer' target='_blank'>Read More</a>
             : <Link to={ (recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#') } className='btn btn-link_ghost'>
@@ -36,17 +36,17 @@ const CarouselCardInner = ({ node, recordType }) => {
     )
 }
 
-const CarouselCard = (props) => {
-    // const buildThresholdArray = (size) => Array.from(Array(size).keys(), i => i / size)
-
-    // const [ref, entry] = useIntersect
+const CarouselCard = props => {
+    const [ref, entry] = useIntersect({
+        threshold: buildThresholdArray(70)
+    })
 
     function wrapButton(node, isFirst, children) {
         return <button className={`carousel_btn carousel_btn_${ isFirst ? 'prev' : 'next'}`}>{ children }</button>
     }
 
     return (
-        <CarouselCardInner {...props} />
+        <CarouselCardInner {...props} ref={ref} ratio={entry.intersectionRatio}/>
     )
 }
 export default CarouselCard

@@ -134,11 +134,15 @@
     }
 
     .index_hero h1 {
-        padding-inline-start: 1vw;
+        padding: 0;
+        border-left: none;
+        text-align: center;
+        font-size: 10vw;
+        line-height: .9;
     }
 
     .index_hero  h1 > span {
-        font-size: 20vw;
+        font-size: 22vw;
         display: block;
     }
 
@@ -153,14 +157,14 @@
     .index_hero__right-col .btn {
         margin: 0 auto;
         margin-block-start: 3vh;
+        font-size: .8em;
     }
 
     .section_icon-heading-labels {
         flex-direction: column;
         margin: 5vh auto;
         margin-block-start: 0;
-        width: 70vw;
-        min-width: 200px;
+        width: fit-content;
     }
 
     .section_quote-block {

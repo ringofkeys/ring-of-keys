@@ -5,14 +5,14 @@ import './carousel.css'
 
 
 
-const Carousel = ({ recordType, itemList, classNames }) => {
+const Carousel = ({ recordType, itemList, classNames = [] }) => {
 
     return (
         <div ariaRole='region' tabIndex='0' className={`carousel ${ classNames.length > 0 ? classNames.join(' ') : '' }`}>
             <div className='carousel_inner'>
             {
-                itemList.map(({ node }) => (
-                    <CarouselCard node={ node } recordType={ recordType } />
+                itemList.map(({ node }, i) => (
+                    <CarouselCard node={ node } recordType={ recordType } key={`carousel-${ classNames[0] }-${ i }`}/>
                 ))
             }
             </div>
