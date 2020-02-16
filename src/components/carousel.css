@@ -5,6 +5,11 @@
     overflow-y: hidden;
 }
 
+.carousel:focus {
+    outline: solid 1px var(--rok-slate-blue_hex);
+    outline-offset: 1vmin;
+}
+
 .carousel_inner {
     display: flex;
     width: max-content;
