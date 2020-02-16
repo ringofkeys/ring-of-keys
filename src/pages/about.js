@@ -18,7 +18,11 @@ const ourStory = () => {
     return (
         <SidebarLayout title='About' description='Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
         transgender, or gender non-conforming artists.' classNames={['about']}
-        footerQuoteText={<blockquote>"You have to see it to be it."</blockquote>} footerQuoteAttribution='Jeanine Tesori' footerQuoteBgColor='var(--rok-pale-green-1_hex)'>
+        footerQuoteAttribution='Rachel Chavkin' footerQuoteBgColor='var(--rok-slate-blue_hex)  '
+        footerQuoteText={ <blockquote>
+            Who is telling the stories and what stories are they telling?  This is not a pipeline issue. 
+            It is a failure of imagination by a field whose job is to imagine the way the world could be.
+        </blockquote> }>
             <Helmet>
                 <link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,600,900,900i&display=swap" rel="stylesheet" />
             </Helmet>

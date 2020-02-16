@@ -61,7 +61,7 @@ export const query = graphql`
                 }
             }
         }
-        pressReleases: allDatoCmsNews(filter: {newsType: {eq: "press"}}, limit: 10) {
+        pressReleases: allDatoCmsNews(filter: {newsType: {eq: "press"}}, sort: {fields: publishDate, order: DESC}, limit: 10) {
             edges {
               node {
                 isExternalNews
@@ -99,7 +99,7 @@ export const query = graphql`
                 }
             }
         }
-        events: allDatoCmsEvent(limit: 10, sort: {fields: startTime, order: ASC}) {
+        events: allDatoCmsEvent(limit: 10, sort: {fields: startTime, order: DESC}) {
             edges {
                 node {
                     descriptionNode {

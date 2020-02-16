@@ -19,6 +19,7 @@ import icon_linkedin from '../images/social-icons/icon_linkedin.svg'
 import icon_camera from '../images/icon_camera.svg'
 import icon_close from '../images/icon_close.svg'
 import icon_pencil from '../images/icon_pencil.svg'
+import EmailPopup from '../components/emailpopup'
 const socialIcons = {
     youtube: icon_youtube,
     instagram: icon_instagram,
@@ -26,7 +27,7 @@ const socialIcons = {
     twitter: icon_twitter,
     linkedin: icon_linkedin,
 }
-const urlRegExpStr = '^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'
+const urlRegExpStr = '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
 
 let locationLabels = [
     "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
@@ -487,6 +488,7 @@ export default ({ data }) => {
                 </form>
             </Popup>
         }
+        <EmailPopup />
         </>
     )
 }

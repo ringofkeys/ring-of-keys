@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
 import PropTypes from "prop-types"
-import rok_logo from '../images/rok_logo_beta.png'
+import rok_logo from '../images/rok_logo.png'
 import MenuIcon from './menuicon'
 import './header.css'
 import { getProfile, isAuthenticated, logout } from "../utils/auth"

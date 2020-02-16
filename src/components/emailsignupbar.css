@@ -5,6 +5,10 @@
     max-width: 375px;
 }
 
+.email-signup-bar > label.email-input {
+    margin: 0;
+}
+
 .email-input {
     width: 100%;
     margin: 0;

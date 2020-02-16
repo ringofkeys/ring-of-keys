@@ -20,6 +20,12 @@ const tokens = {
 
 let user = {}
 
+export const hasEmailSignup = () => {
+  if (!isBrowser) return
+
+  return localStorage.getItem("hasEmailSignup") === "true"
+}
+
 export const isAuthenticated = () => {
   if (!isBrowser) {
     return

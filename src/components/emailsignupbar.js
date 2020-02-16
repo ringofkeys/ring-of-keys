@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'gatsby'
 import addToMailchimp from 'gatsby-plugin-mailchimp'
 import './emailsignupbar.css'
-import { SimpleDB } from 'aws-sdk'
 
-const EmailSignupForm = ({ handleHasSignedUp }) => {
+const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Keys', afterSubmit = () => {} }) => {
     const [submitStatus, setSubmitStatus] = useState('unsent')
 
     async function handleSignup(e) {
@@ -19,6 +18,7 @@ const EmailSignupForm = ({ handleHasSignedUp }) => {
         if (sendRes.result === 'success') {
             setSubmitStatus('sent')
             e.target.disabled = true
+            afterSubmit()
         } else {
             setSubmitStatus('failed')
             e.target.reset()
@@ -28,12 +28,13 @@ const EmailSignupForm = ({ handleHasSignedUp }) => {
     return (
         <form className='email-signup-bar' method='POST' onSubmit={handleSignup}>
             <label className='email-input'>
-                <span>Receive news and updates from Ring of Keys</span>
+                <span>{ labelText }</span>
                 <input type='email' placeholder='Email Address' required />
             </label>
-            <label className='privacy-consent'>
+            <label className='privacy-consent input__group checkbox'>
                 <input type='checkbox' required />
-                I agree with the&nbsp;<Link to='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</Link>&nbsp;and Terms of Use
+                <span>
+                    I agree with the&nbsp;<Link to='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy and Terms of Use</Link>.</span>
             </label>
             <button className={`btn ${ submitStatus }`} type='submit' disabled={ submitStatus === 'sending' || submitStatus === 'sent' }>
                 <svg viewBox='0 0 5 7'>

@@ -128,7 +128,7 @@ export default Consultancy
 
 export const query = graphql`
     query ConsultantsQuery {
-        allDatoCmsKey(filter: {isGenderConsultant: {eq: true}}) {
+        allDatoCmsKey(filter: {isGenderConsultant: {eq: true}}, sort: {fields: genderConsultantOrder, order: ASC}) {
             edges {
                 node {
                     name
