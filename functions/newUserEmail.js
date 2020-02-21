@@ -10,9 +10,9 @@ exports.handler = async (event) => {
 
     try {
         const msg = {
-            to: 'frank.ringofkeys@gmail.com',
+            to: 'royerbockus@gmail.com',
             from: 'website@ringofkeys.org',
-            // bcc: [{ email: 'frank.ringofkeys@gmail.com' }],
+            bcc: [{ email: 'info@ringofkeys.org' }],
             subject: `New RoK User: ${ data.name }`,
             text: 'There is a new RoK user pending approval',
             html:  `
