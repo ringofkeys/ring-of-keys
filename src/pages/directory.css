@@ -30,8 +30,8 @@
 
 .btn_search {
     display: inline-block;
-    padding: .5rem 2rem;
-    border-radius: .25vmax;
+    padding: .6rem 2rem;
+    margin-inline-start: 1rem;
     text-transform: uppercase;
 }
 
@@ -72,7 +72,9 @@
 }
 
 .btn_filters {
+    display: inline-block;
     margin: 1.5em 0;
+    margin-inline-start: 1em;
     text-transform: uppercase;
     padding: .75em 2em;
 }
@@ -232,9 +234,17 @@ span.card__location {
 }
 
 @media (max-width: 700px) {
-    .btn_search {
-        margin: 1rem 0;
+    .btn_search, .btn_filters {
+        margin-block-start: 5vw;
+        margin-block-end: 5vw;
     }
+
+    .section_filters .btn_search,
+    .section_filters .btn_filters {
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+    
 
     .section_filters.active {
         padding: 5vh 10vw;

@@ -8,6 +8,14 @@ import Filters from '../components/filters'
 import ArtistCard from '../components/artistcard'
 import './directory.css' 
 
+const SearchButton = () => (
+  <button className='btn bg_slate btn_search' onClick={() => window.scrollTo(
+    {
+      top: document.getElementById('key__grid').getBoundingClientRect().top - 100,
+      behavior: 'smooth',
+    })} >Search</button>
+)
+
 const Directory = ({ data }) => {
   let searchList = data.allDatoCmsKey.edges.filter(({ node }) => node.showInDirectory)
   searchList = searchList.sort((a,b) => {
@@ -154,11 +162,7 @@ const Directory = ({ data }) => {
           <label htmlFor='fuzzy'>Search any keywords here or use the advanced search feature to narrow your results.</label>
           <input type='text' name='fuzzy' onChange={formik.handleChange} value={formik.values.fuzzy} placeholder='Keyword'/>
         </div>
-        <button className='btn bg_slate btn_search' onClick={() => window.scrollTo(
-          {
-            top: document.getElementById('key__grid').getBoundingClientRect().top - 100,
-            behavior: 'smooth',
-          })} >Search</button>
+        <SearchButton />
         <button onClick={() => setFilterVisibility(!filtersAreVisible)} className='advanced-btn'>
           Advanced Search
           <svg className='advanced-arrow' style={{transform: `rotate(${filtersAreVisible ? 180 : 0}deg)`}} viewBox='0 0 4 4'>
@@ -171,18 +175,21 @@ const Directory = ({ data }) => {
           <button className='visually-hidden' onClick={() => document.querySelector('a.key__card').focus()}>Skip to Artists' Cards</button>
           <Filters formik={formik} filters={filters} />
         </div>
-        <button className='btn btn-link_ghost btn_filters' onClick={() => {
-          Object.keys(formik.values).forEach(value => {
-            if (formik.values[value] instanceof Array) {
-              formik.values[value].forEach((val,i) => { formik.values[value][i] = false })
-            }
-          });
-          new Array().slice.call(document.querySelectorAll('.filters [type="checkbox"]'))
-            .forEach(input => {
-              input.checked = false
-            })
-          formik.handleReset.call()
-        }}>Clear Advanced Search</button>
+        <div className='btn-row'>
+          <button className='btn btn-link_ghost btn_filters' onClick={() => {
+            Object.keys(formik.values).forEach(value => {
+              if (formik.values[value] instanceof Array) {
+                formik.values[value].forEach((val,i) => { formik.values[value][i] = false })
+              }
+            });
+            new Array().slice.call(document.querySelectorAll('.filters [type="checkbox"]'))
+              .forEach(input => {
+                input.checked = false
+              })
+            formik.handleReset.call()
+          }}>Clear Advanced Search</button>
+          <SearchButton />
+        </div>
       </section>
       <section id='key__grid' className='key__grid'>
           {searchResults[0] ? searchResults.map((obj, i, arr) => 

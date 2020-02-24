@@ -45,9 +45,8 @@ const Header = ({ path }) => {
               <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } />
             }
             { profile.name }
-            {/* <span className='tooltip'>My Account</span> */}
+            <span className='tooltip'>My Account</span>
           </Link>
-          {/* <Link to='/dashboard' id='btn__login'>Dashboard</Link> */}
           <a href='#logout' onClick={e => {
               logout()
               e.preventDefault()
@@ -71,7 +70,7 @@ const Header = ({ path }) => {
             <Link to='/directory' className={ path === '/directory' ? 'active' : '' }>Directory</Link>
             <Link to='/news' className={ path === '/news' ? 'active' : '' }>News</Link>
             <Link to='/consultancy' className={ path === '/consultancy' ? 'active' : '' }>Consultancy</Link>
-            {/* <Link to='/resources' className={ path === '/resources' ? 'active' : '' }>Resources</Link> */}
+            <Link to='/resources' className={ path === '/resources' ? 'active' : '' }>Resources</Link>
             <Link to='/donate' className={ path === '/donate' ? 'active' : '' }>Donate</Link>
             { (isAuthenticated() === true) 
               ? <Link to='/dashboard' className='has-dropdown'>Dashboard</Link>
