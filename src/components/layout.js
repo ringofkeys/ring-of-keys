@@ -13,7 +13,7 @@ import SEO from './seo'
 import Helmet from 'react-helmet'
 import Footer from "./footer"
 
-const Layout = ({ path, children, classNames, title, description,
+const Layout = ({ path, children, classNames, title, description, image,
   footerQuoteText, footerQuoteAttribution, footerQuoteBgColor, footerQuoteTextColor }) => {
 
   const data = useStaticQuery(graphql`
@@ -37,9 +37,11 @@ const Layout = ({ path, children, classNames, title, description,
       <Helmet link={tags.filter(tag => tag.tagName === 'link').map(tag => tag.attributes)}
         meta={tags.filter(tag => tag.tagName === 'meta').map(tag => tag.attributes)} />
       { (title || description) &&
-        <SEO title={ title ? title : 'Home' } description={description ? description 
+        <SEO title={ title ? title : 'Home' } 
+          description={description ? description 
           : `Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
-             transgender, or gender non-conforming artists.`} />
+             transgender, or gender non-conforming artists.`}
+          image={ image ? image : null} />
       }
       <Header siteTitle={data.site.siteMetadata.title} path={path} />
         <main className={classNames && classNames.join(' ')}>
