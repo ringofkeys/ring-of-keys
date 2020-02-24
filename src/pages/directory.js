@@ -144,7 +144,7 @@ const Directory = ({ data }) => {
   }, [formik.values])
 
   return (
-    <Layout classNames={['fullwidth', 'directory']} title='Artist Directory'
+    <Layout classNames={['fullwidth', 'directory']} title='Keys Directory'
     description='Ring of Keys has curated a directory of theatremakers that identify as queer women, trans, or gender non-conforming
     artist.' footerQuoteText={<blockquote>"You have to see it to be it."</blockquote>}
     footerQuoteAttribution='Jeanine Tesori' footerQuoteBgColor='var(--rok-pale-green-1_hex)'>
