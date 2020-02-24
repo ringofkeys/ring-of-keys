@@ -9,7 +9,7 @@ module.exports = {
     and gender non-conforming artists.`,
     author: `@ringofkeysorg`,
     siteUrl: 'https://ringofkeys.org',
-    image: `/static/rok_logo.png`,
+    image: `/rok_logo.png`,
     twitterUsername: '@ringofkeysorg',
   },
   plugins: [
