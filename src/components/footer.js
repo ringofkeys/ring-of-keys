@@ -45,7 +45,7 @@ const socialLinks = [
     )},
     { label: 'LinkedIn', href: 'https://www.linkedin.com/company/ring-of-keys/about/', icon: (
     <svg className='icon_linkedin' viewBox="0 0 256 256">
-        <g transform="scale(1.50) translate(-240.55198,-450.96227)">
+        <g transform="scale(1.40) translate(-240.55198,-430.96227)">
             <g transform="matrix(1.018827,0,0,-1.018827,170.5996,498.03288)">
                 <path d="M109.495-101.774V2.533H74.828v-104.307H109.495z
                     M92.168,16.775c12.081,0,19.612,8.01,19.612,18.021c-0.224,10.233-7.531,18.021-19.385,18.021

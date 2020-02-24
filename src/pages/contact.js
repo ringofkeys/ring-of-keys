@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Layout from "../components/layout"
 import ContactForm from '../components/contactform'
+import peachIcons from '../images/social-icons/peachIcons'
 import './contact.css'
 
 const Contact = () => {
@@ -12,6 +13,14 @@ const Contact = () => {
                     <p>Let's queer the stage.</p>
                 </div>
                 <ContactForm />
+                <h2>Follow Us</h2>
+                <div className='social-row'>
+                    { Object.keys(peachIcons).map(key =>
+                        <a href={ peachIcons[key].href } rel='noopener noreferrer' target='_blank'>
+                            <img src={ peachIcons[key].src } alt={ key } />
+                        </a>
+                    ) }
+                </div>
             </section>
         </Layout>
     )

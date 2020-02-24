@@ -289,7 +289,21 @@ textarea {
     grid-row: 1 / 2;
 }
 
+/* Social Icons */
+.social-row {
+    display: flex;
+    width: 100%;
+    max-width: 250px;
+    align-items: center;
+    margin: auto;
+    justify-content: space-between;
+}
 
+.social-row img {
+    box-sizing: border-box;
+    height: calc(150px / 5);
+    padding: 3px;
+}
 
 
 

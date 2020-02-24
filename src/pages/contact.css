@@ -52,3 +52,8 @@
 .contact_form textarea {
     min-height: 15vh;
 }
+
+.contact_page h2 {
+    text-align: center;
+    margin-block-start: 5vh;
+}

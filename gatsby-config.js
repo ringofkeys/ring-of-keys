@@ -8,7 +8,7 @@ module.exports = {
     description: `Ring of Keys is a musical theatre advocacy program for queer women, transgender,
     and gender non-conforming artists.`,
     author: `@ringofkeysorg`,
-    siteUrl: 'https://ringofkeys.org',
+    siteUrl: 'https://www.ringofkeys.org',
     image: `/rok_logo.png`,
     twitterUsername: '@ringofkeysorg',
   },
