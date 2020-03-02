@@ -31,7 +31,7 @@ const Resources = ({ data }) => {
     console.log('resources = ', resources)
 
     return (
-        <Layout title='Resources' description='A compiled list of resources for LGBT+ theatremakers.' classNames={['fullwidth']}>
+        <Layout title='Resources' description={`A compiled list of ${ resources.reduce((acc, arr) => acc + arr.length, 0) } resources for LGBT+ theatremakers.`} classNames={['fullwidth']}>
             <div className='resources-intro'>
                 <h1>Resources</h1>
                 <p>Ring of Keys offers the resources provided below as an educational tool for the professional theatre community at 

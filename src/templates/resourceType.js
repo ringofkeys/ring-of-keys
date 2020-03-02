@@ -14,7 +14,7 @@ const resourceThemes = [
 const ResourceType = ({ pageContext: context }) => {
 
     return (
-        <Layout>
+        <Layout title={`Resources - ${ context.resourceType }`} description={`We've compiled a list of ${ context.resources.length } ${ context.resourceType.toLowerCase() } resources for LGBT+ theatremakers to access.`}>
             { context.resourceType && <h1>{ context.resourceType }</h1>}
             <div class='resource-grid'>
                 { context.resources && context.resources.map(resource => (
