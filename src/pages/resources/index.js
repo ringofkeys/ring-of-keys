@@ -47,6 +47,7 @@ const Resources = ({ data }) => {
                         style={{ '--theme-color': resourceThemes[ i % resourceThemes.length ] }}>
                         <h2>{ type }</h2>
                         <Link to={ `/resources/${ slugify(type) }` } className='category-link'>Explore Category</Link>
+                        <p style={{color: 'white', textTransform: 'none'}}>{ resources[i].length } Resources</p>
                     </div>
                     { resourceTypes &&
                         resources[i].map(resource => (
@@ -56,6 +57,10 @@ const Resources = ({ data }) => {
                     }
                 </Carousel>
             ))}
+            <p className='resource-annotation'>
+                This list was compiled by Key Member <Link to='/keys/devon-hayakawa'>Devon Hayakawa</Link>, 
+                a Chicago-based Performer, playwright, and dramaturg. 
+            </p>
         </Layout>
     )
 }

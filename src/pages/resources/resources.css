@@ -53,6 +53,10 @@
     margin-inline-start: .5rem;
 }
 
+.resource-annotation {
+    margin: 2em 12.5vw;
+}
+
 
 @media(max-width: 700px) {
     .carousel.resource-carousel {
