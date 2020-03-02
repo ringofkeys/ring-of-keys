@@ -30,13 +30,15 @@ const Resources = ({ data }) => {
     console.log('resources = ', resources)
 
     return (
-        <Layout title='Resources' description='A compiled list of resources for LGBT+ theatremakers.'>
-            <h1>Resources</h1>
-            <p>Ring of Keys offers the resources provided below as an educational tool for the professional theatre community at 
-                large, with a focus on queer and trans issues for/about queer women, trans, and gender non-conforming artists. 
-                This is by no means a complete list of resources - if you have something you’d like to add, please contact us 
-                at <a href='mailto:info@ringofkeys.org'>info@ringofkeys.org</a>. Happy reading, listening, watching, and action taking!
-            </p>
+        <Layout title='Resources' description='A compiled list of resources for LGBT+ theatremakers.' classNames={['fullwidth']}>
+            <div className='resources-intro'>
+                <h1>Resources</h1>
+                <p>Ring of Keys offers the resources provided below as an educational tool for the professional theatre community at 
+                    large, with a focus on queer and trans issues for/about queer women, trans, and gender non-conforming artists. 
+                    This is by no means a complete list of resources - if you have something you’d like to add, please contact us 
+                    at <a href='mailto:info@ringofkeys.org'>info@ringofkeys.org</a>. Happy reading, listening, watching, and action taking!
+                </p>
+            </div>
             { resourceTypes &&
                 resourceTypes.map((type, i) => (
                 <Carousel classNames={['resource-carousel']}>

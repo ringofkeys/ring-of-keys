@@ -1,9 +1,17 @@
 .resource-card {
     background: #f7f7f7;
     color: var(--rok-slate-blue_hex);
-    width: 30vw;
+    max-width: 30vw;
+    min-width: 50ch;
     padding: 1.5em;
     box-sizing: border-box;
     border-top: solid 10px var(--theme-color);
     min-height: 40vh;
+}
+
+@media(max-width: 700px) {
+    .resource-card {
+        max-width: 85vw;
+        min-width: initial;
+    }
 }

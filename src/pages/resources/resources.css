@@ -1,7 +1,10 @@
-.carousel.resource-carousel {
-    margin-inline-start: 0;
-    margin: 2.5rem 0;
+.resources-intro {
+    margin: 10vh 12.5vw;
+    margin-block-end: 2rem;
+}
 
+.carousel.resource-carousel {
+    margin-block-end: 2rem;
 }
 
 .carousel.resource-carousel .carousel_inner > * {
@@ -23,4 +26,19 @@
     padding: 2rem;
     border-radius: 4px;
     background: var(--theme-color);
+}
+
+.resources-intro {
+    margin: 10vh 12.5vw;
+    margin-block-end: 2rem;
+}
+
+@media(max-width: 700px) {
+    .carousel.resource-carousel {
+        margin-inline-start: 0;
+    }
+    
+    .resource-title {
+        width: 50vw;
+    }
 }
