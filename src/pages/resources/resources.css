@@ -20,7 +20,6 @@
 .resource-title {
     color: white;
     text-transform: uppercase;
-    font-size: 3.4rem;
     width: 15vw;
     height: min-content;
     padding: 2rem;
@@ -28,10 +27,32 @@
     background: var(--theme-color);
 }
 
+.resource-title h2 {
+    margin-block-end: 1.5rem;
+    margin-block-start: 0;
+}
+
 .resources-intro {
     margin: 10vh 12.5vw;
     margin-block-end: 2rem;
 }
+
+.category-link {
+    color: white;
+    position: relative;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    font-weight: 200;
+    text-transform: none;
+    text-decoration: none;
+}
+
+.category-link::after {
+    content: '>';
+    display: inline-block;
+    margin-inline-start: .5rem;
+}
+
 
 @media(max-width: 700px) {
     .carousel.resource-carousel {

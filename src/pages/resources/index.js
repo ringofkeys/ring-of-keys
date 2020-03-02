@@ -1,8 +1,9 @@
 import React from 'react'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import Layout from "../../components/layout"
 import Carousel from '../../components/carousel'
 import ResourceCard from '../../components/resourcecard'
+import slugify from '../../utils/slugify'
 import './resources.css'
 const resourceThemes = [
     'var(--rok-gold-1_hex)',
@@ -45,6 +46,7 @@ const Resources = ({ data }) => {
                     <div className='resource-title'
                         style={{ '--theme-color': resourceThemes[ i % resourceThemes.length ] }}>
                         <h2>{ type }</h2>
+                        <Link to={ `/resources/${ slugify(type) }` } className='category-link'>Explore Category</Link>
                     </div>
                     { resourceTypes &&
                         resources[i].map(resource => (

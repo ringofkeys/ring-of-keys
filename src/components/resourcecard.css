@@ -9,9 +9,23 @@
     min-height: 40vh;
 }
 
+.carousel.resource-carousel .carousel_inner > .resource-card:last-child {
+    margin-inline-end: 2rem;
+}
+
+.resource-grid .resource-card {
+    max-width: 100%;
+    width: calc(50% - 1rem);
+    margin: 2rem .5rem;
+}
+
 @media(max-width: 700px) {
     .resource-card {
         max-width: 85vw;
         min-width: initial;
+    }
+
+    .resource-grid .resource-card {
+        width: 100%;
     }
 }

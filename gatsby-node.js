@@ -1,5 +1,6 @@
 const path = require('path')
 const express= require('express');
+const { slugify } = require('./src/utils/slugify-require')
 
 exports.onCreateDevServer=({app})=>{
     app.use(express.static('public'))
@@ -32,6 +33,16 @@ exports.createPages = ({ graphql, actions }) => {
                         }
                     }
                 }
+                allDatoCmsResource {
+                    edges {
+                        node {
+                            title
+                            description
+                            link
+                            resourceType
+                        }
+                    }
+                }
             }
         `).then(result => {
             result.data.allDatoCmsKey.edges.map(({ node: key }) => {
@@ -58,6 +69,29 @@ exports.createPages = ({ graphql, actions }) => {
                     component: path.resolve(`./src/templates/news.js`),
                     context: {
                         slug: news.slug,
+                    },
+                })
+            })
+            const resourceTypes = []
+
+            const resources = result.data.allDatoCmsResource.edges.reduce((acc, { node }) => {
+                if (!resourceTypes.find(el => el === node.resourceType)) {
+                    resourceTypes.push(node.resourceType)
+                    acc.push([ node ])
+                } else {
+                    acc[acc.findIndex(el => el[0].resourceType === node.resourceType)].push(node)
+                }
+                return acc
+            }, [])
+            resourceTypes.map((type, i) => {
+                console.log('type = ', type)
+                createPage({
+                    path: `resources/${ slugify(type.replace('&', 'and')) }`,
+                    component: path.resolve(`./src/templates/resourceType.js`),
+                    context: {
+                        resourceType: type,
+                        resources: resources[i],
+                        typeIndex: i,
                     },
                 })
             })
