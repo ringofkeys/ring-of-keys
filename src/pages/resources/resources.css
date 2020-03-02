@@ -1,0 +1,26 @@
+.carousel.resource-carousel {
+    margin-inline-start: 0;
+    margin: 2.5rem 0;
+
+}
+
+.carousel.resource-carousel .carousel_inner > * {
+    margin: 0 .5rem;
+}
+.carousel.resource-carousel .carousel_inner > *:first-child {
+    margin-inline-start: 0;
+}
+.carousel.resource-carousel .carousel_inner > *:last-child {
+    margin-inline-end: 0;
+}
+
+.resource-title {
+    color: white;
+    text-transform: uppercase;
+    font-size: 3.4rem;
+    width: 15vw;
+    height: min-content;
+    padding: 2rem;
+    border-radius: 4px;
+    background: var(--theme-color);
+}

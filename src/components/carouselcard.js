@@ -5,7 +5,7 @@ import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 
 const buildThresholdArray = (size) => Array.from(Array(size).keys(), i => i / size)
 
-const CarouselCardInner = ({ node, recordType, ratio }) => {
+const CarouselCardInner = ({ node, recordType, ratio, className }) => {
     function wrapLink(node, className, children) {
         return node.isExternalNews 
             ? <a href={node.externalUrl} rel='noopener noreferrer' target='_blank' className={className} tabIndex='-1'>{ children }</a>
@@ -13,7 +13,7 @@ const CarouselCardInner = ({ node, recordType, ratio }) => {
     }
 
     return (
-    <div className='carousel_card hover_scale' style={{ opacity: ratio ? ratio : 1 }}>
+    <div className={'carousel_card hover_scale ' + className} style={{ opacity: ratio ? ratio : 1 }}>
             { wrapLink(node, 'img_wrapper fullwidth', node.featuredImage 
                 ? <img src={node.featuredImage.url} alt={node.featuredImage.alt} />
                 : <div className='img_replacement fullwidth' style={{'--grad-rotate': Math.random()*360+'deg'}}></div>
