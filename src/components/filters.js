@@ -30,7 +30,7 @@ const Filters = ({formik, filters}) => {
             </>)
         } else {
             return (
-            <Field type='text' name={filter.field} label={filter.label}
+            <Field type='text' name={filter.field} label={filter.label} helpText={filter.helpText}
                 change={formik.handleChange} value={formik.values[filter.field]} placeholder={filter.placeholder}/>
             )
         }

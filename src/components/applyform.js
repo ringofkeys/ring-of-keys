@@ -111,10 +111,12 @@ const ApplyForm = () => {
         <div className='divider'></div>
         <h2>How do you identify?</h2>
         <div className='grid_2c-2r' style={{alignItems: 'flex-start', gap: '2em 1em'}}>
-          <Field type='text' name='pronouns' label='Pronouns' required={true}
-              placeholder='ie: They / Them or She / Her'/>
-          <Field type='text' name='genderIdentity' label='Gender Identity' required={true} placeholder='ie: Non-Binary, Cis, Gender Fluid'/>
-          <Field type='text' name='sexualIdentity' label='Sexual Orientation' required={true} placeholder='ie: Bisexual, Queer, Lesbian'/>
+          <Field type='text' name='pronouns' label='Pronouns' required={true} placeholder='ie: They / Them or She / Her'
+            helpText={`When a person shares their pronouns, they are naming the pronouns that they want to be referred to by in the singular third person (when referring to that person while talking to someone else).`}/>
+          <Field type='text' name='genderIdentity' label='Gender Identity' required={true} placeholder='ie: Non-Binary, Cis, Gender Fluid'
+            helpText={`One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.`}/>
+          <Field type='text' name='sexualIdentity' label='Sexual Orientation' required={true} placeholder='ie: Bisexual, Queer, Lesbian'
+            helpText={`Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person.`}/>
         </div>
         <div className='divider'></div>
         <h2>Just a little bit more...</h2>

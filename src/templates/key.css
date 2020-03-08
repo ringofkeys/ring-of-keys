@@ -260,7 +260,7 @@
 .info-icon .tooltip {
     left: 50%;
     max-width: 25vw;
-    --bg: rgba(255,255,255,0.8);
+    --bg: rgba(255,255,255,0.9);
     color: #333;
 
     box-shadow: var(--rok-shadow_bottom);
@@ -270,8 +270,12 @@
 }
 
 .tooltip {
+    font-size: .8rem;
+    font-family: sans-serif;
+    font-weight: lighter;
+    line-height: 1.6;
     position: absolute;
-    --bg: rgba(0, 0, 0, 0.8);
+    --bg: rgba(0, 0, 0, 0.9);
     background: var(--bg);
     border-radius: .5vmin;
     color: white;
@@ -285,6 +289,7 @@
     --end-transform: translateY(0);
     transform: var(--init-transform);
     opacity: 0;
+    z-index: 10;
     transition: opacity .12s ease-in-out, transform .12s .04s ease-in-out;
 }
 

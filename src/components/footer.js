@@ -70,7 +70,7 @@ const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttri
         <nav>
             <div>
                 <p className='visible_mobile'>Menu</p>
-                <Link to='/directory'>Directory</Link>
+                <Link to='/directory' className='visible_mobile'>Directory</Link>
                 <Link to='/news'>News</Link>
                 <Link to='/consultancy'>Consultancy</Link>
                 <Link to='/resources'>Resources</Link>

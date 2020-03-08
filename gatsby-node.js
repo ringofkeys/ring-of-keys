@@ -84,7 +84,6 @@ exports.createPages = ({ graphql, actions }) => {
                 return acc
             }, [])
             resourceTypes.map((type, i) => {
-                console.log('type = ', type)
                 createPage({
                     path: `resources/${ slugify(type.replace('&', 'and')) }`,
                     component: path.resolve(`./src/templates/resourceType.js`),

@@ -1,8 +1,13 @@
 import React from 'react'
+import InfoIcon from './infoicon'
 
-export const Field = ({ name, label, change, value, type, placeholder, inputClasses, required = false, accept='', defaultChecked, defaultValue}) => (
+export const Field = ({ name, label, change, value, type, placeholder, inputClasses, required = false, accept='',
+    defaultChecked, defaultValue, helpText}) => (
     <div className={`input__group ${type}`}>
-        {label && <label htmlFor={name} className={`${required ? 'is-required' : ''}`}>{label}</label>}
+        {label && <label htmlFor={name} className={`${required ? 'is-required' : ''}`}>
+            {label}
+            { helpText && <InfoIcon infoText={ helpText } /> }    
+        </label>}
         {type !== 'textarea' 
         ? <input
             id={name}

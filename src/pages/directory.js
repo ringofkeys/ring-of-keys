@@ -307,6 +307,7 @@ function getFilters() {
       type: 'fuzzy',
       threshold: .25,
       logic: 'and',
+      helpText: `When a person shares their pronouns, they are naming the pronouns that they want to be referred to by in the singular third person (when referring to that person while talking to someone else).`,
     },
     {
       field: 'genderIdentity',
@@ -315,6 +316,7 @@ function getFilters() {
       type: 'fuzzy',
       threshold: .38,
       logic: 'and',
+      helpText: `One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.`,
     },
     {
       field: 'sexualIdentity',
@@ -323,6 +325,7 @@ function getFilters() {
       type: 'fuzzy',
       threshold: .3,
       logic: 'and',
+      helpText: `Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person.`,
     },
     {
       field: 'locations',
