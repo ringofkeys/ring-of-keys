@@ -13,30 +13,18 @@ const homeDir = '/dashboard'
 const Events = ({ user }) => <h1>Events</h1>
 
 const Dashboard = ({ data }) => {
-    if (!isAuthenticated()) {
-        login()
-
-        return <Layout>
-          <p>Redirecting to login...</p>
-        </Layout>
-    }
-
     let userProfile = getProfile()
+    let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
 
-    if (!userProfile) {
+
+    if (!userProfile || !isAuthenticated() || !user.length || (user.length > 0 && !user[0].node)) {
       login()
       return <Layout>
-        <p>Reauthenticating..</p>
+        <p>Redirecting to login..</p>
       </Layout>
     } else {
       localStorage.setItem('hasEmailSignup', 'true')
       console.log('userProfile = ', userProfile)
-    }
-
-
-    let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
-
-    if (user.length > 0) {
       user = user[0].node
     }
 

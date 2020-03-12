@@ -36,7 +36,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
           </p>
           <Link to={ '/keys/' + user.slug } className='btn btn-link_ghost'>View / Edit Profile</Link>
         </div>
-        <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' />
+    { user.headshot && <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' /> }
       </div>
       <div className='block block_messages'>
         <h2>Messages</h2>
