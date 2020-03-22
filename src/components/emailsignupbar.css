@@ -38,6 +38,7 @@
     margin-block-start: .75em;
     display: flex;
     align-items: center;
+    grid-column: span 2;
 }
 
 .email-signup-bar button {

@@ -4,7 +4,14 @@ require('dotenv').config({
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
-const otherFields = ['genderconsultantbio','isGenderConsultant','mainLocation','locations','socialMedia','featuredImage','headshot','resume','discipline','vocalRange','danceExperience','sexualIdentity','genderIdentity','name','website', 'showInDirectory','isMeetupAmbassador','meetupAmbassadorOrder','keyTeamPosition','slug','quickBio','bio','keyTeamMember','keyTeamOrder','email','pronouns','memberSince']
+const otherFields = [
+    'genderConsultantBio','isGenderConsultant','genderConsultantOrder',
+    'mainLocation','locations',
+    'socialMedia','featuredImage','headshot','resume','discipline','vocalRange',
+    'danceExperience','sexualIdentity','genderIdentity','name','website',
+    'showInDirectory','isMeetupAmbassador','meetupAmbassadorOrder','keyTeamPosition',
+    'slug','quickBio','bio','keyTeamMember','keyTeamOrder','email','pronouns','memberSince'
+]
 const blankUser = {}
 otherFields.forEach(field => blankUser[field] = field.substr(0, 2) === 'is' ? false : '')
 blankUser.keyTeamMember = false
@@ -15,6 +22,7 @@ blankUser.featuredImage = { uploadId: '1213483' }
 // blankUser.resume = { uploadId: '1213541' }
 blankUser.keyTeamOrder = 5
 blankUser.meetupAmbassadorOrder = 8
+blankUser.genderConsultantOrder = 8
 blankUser.itemType = '177050'
 
 exports.handler = async (event) => {

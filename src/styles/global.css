@@ -275,7 +275,7 @@ textarea {
     grid-gap: .5em;
     grid-template-rows: 1fr;
     align-items: center;
-    grid-column: span 2;
+    align-self: flex-start;
 }
 
 .input__group.checkbox label {
