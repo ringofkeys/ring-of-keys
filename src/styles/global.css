@@ -327,9 +327,18 @@ textarea {
     background: var(--rok-slate-blue_hex);
 }
 
+/* Visibility Util Classes */
+.mobile-only {
+    display: none;
+}
+
 
 /* Mobile styles */
 @media (max-width: 700px) {
+    .mobile-only {
+        display: initial;
+    }
+
     .icon-heading-label {
         width: 100%;
         max-width: 80vw;

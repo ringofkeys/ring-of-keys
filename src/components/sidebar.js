@@ -22,7 +22,7 @@ const Sidebar = () => {
           }) {
           edges {
             node {
-              name
+              name 
               slug
               keyTeamPosition
               keyTeamOrder

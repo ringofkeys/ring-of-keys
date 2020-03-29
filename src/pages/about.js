@@ -1,7 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import { Link, useStaticQuery } from 'gatsby'
 import SidebarLayout from '../components/sidebarlayout'
-import QuoteBlock from '../components/quoteblock'
 import './about.css'
 import andrea_headshot from '../images/andrea_headshot.png'
 import royer_headshot from '../images/rory_headshot.png'
@@ -13,7 +13,42 @@ import multiplicity from '../images/about/multiplicity.svg'
 import safety from '../images/about/safety.svg'
 import possibility from '../images/about/possibility.svg'
 
-const ourStory = () => {
+const About = () => {
+    const data = useStaticQuery(graphql`
+    query AboutQuery {
+        team: allDatoCmsKey(
+          filter: {
+              keyTeamMember: {
+              eq: true
+            }
+          }) {
+          edges {
+            node {
+              name 
+              slug
+              keyTeamPosition
+              keyTeamOrder
+              pronouns
+            }
+          }
+        }
+        ambassadors:allDatoCmsKey(limit: 8, filter: {
+          isMeetupAmbassador: {
+            eq: true
+          }
+        }) {
+          edges {
+            node {
+              name
+              pronouns
+              locations
+              meetupAmbassadorOrder
+              slug
+            }
+          }
+        }
+      }
+    `)
 
     return (
         <SidebarLayout title='About' description='Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
@@ -126,9 +161,30 @@ const ourStory = () => {
                 <img src={ logo_nqt } alt='National Queer Theater' />
                 <img src={ logo_maestra } alt='Maestra' />
             </div> */}
-            
+            <div className='mobile-only'>
+                <h2>Key Volunteer Team</h2>
+                <section>
+                    {data.team.edges.sort((a,b) => a.node.keyTeamOrder - b.node.keyTeamOrder)
+                    .map(({ node }) => (
+                        <Link to={`/keys/${node.slug}`} className='teammate' key={node.slug}>
+                        <strong>{ node.name }</strong> <em>({ node.pronouns })</em><br/>
+                        <em style={{color: '#6d7278'}}>{ node.keyTeamPosition }</em>
+                        </Link>
+                    ))}
+                </section>
+                <h2>Meetup Ambassadors</h2>
+                <section>
+                    {data.ambassadors.edges.sort((a,b) => a.node.meetupAmbassadorOrder - b.node.meetupAmbassadorOrder)
+                    .map(({ node }) => (
+                    <Link to={`/keys/${node.slug}`} className='ambassador' key={node.slug}>
+                        <strong>{ node.name }</strong> ({ node.pronouns.toLowerCase() }) <br/>
+                        <em style={{color: '#6d7278'}}>{ node.locations.substr(0, ((node.locations.indexOf(',') > 0) ? node.locations.indexOf(',') : node.locations.length)) }</em>
+                    </Link>
+                    ))}
+                </section>
+            </div>
         </SidebarLayout>
     )
 }
 
-export default ourStory
+export default About
