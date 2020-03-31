@@ -5,7 +5,7 @@ const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
 const otherFields = [
-    'genderConsultantBio','isGenderConsultant','genderConsultantOrder',
+    'genderConsultantBio','isGenderConsultant', 'genderconsultantbio', 'genderConsultantOrder',
     'mainLocation','locations',
     'socialMedia','featuredImage','headshot','resume','discipline','vocalRange',
     'danceExperience','sexualIdentity','genderIdentity','name','website',
