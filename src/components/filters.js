@@ -6,7 +6,9 @@ const Filters = ({formik, filters}) => {
     // Using useEffect to update localStorage with latest filters on every change
     useEffect(() => {
         async function setFilter() {
-            localStorage.setItem('latestFilters', JSON.stringify(formik.values))
+            if (typeof window !== "undefined") {
+                localStorage.setItem('latestFilters', JSON.stringify(formik.values))
+            }
             console.log('setting to: ', formik.values)
         }
 

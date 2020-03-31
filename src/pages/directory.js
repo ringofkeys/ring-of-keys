@@ -62,7 +62,7 @@ const Directory = ({ data }) => {
   globalSearchConfig.keys = Object.keys(searchList[0].node).map(key => `node.${key}`)
   
   // try to get any saved filters
-  const localStorageFilters = localStorage.getItem('latestFilters')
+  const localStorageFilters = (typeof window !== "undefined") ? localStorage.getItem('latestFilters') : undefined
   console.log('local Storage filters = ', localStorageFilters)
 
   // build formik config from filters
@@ -228,7 +228,11 @@ function resetFilters(formik, filters, postCallback) {
   formik.values = buildFormikVals('fuzzy', filters)
   
   // make this async so we don't have to wait for it
-  async function setStorageFilters() { localStorage.setItem('latestFilters', JSON.stringify(formik.values)) }
+  async function setStorageFilters() { 
+    if (typeof window !== "undefined") {
+      localStorage.setItem('latestFilters', JSON.stringify(formik.values)) 
+    }
+  }
   setStorageFilters()
 
   postCallback()

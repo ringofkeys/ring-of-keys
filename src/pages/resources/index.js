@@ -19,7 +19,6 @@ const resourceThemes = [
 const Resources = ({ data }) => {
     const resourceTypes = ['Advocacy & Access', 'Reading', 'Podcasts', 'Videos', 'Tools & Directories', 'Organizations']
 
-    console.log('data = ', data.allDatoCmsResource.edges)
     const resources = data.allDatoCmsResource.edges.reduce((acc, { node }) => {
         if (!resourceTypes.find(el => el === node.resourceType)) {
             resourceTypes.push(node.resourceType)
@@ -29,7 +28,6 @@ const Resources = ({ data }) => {
         }
         return acc
     }, resourceTypes.map(val => { return { type: val, resources: [] } }))
-    console.log('resources = ', resources)
 
     const numResources = resources && resources.reduce((acc, r) => acc + r.resources.length, 0)
     const approxNumResources = numResources && (numResources - numResources % 5)
