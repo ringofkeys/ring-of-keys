@@ -5,12 +5,27 @@ const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
 const otherFields = [
-    'genderConsultantBio','isGenderConsultant', 'genderconsultantbio', 'genderConsultantOrder',
-    'mainLocation','locations',
-    'socialMedia','featuredImage','headshot','resume','discipline','vocalRange',
-    'danceExperience','sexualIdentity','genderIdentity','name','website',
-    'showInDirectory','isMeetupAmbassador','meetupAmbassadorOrder','keyTeamPosition',
-    'slug','quickBio','bio','email','pronouns'
+    'bio',
+    'danceExperience',
+    'discipline',
+    'email',
+    'featuredImage',
+    'genderconsultantbio',
+    'genderIdentity',
+    'headshot',
+    'isGenderConsultant', 
+    'isMeetupAmbassador',
+    'keyTeamPosition',
+    'locations',
+    'mainLocation',
+    'name',
+    'pronouns',
+    'quickBio',
+    'sexualIdentity',
+    'slug',
+    'resume',
+    'vocalRange',
+    'website',
 ]
 const blankUser = {
     featuredImage: { uploadId: '1213483' },
