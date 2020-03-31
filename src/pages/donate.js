@@ -1,9 +1,8 @@
 import React from 'react'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import './donate.css'
-import SidebarLayout from "../components/sidebarlayout"
+import Layout from "../components/layout"
 import './apply.css'
-import { element } from 'prop-types'
 
 const Donate = ({ data }) => {
     const bodyContent = data.pageContent.bodyNode.childMarkdownRemark.htmlAst
@@ -24,11 +23,11 @@ const Donate = ({ data }) => {
     })
 
     return (
-        <SidebarLayout classNames={['donate']} title='Donate' description={`Your tax-deductible donation supports Ring of Key's mission to promote the hiring of self-identifying 
+        <Layout classNames={['donate']} title='Donate' description={`Your tax-deductible donation supports Ring of Key's mission to promote the hiring of self-identifying 
         queer women and TGNC artists in the musical theatre industry.`}>
             <h1>Donate</h1>
             { renderHtmlToReact(bodyContent) }
-        </SidebarLayout>
+        </Layout>
     )
 }
 export default Donate

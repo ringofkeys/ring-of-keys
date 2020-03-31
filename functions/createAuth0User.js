@@ -37,18 +37,20 @@ exports.handler = async (event) => {
     if (userExistsRes.length > 0) {
       return {
         statusCode: 200,
-        body: `User with name ${ userData.name } already exists!`,
+        body: `Not creating new Auth0 login for user because a user with name ${ userData.name } already exists.
+        This likely means that the user is updating their profile.`,
       }
     }
 
     const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
     console.log('User Created: ', createUserResponse)
     if (createUserResponse.status > 299) {
-        console.log('User creation failed!')
+        console.log(`User creation failed! Something seems to be going wrong on the Auth0 side of things: we received a 299 error.
+        Check the Netlify Function logs for createAuth0User to see the full error details.`)
         if (createUserResponse.status === 409) {
             return {
                 statusCode: 409,
-                body: `User with email ${ userData.email } already exists!`,
+                body: `User with email ${ userData.email } already exists! This is likely an issue, as we checked to see if the user existed in Auth0 already and none was found.`,
             }
         }
 
@@ -66,11 +68,11 @@ exports.handler = async (event) => {
 
     if (!resetPasswordResponse.ticket) return {
         statusCode: 500,
-        body: 'ticket creation unsuccessful, email not sent'
+        body: 'Unable to create a reset password ticket in Auth0. Email not sent.'
     }
 
     const emailSendResponse = await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
-    console.log('Email Sent') 
+    console.log('Email Sent!') 
     
     return {
       statusCode: 201,
@@ -109,9 +111,7 @@ function checkUserExists(auth, name) {
   return rp(options)
 }
 
-// let alpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M', '!']
 let pwd = Math.random().toString(36).slice(-14)
-// pwd[3] = 
 
 function createUser(auth, userInfo) {
   const options = {

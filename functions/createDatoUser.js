@@ -10,25 +10,28 @@ const otherFields = [
     'socialMedia','featuredImage','headshot','resume','discipline','vocalRange',
     'danceExperience','sexualIdentity','genderIdentity','name','website',
     'showInDirectory','isMeetupAmbassador','meetupAmbassadorOrder','keyTeamPosition',
-    'slug','quickBio','bio','keyTeamMember','keyTeamOrder','email','pronouns','memberSince'
+    'slug','quickBio','bio','email','pronouns'
 ]
-const blankUser = {}
-otherFields.forEach(field => blankUser[field] = field.substr(0, 2) === 'is' ? false : '')
-blankUser.keyTeamMember = false
-blankUser.showInDirectory = true
-blankUser.hasLoginAccess = true
-blankUser.socialMedia = []
-blankUser.featuredImage = { uploadId: '1213483' }
-// blankUser.resume = { uploadId: '1213541' }
-blankUser.keyTeamOrder = 5
-blankUser.meetupAmbassadorOrder = 8
-blankUser.genderConsultantOrder = 8
-blankUser.itemType = '177050'
+const blankUser = {
+    featuredImage: { uploadId: '1213483' },
+    genderConsultantOrder: 8,
+    hasLoginAccess: true,
+    keyTeamMember: false,
+    keyTeamOrder: 5,
+    meetupAmbassadorOrder: 8,
+    memberSince: new Date().getFullYear(),
+    showInDirectory: true,
+    socialMedia: [],
+    itemType: '177050',
+}
+otherFields.forEach(field => blankUser[field] = field.beginsWith('is') ? false : '')
 
 exports.handler = async (event) => {
     console.log('function is called!', event.body)
 
     const newUser = JSON.parse(event.body)
+
+    // overwrite default user object with any existing fields from newUser
     const data = Object.assign(blankUser, newUser)
 
     console.log('data = ', data)
