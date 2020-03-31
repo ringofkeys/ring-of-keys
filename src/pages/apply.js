@@ -7,6 +7,8 @@ import './apply.css'
 const ApplyPage = () => {
     return (
         <SidebarLayout classNames={['apply']}
+        title='Apply to be a Key' description='Ring of Keys is a network of industry professionals who identify as queer women, trans, and/or gender 
+        non-conforming.'
         footerQuoteAttribution='Kat Griffin, Key Member (they/she/he)' footerQuoteBgColor='var(--rok-pale-green-1_hex)'
         footerQuoteText={
             <blockquote>

@@ -34,7 +34,7 @@ const blankUser = {
     keyTeamMember: false,
     keyTeamOrder: 5,
     meetupAmbassadorOrder: 8,
-    memberSince: new Date().getFullYear(),
+    memberSince: new Date().getFullYear().toString(),
     showInDirectory: true,
     socialMedia: [],
     itemType: '177050',
