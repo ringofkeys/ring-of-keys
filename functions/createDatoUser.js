@@ -24,7 +24,7 @@ const blankUser = {
     socialMedia: [],
     itemType: '177050',
 }
-otherFields.forEach(field => blankUser[field] = field.beginsWith('is') ? false : '')
+otherFields.forEach(field => blankUser[field] = field.startsWith('is') ? false : '')
 
 exports.handler = async (event) => {
     console.log('function is called!', event.body)
