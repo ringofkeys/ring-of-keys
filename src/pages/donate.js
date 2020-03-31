@@ -1,33 +1,46 @@
 import React from 'react'
+import { renderHtmlToReact } from '../utils/renderHtmlToReact'
+import './donate.css'
 import SidebarLayout from "../components/sidebarlayout"
 import './apply.css'
+import { element } from 'prop-types'
 
-const Donate = () => {
+const Donate = ({ data }) => {
+    const bodyContent = data.pageContent.bodyNode.childMarkdownRemark.htmlAst
+
+    // add in Blockquote classes
+    const blockQuotes = bodyContent.children.filter(elem => elem.tagName === 'blockquote')
+    if (blockQuotes.length > 0) {
+        blockQuotes.forEach(quote => quote.properties.class = 'quote_graphic-bar')
+    }
+
+    // add Donate link styles
+    const donateLink = bodyContent.children.find(elem => elem.type === 'element' && elem.children.length > 0
+        && elem.children[0].tagName === 'a' && elem.children[0].children.length > 0 && elem.children[0].children[0].value.toLowerCase().includes('donate'))
+    donateLink.children[0].properties = Object.assign(donateLink.children[0].properties, {
+       class: donateLink.children[0].properties.class + ' btn bg_slate',
+       rel: 'norefferrer noopener',
+       target: '_blank',
+    })
+
     return (
-        <SidebarLayout title='Donate' description={`Your tax-deductible donation supports Ring of Key's mission to promote the hiring of self-identifying 
+        <SidebarLayout classNames={['donate']} title='Donate' description={`Your tax-deductible donation supports Ring of Key's mission to promote the hiring of self-identifying 
         queer women and TGNC artists in the musical theatre industry.`}>
             <h1>Donate</h1>
-            <blockquote class='quote_graphic-bar'>
-                Help us change the landscape of <br/>musical theatre.
-            </blockquote>
-            <p>
-                Your tax-deductible donation supports our mission to promote the hiring of self-identifying 
-                queer women and TGNC artists in the musical theatre industry.
-            </p>
-            <a href='https://fundraising.fracturedatlas.org/ring-of-keys' target='_blank' rel='noopener noreferrer' className='btn bg_slate' style={{padding: '.9em 2.6em'}}>
-                Click Here to Donate
-            </a>
-            <div className='divider'></div>
-            <p>
-                “Throughout my professional career (a lot of which has been in big Broadway musicals) I’ve been dismayed and 
-                discouraged at how straight-white-cis-male centric my projects have been. When I’ve brought it up with my 
-                cis/white/straight friends it often is something that has never occurred to them. I want to join the cause 
-                towards inclusivity, diversity, intersectional feminism, the whole shebang. I’m endeavoring to do that in 
-                the kinds of projects I say yes to, the hard conversations I have with my friends to raise awareness and 
-                also evolve in my own thinking, and financially supporting organizations like yours.” 
-            </p>
-            <p>&ndash; Anonymous</p>
+            { renderHtmlToReact(bodyContent) }
         </SidebarLayout>
     )
 }
 export default Donate
+
+export const query = graphql`
+    query DonateQuery {
+        pageContent: datoCmsLandingPage(title: { eq: "Donate" }) {
+            bodyNode {
+                childMarkdownRemark {
+                    htmlAst
+                }
+            }
+        }
+    }
+`

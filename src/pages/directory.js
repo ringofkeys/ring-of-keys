@@ -61,19 +61,21 @@ const Directory = ({ data }) => {
   // mutate config to have filters from above as 'keys' property
   globalSearchConfig.keys = Object.keys(searchList[0].node).map(key => `node.${key}`)
   
+  // try to get any saved filters
+  const localStorageFilters = localStorage.getItem('latestFilters')
+  console.log('local Storage filters = ', localStorageFilters)
+
   // build formik config from filters
   const formik = useFormik({
-    initialValues: buildFormikVals('fuzzy', filters),
+    initialValues: localStorageFilters ? JSON.parse(localStorageFilters) : buildFormikVals('fuzzy', filters),
     isInitialValid: true,
     onSubmit: values => console.log(values),
-  })
-
-  
+  })  
 
   // Set filters' results arrays when formik.values changes
   useEffect(() => {
     
-    function updateSearchResults() {
+    async function updateSearchResults() {
       // create a blank search results array
       let finalResults = []
   
@@ -176,18 +178,7 @@ const Directory = ({ data }) => {
           <Filters formik={formik} filters={filters} />
         </div>
         <div className='btn-row'>
-          <button className='btn btn-link_ghost btn_filters' onClick={() => {
-            Object.keys(formik.values).forEach(value => {
-              if (formik.values[value] instanceof Array) {
-                formik.values[value].forEach((val,i) => { formik.values[value][i] = false })
-              }
-            });
-            new Array().slice.call(document.querySelectorAll('.filters [type="checkbox"]'))
-              .forEach(input => {
-                input.checked = false
-              })
-            formik.handleReset.call()
-          }}>Clear Advanced Search</button>
+          <button className='btn btn-link_ghost btn_filters' onClick={ () => resetFilters(formik, filters, () => setSearchResults(searchList)) }>Clear Advanced Search</button>
           <SearchButton />
         </div>
       </section>
@@ -213,9 +204,6 @@ export const query = graphql`
           headshot {
             url
           }
-          featuredImage {
-            url
-          }
           showInDirectory
           mainLocation
           locations
@@ -231,6 +219,20 @@ export const query = graphql`
     }
   }
 `
+function resetFilters(formik, filters, postCallback) {
+  Array.from(document.querySelectorAll('.filters [type="checkbox"]'))
+    .forEach(input => {
+      input.checked = false
+    })
+  filters.forEach(filter => filter.results = [])
+  formik.values = buildFormikVals('fuzzy', filters)
+  
+  // make this async so we don't have to wait for it
+  async function setStorageFilters() { localStorage.setItem('latestFilters', JSON.stringify(formik.values)) }
+  setStorageFilters()
+
+  postCallback()
+}
 
 function getFuseConfig(thresh = 0.33) {
   return {

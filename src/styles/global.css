@@ -202,6 +202,9 @@ p {
     margin: 0;
     padding-left: .5em;
 }
+.quote_graphic-bar p {
+    color: var(--rok-pale-green-1_hex);
+}
 
 .avatar_placeholder {
     width: 20vmin;

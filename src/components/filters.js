@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Field } from '../components/formfields'
 import CheckboxGrid from '../components/checkboxgrid'
  
 const Filters = ({formik, filters}) => {
+    // Using useEffect to update localStorage with latest filters on every change
+    useEffect(() => {
+        async function setFilter() {
+            localStorage.setItem('latestFilters', JSON.stringify(formik.values))
+            console.log('setting to: ', formik.values)
+        }
+
+        setFilter()
+    }, [formik.values])
+
     return filters.map(filter => {
         if (filter.type === 'checkbox') {
             return (
@@ -10,7 +20,7 @@ const Filters = ({formik, filters}) => {
             fieldData={ filter.values }>
                 {filter.values.map((val,i) => (
                 <Field type='checkbox' name={ `${filter.field}[${i}]` } label={ val } change={ formik.handleChange }
-                    value={ formik.values[filter.field] } key={ val }/>
+                    value={ formik.values[filter.field][i] } defaultChecked={ formik.values[filter.field][i] } key={ val }/>
                 ))}
                 {/* <Field type='text' name='locationsOther' change={formik.handleChange} label='Other' value={formik.values.locationsOther} /> */}
             </CheckboxGrid>)
