@@ -93,7 +93,6 @@ export const query = graphql`
       edges {
         node {
           title
-          isExternalNews
           externalUrl
           publishDate(formatString: "LL")
           featuredImage {

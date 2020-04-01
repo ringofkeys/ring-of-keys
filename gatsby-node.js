@@ -19,13 +19,13 @@ exports.createPages = ({ graphql, actions }) => {
                         }
                     }
                 }
-                allDatoCmsNews(filter: { isExternalNews: { eq: false }}) {
-                    edges {
-                        node {
-                            slug
-                        }
-                    }
-                }
+                # allDatoCmsNews(filter: { externalUrl: { eq: "" }}) {
+                #    edges {
+                #        node {
+                #            slug
+                #        }
+                #    }
+                #}
                 allDatoCmsEvent {
                     edges {
                         node {
@@ -63,15 +63,15 @@ exports.createPages = ({ graphql, actions }) => {
                     },
                 })
             })
-            result.data.allDatoCmsNews.edges.map(({ node: news }) => {
-                createPage({
-                    path: `news/${news.slug}`,
-                    component: path.resolve(`./src/templates/news.js`),
-                    context: {
-                        slug: news.slug,
-                    },
-                })
-            })
+            // result.data.allDatoCmsNews.edges.map(({ node: news }) => {
+            //     createPage({
+            //         path: `news/${news.slug}`,
+            //         component: path.resolve(`./src/templates/news.js`),
+            //         context: {
+            //             slug: news.slug,
+            //         },
+            //     })
+            // })
             const resourceTypes = []
 
             const resources = result.data.allDatoCmsResource.edges.reduce((acc, { node }) => {
