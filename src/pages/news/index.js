@@ -46,7 +46,6 @@ export const query = graphql`
         industryNews: allDatoCmsNews(filter: {newsType: {eq: "industry"}}, limit: 10) {
             edges {
               node {
-                isExternalNews
                 externalUrl
                 bodyNode {
                     childMarkdownRemark {
@@ -64,7 +63,6 @@ export const query = graphql`
         pressReleases: allDatoCmsNews(filter: {newsType: {eq: "press"}}, sort: {fields: publishDate, order: DESC}, limit: 10) {
             edges {
               node {
-                isExternalNews
                 externalUrl
                 bodyNode {
                     childMarkdownRemark {
@@ -83,7 +81,6 @@ export const query = graphql`
         newsletters: allDatoCmsNews(filter: {newsType: {eq: "newsletter"}}, sort: {fields: publishDate, order: DESC}, limit: 10) {
             edges {
               node {
-                isExternalNews
                 externalUrl
                 bodyNode {
                     childMarkdownRemark {
