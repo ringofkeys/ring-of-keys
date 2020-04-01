@@ -7,7 +7,7 @@ const buildThresholdArray = (size) => Array.from(Array(size).keys(), i => i / si
 
 const CarouselCardInner = ({ node, recordType, ratio, className }) => {
     function wrapLink(node, className, children) {
-        return node.isExternalNews 
+        return node.externalUrl 
             ? <a href={node.externalUrl} rel='noopener noreferrer' target='_blank' className={className} tabIndex='-1'>{ children }</a>
             : <Link to={(recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#')} className={className} tabIndex='-1'>{ children }</Link>
     }
@@ -28,7 +28,7 @@ const CarouselCardInner = ({ node, recordType, ratio, className }) => {
                 </em></p></>}
                 { node.bodyNode ? renderHtmlToReact(node.bodyNode.childMarkdownRemark.excerptAst) : '' }
             </div>
-            { node.isExternalNews 
+            { node.externalUrl 
             ? <a href={ node.externalUrl } className='btn btn-link_ghost' rel='noopener noreferrer' target='_blank'>Read More</a>
             : <Link to={ (recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#') } className='btn btn-link_ghost'>
                 Read More</Link> }
