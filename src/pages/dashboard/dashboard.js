@@ -2,6 +2,7 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import { Router } from '@reach/router'
 import { login, isAuthenticated, getProfile } from '../../utils/auth.js'
+import { decodeHtmlEntity } from '../../utils/htmlEntity.js'
 import Layout from '../../components/layout'
 import Home from './home'
 import ROKMosaic_Dashboard from '../../images/ROKMosaic_Dashboard.jpg'
@@ -14,6 +15,13 @@ const Events = ({ user }) => <h1>Events</h1>
 
 const Dashboard = ({ data }) => {
     let userProfile = getProfile()
+
+    // fix the html entities that Auth0 puts on name strings (if they have apostrophes, for example)
+    if (userProfile.name) {
+      userProfile.name = decodeHtmlEntity(userProfile.name)
+      console.log('userProfile = ', userProfile)
+    }
+
     let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
 
 

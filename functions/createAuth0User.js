@@ -161,7 +161,7 @@ async function sendWelcomeEmail(email, name, pwdResetUrl) {
   const msg = {
     to: email,
     from: 'info@ringofkeys.org',
-    bcc: [{ email: 'frank.ringofkeys@gmail.com' }],
+    bcc: [{ email: 'royer.ringofkeys@gmail.com' }],
     subject: 'Welcome to Ring of Keys',
     text: 'You can set up your password at '+ pwdResetUrl,
     html:  `<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border: 0;max-width: 600px !important;">

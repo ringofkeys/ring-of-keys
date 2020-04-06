@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
 import PropTypes from "prop-types"
+import { decodeHtmlEntity } from '../utils/htmlEntity.js'
 import rok_logo from '../images/rok_logo.png'
 import MenuIcon from './menuicon'
 import './header.css'
@@ -34,6 +35,9 @@ const Header = ({ path }) => {
 
   if (isAuthenticated() === true) {
     const profile = getProfile()
+    if (profile.name) {
+      profile.name = decodeHtmlEntity(profile.name)
+    }
     const artistsFiltered = users.data.edges.filter(({node}) => node.name === profile.name)
     const artist = artistsFiltered[0] ? artistsFiltered[0].node : ''
 
