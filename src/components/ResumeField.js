@@ -2,7 +2,7 @@ import React from 'react'
 import FieldEditForm from './FieldEditForm'
 import profileIcons from '../images/profile-icons/profileIcons.js'
 
-const ResumeField = ({ field, setSubmitted, isEditable, urlRegExpStr, userId }) => {
+const ResumeField = ({ field, setSubmitted, isSubmitting, setSubmitting, isEditable, urlRegExpStr, userId }) => {
     return (!isEditable
         ? <a className='btn btn_resume' href={ field.data ? field.data : '' } rel='noopener noreferrer' target='_blank'>
             View Resume
@@ -25,7 +25,7 @@ const ResumeField = ({ field, setSubmitted, isEditable, urlRegExpStr, userId }) 
                     field.setFieldValue(newVal)
                     setSubmitted(true)
                 }} pattern={ urlRegExpStr }
-                isSubmitting={ field.isSubmitting } setSubmitting={ field.setSubmitting }/>
+                isSubmitting={ isSubmitting } setSubmitting={ setSubmitting }/>
             </>
     )
 }

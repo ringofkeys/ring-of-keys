@@ -4,7 +4,7 @@ import InfoIcon from './infoicon.js'
 import profileIcons from '../images/profile-icons/profileIcons.js'
 
 
-const BodyInfoField = ({ field, index, isEditable, setSubmitted, userId }) => {
+const BodyInfoField = ({ field, index, isEditable, setSubmitted, isSubmitting, setSubmitting, userId }) => {
 
     return (<>
     { (field.data || isEditable) 
@@ -34,7 +34,7 @@ const BodyInfoField = ({ field, index, isEditable, setSubmitted, userId }) => {
                 else { field.setFieldValue(newVal) }
                 setSubmitted(true)
             }}
-            isSubmitting={ field.isSubmitting } setSubmitting={ field.setSubmitting }/>
+            isSubmitting={ isSubmitting } setSubmitting={ setSubmitting }/>
     }</>)
 }
 

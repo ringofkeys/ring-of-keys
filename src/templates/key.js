@@ -221,12 +221,12 @@ export default ({ data }) => {
                 </div>
                 }
                 { infoFields.map((field, i) => <BasicInfoField field={ field } index={ i } isEditable={ isEditable }  userId={ id }
-                    setSubmitted={ setSubmitted } key={`basic-info-${ i }`} />) } 
+                    setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`basic-info-${ i }`} />) } 
                 { bodyFields.map((field, i) => <BodyInfoField field={ field } index={ i } isEditable={ isEditable } userId={ id }
-                    setSubmitted={ setSubmitted } key={`body-field-${ i }`} />) }
+                    setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`body-field-${ i }`} />) }
                 { (resume || isEditable) 
                     && <ResumeField field={ resumeField } urlRegExpStr={ urlRegExpStr } userId={ id }
-                        isEditable={ isEditable } setSubmitted={ setSubmitted } />
+                        isEditable={ isEditable } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } setSubmitted={ setSubmitted } />
                 }
             </section>
         </Layout>

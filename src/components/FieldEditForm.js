@@ -6,7 +6,7 @@ import icon_close from '../images/icon_close.svg'
 
 
 const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, label, pattern,
-    setSubmitting, handleUpdate, type, helpText, initialVals, initialOther}) => (
+    setSubmitting, handleUpdate, type, helpText, initialVals, initialOther }) => (
     <div id={id} className={'profile_field_group ' + type}>
     <form onSubmit={e => {
         e.persist()
