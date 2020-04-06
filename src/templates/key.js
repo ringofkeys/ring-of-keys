@@ -1,32 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // import Img from 'gatsby-image'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import MessagePopup from '../components/messagepopup'
 import Popup from '../components/popup'
-import { Field } from '../components/formfields'
-import CheckboxGrid from '../components/checkboxgrid'
+import FieldEditForm from '../components/FieldEditForm'
+import BasicInfoField from '../components/BasicInfoField'
+import BodyInfoField from '../components/BodyInfoField'
+import ResumeField from '../components/ResumeField'
 import FileDrop from '../components/filedrop'
-import { uploadFile } from '../utils/datoUploads'
+import { handleUpdateSubmit } from '../utils/profileEditor'
 import { getProfile, isAuthenticated } from "../utils/auth"
-import InfoIcon from '../components/infoicon'
 import './key.css'
-import icon_youtube from '../images/social-icons/icon_youtube.svg'
-import icon_instagram from '../images/social-icons/icon_instagram.svg'
-import icon_facebook from '../images/social-icons/icon_facebook.svg'
-import icon_twitter from '../images/social-icons/icon_twitter.svg'
-import icon_linkedin from '../images/social-icons/icon_linkedin.svg'
-import icon_camera from '../images/icon_camera.svg'
-import icon_close from '../images/icon_close.svg'
-import icon_pencil from '../images/icon_pencil.svg'
+import socialIcons from '../images/social-icons/socialIcons.js'
+import profileIcons from '../images/profile-icons/profileIcons.js'
 import EmailPopup from '../components/emailpopup'
-const socialIcons = {
-    youtube: icon_youtube,
-    instagram: icon_instagram,
-    facebook: icon_facebook,
-    twitter: icon_twitter,
-    linkedin: icon_linkedin,
-}
 const urlRegExpStr = '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
 
 let locationLabels = [
@@ -42,59 +30,6 @@ let affiliationLabels = [
 affiliationLabels = affiliationLabels.sort()
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
-
-const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, label, pattern,
-    setSubmitting, handleUpdate, type, helpText, initialVals, initialOther}) => (
-    <div id={id} className={'profile_field_group ' + type}>
-    <form onSubmit={e => {
-        e.persist()
-        e.preventDefault()
-
-        const isFile = !!e.target.elements[0].files
-        let dataVal = ''
-        if (isFile) {
-            dataVal = e.target.elements[0].files[0]
-        } else if (type === 'checkbox') {
-            dataVal = ([]).slice.call(e.target.elements)
-                .filter(el => !el.classList.contains('visually-hidden'))
-                .map((el,i) => el.checked ? val[i] : el.value)
-                .filter(value => value)
-                .join(', ')
-        } else if (type === 'link') {
-            dataVal = e.target.elements[0].value.startsWith('http')
-                ? e.target.elements[0].value
-                : 'https://' + e.target.elements[0].value
-        } else {
-            dataVal = e.target.elements[0].value
-        }
-
-        handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
-    }}>
-        { type === 'textarea' &&
-            <textarea placeholder={ val } defaultValue={ val } required />
-        }
-        { type === 'checkbox' &&
-            <CheckboxGrid label={ label } helpText={ helpText }
-            fieldData={ val }>
-                {val.map((f,i) => (
-                    <Field type='checkbox' name={`${ field }[${i}]`} label={ f } key={ f } defaultChecked={ initialVals[i] } />
-                ))}
-                <Field type='text' name={ `${ field }Other` } label='Other' 
-                    defaultValue={ initialOther }/>
-            </CheckboxGrid>
-        }
-        { (type !== 'textarea' && type !== 'checkbox') &&
-            <input type={ type } defaultValue={ val } pattern={ pattern ? pattern : '.*' } required />
-        }
-        <button className='btn bg_slate btn_submit' type='submit' className={`btn ${isSubmitting ? 'submitting' : ''}`}>
-            { isSubmitting ? 'Loading...' : 'Update' }
-        </button>
-    </form>
-    <button className='btn_edit edit_field' onClick={handleClose}>
-        <img src={ icon_close } className='icon_edit' alt={`close`} />
-        <span className='tooltip'>Cancel Edit</span>
-    </button>
-</div>)
 
 export default ({ data }) => {
     const { name,
@@ -137,7 +72,12 @@ export default ({ data }) => {
         featuredImage: {data: featuredImage, fieldName: 'featuredImage', },
         socialMedia: {data: socialMedia, fieldName: 'socialMedia', },
     }
-    heroFields['headshot'].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
+
+    // on first load, make the URL the correct query. Only run once so as not to append with every state change.
+    useEffect(() => {
+        heroFields['headshot'].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
+    }, [])
+    
     Object.keys(heroFields).forEach(key => useFieldStates(heroFields[key]))
 
     const bioField = {label: 'Bio', data: bio, fieldName: 'bio',}
@@ -197,7 +137,7 @@ export default ({ data }) => {
                     : (<div className='headshot_group'>
                         <img src={ heroFields.headshot.data.url } alt={ headshot.title } className='headshot' />
                         <button className='btn_edit edit_headshot' onClick={() => heroFields.headshot.setEditing(true)}>
-                            <img src={ icon_camera } className='icon_edit' alt={`edit headshot`} />
+                            <img src={ profileIcons.camera } className='icon_edit' alt={`edit headshot`} />
                             <span className='tooltip'>Change Profile Photo</span>
                         </button>
                     </div>)
@@ -229,7 +169,7 @@ export default ({ data }) => {
                             )
                         })}
                         <button className='btn_edit edit_social' onClick={() => heroFields.socialMedia.setEditing(true)}>
-                            <img src={ icon_pencil } className='icon_edit' alt={`edit pencil`} />
+                            <img src={ profileIcons.pencil } className='icon_edit' alt={`edit pencil`} />
                             <span className='tooltip from-above'>Change Social Media Links</span>
                         </button>
                     </div>) }
@@ -237,7 +177,7 @@ export default ({ data }) => {
                     <img src={ heroFields.featuredImage.data.url } alt={ heroFields.featuredImage.data.alt } className='featured_image' /> }
                 { isEditable &&
                     <button className='btn_edit edit_featuredImage' onClick={() => heroFields.featuredImage.setEditing(true)}>
-                        <img src={ icon_camera } className='icon_edit' alt={`edit cover icon`} />
+                        <img src={ profileIcons.camera } className='icon_edit' alt={`edit cover icon`} />
                         <span className='tooltip'>Change Cover Photo</span>
                     </button> }
                 <Link to='/directory' className='back_link'><span>Back to Directory</span></Link>
@@ -266,7 +206,7 @@ export default ({ data }) => {
                                           </span>
                                     }</p>
                                     <button className='btn_edit edit_field' onClick={() => bioField.setEditing(true)}>
-                                        <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
+                                        <img src={ profileIcons.pencil } className='icon_edit' alt={`edit field`} />
                                         <span className='tooltip'>Change { bioField.label }</span>
                                     </button>
                                 </div>
@@ -280,93 +220,14 @@ export default ({ data }) => {
                     </p>
                 </div>
                 }
-                {infoFields.map(({data, label, isEditing, setEditing, fieldName, setFieldValue, type, 
-                    helpText, refArray, initialVals, initialOther, infoText}, i) => (<>
-                    { (isEditable && !(type === 'checkbox' && isEditing)) 
-                        && <h3>
-                        { label }
-                        { infoText && <InfoIcon infoText={ infoText } /> }
-                       </h3> }
-                    { isEditable &&
-                        (!isEditing
-                            ? (<div className={'profile_field_group'}>
-                                <p>{ (!data.includes('http')) ? (data ? data : <span className='unfilled-field'>Add some info here!</span>)
-                                    : <a href={ data ? data : ''} rel='noopener noreferrer' target='_blank'>{
-                                    data ? data : <span className='unfilled-field'>Add a URL here!</span>
-                                }</a> }</p>
-                                <button className='btn_edit edit_field' onClick={() => setEditing(true)}>
-                                    <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
-                                    <span className='tooltip'>Change { label }</span>
-                                </button>
-                              </div>)
-                            : <FieldEditForm type={ type } key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
-                                field={fieldName} val={ refArray ? refArray : data} label={ label } helpText={ helpText }
-                                initialVals={ initialVals } initialOther={ initialOther }
-                                handleUpdate={(newVal) => {
-                                    if (newVal instanceof Array) { setFieldValue(newVal.join(', ')) }
-                                    else { setFieldValue(newVal) }
-                                    setSubmitted(true)
-                                }}
-                                isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>)
-                    }
-                </>))}
-                { bodyFields.map(({ data, type, label, isEditing, setEditing, fieldName, setFieldValue, helpText, refArray, initialVals, initialOther, infoText }, i) => (<>
-                    { (data || isEditable) 
-                        && <h3>
-                            { label }
-                            { infoText && <InfoIcon infoText={ infoText } /> }
-                           </h3> }
-                    { !isEditable
-                        ? data && (<p>{ !data.includes('http') ? data
-                            : <a href={ data } rel='noopener noreferrer' target='_blank'>{ data }</a> }</p>)
-                        : (!isEditing) 
-                            ? (<div className='profile_field_group'>
-                                <p>{ (!data.includes('http')) ? (data ? data : <span className='unfilled-field'>Add some info here!</span>)
-                                    : <a href={ data ? data : ''} rel='noopener noreferrer' target='_blank'>{
-                                    data ? data : <span className='unfilled-field'>'Add a URL here!'</span>
-                                }</a> }</p>
-                                <button className='btn_edit edit_field' onClick={() => setEditing(true)}>
-                                    <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
-                                    <span className='tooltip'>Change { label }</span>
-                                </button>
-                              </div>)
-                            : <FieldEditForm type={ type } key={fieldName+'-form-'+i} userId={ id } handleClose={() => setEditing(false)}
-                            field={fieldName} val={ refArray ? refArray : data} label={ label } helpText={ helpText }
-                            initialVals={ initialVals } initialOther={ initialOther }
-                            handleUpdate={(newVal) => {
-                                if (newVal instanceof Array) { setFieldValue(newVal.join(', ')) }
-                                else { setFieldValue(newVal) }
-                                setSubmitted(true)
-                            }}
-                            isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
-                    }
-                </>))}
-                { (resume || isEditable) && (
-                    !isEditable
-                    ? <a className='btn btn_resume' href={ resumeField.data ? resumeField.data : '' } rel='noopener noreferrer' target='_blank'>
-                        View Resume
-                    </a>
-                    : !resumeField.isEditing
-                        ? <div className='profile_field_group file'>
-                            <a className={`btn btn_resume ${ resumeField.data ? '' : 'btn-link_ghost' }`}
-                                href={ resumeField.data ? resumeField.data : '' } rel='noopener noreferrer' target='_blank'>
-                                    { resumeField.data ? 'View Resume' : 'No Resume Link' }
-                            </a>
-                            <button className='btn_edit edit_field' onClick={() => resumeField.setEditing(true)}>
-                                <img src={ icon_pencil } className='icon_edit' alt={`edit field`} />
-                                <span className='tooltip'>Change { resumeField.label }</span>
-                            </button>
-                        </div>
-                        : <>
-                            <h3>Resume</h3>
-                            <FieldEditForm type='link' key={resumeField.fieldName+'-form'} userId={ id } handleClose={() => resumeField.setEditing(false)}
-                            field={resumeField.fieldName} val={resumeField.data} handleUpdate={(newVal) => {
-                                resumeField.setFieldValue(newVal)
-                                setSubmitted(true)
-                            }} pattern={ urlRegExpStr }
-                            isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
-                        </>
-                )}
+                { infoFields.map((field, i) => <BasicInfoField field={ field } index={ i } isEditable={ isEditable }  userId={ id }
+                    setSubmitted={ setSubmitted } key={`basic-info-${ i }`} />) } 
+                { bodyFields.map((field, i) => <BodyInfoField field={ field } index={ i } isEditable={ isEditable } userId={ id }
+                    setSubmitted={ setSubmitted } key={`body-field-${ i }`} />) }
+                { (resume || isEditable) 
+                    && <ResumeField field={ resumeField } urlRegExpStr={ urlRegExpStr } userId={ id }
+                        isEditable={ isEditable } setSubmitted={ setSubmitted } />
+                }
             </section>
         </Layout>
         { hasSubmitted && <div className={`preview-message`}>
@@ -393,12 +254,6 @@ export default ({ data }) => {
             </div>
         </div> }
         <MessagePopup isOpen={ isMessageOpen } artistId={ id } onClose={ () => setMessageOpen(false) } />
-        {/* <Popup isOpen={isMessageOpen} onClose={() => setMessageOpen(false)} >
-            <h2>Messaging is coming soon!</h2>
-            <p>
-                Our developers actually have it working, and are planning to roll it out on February 3rd to beta testers!
-            </p>
-        </Popup> */}
         { heroFields.headshot.isEditing && 
             <Popup isOpen={ heroFields.headshot.isEditing } onClose={ () => heroFields.headshot.setEditing(false) } >
                 <h2 className='file-drop_h2'>Change Profile Photo</h2>
@@ -471,17 +326,6 @@ export default ({ data }) => {
 
                     const data = ([]).slice.call(e.target.elements).filter(el => el.value)
                         .map(el => (el.value.startsWith('http')) ? el.value : 'https://' + el.value)
-                        
-
-                    // TODO: CONDITIONALLY FIRE, DON'T IF VALUES ARE THE SAME
-
-                    // const hasNewVals = Object.keys(heroFields.socialMedia)
-                    //     .some((socialKey, i) => !data.find(obj => obj.socialMediaLink === heroFields.socialMedia[socialKey].socialMediaLink))
-
-                    // if (!hasNewVals) {
-                    //     heroFields.socialMedia.setEditing(false)
-                    //     return
-                    // }
 
                     handleUpdateSubmit(data, {
                         userId: id,
@@ -554,67 +398,3 @@ export const query = graphql`
         }
     }
 `
-
-async function handleUpdateSubmit(dataValue, { userId, field, setSubmitting, handleUpdate, handleClose }, isFile) {
-    setSubmitting(true)
-    
-    let updateRes = {status: 500}
-
-    try {
-        let file = {}
-        if (isFile) {
-            file = dataValue
-            const uploadRes = await uploadFile(dataValue).catch(err => console.error(err))
-            dataValue = uploadRes[0].id
-        }
-
-        const itemId = userId.match(/-(\d+)-/)[1]
-
-        updateRes = await updateField(itemId, { [field]: dataValue }, isFile)
-        console.log('updateRes = ', updateRes)
-        
-        if (updateRes.status === 200) {
-            if (isFile) {
-                const newUrl = URL.createObjectURL(file)
-                console.log('new URL = ', newUrl)
-                handleUpdate(newUrl)
-            } else if (field === 'socialMedia') {
-                handleUpdate(dataValue.map(link => { return { socialMediaLink: link }})) // transform back into the format of the API
-            } else {
-                handleUpdate(dataValue)
-            }
-            handleClose()
-            publishDato(itemId).then(res => console.log('publishRes = ', res))
-        } else {
-            console.log('bad response!')
-        }
-    } catch (err) {
-        console.error(err, 'response body = ', JSON.parse(err.body))
-    }
-
-    setSubmitting(false)    
-}
-
-async function updateField(id, data, isFile) {
-    const fieldEditRes = await fetch('/.netlify/functions/updateDatoField', {
-        method: 'POST',
-        body: JSON.stringify({
-            id,
-            data,
-            isFile
-        }),
-    }).catch(err => console.error(err))
-
-    return fieldEditRes
-}
-
-async function publishDato(id) {
-    const publishRes = await fetch('/.netlify/functions/publishDeployDato', {
-        method: 'POST',
-        body: JSON.stringify({
-            id
-        }),
-    }).catch(err => console.error(err))
-
-    return publishRes
-}
