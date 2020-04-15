@@ -10,7 +10,7 @@ exports.handler = async (event) => {
 
     try {
         const msg = {
-            to: 'royerbockus@gmail.com',
+            to: 'royerbockus.ringofkeys@gmail.com',
             from: 'website@ringofkeys.org',
             bcc: [{ email: 'info@ringofkeys.org' }],
             subject: `New RoK User: ${ data.name }`,
