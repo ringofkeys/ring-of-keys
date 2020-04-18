@@ -143,7 +143,7 @@ const Directory = ({ data }) => {
     }
 
     updateSearchResults()
-  }, [formik.values])
+  }, [formik.values, filters, globalSearchConfig, searchList])
 
   return (
     <Layout classNames={['fullwidth', 'directory']} title='Keys Directory'

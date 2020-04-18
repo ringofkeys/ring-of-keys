@@ -14,7 +14,7 @@ exports.handler = async (event) => {
             from: 'website@ringofkeys.org',
             bcc: [{ email: 'info@ringofkeys.org' }],
             subject: `New RoK User: ${ data.name }`,
-            text: 'There is a new RoK user pending approval',
+            text: 'There is  a new RoK user pending approval',
             html:  `
                 <h1>New Key Awaiting Approval</h1>
                 <p>

@@ -76,7 +76,7 @@ export default ({ data }) => {
     // on first load, make the URL the correct query. Only run once so as not to append with every state change.
     useEffect(() => {
         heroFields['headshot'].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
-    }, [])
+    }, [heroFields])
     
     Object.keys(heroFields).forEach(key => useFieldStates(heroFields[key]))
 

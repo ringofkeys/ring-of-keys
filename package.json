@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "ring-of-keys",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "An artist directory for theatremakers",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Frank Noirot",
   "dependencies": {
     "@reach/router": "^1.2.1",
     "@sendgrid/mail": "^6.4.0",

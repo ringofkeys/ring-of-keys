@@ -43,7 +43,7 @@ export default News
 
 export const query = graphql`
     query NewsPageQuery {
-        industryNews: allDatoCmsNews(filter: {newsType: {eq: "industry"}}, limit: 10) {
+        industryNews: allDatoCmsNews(filter: {newsType: {eq: "industry"}}) {
             edges {
               node {
                 externalUrl
@@ -60,7 +60,26 @@ export const query = graphql`
                 }
             }
         }
-        pressReleases: allDatoCmsNews(filter: {newsType: {eq: "press"}}, sort: {fields: publishDate, order: DESC}, limit: 10) {
+        pressReleases: allDatoCmsNews(filter: {newsType: {eq: "press"}}, sort: {fields: publishDate, order: DESC}) {
+            edges {
+              node {
+                externalUrl
+                bodyNode {
+                    childMarkdownRemark {
+                        excerptAst(truncate: true, pruneLength: 100)
+                    }
+                }
+                title
+                publishDate(formatString: "MMMM D, YYYY")
+                featuredImage {
+                    url
+                    alt
+                }
+                slug
+                }
+            }
+        }
+        newsletters: allDatoCmsNews(filter: {newsType: {eq: "newsletter"}}, sort: {fields: publishDate, order: DESC}) {
             edges {
               node {
                 externalUrl
@@ -78,30 +97,12 @@ export const query = graphql`
                 }
             }
         }
-        newsletters: allDatoCmsNews(filter: {newsType: {eq: "newsletter"}}, sort: {fields: publishDate, order: DESC}, limit: 10) {
-            edges {
-              node {
-                externalUrl
-                bodyNode {
-                    childMarkdownRemark {
-                        excerptAst(truncate: true, pruneLength: 100)
-                    }
-                }
-                title
-                featuredImage {
-                    url
-                    alt
-                }
-                slug
-                }
-            }
-        }
-        events: allDatoCmsEvent(limit: 10, sort: {fields: startTime, order: DESC}) {
+        events: allDatoCmsEvent(sort: {fields: startTime, order: DESC}) {
             edges {
                 node {
                     descriptionNode {
                         childMarkdownRemark {
-                            excerptAst(pruneLength: 100, truncate: false)
+                            excerptAst(pruneLength: 100, truncate: true)
                         }
                     }
                     featuredImage {
@@ -109,7 +110,7 @@ export const query = graphql`
                         alt
                     }
                     title
-                    startTime(formatString: "D MMM YYYY")
+                    startTime(formatString: "LLLL")
                     slug
                 }
             }

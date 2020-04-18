@@ -12,6 +12,8 @@ const CarouselCardInner = ({ node, recordType, ratio, className }) => {
             : <Link to={(recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#')} className={className} tabIndex='-1'>{ children }</Link>
     }
 
+    console.log('card = ', node)
+
     return (
     <div className={'carousel_card hover_scale ' + className} style={{ opacity: ratio ? ratio : 1 }}>
             { wrapLink(node, 'img_wrapper fullwidth', node.featuredImage 
@@ -23,10 +25,10 @@ const CarouselCardInner = ({ node, recordType, ratio, className }) => {
                 <h3>{ node.title.length > 70 ? node.title.substr(0, 70)+'...' : node.title }</h3>
             )}
             <div>
-                { (node.startDate || node.publishDate) && <><p><em>
-                    { node.startDate ? node.startDate : node.publishDate}
+                { (node.startTime || node.publishDate) && <><p><em>
+                    { node.startTime ? node.startTime : node.publishDate}
                 </em></p></>}
-                { node.bodyNode ? renderHtmlToReact(node.bodyNode.childMarkdownRemark.excerptAst) : '' }
+                { (node.bodyNode || node.descriptionNode) ? renderHtmlToReact(node.bodyNode ? node.bodyNode.childMarkdownRemark.excerptAst : node.descriptionNode.childMarkdownRemark.excerptAst) : '' }
             </div>
             { node.externalUrl 
             ? <a href={ node.externalUrl } className='btn btn-link_ghost' rel='noopener noreferrer' target='_blank'>Read More</a>
