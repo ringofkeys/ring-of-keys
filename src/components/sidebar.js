@@ -40,6 +40,7 @@ const Sidebar = () => {
               name
               pronouns
               locations
+              mainLocation
               meetupAmbassadorOrder
               slug
             }
@@ -86,7 +87,7 @@ const Sidebar = () => {
             .map(({ node }) => (
               <Link to={`/keys/${node.slug}`} className='ambassador' key={node.slug}>
                 <strong>{ node.name }</strong> ({ node.pronouns.toLowerCase() }) <br/>
-                <em style={{color: '#6d7278'}}>{ node.locations.substr(0, ((node.locations.indexOf(',') > 0) ? node.locations.indexOf(',') : node.locations.length)) }</em>
+                <em style={{color: '#6d7278'}}>{ getBestLocationVal(node) }</em>
               </Link>
             ))}
         </aside>
@@ -94,3 +95,9 @@ const Sidebar = () => {
 }
 
 export default Sidebar
+
+
+
+function getBestLocationVal(node) {
+  return node.mainLocation ? node.mainLocation : (node.locations.substr(0, ((node.locations.indexOf(',') > 0) ? node.locations.indexOf(',') : node.locations.length)))
+}
