@@ -31,7 +31,7 @@ affiliationLabels = affiliationLabels.sort()
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
-export default ({ data }) => {
+export default ({ data }) => { 
     const { name,
             id,
             pronouns,
