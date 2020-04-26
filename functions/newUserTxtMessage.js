@@ -11,7 +11,7 @@ exports.handler = async (event) => {
             .create({
                 body: `A new RoK user is ready for approval: ${data.name}`,
                 from: '+12065696912',
-                to: '+13308586940'
+                to: '+17654619106',
             })
 
 

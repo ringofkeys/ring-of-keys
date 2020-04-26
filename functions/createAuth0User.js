@@ -3,12 +3,14 @@ require('dotenv').config({
 })
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const mailchimp = require('gatsby-plugin-mailchimp')
 const rp = require("request-promise")
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_KEY)
 
 exports.handler = async (event) => {
   try {
+    // Don't run if the requester doesn't have the secret code
     if (event.headers.datocms_agent !== process.env.DATOCMS_AGENT) {
       return {
         statusCode: 403,
@@ -20,8 +22,8 @@ exports.handler = async (event) => {
     if (userData.name) { userData.name = userData.name.trim() }
     if (userData.email) { userData.email = userData.email.trim() }
 
-    console.log('userData = ', userData)
-
+    
+    // Do nothing else if the user isn't supposed to have login access (which is set on their profile in DatoCMS)
     if (!userData.hasLoginAccess) {
         return {
             statusCode: 200,
@@ -30,10 +32,9 @@ exports.handler = async (event) => {
     }
     
     const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
-    // console.log('authToken = ', authToken)
-
+    // Check if an Auth0 account already exists for the user.
     const userExistsRes = JSON.parse(await checkUserExists(authToken, userData.name).catch(err => JSON.stringify(err)))
-    console.log('doesUserExist = ', userExistsRes)
+
     if (userExistsRes.length > 0) {
       return {
         statusCode: 200,
@@ -42,8 +43,9 @@ exports.handler = async (event) => {
       }
     }
 
+    // create an Auth0 account for the user
     const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
-    console.log('User Created: ', createUserResponse)
+
     if (createUserResponse.status > 299) {
         console.log(`User creation failed! Something seems to be going wrong on the Auth0 side of things: we received a 299 error.
         Check the Netlify Function logs for createAuth0User to see the full error details.`)
@@ -60,19 +62,23 @@ exports.handler = async (event) => {
         }
     }
 
+    // Re-deploy the site to Netlify
     const deployEnvironmentId = '6240'
     await client.deploymentEnvironments.trigger(deployEnvironmentId)
     
+    // Create a reset password ticket on the newly created Auth0 account.
     const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email.toLowerCase()).catch(err => JSON.stringify(err)))
-    console.log('Password Reset: ', resetPasswordResponse)
 
     if (!resetPasswordResponse.ticket) return {
         statusCode: 500,
         body: 'Unable to create a reset password ticket in Auth0. Email not sent.'
     }
 
+    // Add user's email to the MailChimp list
+    const addToMailChimpRes = await mailchimp.addToMailChimp(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
+
+    // Send welcome email to user via SendGrid
     const emailSendResponse = await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
-    console.log('Email Sent!') 
     
     return {
       statusCode: 201,

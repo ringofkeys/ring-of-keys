@@ -11,7 +11,7 @@ const ContactForm = ({ search }) => {
         unsent: 'Submit',
         success: 'Sent!',
         failure: 'Please Try Again Later',
-    }
+    } 
 
     async function handleFormSubmit(e) {
         setFormStatus('sending')
@@ -76,7 +76,7 @@ async function sendAdminEmail(data) {
             subject: `New Contact Submission from ${data.email}`,
             text: 'A new Contact form submission through Ring of Keys',
             to: 'info@ringofkeys.org',
-            from: 'website@ringofkeys.org',
+            from: data.email,
             data,
         })
     })
