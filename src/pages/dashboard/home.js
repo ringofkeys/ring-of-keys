@@ -7,6 +7,7 @@ import RoKBadge_Web from '../../images/RoKBadge_Web.png'
 const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
     const data = useStaticQuery(graphql`
       query MessagesQuery {
+<<<<<<< HEAD
         dashboard: datoCmsLandingPage(originalId: { eq: "4610845"}) {
           bodyNode {
             childMarkdownRemark {
@@ -21,6 +22,8 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
             }
           }
         }
+=======
+>>>>>>> 60e8f789ed2d7199cee44924e7bdf1b205161e50
         allDatoCmsMessage(sort: { fields: meta___firstPublishedAt, order: DESC }) {
           nodes {
             fromEmail
