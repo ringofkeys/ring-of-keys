@@ -49,37 +49,6 @@
     color: white;
 }
 
-.block_messages {
-    counter-reset: message;
-}
-
-.block_messages h2 {
-    margin-block-start: 0;
-}
-
-.block_messages .message {
-    background: #f4f4f4;
-    box-sizing: border-box;
-    padding: 1vh 3vw;
-    margin-block-start: 4vh;
-    counter-increment: message;
-    position: relative;
-}
-
-.block_messages .message::before {
-    position: absolute;
-    content: counter(message);
-    top: 0;
-    transform: translateY(-50%);
-    font-weight: bold;
-    color: white;
-    background: var(--rok-pale-green-1_hex);
-    padding: 1vh;
-    min-width: 3vh;
-    border-radius: 5vh;
-    text-align: center;
-}
-
 .block_badge img {
     max-width: 120px;
 }

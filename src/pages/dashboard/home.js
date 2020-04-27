@@ -1,19 +1,23 @@
 import React from 'react'
 import { Link, graphql, useStaticQuery } from 'gatsby'
+import MessageBlock from '../../components/MessageBlock'
 import RoKBadge_Web from '../../images/RoKBadge_Web.png'
 
 const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
     const data = useStaticQuery(graphql`
       query MessagesQuery {
-        allDatoCmsMessage {
-          edges {
-            node {
-              fromEmail
-              fromName
-              message
-              toArtist {
-                name
-              }
+        allDatoCmsMessage(sort: { fields: meta___firstPublishedAt, order: DESC }) {
+          nodes {
+            fromEmail
+            fromName
+            message
+            toArtist {
+              name
+            }
+            meta {
+              timeDiff: firstPublishedAt(difference: "days")
+              timeSince: firstPublishedAt(fromNow: true)
+              timeString:firstPublishedAt(formatString: "MM/DD/YY")
             }
           }
         }
@@ -22,7 +26,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
   
     let messages = []
     if (user) {
-      messages = data.allDatoCmsMessage.edges.filter(({ node }) => node.toArtist.name === user.name)
+      messages = data.allDatoCmsMessage.nodes.filter(node => node.toArtist.name === user.name)
     }
   
     return (<>
@@ -38,19 +42,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
         </div>
     { user.headshot && <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' /> }
       </div>
-      <div className='block block_messages'>
-        <h2>Messages</h2>
-        { (messages.length > 0)
-        ? messages.map(({node: message}) => (
-          <div className='message'>
-            <h3>From: { message.fromName }</h3>
-            <a href={`mailto:${ message.fromEmail }`}>{ message.fromEmail }</a>
-            <p>{ message.message }</p>
-          </div>
-        ))
-        : <p>No messages yet!</p>
-        }
-      </div>
+      <MessageBlock messages={ messages } />
       <div className='block block_badge'>
         <h2>Ring of Keys Badge</h2>
         <p>
