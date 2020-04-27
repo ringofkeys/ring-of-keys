@@ -12,8 +12,6 @@ const CarouselCardInner = ({ node, recordType, ratio, className }) => {
             : <Link to={(recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#')} className={className} tabIndex='-1'>{ children }</Link>
     }
 
-    console.log('card = ', node)
-
     return (
     <div className={'carousel_card hover_scale ' + className} style={{ opacity: ratio ? ratio : 1 }}>
             { wrapLink(node, 'img_wrapper fullwidth', node.featuredImage 
