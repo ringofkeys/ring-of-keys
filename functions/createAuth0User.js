@@ -3,7 +3,7 @@ require('dotenv').config({
 })
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
-const addToMailchimp = require('gatsby-plugin-mailchimp')
+const addToMailchimp = require('gatsby-plugin-mailchimp').default
 const rp = require("request-promise")
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_KEY)
