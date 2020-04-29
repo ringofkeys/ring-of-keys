@@ -62,16 +62,16 @@ exports.handler = async (event) => {
         }
     }
 
-    console.log('testing we get to just before the deploy trigger is fired')
+    // console.log('testing we get to just before the deploy trigger is fired')
 
-    const buildTriggerId = '8003'
-    client.buildTriggers.trigger(buildTriggerId)
-        .then(() => {
-            console.log('Done!');
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    // const buildTriggerId = '8003'
+    // client.buildTriggers.trigger(buildTriggerId)
+    //     .then(() => {
+    //         console.log('Done!');
+    //     })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     });
     
 
 
