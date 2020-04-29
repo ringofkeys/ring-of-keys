@@ -3,6 +3,7 @@ require('dotenv').config({
 })
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const jsonp = require('jsonp').default
 const addToMailchimp = require('gatsby-plugin-mailchimp').default
 const rp = require("request-promise")
 const sgMail = require('@sendgrid/mail')
@@ -21,6 +22,7 @@ exports.handler = async (event) => {
     const userData = JSON.parse(event.body)
     if (userData.name) { userData.name = userData.name.trim() }
     if (userData.email) { userData.email = userData.email.trim() }
+
 
     
     // Do nothing else if the user isn't supposed to have login access (which is set on their profile in DatoCMS)
@@ -85,15 +87,13 @@ exports.handler = async (event) => {
 
     console.log('got past the password reset ticket')
 
-    console.log('addToMailchimp = ', addToMailchimp)
-
-    // Add user's email to the MailChimp list
-    const addToMailChimpRes = await addToMailchimp(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
-
-    console.log('got past the mailchimp signup')
+    if (userData.email) {
+        // Add user's email to the MailChimp list
+        await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
+    }
 
     // Send welcome email to user via SendGrid
-    const emailSendResponse = await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
+    await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
     
     console.log('got past the welcome email send')
 
@@ -179,6 +179,81 @@ function resetPassword(auth, email) {
 
   return rp(options)
 }
+
+
+//Mailchimp email subscribe
+
+function validateEmail(email) {
+    var tester = /^[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+
+    // taken from email-validator npm package
+    if (!email) return false;
+    
+    if (email.length > 256) return false;
+    
+    if (!tester.test(email)) return false;
+    
+    // Further checking of some things regex can't handle
+    var [account, address] = email.split('@');
+    if (account.length > 64) return false;
+    
+    var domainParts = address.split('.');
+    if (domainParts.some(function (part) {
+        return part.length > 63;
+    })) return false;
+    
+    return true;
+}
+
+
+function subscribeEmailToMailchimp(url) {
+    return new Promise((resolve, reject) =>
+        jsonp(url, { param: 'c', timeout: 3500 }, (err, data) => {
+            if (err) reject(err);
+            if (data) resolve(data);
+        }),
+    );
+}
+
+function convertListFields(fields) {
+    let queryParams = '';
+    for (const field in fields) {
+        if (Object.prototype.hasOwnProperty.call(fields, field)) {
+            // If this is a list group, not user field then keep lowercase, as per MC reqs
+            // https://github.com/benjaminhoffman/gatsby-plugin-mailchimp/blob/master/README.md#groups
+            const fieldTransformed =
+                field.substring(0, 6) === 'group[' ? field : field.toUpperCase();
+            queryParams = queryParams.concat(`&${fieldTransformed}=${fields[field]}`);
+        }
+    }
+    return queryParams;
+};
+
+function addToMailchimpNode(email, fields, endpoint) {
+    const isEmailValid = validateEmail(email);
+    const emailEncoded = encodeURIComponent(email);
+    if (!isEmailValid) {
+        return Promise.resolve({
+            result: 'error',
+            msg: 'The email you entered is not valid.',
+        });
+    }
+
+    // The following tests for whether you passed in a `fields` object. If
+    // there are only two params and the second is a string, then we can safely
+    // assume the second param is a MC mailing list, and not a fields object.
+    if (arguments.length < 3 && typeof fields === 'string') {
+        endpoint = fields;
+    }
+
+    // Generates MC endpoint for our jsonp request. We have to
+    // change `/post` to `/post-json` otherwise, MC returns an error
+    endpoint = endpoint.replace(/\/post/g, '/post-json');
+    const queryParams = `&EMAIL=${emailEncoded}${convertListFields(fields)}`;
+    const url = `${endpoint}${queryParams}`;
+
+    return subscribeEmailToMailchimp(url);
+};
 
 async function sendWelcomeEmail(email, name, pwdResetUrl) {
   const msg = {
