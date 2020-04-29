@@ -8,8 +8,14 @@ exports.handler = async (event) => {
         const publishRes = await client.items.publish(id).catch(err => console.error(err))
         console.log('publishRes = ', publishRes)
 
-        const deployEnvironmentId = '6240'
-        await client.deploymentEnvironments.trigger(deployEnvironmentId)
+        const buildTriggerId = '8003'
+        client.buildTriggers.trigger(buildTriggerId)
+            .then(() => {
+                console.log('Done!');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
 
         return {
             statusCode: 200,

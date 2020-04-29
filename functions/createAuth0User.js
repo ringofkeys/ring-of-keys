@@ -3,7 +3,7 @@ require('dotenv').config({
 })
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
-const mailchimp = require('gatsby-plugin-mailchimp')
+const addToMailchimp = require('gatsby-plugin-mailchimp')
 const rp = require("request-promise")
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_KEY)
@@ -86,7 +86,7 @@ exports.handler = async (event) => {
     console.log('got past the password reset ticket')
 
     // Add user's email to the MailChimp list
-    const addToMailChimpRes = await mailchimp.addToMailChimp(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
+    const addToMailChimpRes = await addToMailChimp(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
 
     console.log('got past the mailchimp signup')
 

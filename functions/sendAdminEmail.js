@@ -11,7 +11,6 @@ exports.handler = async (event) => {
         const msg = {
             to,
             from,
-            cc: [{ email: 'royerbockus.ringofkeys@gmail.com' }],
             subject,
             text,
             html:  `
