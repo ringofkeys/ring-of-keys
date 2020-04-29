@@ -62,10 +62,14 @@ exports.handler = async (event) => {
         }
     }
 
+    console.log('testing we get to just before the deploy trigger is fired')
+
     // Re-deploy the site to Netlify
     const deployEnvironmentId = '6240'
     await client.deploymentEnvironments.trigger(deployEnvironmentId)
     
+
+
     // Create a reset password ticket on the newly created Auth0 account.
     const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email.toLowerCase()).catch(err => JSON.stringify(err)))
 
@@ -74,12 +78,18 @@ exports.handler = async (event) => {
         body: 'Unable to create a reset password ticket in Auth0. Email not sent.'
     }
 
+    console.log('got past the password reset ticket')
+
     // Add user's email to the MailChimp list
     const addToMailChimpRes = await mailchimp.addToMailChimp(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
+
+    console.log('got past the mailchimp signup')
 
     // Send welcome email to user via SendGrid
     const emailSendResponse = await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
     
+    console.log('got past the welcome email send')
+
     return {
       statusCode: 201,
       body: JSON.stringify(emailSendResponse),
