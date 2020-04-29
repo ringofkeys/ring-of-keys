@@ -85,6 +85,8 @@ exports.handler = async (event) => {
 
     console.log('got past the password reset ticket')
 
+    console.log('addToMailchimp = ', addToMailchimp)
+
     // Add user's email to the MailChimp list
     const addToMailChimpRes = await addToMailchimp(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
 
