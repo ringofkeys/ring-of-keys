@@ -87,11 +87,12 @@ exports.handler = async (event) => {
 
     if (userData.email) {
         // Add user's email to the MailChimp list
-        await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
+        const mailchimpRes = await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
+        console.log('mailchimp = ', mailchimpRes)
     }
 
     // Send welcome email to user via SendGrid
-    await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
+    const emailSendResponse = await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
     
     console.log('got past the welcome email send')
 
