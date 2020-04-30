@@ -3,7 +3,6 @@ require('dotenv').config({
 })
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
-const jsonp = require('jsonp')
 const rp = require("request-promise")
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_KEY)
@@ -86,10 +85,10 @@ exports.handler = async (event) => {
 
     console.log('got past the password reset ticket')
 
-    // if (userData.email) {
-    //     // Add user's email to the MailChimp list
-    //     await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
-    // }
+    if (userData.email) {
+        // Add user's email to the MailChimp list
+        await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
+    }
 
     // Send welcome email to user via SendGrid
     await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
@@ -206,14 +205,12 @@ function validateEmail(email) {
 
 
 function subscribeEmailToMailchimp(url) {
-    console.log('jsonp = ', jsonp)
+    const options = {
+        method: 'GET',
+        url,
+      }
 
-    return new Promise((resolve, reject) =>
-        jsonp(url, { param: 'c', timeout: 3500 }, (err, data) => {
-            if (err) reject(err);
-            if (data) resolve(data);
-        }),
-    );
+    return rp(options)
 }
 
 function convertListFields(fields) {
