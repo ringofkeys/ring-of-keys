@@ -3,7 +3,7 @@ require('dotenv').config({
 })
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
-const jsonp = require('jsonp')[0]
+const jsonp = require('jsonp').default[0]
 const rp = require("request-promise")
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_KEY)
