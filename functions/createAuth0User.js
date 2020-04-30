@@ -3,8 +3,7 @@ require('dotenv').config({
 })
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
-const jsonp = require('jsonp').default
-const addToMailchimp = require('gatsby-plugin-mailchimp').default
+const jsonp = require('jsonp')
 const rp = require("request-promise")
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_KEY)
@@ -207,6 +206,8 @@ function validateEmail(email) {
 
 
 function subscribeEmailToMailchimp(url) {
+    console.log('jsonp = ', jsonp)
+
     return new Promise((resolve, reject) =>
         jsonp(url, { param: 'c', timeout: 3500 }, (err, data) => {
             if (err) reject(err);
