@@ -9,7 +9,7 @@ let auth = isBrowser
     clientID: process.env.GATSBY_AUTH0_CLIENTID,
     redirectUri: process.env.GATSBY_AUTH0_CALLBACK,
     responseType: "token id_token",
-    scope: "openid profile email",
+    scope: "openid profile email entity_id",
   }) : {}
 
 const tokens = {
@@ -44,7 +44,9 @@ export const login = () => {
 
 const setSession = (cb = () => {}) => (err, authResult) => {
   if (err) {
-    if (window.location.hostname === 'beta.ringofkeys.org' && window.location.pathname === '/callback') {
+    if (isAuthenticated && isBrowser) {
+      login()
+    } else if (window.location.hostname === 'beta.ringofkeys.org' && window.location.pathname === '/callback') {
       window.location = 'https://ringofkeys.org/callback'
     } else {
       navigate('/')
@@ -58,6 +60,7 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     tokens.accessToken = authResult.accessToken
     tokens.idToken = authResult.idToken
     tokens.expiresAt = expiresAt
+    console.log('authenticated,', authResult);
     user = authResult.idTokenPayload
     localStorage.setItem("isLoggedIn", true)
     

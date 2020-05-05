@@ -19,7 +19,7 @@ const Dashboard = ({ data }) => {
     // fix the html entities that Auth0 puts on name strings (if they have apostrophes, for example)
     if (userProfile.name) {
       userProfile.name = decodeHtmlEntity(userProfile.name)
-      console.log('userProfile = ', userProfile)
+      console.log('userProfile = ', userProfile);
     }
 
     let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
@@ -32,6 +32,7 @@ const Dashboard = ({ data }) => {
       </Layout>
     } else {
       localStorage.setItem('hasEmailSignup', 'true')
+      localStorage.setItem('isLoggedIn', 'true')
       console.log('userProfile = ', userProfile)
       user = user[0].node
     }
@@ -58,6 +59,7 @@ query DashboardQuery {
   allDatoCmsKey{
     edges {
       node {
+        originalId
         name
         headshot {
           url
