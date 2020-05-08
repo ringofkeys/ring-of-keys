@@ -20,6 +20,11 @@ const tokens = {
 
 let user = {}
 
+const protectedRoutes = [`/dashboard`, `/callback`];
+const isProtectedRoute = isBrowser && protectedRoutes
+  .map(route => window.location.pathname.includes(route))
+  .some(route => route)
+
 export const hasEmailSignup = () => {
   if (!isBrowser) return
 
@@ -44,35 +49,28 @@ export const login = () => {
 
 const setSession = (cb = () => {}) => (err, authResult) => {
   if (err) {
-    if (isAuthenticated && isBrowser) {
-      login()
-    } else if (window.location.hostname === 'beta.ringofkeys.org' && window.location.pathname === '/callback') {
-      window.location = 'https://ringofkeys.org/callback'
+    if (isAuthenticated() && !isProtectedRoute) {
+      localStorage.setItem("isLoggedIn", false)
     } else {
-      navigate('/')
+      login()
     }
-    cb()
-    return
   }
-
+  
   if (authResult && authResult.accessToken && authResult.idToken) {
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime()
     tokens.accessToken = authResult.accessToken
     tokens.idToken = authResult.idToken
     tokens.expiresAt = expiresAt
-    console.log('authenticated,', authResult);
     user = authResult.idTokenPayload
     localStorage.setItem("isLoggedIn", true)
     
-    const protectedRoutes = [`/account`, `/callback`];
-    const isProtectedRoute = protectedRoutes
-    .map(route => window.location.pathname.includes(route))
-    .some(route => route)
+    
     if (isProtectedRoute) {
       navigate("/dashboard")
     }
-    cb()
   }
+
+  cb()
 }
 
 export const silentAuth = cb => {

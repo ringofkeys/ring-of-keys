@@ -19,22 +19,27 @@ const Dashboard = ({ data }) => {
     // fix the html entities that Auth0 puts on name strings (if they have apostrophes, for example)
     if (userProfile.name) {
       userProfile.name = decodeHtmlEntity(userProfile.name)
-      console.log('userProfile = ', userProfile);
     }
+    console.log('userProfile = ', userProfile);
 
     let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
 
 
-    if (!userProfile || !isAuthenticated() || !user.length || (user.length > 0 && !user[0].node)) {
+    console.log('users', data.allDatoCmsKey.edges)
+    console.log('user names', data.allDatoCmsKey.edges.map(({node}) => node.name))
+    console.log('user', user)
+    console.log('user.length', user.length)
+    console.log('isAuthenticated', isAuthenticated())
+
+    if (!userProfile || !isAuthenticated()) {
       login()
       return <Layout>
         <p>Redirecting to login..</p>
       </Layout>
     } else {
-      localStorage.setItem('hasEmailSignup', 'true')
-      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('hasEmailSignup', 'true') // ensure logged-in users don't receive popups
       console.log('userProfile = ', userProfile)
-      user = user[0].node
+      user = user[0] ? user[0].node : {}
     }
 
     return (
