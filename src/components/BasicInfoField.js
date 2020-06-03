@@ -3,7 +3,7 @@ import FieldEditForm from '../components/FieldEditForm'
 import InfoIcon from '../components/infoicon'
 import profileIcons from '../images/profile-icons/profileIcons.js'
 
-const BasicInfoField = ({field, index, isEditable, setSubmitted, isSubmitting, setSubmitting, userId}) => {
+const BasicInfoField = ({field, index, isEditable, setSubmitted, isSubmitting, setSubmitting, userId, profileEdits, setProfileEdits}) => {
 
     return (<>
         { (isEditable && !(field.type === 'checkbox' && field.isEditing)) 
@@ -29,9 +29,9 @@ const BasicInfoField = ({field, index, isEditable, setSubmitted, isSubmitting, s
                     handleUpdate={(newVal) => {
                         if (newVal instanceof Array) { field.setFieldValue(newVal.join(', ')) }
                         else { field.setFieldValue(newVal) }
-                        setSubmitted(true)
+                        // setSubmitted(true)
                     }}
-                isSubmitting={ isSubmitting } setSubmitting={ setSubmitting }/>)
+                isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } profileEdits={profileEdits} setProfileEdits={setProfileEdits}/>)
         }
     </>)
 }

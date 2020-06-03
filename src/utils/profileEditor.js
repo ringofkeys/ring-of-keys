@@ -24,22 +24,35 @@ export const updateField = async function(id, data, isFile) {
     return fieldEditRes
 }
 
-export const handleUpdateSubmit = async function(dataValue, { userId, field, setSubmitting, handleUpdate, handleClose }, isFile) {
-    setSubmitting(true)
+export const handleUpdateSubmit = async function(data, config) {
+    console.log('data = ', data)
+    console.log('config = ', config)
+
+    config.setSubmitting(true)
     
-    let updateRes = {status: 500}
+    const profileEdits = {}
 
-    try {
-        let file = {}
-        if (isFile) {
-            file = dataValue
-            const uploadRes = await uploadFile(dataValue).catch(err => console.error(err))
-            dataValue = uploadRes[0].id
+    data.forEach(field => {
+        if (field.isFile) {
+            const uploadRes = await uploadFile(field.value).catch(err => console.error(err))
+            profileEdits[field] = { 
+                value: uploadRes[0].id,
+                isFile: true,
+            }
+        } else {
+            profileEdits[field] = {
+                value: field.value,
+                isFile: false,
+            }
         }
+    })
 
-        const itemId = userId.match(/-(\d+)-/)[1]
+    const itemId = config.userId.match(/-(\d+)-/)[1]
+    let updateRes = { status: 500 }
 
-        updateRes = await updateField(itemId, { [field]: dataValue }, isFile)
+    updateRes = await updateField(itemId, profileEdits)
+
+
         console.log('updateRes = ', updateRes)
         
         if (updateRes.status === 200) {

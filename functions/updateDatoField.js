@@ -22,6 +22,7 @@ exports.handler = async (event) => {
             data[Object.keys(data)[0]] = { uploadId: uploadRes.id }
         }
 
+        // if one of the updated fields is the social media field, build blocks for each of the values.
         if (data.socialMedia) {
             data.socialMedia = data.socialMedia.map(link => buildModularBlock({
                 socialMediaLink: link,

@@ -6,7 +6,7 @@ import icon_close from '../images/icon_close.svg'
 
 
 const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, label, pattern,
-    setSubmitting, handleUpdate, type, helpText, initialVals, initialOther }) => (
+    setSubmitting, handleUpdate, type, helpText, initialVals, initialOther, profileEdits, setProfileEdits }) => (
     <div id={id} className={'profile_field_group ' + type}>
     <form onSubmit={e => {
         e.persist()
@@ -30,7 +30,18 @@ const FieldEditForm = ({ id, userId, field, val, handleClose, isSubmitting, labe
             dataVal = e.target.elements[0].value
         }
 
-        handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
+        const newEdits = { ...profileEdits }
+        newEdits[field] = {
+            value: dataVal,
+            isFile
+        }
+        console.log('newEdits = ', newEdits)
+        setProfileEdits(newEdits)
+        setSubmitting(false)
+        handleClose()
+        handleUpdate(dataVal)
+
+        console.log('here are the latest profile edits', profileEdits)
     }}>
         { type === 'textarea' &&
             <textarea placeholder={ val } defaultValue={ val } required />

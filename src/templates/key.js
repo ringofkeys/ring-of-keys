@@ -76,7 +76,7 @@ export default ({ data }) => {
     // on first load, make the URL the correct query. Only run once so as not to append with every state change.
     useEffect(() => {
         heroFields['headshot'].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
-    }, [heroFields])
+    })
     
     Object.keys(heroFields).forEach(key => useFieldStates(heroFields[key]))
 
@@ -126,6 +126,7 @@ export default ({ data }) => {
 
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)
+    const [profileEdits, setProfileEdits] = useState({})
 
     return (<><Layout classNames={['fullwidth','key-profile']} title={ name }
             description={`(${ pronouns }) - ${ name } is a ${ discipline }, and a member of Ring of Keys.`}>
@@ -215,18 +216,31 @@ export default ({ data }) => {
                                         bioField.setFieldValue(newVal)
                                         setSubmitted(true)
                                     }}
-                                    isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
+                                    isSubmitting={isSubmitting} setSubmitting={setSubmitting}
+                                    profileEdits={profileEdits} setProfileEdits={setProfileEdits}/>
                         }
                     </p>
                 </div>
                 }
                 { infoFields.map((field, i) => <BasicInfoField field={ field } index={ i } isEditable={ isEditable }  userId={ id }
-                    setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`basic-info-${ i }`} />) } 
+                    setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`basic-info-${ i }`}
+                    profileEdits={profileEdits} setProfileEdits={setProfileEdits} />) } 
                 { bodyFields.map((field, i) => <BodyInfoField field={ field } index={ i } isEditable={ isEditable } userId={ id }
-                    setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`body-field-${ i }`} />) }
+                    setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`body-field-${ i }`}
+                    profileEdits={profileEdits} setProfileEdits={setProfileEdits} />) }
                 { (resume || isEditable) 
                     && <ResumeField field={ resumeField } urlRegExpStr={ urlRegExpStr } userId={ id }
-                        isEditable={ isEditable } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } setSubmitted={ setSubmitted } />
+                        isEditable={ isEditable } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } setSubmitted={ setSubmitted }
+                        profileEdits={profileEdits} setProfileEdits={setProfileEdits} />
+                }
+                { isEditable &&
+                    <button onClick={() => handleUpdateSubmit(profileEdits, {
+                        userId: id,
+                        setSubmitting,
+                        setSubmitted,
+                    })} disabled={ isSubmitting } className={`btn ${isSubmitting ? 'submitting' : ''}`}>
+                        { isSubmitting ? 'Loading...' : 'Save' }
+                    </button>
                 }
             </section>
         </Layout>
@@ -289,18 +303,20 @@ export default ({ data }) => {
                 <h2 className='file-drop_h2'>Change Cover Photo</h2>
                 <form id='edit-featured-image' onSubmit={ e => {
                     e.preventDefault()
-                    e.persist()
 
-                    handleUpdateSubmit(e.target.elements[0].files[0], {
-                        userId: id,
-                        field: 'featuredImage',
-                        setSubmitting,
-                        handleUpdate: (newVal) => {
-                            heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'})
-                            setSubmitted(true)
-                        },
-                        handleClose: () => heroFields.featuredImage.setEditing(false),
-                    }, true)
+                    setProfileEdits({ ...profileEdits,
+                        'featuredImage': {
+                            value: e.target.elements[0].files[0],
+                            handleUpdate: (newVal) => {
+                                heroFields.featuredImage.setFieldValue({ url: newVal, alt: 'newly uploaded image'})
+                                setSubmitted(true)
+                            },
+                            handleClose: () => heroFields.featuredImage.setEditing(false),
+                            isFile: true
+                        }
+                    })
+
+                    console.log('here are the latest profile edits', profileEdits)
                 }}>
                     <FileDrop helpText='For best results, use a 3:1 aspect ratio and keep file size below 2Mb'/>
                     <div className='file-drop_btns'>
@@ -327,16 +343,17 @@ export default ({ data }) => {
                     const data = ([]).slice.call(e.target.elements).filter(el => el.value)
                         .map(el => (el.value.startsWith('http')) ? el.value : 'https://' + el.value)
 
-                    handleUpdateSubmit(data, {
-                        userId: id,
-                        field: 'socialMedia',
-                        setSubmitting,
-                        handleUpdate: (newVal) => {
-                            heroFields.socialMedia.setFieldValue(newVal)
-                            setSubmitted(true)
-                        },
-                        handleClose: () => heroFields.socialMedia.setEditing(false)
-                    }, false)
+                    setProfileEdits({ ...profileEdits,
+                        'socialMedia': {
+                            value: data,
+                            handleUpdate: (newVal) => {
+                                heroFields.socialMedia.setFieldValue(newVal)
+                                setSubmitted(true)
+                            },
+                            handleClose: () => heroFields.socialMedia.setEditing(false),
+                            isFile: true
+                        }
+                    })
                 }}>
                     { Object.keys(socialIcons).map(key => {
                         const s = socialMedia.find(socialObj => socialObj.socialMediaLink.includes(key))
