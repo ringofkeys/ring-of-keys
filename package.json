@@ -15,7 +15,7 @@
     "formik": "^2.1.1",
     "fs": "0.0.1-security",
     "fuse.js": "^3.4.6",
-    "gatsby": "^2.18.12",
+    "gatsby": "^2.23.7",
     "gatsby-image": "^2.2.34",
     "gatsby-plugin-mailchimp": "^5.1.2",
     "gatsby-plugin-manifest": "^2.2.31",
@@ -45,7 +45,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
+    "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
