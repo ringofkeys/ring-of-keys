@@ -1,7 +1,7 @@
 import React from 'react'
-import socialIcons from '../images/social-icons/socialIcons.js'
-import { handleUpdateSubmit } from '../utils/profileEditor'
-import Popup from './popup'
+import socialIcons from '../../images/social-icons/socialIcons.js'
+import { handleUpdateSubmit } from '../../utils/profileEditor'
+import Popup from '../popup'
 const urlRegExpStr = '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
 
 
@@ -30,7 +30,7 @@ const HeroSocialMediaEditor = ({ userId, field, editorState }) => (
             }, false)
         }}>
             { Object.keys(socialIcons).map(key => {
-                const s = field.find(socialObj => socialObj.socialMediaLink.includes(key))
+                const s = field.data.find(socialObj => socialObj.socialMediaLink.includes(key))
                 return (
             <div className='icon-field'>
                 <img src={ socialIcons[key] } />

@@ -1,7 +1,7 @@
 import React from 'react'
-import { handleUpdateSubmit } from '../utils/profileEditor'
-import Popup from './popup'
-import FileDrop from './filedrop'
+import { handleUpdateSubmit } from '../../utils/profileEditor'
+import Popup from '../popup'
+import FileDrop from '../filedrop'
 
 const HeroFeaturedImageEditor = ({ userId, field, editorState}) => (
     <Popup isOpen={ field.isEditing } onClose={ () => field.setEditing(false) } >

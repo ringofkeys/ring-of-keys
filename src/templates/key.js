@@ -3,36 +3,20 @@ import React, { useState, useEffect } from 'react'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import MessagePopup from '../components/messagepopup'
-import FieldEditForm from '../components/FieldEditForm'
-import BasicInfoField from '../components/BasicInfoField'
-import BodyInfoField from '../components/BodyInfoField'
-import ResumeField from '../components/ResumeField'
 import { getProfile, isAuthenticated } from "../utils/auth"
+import { Hero, Body } from '../components/profile'
 import './key.css'
 import socialIcons from '../images/social-icons/socialIcons.js'
 import profileIcons from '../images/profile-icons/profileIcons.js'
 import EmailPopup from '../components/emailpopup'
-import HeroFeaturedImageEditor from '../components/HeroFeaturedImageEditor'
-import HeroHeadshotImageEditor from '../components/HeroHeadshotImageEditor'
 import PreviewMessage from '../components/PreviewMessage'
-import HeroSocialMediaEditor from '../components/HeroSocialMediaEditor'
 const urlRegExpStr = '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
 export default ({ data }) => { 
-    const { name,
-            id,
-            pronouns,
-            socialMedia,
-            headshot,
-            discipline,
-            bio,
-            memberSince,
-            resume,
-        } = data.datoCmsKey
 
-    const isProfileOwner = isAuthenticated() && (getProfile().name === name)
+    const isProfileOwner = isAuthenticated() && (getProfile().name === data.datoCmsKey.name)
     const [isEditable, setEditable] = useState(isProfileOwner)
     const [hasSubmitted, setSubmitted] = useState(false)
 
@@ -62,32 +46,33 @@ export default ({ data }) => {
     
     Object.keys(heroFields).forEach(key => useFieldStates(heroFields[key]))
 
-    const bioField = {label: 'Bio', data: bio, fieldName: 'bio',}
+    const bioField = applyDatoField({label: 'Bio', fieldName: 'bio',})
     useFieldStates(bioField)
 
 
-    const bodyFields = getBodyFields(data.datoCmsKey.affiliations, data.datoCmsKey.locations).map(applyDatoField)
-
+    const bodyFields = getBodyFields(data.datoCmsKey.affiliations, data.datoCmsKey.locations)
+        .map(applyDatoField)
     bodyFields.forEach(useFieldStates)
 
-    const resumeField = {label: 'Resume', data: resume, fieldName: 'resume',}
+    const resumeField = applyDatoField({label: 'Resume', fieldName: 'resume',})
     useFieldStates(resumeField)
 
-    const infoFields = getInfoFields(data.datoCmsKey.locations).map(applyDatoField)
+    const infoFields = getInfoFields(data.datoCmsKey.locations)
+        .map(applyDatoField)
     infoFields.forEach(useFieldStates)
 
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)
 
-    return (<><Layout classNames={['fullwidth','key-profile']} title={ name }
-            description={`(${ pronouns }) - ${ name } is a ${ discipline }, and a member of Ring of Keys.`}>
+    return (<><Layout classNames={['fullwidth','key-profile']} title={ data.datoCmsKey.name }
+            description={`${ data.datoCmsKey.name } (${ data.datoCmsKey.pronouns }) is a ${ data.datoCmsKey.discipline }, and a member of Ring of Keys.`}>
             <section className='artist_hero'
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
                 <div className='avatar'>
                 { !isEditable
-                    ? <img src={ headshot.url } alt={ headshot.title } className='headshot' />
+                    ? <img src={ heroFields.headshot.data.url } alt={ heroFields.headshot.data.title } className='headshot' />
                     : (<div className='headshot_group'>
-                        <img src={ heroFields.headshot.data.url } alt={ headshot.title } className='headshot' />
+                        <img src={ heroFields.headshot.data.url } alt={ heroFields.headshot.data.title } className='headshot' />
                         <button className='btn_edit edit_headshot' onClick={() => heroFields.headshot.setEditing(true)}>
                             <img src={ profileIcons.camera } className='icon_edit' alt={`edit headshot`} />
                             <span className='tooltip'>Change Profile Photo</span>
@@ -97,34 +82,37 @@ export default ({ data }) => {
                 <div className='artist_bio'>
                     <h1>{ infoFields[0].data }</h1>
                     { infoFields[2].data && <p>Based in {infoFields[2].data.replace(', ', ' • ')}</p> }
-                    <p>{ infoFields[1].data }{ memberSince ? ` • Member Since ${ memberSince }` : '' }</p>
+                    <p>{ infoFields[1].data }{ data.datoCmsKey.memberSince ? ` • Member Since ${ data.datoCmsKey.memberSince }` : '' }</p>
                     <button className='btn btn_message' onClick={ () => setMessageOpen(true) }>Message</button>
                 </div>
-                { !isEditable
-                    ? ( socialMedia && (<div className='artist_social-icons'>
-                    {socialMedia.map(socialObj => {
-                        const mediaPlatform = Object.keys(socialIcons).filter((key) => socialObj.socialMediaLink.includes(key))[0]
-                        return (
-                        <a href={socialObj.socialMediaLink} rel='noopener noreferrer' target='_blank' className='social-icon' key={mediaPlatform}>
-                            <img src={ socialIcons[mediaPlatform] } alt={`${mediaPlatform}`} />
-                        </a>
-                        )}
-                    )}
-                    </div>))
-                    : (<div className='artist_social-icons'>
-                        { Object.keys(socialIcons).map(key => {
-                            const hasLink = socialMedia.find(socialObj => socialObj.socialMediaLink.includes(key))
-                            return (
-                                <div className='social-icon'>
-                                    <img src={ socialIcons[key] } alt={`${ key }`} className={!hasLink ? 'inactive' : ''}/>
-                                </div>
-                            )
-                        })}
-                        <button className='btn_edit edit_social' onClick={() => heroFields.socialMedia.setEditing(true)}>
-                            <img src={ profileIcons.pencil } className='icon_edit' alt={`edit pencil`} />
-                            <span className='tooltip from-above'>Change Social Media Links</span>
-                        </button>
-                    </div>) }
+                <div className='artist_social-icons'>
+                    { !isEditable
+                        ? ( heroFields.socialMedia.data && (<>
+                            {heroFields.socialMedia.data.map(socialObj => {
+                                const mediaPlatform = Object.keys(socialIcons).filter((key) => socialObj.socialMediaLink.includes(key))[0]
+                                return (
+                                <a href={socialObj.socialMediaLink} rel='noopener noreferrer' target='_blank' className='social-icon' key={mediaPlatform}>
+                                    <img src={ socialIcons[mediaPlatform] } alt={`${mediaPlatform}`} />
+                                </a>
+                                )}
+                            )}
+                        </>))
+                        : (<>
+                            { Object.keys(socialIcons).map(key => {
+                                const hasLink = heroFields.socialMedia.data.find(socialObj => socialObj.socialMediaLink.includes(key))
+                                return (
+                                    <div className='social-icon'>
+                                        <img src={ socialIcons[key] } alt={`${ key }`} className={!hasLink ? 'inactive' : ''}/>
+                                    </div>
+                                )
+                            })}
+                            <button className='btn_edit edit_social' onClick={() => heroFields.socialMedia.setEditing(true)}>
+                                <img src={ profileIcons.pencil } className='icon_edit' alt={`edit pencil`} />
+                                <span className='tooltip from-above'>Change Social Media Links</span>
+                            </button>
+                        </>)
+                    }
+                </div>
                 { heroFields.featuredImage.data && 
                     <img src={ heroFields.featuredImage.data.url } alt={ heroFields.featuredImage.data.alt } className='featured_image' /> }
                 { isEditable &&
@@ -136,48 +124,21 @@ export default ({ data }) => {
             </section>
             <section className='artist_body'>
                 { isProfileOwner && 
-                    <label className='toggle_group'>
-                        <input type='checkbox' className='visually-hidden' checked={isEditable} onChange={() => setEditable(!isEditable)}/>
+                    <label className='toggle_group' for='profile-edit-toggle'>
+                        <input id='profile-edit-toggle' type='checkbox' className='visually-hidden' checked={isEditable} onChange={() => setEditable(!isEditable)}/>
                         <span className='toggle'></span>
                         <span className='toggle_label'>Toggle Editing View</span>
                     </label>
                 }
-                { (bio || isEditable) &&
-                <div className='my_story'>
-                    <h2>My Story</h2>
-                    <p>
-                        { !isEditable
-                            ? <p>{ bioField.data }</p>
-                            :  (!bioField.isEditing)
-                                ? <div className='profile_field_group'>
-                                    <p>{ bioField.data
-                                        ? bioField.data
-                                        : <span className='unfilled-field'>
-                                            Here is where you can add your bio so people know your background, your interests,
-                                            and all your strengths. Tell us your story!
-                                          </span>
-                                    }</p>
-                                    <button className='btn_edit edit_field' onClick={() => bioField.setEditing(true)}>
-                                        <img src={ profileIcons.pencil } className='icon_edit' alt={`edit field`} />
-                                        <span className='tooltip'>Change { bioField.label }</span>
-                                    </button>
-                                </div>
-                                : <FieldEditForm type='textarea' key={bioField.fieldName+'-form'} userId={ id } handleClose={() => bioField.setEditing(false)}
-                                    field={bioField.fieldName} val={bioField.data} handleUpdate={(newVal) => {
-                                        bioField.setFieldValue(newVal)
-                                        setSubmitted(true)
-                                    }}
-                                    isSubmitting={isSubmitting} setSubmitting={setSubmitting}/>
-                        }
-                    </p>
-                </div>
+                { (bioField.data || isEditable) &&
+                    <Body.BioField userId={data.datoCmsKey.id} field={ bioField } editorState={{ isEditable, isSubmitting, setSubmitting, setSubmitted }} />
                 }
-                { infoFields.map((field, i) => <BasicInfoField field={ field } index={ i } isEditable={ isEditable }  userId={ id }
+                { infoFields.map((field, i) => <Body.BasicInfoField field={ field } index={ i } isEditable={ isEditable }  userId={ data.datoCmsKey.id }
                     setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`basic-info-${ i }`} />) } 
-                { bodyFields.map((field, i) => <BodyInfoField field={ field } index={ i } isEditable={ isEditable } userId={ id }
+                { bodyFields.map((field, i) => <Body.BodyInfoField field={ field } index={ i } isEditable={ isEditable } userId={ data.datoCmsKey.id }
                     setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`body-field-${ i }`} />) }
-                { (resume || isEditable) 
-                    && <ResumeField field={ resumeField } urlRegExpStr={ urlRegExpStr } userId={ id }
+                { (resumeField.data || isEditable) 
+                    && <Body.ResumeField field={ resumeField } urlRegExpStr={ urlRegExpStr } userId={ data.datoCmsKey.id }
                         isEditable={ isEditable } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } setSubmitted={ setSubmitted } />
                 }
                 {/* TODO: Add a global submit button, remove individual submissions (except image upload fields) */}
@@ -186,15 +147,15 @@ export default ({ data }) => {
         { hasSubmitted && 
             <PreviewMessage />
         }
-        <MessagePopup isOpen={ isMessageOpen } artistId={ id } artistName={ data.datoCmsKey.name } onClose={ () => setMessageOpen(false) } />
+        <MessagePopup isOpen={ isMessageOpen } artistId={ data.datoCmsKey.id } artistName={ data.datoCmsKey.name } onClose={ () => setMessageOpen(false) } />
         { heroFields.headshot.isEditing && 
-            <HeroHeadshotImageEditor userId={ id } field={ heroFields.headshot } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
+            <Hero.HeroHeadshotImageEditor userId={ data.datoCmsKey.id } field={ heroFields.headshot } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
         }
         { heroFields.featuredImage.isEditing && 
-            <HeroFeaturedImageEditor userId={ id } field={ heroFields.featuredImage } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
+            <Hero.HeroFeaturedImageEditor userId={ data.datoCmsKey.id } field={ heroFields.featuredImage } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
         }
         { heroFields.socialMedia.isEditing && 
-            <HeroSocialMediaEditor userId={ id } field={ heroFields.socialMedia } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
+            <Hero.HeroSocialMediaEditor userId={ data.datoCmsKey.id } field={ heroFields.socialMedia } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
         }
         <EmailPopup />
         </>
