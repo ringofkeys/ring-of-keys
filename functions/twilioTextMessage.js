@@ -12,7 +12,7 @@ exports.handler = async (event) => {
         const txtMsgRes = await client.messages
             .create({
                 body: data.message,
-                from: toPhoneNum,
+                from: fromPhoneNum,
                 to: toPhoneNum,
             })
 
