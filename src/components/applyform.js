@@ -3,6 +3,7 @@ import { Link } from 'gatsby'
 import { Field } from './formfields'
 import CheckboxGrid from './checkboxgrid'
 import Popup from './popup'
+import sendTxtMsg from '../utils/twilioFns'
 import slugify from '../utils/slugify'
 import { uploadFile } from '../utils/datoUploads'
 let locations = [

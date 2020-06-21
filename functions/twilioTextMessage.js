@@ -16,7 +16,7 @@ exports.handler = async (event) => {
                 body: data.msg,
                 from: fromPhoneNum,
                 to: toPhoneNum,
-            })
+            }).catch(err => console.error(err))
 
 
         return {

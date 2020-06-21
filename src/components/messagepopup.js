@@ -36,7 +36,7 @@ const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
 
         console.log('sendRes', sendRes)
 
-        if (sendRes.status === 200) {
+        if (sendRes.status === 201) {
             setMessageStatus('success')
             sendTxtMsg(`New RoK message awaiting approval from ${values.fromName} to ${artistName}. Here's what they said:\n"${values.message}"`)
 
