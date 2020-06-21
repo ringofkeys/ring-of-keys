@@ -17,7 +17,7 @@ exports.handler = async (event) => {
         console.log('newMessage = ', newMessage)
         
         return {
-            statusCode: 200,
+            statusCode: 201,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },

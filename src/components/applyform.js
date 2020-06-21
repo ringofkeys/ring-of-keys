@@ -72,7 +72,6 @@ const ApplyForm = () => {
         if (res.status === 200) {
           setFormStatus('success')
           setPopupOpen(true)
-          sendTxtMsg(formData.name)
           sendAdminEmail(formData)
         } else {
           setFormStatus('failure')
@@ -176,17 +175,6 @@ async function submitApplication(data) {
       method: 'POST',
       body: JSON.stringify(newUser)
   }).catch(err => console.error(err))
-}
-
-async function sendTxtMsg(name) {
-  const txtMsgRes = await fetch('/.netlify/functions/newUserTxtMessage', {
-      method: 'POST',
-      body: JSON.stringify({
-          name
-      }),
-  }).catch(err => console.error(err))
-
-  console.log('Twilio response: ', txtMsgRes)
 }
 
 async function sendAdminEmail(userData) {

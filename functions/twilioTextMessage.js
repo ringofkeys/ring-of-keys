@@ -1,3 +1,5 @@
+const toPhoneNum = process.env.TWILIO_TO_PHONE
+const fromPhoneNum = process.env.TWILIO_FROM_PHONE
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
@@ -9,9 +11,9 @@ exports.handler = async (event) => {
     try {
         const txtMsgRes = await client.messages
             .create({
-                body: `A new RoK user is ready for approval: ${data.name}`,
-                from: '+12065696912',
-                to: '+17654619106',
+                body: data.message,
+                from: toPhoneNum,
+                to: toPhoneNum,
             })
 
 

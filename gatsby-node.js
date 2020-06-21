@@ -45,6 +45,7 @@ exports.createPages = ({ graphql, actions }) => {
                 }
             }
         `).then(result => {
+            console.log('result = ', result)
             result.data.allDatoCmsKey.edges.map(({ node: key }) => {
                 createPage({
                     path: `keys/${key.slug}`,

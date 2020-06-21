@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'gatsby'
+import sendTxtMsg from '../utils/twilioFns'
 import { Field } from './formfields'
 import Popup from './popup'
 import './popup.css'
@@ -11,7 +12,7 @@ const messageStatusText = {
     failure: 'Something Went Wrong',
 }
 
-const MessagePopup = ({ isOpen, artistId, onClose }) => {
+const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
     const [messageStatus, setMessageStatus] = useState('unsent')
 
     async function handleSubmit(e) {
@@ -33,8 +34,11 @@ const MessagePopup = ({ isOpen, artistId, onClose }) => {
 
         const sendRes = await sendMessage(values)
 
+        console.log('sendRes', sendRes)
+
         if (sendRes.status === 200) {
             setMessageStatus('success')
+            sendTxtMsg(`New RoK message awaiting approval from ${values.fromName} to ${artistName}. Here's what they said:\n"${values.message}"`)
 
             setTimeout(() => onClose(), 1250)
         } else {
@@ -79,7 +83,7 @@ async function sendMessage(data) {
         console.error('fetching error, ', err)
     }
 
-    console.log('messageRes = ', await messageRes.json())
+    console.log('messageRes = ', messageRes)
 
     return messageRes
 }
