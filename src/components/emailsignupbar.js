@@ -35,7 +35,7 @@ const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Ke
             <label className='privacy-consent input__group checkbox'>
                 <input type='checkbox' required />
                 <span>
-                    I agree with the&nbsp;<Link to='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy and Terms of Use</Link>.</span>
+                    I agree with the&nbsp;<Link to='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</Link> and <Link to='/terms-e-communications' target='_blank' rel='noopener noreferrer'>Terms of Use</Link>.</span>
             </label>
             <button className={`btn ${ submitStatus }`} type='submit' disabled={ submitStatus === 'sending' || submitStatus === 'sent' }>
                 <svg viewBox='0 0 5 7'>
