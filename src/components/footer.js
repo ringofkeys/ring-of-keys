@@ -111,7 +111,7 @@ const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttri
         </nav>
         <div className='footer-end'>
             <EmailSignupBar />
-            <span>Designed by <a href='https://megelliott.design' target='_blank' rel='noopener noreferrer'>Meg Elliott</a>, built by <a href='https://franknoirot.co' target='_blank' rel='noopener noreferrer'>Frank Noirot</a>.</span>
+            <span>© 2020 Ring of Keys | <Link to='/privacy'>Privacy Policy</Link> | Designed by <a href='https://megelliott.design' target='_blank' rel='noopener noreferrer'>Meg Elliott</a>, built by <a href='https://franknoirot.co' target='_blank' rel='noopener noreferrer'>Frank Noirot</a>.</span>
         </div>
     </footer>
     </>

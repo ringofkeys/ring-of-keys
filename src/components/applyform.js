@@ -132,7 +132,7 @@ const ApplyForm = () => {
         <label className='privacy-consent input__group checkbox'>
             <input type='checkbox' required />
             <span>
-              I agree to the&nbsp;<Link to='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy and Terms of Use.</Link>
+              I agree to the&nbsp;<Link to='/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</Link> and <Link to='/terms' target='_blank' rel='noopener noreferrer'>Terms of Use.</Link>
             </span>
         </label>
         <button type='submit' className={`btn bg_slate ${ formStatus }`} 
