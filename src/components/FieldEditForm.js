@@ -30,8 +30,8 @@ const FieldEditForm = ({ id, field, handleClose, isSubmitting, label, pattern, h
             dataVal = e.target.elements[0].value
         }
 
-        handleUpdate(dataVal)
-        // handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
+        // handleUpdate(dataVal)
+        handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
     }}>
         { type === 'textarea' &&
             <textarea placeholder={ field.data } defaultValue={ field.data } required />
