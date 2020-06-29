@@ -86,9 +86,10 @@ exports.handler = async (event) => {
     console.log('got past the password reset ticket')
 
     if (userData.email) {
-        // Add user's email to the MailChimp list
-        const mailchimpRes = await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
-        console.log('mailchimp = ', mailchimpRes)
+        // Add user's email to the MailChimp Newsletter list then Members list
+        const mailchimpResOne = await addToMailchimpNode(userData.email, {})
+        const mailchimpResTwo = await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
+        console.log('mailchimp = ', [mailchimpResOne, mailchimpResTwo])
     }
 
     // Send welcome email to user via SendGrid
