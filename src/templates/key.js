@@ -10,7 +10,6 @@ import socialIcons from '../images/social-icons/socialIcons.js'
 import profileIcons from '../images/profile-icons/profileIcons.js'
 import EmailPopup from '../components/emailpopup'
 import PreviewMessage from '../components/PreviewMessage'
-const urlRegExpStr = '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
@@ -18,10 +17,21 @@ export default ({ data }) => {
 
     const isProfileOwner = isAuthenticated() && (getProfile().name === data.datoCmsKey.name)
     const [isEditable, setEditable] = useState(isProfileOwner)
+    const [isSubmitting, setSubmitting] = useState(false)
+    const [isMessageOpen, setMessageOpen] = useState(false)
     const [hasSubmitted, setSubmitted] = useState(false)
+    const editorState = { isEditable, isSubmitting, setSubmitting, setSubmitted }
+    
+    const [editedFields, setEditedFields] = useState({})
+    const updateField = (key, val) => {
+        const newFields = Object.assign({}, editedFields)
+        newFields[key] = val
+        setEditedFields(newFields)
+        console.log('edited fields so far', editedFields)
+    }            
 
-            
     function useFieldStates(field) {
+
         const [fieldValue, setFieldValue] = useState(field.data)
         field.data = fieldValue
         field.setFieldValue = setFieldValue
@@ -29,6 +39,8 @@ export default ({ data }) => {
         const [isEditing, setEditing] = useState(false)
         field.isEditing = isEditing
         field.setEditing = setEditing
+
+        field.updateField = updateField
     }
 
     const applyDatoField = (field) => {
@@ -60,9 +72,6 @@ export default ({ data }) => {
     const infoFields = getInfoFields(data.datoCmsKey.locations)
         .map(applyDatoField)
     infoFields.forEach(useFieldStates)
-
-    const [isSubmitting, setSubmitting] = useState(false)
-    const [isMessageOpen, setMessageOpen] = useState(false)
 
     return (<><Layout classNames={['fullwidth','key-profile']} title={ data.datoCmsKey.name }
             description={`${ data.datoCmsKey.name } (${ data.datoCmsKey.pronouns }) is a ${ data.datoCmsKey.discipline }, and a member of Ring of Keys.`}>
@@ -133,13 +142,10 @@ export default ({ data }) => {
                 { (bioField.data || isEditable) &&
                     <Body.BioField userId={data.datoCmsKey.id} field={ bioField } editorState={{ isEditable, isSubmitting, setSubmitting, setSubmitted }} />
                 }
-                { infoFields.map((field, i) => <Body.BasicInfoField field={ field } index={ i } isEditable={ isEditable }  userId={ data.datoCmsKey.id }
-                    setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`basic-info-${ i }`} />) } 
-                { bodyFields.map((field, i) => <Body.BodyInfoField field={ field } index={ i } isEditable={ isEditable } userId={ data.datoCmsKey.id }
-                    setSubmitted={ setSubmitted } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } key={`body-field-${ i }`} />) }
+                { infoFields.map((field, i) => <Body.BasicInfoField field={ field } index={ i }  userId={ data.datoCmsKey.id } key={`basic-info-${ i }`}  editorState={ editorState }/>) } 
+                { bodyFields.map((field, i) => <Body.BodyInfoField field={ field } index={ i } userId={ data.datoCmsKey.id } key={`body-field-${ i }`} editorState={ editorState }/>) }
                 { (resumeField.data || isEditable) 
-                    && <Body.ResumeField field={ resumeField } urlRegExpStr={ urlRegExpStr } userId={ data.datoCmsKey.id }
-                        isEditable={ isEditable } isSubmitting={ isSubmitting } setSubmitting={ setSubmitting } setSubmitted={ setSubmitted } />
+                    && <Body.ResumeField field={ resumeField } userId={ data.datoCmsKey.id } editorState={ editorState } />
                 }
                 {/* TODO: Add a global submit button, remove individual submissions (except image upload fields) */}
             </section>
@@ -149,13 +155,13 @@ export default ({ data }) => {
         }
         <MessagePopup isOpen={ isMessageOpen } artistId={ data.datoCmsKey.id } artistName={ data.datoCmsKey.name } onClose={ () => setMessageOpen(false) } />
         { heroFields.headshot.isEditing && 
-            <Hero.HeroHeadshotImageEditor userId={ data.datoCmsKey.id } field={ heroFields.headshot } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
+            <Hero.HeroHeadshotImageEditor userId={ data.datoCmsKey.id } field={ heroFields.headshot } editorState={ editorState } />
         }
         { heroFields.featuredImage.isEditing && 
-            <Hero.HeroFeaturedImageEditor userId={ data.datoCmsKey.id } field={ heroFields.featuredImage } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
+            <Hero.HeroFeaturedImageEditor userId={ data.datoCmsKey.id } field={ heroFields.featuredImage } editorState={ editorState } />
         }
         { heroFields.socialMedia.isEditing && 
-            <Hero.HeroSocialMediaEditor userId={ data.datoCmsKey.id } field={ heroFields.socialMedia } editorState={ { isSubmitting, setSubmitting, setSubmitted } } />
+            <Hero.HeroSocialMediaEditor userId={ data.datoCmsKey.id } field={ heroFields.socialMedia } editorState={ editorState } />
         }
         <EmailPopup />
         </>

@@ -4,15 +4,15 @@ import InfoIcon from '../infoicon.js'
 import profileIcons from '../../images/profile-icons/profileIcons.js'
 
 
-const BodyInfoField = ({ field, index, isEditable, setSubmitted, isSubmitting, setSubmitting, userId }) => {
+const BodyInfoField = ({ field, index, editorState, userId }) => {
 
     return (<>
-    { (field.data || isEditable) 
+    { (field.data || editorState.isEditable) 
         && <h3>
             { field.label }
             { field.infoText && <InfoIcon infoText={ field.infoText } /> }
            </h3> }
-    { !isEditable
+    { !editorState.isEditable
         ? field.data && (<p>{ !field.data.includes('http') ? field.data
             : <a href={ field.data } rel='noopener noreferrer' target='_blank'>{ field.data }</a> }</p>)
         : (!field.isEditing) 
@@ -30,11 +30,17 @@ const BodyInfoField = ({ field, index, isEditable, setSubmitted, isSubmitting, s
             field={ field.fieldName } val={ field.refArray ? field.refArray : field.data} label={ field.label } helpText={ field.helpText }
             initialVals={ field.initialVals } initialOther={ field.initialOther }
             handleUpdate={(newVal) => {
-                if (newVal instanceof Array) { field.setFieldValue(newVal.join(', ')) }
-                else { field.setFieldValue(newVal) }
-                setSubmitted(true)
+                if (newVal instanceof Array) {
+                    field.setFieldValue(newVal.join(', '))
+                    field.updateField(field.fieldName, newVal)
+                }
+                else {
+                    field.setFieldValue(newVal)
+                    field.updateField(field.fieldName, newVal)
+                }
+                editorState.setSubmitted(true)
             }}
-            isSubmitting={ isSubmitting } setSubmitting={ setSubmitting }/>
+            isSubmitting={ editorState.isSubmitting } setSubmitting={ editorState.setSubmitting }/>
     }</>)
 }
 

@@ -25,6 +25,7 @@ const BioField = ({ userId, field, editorState }) => (
                     : <FieldEditForm type='textarea' key={field.fieldName+'-form'} userId={ userId } handleClose={() => field.setEditing(false)}
                         field={field.fieldName} val={field.data} handleUpdate={(newVal) => {
                             field.setFieldValue(newVal)
+                            field.updateField(field.fieldName, newVal)
                             editorState.setSubmitted(true)
                         }}
                         isSubmitting={editorState.isSubmitting} setSubmitting={editorState.setSubmitting}/>

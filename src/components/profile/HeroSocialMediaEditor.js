@@ -24,6 +24,7 @@ const HeroSocialMediaEditor = ({ userId, field, editorState }) => (
                 setSubmitting: editorState.setSubmitting,
                 handleUpdate: (newVal) => {
                     field.setFieldValue(newVal)
+                    field.updateField(field.fieldName, newVal)
                     editorState.setSubmitted(true)
                 },
                 handleClose: () => field.setEditing(false)

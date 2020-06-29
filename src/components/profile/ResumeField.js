@@ -1,9 +1,10 @@
 import React from 'react'
 import FieldEditForm from '../FieldEditForm'
 import profileIcons from '../../images/profile-icons/profileIcons.js'
+const urlRegExpStr = '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
 
-const ResumeField = ({ field, setSubmitted, isSubmitting, setSubmitting, isEditable, urlRegExpStr, userId }) => {
-    return (!isEditable
+const ResumeField = ({ field, userId, editorState }) => {
+    return (!editorState.isEditable
         ? <a className='btn btn_resume' href={ field.data ? field.data : '' } rel='noopener noreferrer' target='_blank'>
             View Resume
           </a>
@@ -21,11 +22,12 @@ const ResumeField = ({ field, setSubmitted, isSubmitting, setSubmitting, isEdita
             : <>
                 <h3>Resume</h3>
                 <FieldEditForm type='link' key={field.fieldName+'-form'} userId={ userId } handleClose={() => field.setEditing(false)}
-                field={field.fieldName} val={field.data} handleUpdate={(newVal) => {
+                field={field} handleUpdate={(newVal) => {
                     field.setFieldValue(newVal)
-                    setSubmitted(true)
+                    field.updateField(field.fieldName, newVal)
+                    editorState.setSubmitted(true)
                 }} pattern={ urlRegExpStr }
-                isSubmitting={ isSubmitting } setSubmitting={ setSubmitting }/>
+                isSubmitting={ editorState.isSubmitting } setSubmitting={ editorState.setSubmitting }/>
             </>
     )
 }

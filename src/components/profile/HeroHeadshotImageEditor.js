@@ -16,6 +16,7 @@ const HeroHeadshotImageEditor = ({ userId, field, editorState }) => (
                 setSubmitting: editorState.setSubmitting,
                 handleUpdate: (newVal) => {
                     field.setFieldValue({ url: newVal, alt: 'newly uploaded image'})
+                    field.updateField(field.fieldName, newVal)
                     editorState.setSubmitted(true)
                 },
                 handleClose: () => field.setEditing(false)
