@@ -87,7 +87,7 @@ exports.handler = async (event) => {
 
     if (userData.email) {
         // Add user's email to the MailChimp Newsletter list then Members list
-        const mailchimpResOne = await addToMailchimpNode(userData.email, {})
+        const mailchimpResOne = await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676')
         const mailchimpResTwo = await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
         console.log('mailchimp = ', [mailchimpResOne, mailchimpResTwo])
     }
