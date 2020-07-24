@@ -5,7 +5,7 @@ import { handleUpdateSubmit } from '../utils/profileEditor'
 import icon_close from '../images/icon_close.svg'
 
 
-const FieldEditForm = ({ id, field, handleClose, isSubmitting, label, pattern, handleUpdate,
+const FieldEditForm = ({ id, field, handleClose, isSubmitting, setSubmitting, label, pattern, handleUpdate,
     type, helpText, initialVals, initialOther }) => (
     <div id={id} className={'profile_field_group ' + type}>
     <form onSubmit={e => {
@@ -31,7 +31,7 @@ const FieldEditForm = ({ id, field, handleClose, isSubmitting, label, pattern, h
         }
 
         // handleUpdate(dataVal)
-        handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
+        handleUpdateSubmit(dataVal, {id, field, handleClose, setSubmitting, handleUpdate}, isFile)
     }}>
         { type === 'textarea' &&
             <textarea placeholder={ field.data } defaultValue={ field.data } required />
@@ -49,7 +49,7 @@ const FieldEditForm = ({ id, field, handleClose, isSubmitting, label, pattern, h
         { (type !== 'textarea' && type !== 'checkbox') &&
             <input type={ type } defaultValue={ field.data } pattern={ pattern ? pattern : '.*' } required />
         }
-        <button className='btn bg_slate btn_submit' type='submit' className={`btn ${isSubmitting ? 'submitting' : ''}`}>
+        <button type='submit' className={`btn bg_slate btn_submit ${isSubmitting ? 'submitting' : ''}`}>
             { isSubmitting ? 'Loading...' : 'Update' }
         </button>
     </form>

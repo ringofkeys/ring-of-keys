@@ -24,10 +24,8 @@ export const uploadFile = async (file) => {
         }),
     }).catch(err => console.err('error getting image url: ', JSON.parse(err)))
   
-    const datoUrlRes = await signedUrlsRes.json()
-  
-    console.log('datorUrlRes = ', datoUrlRes)
-  
+    const datoUrlRes = await signedUrlsRes.json().catch(err => console.error(err))
+    
     const fileArray = await readFile(file)
   
     console.log('fileArray = ', fileArray)

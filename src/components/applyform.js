@@ -167,6 +167,7 @@ async function submitApplication(data) {
     }
   })
 
+  console.log('newUser Object = ', newUser)
   const headshotRes = await uploadFile(newUser.headshot)
   newUser.headshot = headshotRes[0].id  
 
