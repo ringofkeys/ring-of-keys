@@ -16,7 +16,7 @@ export const readFile = file => {
 
 
 export const uploadFile = async (file) => {
-    const signedUrlsRes = await fetch(process.env.FUNCTIONS_HOST + '/.netlify/functions/createDatoImgUrl', {
+    const signedUrlsRes = await fetch(process.env.FUNCTIONS_HOST || '' + '/.netlify/functions/createDatoImgUrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain',

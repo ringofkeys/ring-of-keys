@@ -1,7 +1,7 @@
 import { uploadFile } from '../utils/datoUploads'
 
 export const publishDato = async function(id) {
-    const publishRes = await fetch(process.env.FUNCTIONS_HOST + '/.netlify/functions/publishDeployDato', {
+    const publishRes = await fetch(process.env.FUNCTIONS_HOST || '' + '/.netlify/functions/publishDeployDato', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export const publishDato = async function(id) {
 export async function updateFields(id, name, data) {
     id = id.match(/-(\d+)-/)[1]
 
-    const fieldEditRes = await fetch(process.env.FUNCTIONS_HOST + '/.netlify/functions/updateDatoFields', {
+    const fieldEditRes = await fetch(process.env.FUNCTIONS_HOST || '' + '/.netlify/functions/updateDatoFields', {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -30,6 +30,7 @@ export async function updateFields(id, name, data) {
     }).catch(err => console.error(err))
 
     const publishRes = await publishDato(id)
+        .catch(err => console.error(err))
 
     return [fieldEditRes, publishRes]
 }

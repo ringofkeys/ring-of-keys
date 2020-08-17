@@ -5,7 +5,7 @@ import Popup from '../popup'
 const urlRegExpStr = '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
 
 
-const HeroSocialMediaEditor = ({ userId, field, editorState }) => (
+const HeroSocialMediaEditor = ({ field, editorState }) => (
     <Popup isOpen={ field.isEditing } onClose={ () => field.setEditing(false) } >
         <h2 className=''>Set Social Media Links</h2>
         <p>
@@ -16,19 +16,15 @@ const HeroSocialMediaEditor = ({ userId, field, editorState }) => (
             e.persist()
 
             const data = ([]).slice.call(e.target.elements).filter(el => el.value)
-                .map(el => (el.value.startsWith('http')) ? el.value : 'https://' + el.value)
+                .map(el => {
+                    return {
+                        socialMediaLink: (el.value.startsWith('http')) ? el.value : 'https://' + el.value
+                    }
+                })
 
-            handleUpdateSubmit(data, {
-                userId,
-                field: 'socialMedia',
-                setSubmitting: editorState.setSubmitting,
-                handleUpdate: (newVal) => {
-                    field.setFieldValue(newVal)
-                    field.updateField(field.fieldName, newVal)
-                    editorState.setSubmitted(true)
-                },
-                handleClose: () => field.setEditing(false)
-            }, false)
+            field.setFieldValue(data)
+            field.updateField(field.fieldName, data)
+            field.setEditing(false)
         }}>
             { Object.keys(socialIcons).map(key => {
                 const s = field.data.find(socialObj => socialObj.socialMediaLink.includes(key))
