@@ -239,7 +239,7 @@ function getInfoFields(locations) {
         {label: 'Where are you based?', fieldName: 'mainLocation', type: 'text'},
         {label: 'Regions', helpText: '(These control your search page listing)', refArray: locationLabels(), fieldName: 'locations', type: 'checkbox',
         initialVals: locationLabels().map(label => locations.includes(label)),
-        initialOther: getInitialOther(locations, locationLabels(), '| ')
+        initialOther: getInitialOther(locations, locationLabels(), '| '), joinChar: '| ',
         },
     ]
 }
@@ -255,7 +255,7 @@ function getBodyFields(affiliations) {
         {label: 'Dance Experience', fieldName: 'danceExperience', type: 'text',},
         {label: 'Unions & Affiliations', helpText: '(check as many as apply)', refArray: affiliationLabels(), fieldName: 'affiliations', type: 'checkbox',
         initialVals: affiliationLabels().map(label => affiliations.includes(label)),
-        initialOther: getInitialOther(affiliations, affiliationLabels(), ', ')
+        initialOther: getInitialOther(affiliations, affiliationLabels(), ', '), joinChar: ', '
         },
         {label:'Website', fieldName: 'website', },
     ]

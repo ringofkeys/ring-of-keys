@@ -37,8 +37,8 @@ exports.handler = async (event, context, callback) => {
             }))
 
             if (data.socialMedia) {
-                data.socialMedia = data.socialMedia.map(link => buildModularBlock({
-                    socialMediaLink: link,
+                data.socialMedia = data.socialMedia.map(({ socialMediaLink }) => buildModularBlock({
+                    socialMediaLink,
                     itemType: '181488',
                 }))
             }

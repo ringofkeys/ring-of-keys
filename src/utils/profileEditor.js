@@ -1,7 +1,8 @@
 import { uploadFile } from '../utils/datoUploads'
+const fnDomain = process.env.FUNCTIONS_HOST ? process.env.FUNCTIONS_HOST : ''
 
 export const publishDato = async function(id) {
-    const publishRes = await fetch(process.env.FUNCTIONS_HOST || '' + '/.netlify/functions/publishDeployDato', {
+    const publishRes = await fetch(fnDomain + '/.netlify/functions/publishDeployDato', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,7 +18,7 @@ export const publishDato = async function(id) {
 export async function updateFields(id, name, data) {
     id = id.match(/-(\d+)-/)[1]
 
-    const fieldEditRes = await fetch(process.env.FUNCTIONS_HOST || '' + '/.netlify/functions/updateDatoFields', {
+    const fieldEditRes = await fetch(fnDomain + '/.netlify/functions/updateDatoFields', {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -53,10 +54,10 @@ export async function handleFileSubmit(event, field, editorState) {
     field.setEditing(false)
 }
 
-export function fieldArrayToString(field) {
+export function fieldArrayToString(field, joinChar = ', ') {
     return field.data
         .map((val, i, arr) => (val && i < arr.length - 1) ? field.refArray[i] : val)
-        .filter(val => val).join(', ')
+        .filter(val => val).join(joinChar)
 }
 
 export function decodeHTMLEntities(htmlString) {

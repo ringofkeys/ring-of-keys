@@ -44,7 +44,7 @@ const BasicInfoField = ({ field, index, editorState, userId }) => {
                 handleUpdate={(newVal) => {
                     if (newVal instanceof Array) {
                         field.setFieldValue(newVal)
-                        field.updateField(field.fieldName, fieldArrayToString(Object.assign(field, {data: newVal})))
+                        field.updateField(field.fieldName, fieldArrayToString(Object.assign(field, {data: newVal}), field.joinChar))
                     }
                     else {
                         field.setFieldValue(newVal)

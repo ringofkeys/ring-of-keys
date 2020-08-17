@@ -49,10 +49,9 @@ const BodyInfoField = ({ field, index, editorState, userId }) => {
                 initialVals={ field.initialVals }
                 initialOther={ field.initialOther }
                 handleUpdate={(newVal) => {
-                    console.log('from within BodyInfo field!', newVal)
                     if (newVal instanceof Array) {
                         field.setFieldValue(newVal)
-                        field.updateField(field.fieldName, fieldArrayToString(Object.assign(field, {data: newVal})))
+                        field.updateField(field.fieldName, fieldArrayToString(Object.assign(field, {data: newVal}), field.joinChar))
                     }
                     else {
                         field.setFieldValue(newVal)

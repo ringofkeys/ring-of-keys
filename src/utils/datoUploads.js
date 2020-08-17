@@ -1,3 +1,5 @@
+const fnDomain = process.env.FUNCTIONS_HOST ? process.env.FUNCTIONS_HOST : ''
+
 export const readFile = file => {
     const fr = new FileReader()
 
@@ -16,7 +18,7 @@ export const readFile = file => {
 
 
 export const uploadFile = async (file) => {
-    const signedUrlsRes = await fetch(process.env.FUNCTIONS_HOST || '' + '/.netlify/functions/createDatoImgUrl', {
+    const signedUrlsRes = await fetch(fnDomain + '/.netlify/functions/createDatoImgUrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain',
