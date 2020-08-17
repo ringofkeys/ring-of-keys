@@ -1,12 +1,11 @@
 import React from 'react'
 import CheckboxGrid from './checkboxgrid'
 import { Field } from './formfields'
-import { handleUpdateSubmit } from '../utils/profileEditor'
 import icon_close from '../images/icon_close.svg'
 
 
-const FieldEditForm = ({ id, userId, field, handleClose, isSubmitting, setSubmitting, label, pattern, handleUpdate,
-    type, helpText, initialVals, initialOther }) => (
+const FieldEditForm = ({ id, field, handleClose, isSubmitting, label, pattern, handleUpdate,
+    type, helpText }) => (
     <div id={id} className={'profile_field_group ' + type}>
     <form onSubmit={e => {
         e.persist()
@@ -15,7 +14,6 @@ const FieldEditForm = ({ id, userId, field, handleClose, isSubmitting, setSubmit
         const dataVal = getFieldValues(e, field)
 
         handleUpdate(dataVal)
-        // handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
     }}>
         { type === 'textarea' &&
             <textarea placeholder={ field.data } defaultValue={ field.data } required />

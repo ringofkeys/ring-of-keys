@@ -158,7 +158,7 @@ export default ({ data }) => {
                 { (bioField.data || isEditable) &&
                     <Body.BioField userId={data.datoCmsKey.id} field={ bioField } editorState={{ isEditable, isSubmitting, setSubmitting, setSubmitted }} />
                 }
-                { infoFields.map((field, i) => <Body.BasicInfoField field={ field } index={ i }  userId={ data.datoCmsKey.id } key={`basic-info-${ i }`}  editorState={ editorState }/>) } 
+                { isEditable && infoFields.map((field, i) => <Body.BasicInfoField field={ field } index={ i }  userId={ data.datoCmsKey.id } key={`basic-info-${ i }`}  editorState={ editorState }/>) } 
                 { bodyFields.map((field, i) => <Body.BodyInfoField field={ field } index={ i } userId={ data.datoCmsKey.id } key={`body-field-${ i }`} editorState={ editorState }/>) }
                 { (resumeField.data || isEditable) 
                     && <Body.ResumeField field={ resumeField } userId={ data.datoCmsKey.id } editorState={ editorState } />

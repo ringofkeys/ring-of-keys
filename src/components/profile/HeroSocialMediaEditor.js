@@ -1,6 +1,5 @@
 import React from 'react'
 import socialIcons from '../../images/social-icons/socialIcons.js'
-import { handleUpdateSubmit } from '../../utils/profileEditor'
 import Popup from '../popup'
 const urlRegExpStr = '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
 
