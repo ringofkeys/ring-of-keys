@@ -2,7 +2,6 @@ import React from 'react'
 import parse from 'html-react-parser'
 import { Link, graphql, useStaticQuery } from 'gatsby'
 import MessageBlock from '../../components/MessageBlock'
-import RoKBadge_Web from '../../images/RoKBadge_Web.png'
 
 const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
     const data = useStaticQuery(graphql`

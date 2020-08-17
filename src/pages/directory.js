@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 import Fuse from 'fuse.js'
 import { useFormik } from 'formik';
 import Layout from "../components/layout"
-import Popup from '../components/popup'
 import Filters from '../components/filters'
 import ArtistCard from '../components/artistcard'
 import './directory.css' 

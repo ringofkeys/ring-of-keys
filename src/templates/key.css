@@ -126,7 +126,6 @@
 }
 
 .toggle_group {
-    margin-inline-start: auto;
     display: flex;
     align-items: center;
 }

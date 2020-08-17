@@ -1,8 +1,11 @@
 import { uploadFile } from '../utils/datoUploads'
 
 export const publishDato = async function(id) {
-    const publishRes = await fetch('/.netlify/functions/publishDeployDato', {
+    const publishRes = await fetch(process.env.FUNCTIONS_HOST + '/.netlify/functions/publishDeployDato', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
             id
         }),
@@ -11,55 +14,54 @@ export const publishDato = async function(id) {
     return publishRes
 }
 
-export const updateField = async function(id, data, isFile) {
-    const fieldEditRes = await fetch('/.netlify/functions/updateDatoField', {
+export async function updateFields(id, name, data) {
+    id = id.match(/-(\d+)-/)[1]
+
+    const fieldEditRes = await fetch(process.env.FUNCTIONS_HOST + '/.netlify/functions/updateDatoFields', {
+        headers: {
+            'Content-Type': 'application/json',
+        },
         method: 'POST',
         body: JSON.stringify({
             id,
+            name,
             data,
-            isFile
         }),
     }).catch(err => console.error(err))
 
-    return fieldEditRes
+    const publishRes = await publishDato(id)
+
+    return [fieldEditRes, publishRes]
 }
 
-export const handleUpdateSubmit = async function(dataValue, { userId, field, setSubmitting, handleUpdate, handleClose }, isFile) {
-    setSubmitting(true)
-    
-    let updateRes = {status: 500}
+export async function handleFileSubmit(event, field, editorState) {
+    event.preventDefault()
+    event.persist()
 
+    editorState.setSubmitting(true)
     try {
-        let file = {}
-        if (isFile) {
-            file = dataValue
-            const uploadRes = await uploadFile(dataValue).catch(err => console.error(err))
-            dataValue = uploadRes[0].id
-        }
+        const file = event.target.elements[0].files[0]
+        const uploadRes = await uploadFile(file).catch(err => console.error(err))
 
-        const itemId = userId.match(/-(\d+)-/)[1]
-
-        updateRes = await updateField(itemId, { [field]: dataValue }, isFile)
-        console.log('updateRes = ', updateRes)
-        
-        if (updateRes.status === 200) {
-            if (isFile) {
-                const newUrl = URL.createObjectURL(file)
-                console.log('new URL = ', newUrl)
-                handleUpdate(newUrl)
-            } else if (field === 'socialMedia') {
-                handleUpdate(dataValue.map(link => { return { socialMediaLink: link }})) // transform back into the format of the API
-            } else {
-                handleUpdate(dataValue)
-            }
-            handleClose()
-            publishDato(itemId).then(res => console.log('publishRes = ', res))
-        } else {
-            console.log('bad response!')
-        }
-    } catch (err) {
-        console.error(err, 'response body = ', JSON.parse(err.body))
+        field.setFieldValue({ url: URL.createObjectURL(file), alt: 'newly uploaded image'})
+        field.updateField(field.fieldName, uploadRes[0].id)
+    } catch(err) {
+        console.error(err)
     }
+    editorState.setSubmitting(false)
+    field.setEditing(false)
+}
 
-    setSubmitting(false)    
+export function fieldArrayToString(field) {
+    return field.data
+        .map((val, i, arr) => (val && i < arr.length - 1) ? field.refArray[i] : val)
+        .filter(val => val).join(', ')
+}
+
+export function decodeHTMLEntities(htmlString) {
+    const txtArea = document.createElement('textarea')
+    txtArea.innerHTML = htmlString
+    const decodedHTML = txtArea.value
+    txtArea.remove()
+    return decodedHTML
 }

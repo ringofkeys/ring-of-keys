@@ -9,7 +9,7 @@ import { uploadFile } from '../utils/datoUploads'
 let locations = [
   "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
   "Boulder", "Orlando", "Sarasota", "Louisville", "Baltimore", "Boston", "St. Louis", "Las Vegas", "Raleigh", "Cleveland",
-  "Ashland", "Portland, OR", "Pittsburgh", "Austin", "Salt Lake City", "Washington, D.C.", "Seattle", "Toronto", "Ontario",
+  "Ashland", "Portland, OR", "Pittsburgh", "Austin", "Salt Lake City", "Washington DC", "Seattle", "Toronto", "Ontario",
   "London",
 ]
 locations = locations.sort()
@@ -44,7 +44,7 @@ const ApplyForm = () => {
           if (el.checked) return field.ref[i]
           else if (el.value) return el.value
         }).filter(val => val)
-        .join(', ')
+        .join('| ')
       })
 
       // save the rest of the formdata

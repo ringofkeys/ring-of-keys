@@ -5,33 +5,17 @@ import { handleUpdateSubmit } from '../utils/profileEditor'
 import icon_close from '../images/icon_close.svg'
 
 
-const FieldEditForm = ({ id, field, handleClose, isSubmitting, setSubmitting, label, pattern, handleUpdate,
+const FieldEditForm = ({ id, userId, field, handleClose, isSubmitting, setSubmitting, label, pattern, handleUpdate,
     type, helpText, initialVals, initialOther }) => (
     <div id={id} className={'profile_field_group ' + type}>
     <form onSubmit={e => {
         e.persist()
         e.preventDefault()
 
-        const isFile = !!e.target.elements[0].files
-        let dataVal = ''
-        if (isFile) {
-            dataVal = e.target.elements[0].files[0]
-        } else if (type === 'checkbox') {
-            dataVal = ([]).slice.call(e.target.elements)
-                .filter(el => !el.classList.contains('visually-hidden'))
-                .map((el,i) => el.checked ? field.data[i] : el.value)
-                .filter(value => value)
-                .join(', ')
-        } else if (type === 'link') {
-            dataVal = e.target.elements[0].value.startsWith('http')
-                ? e.target.elements[0].value
-                : 'https://' + e.target.elements[0].value
-        } else {
-            dataVal = e.target.elements[0].value
-        }
+        const dataVal = getFieldValues(e, field)
 
-        // handleUpdate(dataVal)
-        handleUpdateSubmit(dataVal, {id, field, handleClose, setSubmitting, handleUpdate}, isFile)
+        handleUpdate(dataVal)
+        // handleUpdateSubmit(dataVal, {userId, field, handleClose, setSubmitting, handleUpdate}, isFile)
     }}>
         { type === 'textarea' &&
             <textarea placeholder={ field.data } defaultValue={ field.data } required />
@@ -39,11 +23,11 @@ const FieldEditForm = ({ id, field, handleClose, isSubmitting, setSubmitting, la
         { type === 'checkbox' &&
             <CheckboxGrid label={ label } helpText={ helpText }
             fieldData={ field.data }>
-                {field.data.map((f,i) => (
-                    <Field type='checkbox' name={`${ field.fieldName }[${i}]`} label={ f } key={ f } defaultChecked={ initialVals[i] } />
+                {field.refArray.map((f,i) => (
+                    <Field type='checkbox' name={`${ field.fieldName }[${i}]`} label={ f } key={ f } defaultChecked={ field.data[i] } />
                 ))}
-                <Field type='text' name={ `${ field.fieldName }Other` } label='Other' 
-                    defaultValue={ initialOther }/>
+                <Field type='text' name={ `${ field.fieldName }-Other` } label='Other' 
+                    defaultValue={ field.data[field.data.length-1] || ''  }/>
             </CheckboxGrid>
         }
         { (type !== 'textarea' && type !== 'checkbox') &&
@@ -60,3 +44,27 @@ const FieldEditForm = ({ id, field, handleClose, isSubmitting, setSubmitting, la
 </div>)
 
 export default FieldEditForm
+
+function getFieldValues(e, field) {
+    if (!!e.target.elements[0].files) {
+        return e.target.elements[0].files[0]
+    } else if (field.type === 'checkbox') {
+        const elArray = ([]).slice.call(e.target.elements)
+            .filter(el => !el.classList.contains('visually-hidden'))
+
+        const checkboxes = elArray.filter(el => el.type === 'checkbox')
+            .map(el => el.checked)
+
+        const otherVal = elArray.filter(el => el.type === 'text')[0].value
+
+        console.log('otherVal', otherVal)
+
+        return [...checkboxes, otherVal]
+    } else if (field.type === 'link') {
+        return e.target.elements[0].value.startsWith('http')
+            ? e.target.elements[0].value
+            : 'https://' + e.target.elements[0].value
+    } else {
+        return e.target.elements[0].value
+    }
+}

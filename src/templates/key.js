@@ -10,12 +10,13 @@ import socialIcons from '../images/social-icons/socialIcons.js'
 import profileIcons from '../images/profile-icons/profileIcons.js'
 import EmailPopup from '../components/emailpopup'
 import PreviewMessage from '../components/PreviewMessage'
+import { decodeHTMLEntities, updateFields } from '../utils/profileEditor'
 
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
 export default ({ data }) => { 
 
-    const isProfileOwner = isAuthenticated() && (getProfile().name === data.datoCmsKey.name)
+    const isProfileOwner = isAuthenticated() && (decodeHTMLEntities(getProfile().name) === data.datoCmsKey.name)
     const [isEditable, setEditable] = useState(isProfileOwner)
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)
@@ -27,11 +28,10 @@ export default ({ data }) => {
         const newFields = Object.assign({}, editedFields)
         newFields[key] = val
         setEditedFields(newFields)
-        console.log('edited fields so far', editedFields)
+        console.log('edited fields so far', newFields)
     }            
 
     function useFieldStates(field) {
-
         const [fieldValue, setFieldValue] = useState(field.data)
         field.data = fieldValue
         field.setFieldValue = setFieldValue
@@ -44,7 +44,7 @@ export default ({ data }) => {
     }
 
     const applyDatoField = (field) => {
-        field.data = data.datoCmsKey[field.fieldName]
+        field.data = (!field.initialVals) ? data.datoCmsKey[field.fieldName] : [...field.initialVals, field.initialOther]
         return field
     }
 
@@ -54,7 +54,7 @@ export default ({ data }) => {
     // on first load, make the URL the correct query. Only run once so as not to append with every state change.
     useEffect(() => {
         heroFields['headshot'].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
-    }, [heroFields])
+    }, [])
     
     Object.keys(heroFields).forEach(key => useFieldStates(heroFields[key]))
 
@@ -72,6 +72,14 @@ export default ({ data }) => {
     const infoFields = getInfoFields(data.datoCmsKey.locations)
         .map(applyDatoField)
     infoFields.forEach(useFieldStates)
+
+    async function handleProfileSave() {
+        setSubmitting(true)
+        const saveRes = await updateFields(data.datoCmsKey.id, data.datoCmsKey.name, editedFields)
+        console.log('saveRes', saveRes)
+        setSubmitting(false)
+        setSubmitted(true)
+    }
 
     return (<><Layout classNames={['fullwidth','key-profile']} title={ data.datoCmsKey.name }
             description={`${ data.datoCmsKey.name } (${ data.datoCmsKey.pronouns }) is a ${ data.datoCmsKey.discipline }, and a member of Ring of Keys.`}>
@@ -133,11 +141,19 @@ export default ({ data }) => {
             </section>
             <section className='artist_body'>
                 { isProfileOwner && 
-                    <label className='toggle_group' for='profile-edit-toggle'>
+                    <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+                    <label className='toggle_group' htmlFor='profile-edit-toggle'>
                         <input id='profile-edit-toggle' type='checkbox' className='visually-hidden' checked={isEditable} onChange={() => setEditable(!isEditable)}/>
                         <span className='toggle'></span>
                         <span className='toggle_label'>Toggle Editing View</span>
                     </label>
+                    { (isEditable && Object.keys(editedFields).length > 0) &&
+                        <button onClick={ handleProfileSave }
+                        className={`btn ${isSubmitting ? 'submitting' : ''} ${hasSubmitted ? 'success': ''}`}>
+                            { hasSubmitted ? 'Profile Saved' : 'Save Profile Edits'}
+                        </button>
+                    }
+                    </div>
                 }
                 { (bioField.data || isEditable) &&
                     <Body.BioField userId={data.datoCmsKey.id} field={ bioField } editorState={{ isEditable, isSubmitting, setSubmitting, setSubmitted }} />
@@ -147,7 +163,12 @@ export default ({ data }) => {
                 { (resumeField.data || isEditable) 
                     && <Body.ResumeField field={ resumeField } userId={ data.datoCmsKey.id } editorState={ editorState } />
                 }
-                {/* TODO: Add a global submit button, remove individual submissions (except image upload fields) */}
+                { (isEditable && Object.keys(editedFields).length > 0) &&
+                    <button onClick={ handleProfileSave }
+                    className={`btn ${isSubmitting ? 'submitting' : ''} ${hasSubmitted ? 'success': ''}`}>
+                        { hasSubmitted ? 'Profile Saved' : 'Save Profile Edits'}
+                    </button>
+                }
             </section>
         </Layout>
         { hasSubmitted && 
@@ -204,8 +225,8 @@ export const query = graphql`
 
 function getHeroFields() {
     return {
-        headshot: { fieldName: 'headshot', },
-        featuredImage: { fieldName: 'featuredImage', },
+        headshot: { fieldName: 'headshot', type: 'image'},
+        featuredImage: { fieldName: 'featuredImage', type: 'image'},
         socialMedia: { fieldName: 'socialMedia', },
     }
 }
@@ -218,7 +239,7 @@ function getInfoFields(locations) {
         {label: 'Where are you based?', fieldName: 'mainLocation', type: 'text'},
         {label: 'Regions', helpText: '(These control your search page listing)', refArray: locationLabels(), fieldName: 'locations', type: 'checkbox',
         initialVals: locationLabels().map(label => locations.includes(label)),
-        initialOther: getInitialOther(locations, locationLabels())
+        initialOther: getInitialOther(locations, locationLabels(), '| ')
         },
     ]
 }
@@ -234,7 +255,7 @@ function getBodyFields(affiliations) {
         {label: 'Dance Experience', fieldName: 'danceExperience', type: 'text',},
         {label: 'Unions & Affiliations', helpText: '(check as many as apply)', refArray: affiliationLabels(), fieldName: 'affiliations', type: 'checkbox',
         initialVals: affiliationLabels().map(label => affiliations.includes(label)),
-        initialOther: getInitialOther(affiliations, affiliationLabels())
+        initialOther: getInitialOther(affiliations, affiliationLabels(), ', ')
         },
         {label:'Website', fieldName: 'website', },
     ]
@@ -244,7 +265,7 @@ function locationLabels() {
     return [
         "New York City", "Chicago", "Los Angeles", "Philadelphia", "San Francisco / Oakland", "Minneapolis / St. Paul", "Denver",
         "Boulder", "Orlando", "Sarasota", "Louisville", "Baltimore", "Boston", "St. Louis", "Las Vegas", "Raleigh", "Cleveland",
-        "Ashland", "Portland, OR", "Pittsburgh", "Austin", "Salt Lake City", "Washington, D.C.", "Seattle", "Toronto", "Ontario",
+        "Ashland", "Portland, OR", "Pittsburgh", "Austin", "Salt Lake City", "Washington DC", "Seattle", "Toronto", "Ontario",
         "London",
     ].sort()
 }
@@ -255,8 +276,7 @@ function affiliationLabels() {
     ].sort()
 }
 
-function getInitialOther(string, valArray) {
-    // if (!locations) return ''
-    const filteredOther = string.split(', ').filter(val => valArray.indexOf(val) < 0)
+function getInitialOther(string, valArray, splitStr) {
+    const filteredOther = string.split(splitStr).filter(val => valArray.indexOf(val) < 0)
     return filteredOther ? filteredOther[0] : ''
 }

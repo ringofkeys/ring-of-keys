@@ -1,27 +1,12 @@
 import React from 'react'
-import { handleUpdateSubmit } from '../../utils/profileEditor'
+import { handleFileSubmit } from '../../utils/profileEditor'
 import Popup from '../popup'
 import FileDrop from '../filedrop'
 
 const HeroHeadshotImageEditor = ({ userId, field, editorState }) => (
     <Popup isOpen={ field.isEditing } onClose={ () => field.setEditing(false) } >
         <h2 className='file-drop_h2'>Change Profile Photo</h2>
-        <form id='edit-headshot' onSubmit={e => {
-            e.preventDefault()
-            e.persist()
-
-            handleUpdateSubmit(e.target.elements[0].files[0], {
-                userId,
-                field: 'headshot',
-                setSubmitting: editorState.setSubmitting,
-                handleUpdate: (newVal) => {
-                    field.setFieldValue({ url: newVal, alt: 'newly uploaded image'})
-                    field.updateField(field.fieldName, newVal)
-                    editorState.setSubmitted(true)
-                },
-                handleClose: () => field.setEditing(false)
-            }, true)
-        }}>
+        <form id='edit-headshot' onSubmit={e => handleFileSubmit(e, field, editorState)}>
             <FileDrop helpText='For best results, keep file size below 2Mb'/>
             <div className='file-drop_btns'>
                 <button className='btn btn-link_ghost' onClick={() => field.setEditing(false)}>

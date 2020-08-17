@@ -14,21 +14,19 @@ export const readFile = file => {
     });
 }
 
+
 export const uploadFile = async (file) => {
-    console.log('uploading ', file.name, file.type)
-    const signedUrlsRes = await fetch('/.netlify/functions/createDatoImgUrl', {
+    const signedUrlsRes = await fetch(process.env.FUNCTIONS_HOST + '/.netlify/functions/createDatoImgUrl', {
         method: 'POST',
-        body: JSON.stringify({
-            fileName: file.name,
-            fileType: file.type,
-        }),
-    }).catch(err => console.err('error getting image url: ', JSON.parse(err)))
+        headers: {
+            'Content-Type': 'text/plain',
+        },
+        body: file.name,
+    }).catch(err => console.error('error getting image url: ', err))
   
     const datoUrlRes = await signedUrlsRes.json().catch(err => console.error(err))
-    
+
     const fileArray = await readFile(file)
-  
-    console.log('fileArray = ', fileArray)
   
     const uploadRes = await fetch(datoUrlRes.url, {
         method: 'PUT',
@@ -36,9 +34,9 @@ export const uploadFile = async (file) => {
             'Content-Type': file.type,
         },
         body: fileArray,
-    }).catch(err => console.err(err))
+    }).catch(err => console.error(err))
   
-    // console.log('uploadRes = ', uploadRes)
+    console.log('uploadRes = ', uploadRes)
   
     return [datoUrlRes, uploadRes]
   }

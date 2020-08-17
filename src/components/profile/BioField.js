@@ -5,7 +5,7 @@ import profileIcons from '../../images/profile-icons/profileIcons.js'
 const BioField = ({ userId, field, editorState }) => (
     <div className='my_story'>
         <h2>My Story</h2>
-        <p>
+        <div>
             { !editorState.isEditable
                 ? <p>{ field.data }</p>
                 :  (!field.isEditing)
@@ -22,15 +22,22 @@ const BioField = ({ userId, field, editorState }) => (
                             <span className='tooltip'>Change { field.label }</span>
                         </button>
                     </div>
-                    : <FieldEditForm type='textarea' key={field.fieldName+'-form'} userId={ userId } handleClose={() => field.setEditing(false)}
-                        field={field.fieldName} val={field.data} handleUpdate={(newVal) => {
+                    : <FieldEditForm type='textarea'
+                        key={field.fieldName+'-form'}
+                        userId={ userId }
+                        handleClose={() => field.setEditing(false)}
+                        field={field}
+                        val={field.data}
+                        initialVals={ field.initialVals }
+                        handleUpdate={(newVal) => {
                             field.setFieldValue(newVal)
                             field.updateField(field.fieldName, newVal)
-                            editorState.setSubmitted(true)
+                            field.setEditing(false)
                         }}
-                        isSubmitting={editorState.isSubmitting} setSubmitting={editorState.setSubmitting}/>
+                        isSubmitting={editorState.isSubmitting}
+                        setSubmitting={editorState.setSubmitting}/>
             }
-        </p>
+        </div>
     </div>
 )
 

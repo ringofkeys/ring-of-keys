@@ -4,30 +4,32 @@ require('dotenv').config({
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
-
-exports.handler = async (event) => {
+exports.handler = async (event, context, callback) => {
+  console.log('from within createDatoImgUrl!', event)
+  console.log('event.body = ', event.body)
   
   try {
-    file = JSON.parse(event.body)
-
     const uploadRequest = await client.uploadRequest.create({
-      "filename": file.fileName
+      "filename": event.body
     })
 
-    return {
+    callback(null, {
         statusCode: 200,
         headers: {
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST',
         },
-        body: JSON.stringify(uploadRequest)
-    }
+        body: JSON.stringify(uploadRequest),
+    })
   } catch (err) {
-      return {
+      console.error(err)
+      callback({
           statusCode: 500,
           headers: {
-              'Access-Control-Allow-Origin': '*'
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST',
           },
-          body: err.message
-      }
+          body: JSON.stringify(err),
+      })
   }
 }

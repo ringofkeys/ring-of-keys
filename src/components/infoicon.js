@@ -1,9 +1,9 @@
 import React from 'react'
 
 const InfoIcon = ({ infoText }) => (
-    <div aria-role='region' tabIndex='0' className='info-icon'>
+    <div tabIndex='0' className='info-icon'>
         i
-        <span class='tooltip'>{ infoText }</span>
+        <span className='tooltip'>{ infoText }</span>
     </div>
 )
 export default InfoIcon

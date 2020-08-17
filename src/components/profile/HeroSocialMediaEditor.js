@@ -34,7 +34,7 @@ const HeroSocialMediaEditor = ({ userId, field, editorState }) => (
                 const s = field.data.find(socialObj => socialObj.socialMediaLink.includes(key))
                 return (
             <div className='icon-field'>
-                <img src={ socialIcons[key] } />
+                <img src={ socialIcons[key] } alt={`${ key }`} />
                 <label>{ key + ' Link' }
                     <input type='text' name={ key } defaultValue={ s ? s.socialMediaLink : '' }
                     pattern={ urlRegExpStr }/>
