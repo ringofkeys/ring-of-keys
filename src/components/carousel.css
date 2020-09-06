@@ -1,13 +1,67 @@
 
 .carousel {
     margin-inline-start: 12.5%;
+    -ms-overflow-style: none;
     overflow-x: scroll;
     overflow-y: hidden;
+    overflow: -moz-scrollbars-none;
+    scroll-behavior: smooth;
+    position: relative;
 }
+.carousel::-webkit-scrollbar { width: 0 !important; }
 
 .carousel:focus {
     outline: solid 1px var(--rok-slate-blue_hex);
     outline-offset: 1vmin;
+}
+
+.carousel_advance_btns {
+    position: absolute;
+    display: flex;
+    list-style: none;
+    top: 2.4em;
+    right: 10vw;
+    margin: 0;
+    padding: 0;
+}
+
+.carousel_advance_btns > li {
+    margin: 0;
+    padding: 0;
+    margin: 0 .5rem;
+}
+
+.carousel_advance_btns button {
+    background: transparent;
+    border: 0;
+    font-size: 1.5rem;
+    color: var(--rok-slate-blue_hex);
+    border: solid 1px transparent;
+    border-radius: .25rem;
+    transition: border-color .12s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .2em;
+}
+
+.carousel_advance_btns svg {
+    width: 1em;
+}
+
+.carousel_advance_btns path {
+    fill: none;
+    stroke: var(--rok-slate-blue_hex);
+    stroke: var(--theme-color);
+    stroke-linejoin: round;
+}
+
+.carousel_advance_btns button:active,
+.carousel_advance_btns button:focus {
+    border-color: var(--theme-color);
+    border-color: var(--rok-slate-blue_hex);
+    outline-color: var(--rok-slate-blue_hex);
+    outline-color: var(--theme-color);
 }
 
 .carousel_inner {

@@ -37,6 +37,10 @@
     position: relative;
 }
 
+.popup__card img {
+    max-width: 95%;
+}
+
 .open .popup__card {
     display: flex;
     animation: fade-up .22s ease-in-out forwards;

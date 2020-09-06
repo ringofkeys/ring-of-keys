@@ -8,6 +8,7 @@ import { Hero, Body } from '../components/profile'
 import './key.css'
 import socialIcons from '../images/social-icons/socialIcons.js'
 import profileIcons from '../images/profile-icons/profileIcons.js'
+import Popup from '../components/popup'
 import EmailPopup from '../components/emailpopup'
 import PreviewMessage from '../components/PreviewMessage'
 import { decodeHTMLEntities, updateFields } from '../utils/profileEditor'
@@ -20,6 +21,7 @@ export default ({ data }) => {
     const [isEditable, setEditable] = useState(isProfileOwner)
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)
+    const [isHeadShotFullOpen, setHeadshotFullOpen] = useState(false)
     const [hasSubmitted, setSubmitted] = useState(false)
     const editorState = { isEditable, isSubmitting, setSubmitting, setSubmitted }
     
@@ -53,6 +55,7 @@ export default ({ data }) => {
 
     // on first load, make the URL the correct query. Only run once so as not to append with every state change.
     useEffect(() => {
+        heroFields['headshot'].data.fullUrl = heroFields['headshot'].data.url
         heroFields['headshot'].data.url += '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=180&h=180&'
     }, [])
     
@@ -87,9 +90,9 @@ export default ({ data }) => {
                 style={{ '--grad-rot': Math.random()*360+'deg', '--grad-col-1': `var(--rok-${colors[Math.floor(Math.random()*colors.length)]}_hex)` }}>
                 <div className='avatar'>
                 { !isEditable
-                    ? <img src={ heroFields.headshot.data.url } alt={ heroFields.headshot.data.title } className='headshot' />
+                    ? <img src={ heroFields.headshot.data.url } alt={ heroFields.headshot.data.title } className='headshot'  onClick={ () => setHeadshotFullOpen(true) } />
                     : (<div className='headshot_group'>
-                        <img src={ heroFields.headshot.data.url } alt={ heroFields.headshot.data.title } className='headshot' />
+                        <img src={ heroFields.headshot.data.url } alt={ heroFields.headshot.data.title } className='headshot' onClick={ () => setHeadshotFullOpen(true) } />
                         <button className='btn_edit edit_headshot' onClick={() => heroFields.headshot.setEditing(true)}>
                             <img src={ profileIcons.camera } className='icon_edit' alt={`edit headshot`} />
                             <span className='tooltip'>Change Profile Photo</span>
@@ -185,6 +188,9 @@ export default ({ data }) => {
             <Hero.HeroSocialMediaEditor userId={ data.datoCmsKey.id } field={ heroFields.socialMedia } editorState={ editorState } />
         }
         <EmailPopup />
+        <Popup isOpen={ isHeadShotFullOpen } onClose={() => setHeadshotFullOpen(false) }>
+            <img src={ heroFields['headshot'].data.fullUrl } alt={`${ infoFields[0].data } headshot`} />
+        </Popup>
         </>
     )
 }

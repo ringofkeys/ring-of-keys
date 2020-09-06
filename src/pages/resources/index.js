@@ -40,9 +40,8 @@ const Resources = ({ data }) => {
             </div>
             { resources &&
                 resources.map(({ type, resources: resourceList }, i) => (
-                <Carousel classNames={['resource-carousel']}>
-                    <div className='resource-title'
-                        style={{ '--theme-color': resourceThemes[ i % resourceThemes.length ] }}>
+                <Carousel classNames={['resource-carousel']} style={{ '--theme-color': resourceThemes[ i % resourceThemes.length ] }}>
+                    <div className='resource-title'>
                         <h2>{ type }</h2>
                         <Link to={ `/resources/${ slugify(type) }` } className='category-link'>Explore Category</Link>
                         <p style={{color: 'white', textTransform: 'none'}}>{ resourceList.length } Resources</p>

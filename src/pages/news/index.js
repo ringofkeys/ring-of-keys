@@ -24,18 +24,15 @@ const News = ({ data }) => (
         </div> */}
         { (data.newsletters.edges.length > 0) &&
         <div className='section_news bg_white'>
-            <h2>Ring of Keys Newsletter</h2>
-            <Carousel itemList={ data.newsletters.edges } classNames={['carousel__gray']} />
+            <Carousel heading={"Ring of Keys Newsletter"} itemList={ data.newsletters.edges } classNames={['carousel__gray']} />
         </div>}
         { (data.events.edges.length > 0) &&
         <div className='section_news bg_white'>
-            <h2>Events</h2>
-            <Carousel itemList={ data.events.edges } recordType='events' classNames={['carousel__gray']} />
+            <Carousel heading={"Events"} itemList={ data.events.edges } recordType='events' classNames={['carousel__gray']} />
         </div>}
         { (data.pressReleases.edges.length > 0) && 
         <div className='section_news bg_white'>
-            <h2>Press</h2>
-            <Carousel itemList={ data.pressReleases.edges } recordType='news' classNames={['carousel__gray']} />
+            <Carousel heading={"Events"} itemList={ data.pressReleases.edges } recordType='news' classNames={['carousel__gray']} />
         </div>}
     </Layout>
 )

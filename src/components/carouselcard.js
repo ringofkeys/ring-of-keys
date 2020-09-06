@@ -13,7 +13,7 @@ const CarouselCardInner = ({ node, recordType, ratio, className }) => {
     }
 
     return (
-    <div className={'carousel_card hover_scale ' + className} style={{ opacity: ratio ? ratio : 1 }}>
+    <li className={'carousel_card hover_scale ' + className} style={{ opacity: ratio ? ratio : 1 }}>
             { wrapLink(node, 'img_wrapper fullwidth', node.featuredImage 
                 ? <img src={node.featuredImage.url} alt={node.featuredImage.alt} />
                 : <div className='img_replacement fullwidth' style={{'--grad-rotate': Math.random()*360+'deg'}}></div>
@@ -32,7 +32,7 @@ const CarouselCardInner = ({ node, recordType, ratio, className }) => {
             ? <a href={ node.externalUrl } className='btn btn-link_ghost' rel='noopener noreferrer' target='_blank'>Read More</a>
             : <Link to={ (recordType ? '/'+recordType : '') + '/' + (node.slug ? node.slug : '#') } className='btn btn-link_ghost'>
                 Read More</Link> }
-        </div>
+        </li>
     )
 }
 
