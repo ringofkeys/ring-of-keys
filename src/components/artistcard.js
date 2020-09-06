@@ -11,7 +11,7 @@ const ArtistCard = ({ obj, index }) => {
         style={{'--grad-rotate': Math.random()*360+'deg'}}>
           <figure>
               <div className='card__img'>
-                  <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } loading='lazy' />
+                  <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=120&h=120&'} alt={ artist.name +' headshot' } loading='lazy' />
               </div>
               <figcaption>
                   <h3 className={`card__title ${ fieldHasMatch(obj, 'name') ? 'search_match' : '' }`}

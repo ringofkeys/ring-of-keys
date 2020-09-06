@@ -176,7 +176,7 @@ const Directory = ({ data }) => {
       </section>
       <section className={`section_filters ${filtersAreVisible ? 'active' : ''}`}>
         <div className='filters'>
-          <button className='visually-hidden' onClick={() => document.querySelector('a.key__card').focus()}>Skip to Artists' Cards</button>
+          <button className='visually-hidden' onClick={() => document.querySelector('a.key__card').focus()}>click to skip past filters to Artists' Cards</button>
           <Filters formik={formik} filters={filters} />
         </div>
         <div className='btn-row'>
@@ -221,13 +221,20 @@ export const query = graphql`
     }
   }
 `
-function resetFilters(formik, filters, postCallback) {
+async function resetFilters(formik, filters, postCallback) {
   Array.from(document.querySelectorAll('.filters [type="checkbox"]'))
     .forEach(input => {
       input.checked = false
     })
   filters.forEach(filter => filter.results = [])
-  formik.values = buildFormikVals('fuzzy', filters)
+  // formik.values = buildFormikVals('fuzzy', filters)
+  Object.keys(formik.values).forEach((key) => {
+    if (formik.values[key] instanceof Array) {
+      formik.values[key] = formik.values[key].fill(false)
+    } else {
+      formik.values[key] = ''
+    }
+  })
   
   // make this async so we don't have to wait for it
   async function setStorageFilters() { 
@@ -235,7 +242,7 @@ function resetFilters(formik, filters, postCallback) {
       localStorage.setItem('latestFilters', JSON.stringify(formik.values)) 
     }
   }
-  setStorageFilters()
+  await setStorageFilters()
 
   postCallback()
 }
