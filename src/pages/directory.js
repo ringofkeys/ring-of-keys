@@ -144,6 +144,8 @@ const Directory = ({ data }) => {
     updateSearchResults()
   }, [formik.values])
 
+  const activeFilters = filters.filter(f => (f.type !== 'checkbox') ? formik.values[f.field] : formik.values[f.field].some(val => val)).length
+
   return (
     <Layout classNames={['fullwidth', 'directory']} title='Keys Directory'
     description='Ring of Keys has curated a directory of theatremakers that identify as queer women, trans, or gender non-conforming
@@ -164,7 +166,8 @@ const Directory = ({ data }) => {
           <input type='text' name='fuzzy' onChange={formik.handleChange} value={formik.values.fuzzy} placeholder='Keyword'/>
         </div>
         <SearchButton />
-        <button onClick={() => setFilterVisibility(!filtersAreVisible)} className='advanced-btn'>
+        <span class='results'><strong>{ searchResults.length }</strong> artists</span>
+        <button onClick={() => setFilterVisibility(!filtersAreVisible)} className={'advanced-btn ' + ((activeFilters) ? 'active' : '') } style={{'--active': `'${activeFilters} filter${ (activeFilters === 1) ? '' : 's' }'` }}>
           Advanced Search
           <svg className='advanced-arrow' style={{transform: `rotate(${filtersAreVisible ? 180 : 0}deg)`}} viewBox='0 0 4 4'>
             <path d='M .5 2 l 1.5 -1.5 l 1.5 1.5'></path>

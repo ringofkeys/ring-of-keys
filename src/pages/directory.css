@@ -13,11 +13,23 @@
 .directory > .section_search {
     margin: 2em auto;
     margin-block-end: 0;
+    margin-block-end: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .section_search .input__group {
     display: inline-block;
     margin-inline-end: 2em; 
+}
+
+span.results {
+    padding: .4em .5em;
+    color: var(--rok-pale-green-1_hex);
+    border: solid 1px var(--rok-pale-green-1_hex);
+    border-radius: .3em;
+    font-size: 1.03em;
 }
 
 .advanced-btn {
@@ -26,6 +38,28 @@
     text-transform: uppercase;
     padding: .5em 1em;
     color: #6d7278;
+    position: relative;
+}
+
+.advanced-btn::after {
+    opacity: 0;
+    width: 0;
+    content: var(--active);
+    font-weight: 200;
+    padding: .1rem .6rem .2rem;
+    border-radius: 2rem;
+    background: var(--rok-gold-1_hex);
+    color: white;
+    font-size: 1rem;
+    text-transform: none;
+    transform: translateY(.5rem);
+    transition: opacity .12s ease-in-out, transform .12s ease-in-out;
+}
+
+.advanced-btn.active::after {
+    opacity: 1;
+    transform: translateY(0);
+    width: auto;
 }
 
 .btn_search {
@@ -237,6 +271,7 @@ span.card__location {
     .btn_search, .btn_filters {
         margin-block-start: 5vw;
         margin-block-end: 5vw;
+        margin-inline-start: 0;
     }
 
     .section_filters .btn_search,

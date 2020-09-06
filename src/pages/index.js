@@ -52,8 +52,7 @@ const IndexPage = ({ data }) => {
         ))}
       </div>
       <div className='section_news'>
-        <h2>News</h2>
-        <Carousel itemList={ newsItems } recordType='news' />
+        <Carousel heading="News" itemList={ newsItems } recordType='news' />
       </div>
     </Layout>
   )
