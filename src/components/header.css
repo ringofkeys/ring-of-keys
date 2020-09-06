@@ -186,8 +186,30 @@
         top: 0px;
     }
 
+    .top-nav {
+        padding: 0;
+        padding-block-start: 2.5vh;
+        display: grid;
+        grid-template-rows: 8vh 1fr;
+        box-sizing: border-box;
+        justify-content: stretch;
+    }
+    .top-nav.open {
+        height: 100vh;
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+    }
+
     .site-logo {
         max-width: 45vw;
+    }
+
+    .top-nav .top__inner {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 2.5vh 8vw;
+        box-sizing: border-box;
     }
 
     .top-nav .hamburger {
@@ -195,26 +217,27 @@
     }
 
     .nav__mobile-wrap {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        flex-direction: column;
-        align-items: stretch;
-
         display: none;
         height: 0;
         width: 100%;
         transition: all .12s ease-in-out;
     }
 
-    .top-nav .nav__mobile-wrap.open {
-        display: flex;
+    .top-nav.open .nav__mobile-wrap {
+        display: grid;
         height: 100%;
+        grid-template-rows: 1fr auto;
+        width: 100%;
+        justify-content: stretch;
     }
 
     .top-nav .nav__main {
         order: -1;
-        flex-direction: column;
+        width: 100%;
+        display: grid;
+        grid-auto-rows: 1fr;
+        height: 100%;
+        justify-content: stretch;
     }
 
     .nav__login a {
@@ -223,12 +246,13 @@
     
 
     .top-nav .nav__main > a {
-        padding: 4vh 8vw;
         border-top: solid .5px;
-        display: block;
+        display: flex;
         width: 100%;
         margin: 0;
         box-sizing: border-box;
+        align-items: center;
+        padding: 0 8vw;
     }
 
     .top-nav .nav__main > a:last-child {
@@ -238,9 +262,11 @@
     .top-nav .nav__login {
         background: #f7f7f7;
         display: block;
-        max-width: 100%;
-        padding: 5vh 8vw;
+        padding: 2vh 8vw;
         box-shadow: var(--rok-shadow_bottom);
+        width: 100%;
+        box-sizing: border-box;
+        margin-block-end: 0;
     }
 
     .top-nav .login_wrap {

@@ -63,12 +63,14 @@ const Header = ({ path }) => {
   return (
     <header>
       <button className='visually-hidden' onClick={() => document.querySelector('#main-content').focus()}>Skip to main content</button>
-      <nav className='top-nav' >
-        <Link to='/' className='site-logo' >
-          <img src={ rok_logo } alt='Ring of Keys' />
-        </Link>
-        <MenuIcon onClick={() => setNavOpen(!isNavOpen)} className='hamburger' />
-        <div className={'nav__mobile-wrap ' + (isNavOpen ? 'open' : 'closed')}>
+      <nav className={'top-nav ' + (isNavOpen ? 'open' : 'closed') }>
+        <div className='top__inner'>
+          <Link to='/' className='site-logo' >
+            <img src={ rok_logo } alt='Ring of Keys' />
+          </Link>
+          <MenuIcon onClick={() => setNavOpen(!isNavOpen)} className='hamburger' />
+        </div>
+        <div className={'nav__mobile-wrap'}>
           { secondaryNav }
           <div className='nav__main'>
             <Link to='/directory' className={ path === '/directory' ? 'active' : '' }>Directory</Link>
