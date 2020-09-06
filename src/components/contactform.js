@@ -26,8 +26,6 @@ const ContactForm = ({ search }) => {
             message: formEls.find(el => el.name === 'message').value,
         }
 
-        console.log('formData = ', formData)
-
         const emailRes = await sendAdminEmail(formData)
 
         if (emailRes.status === 200) {
@@ -46,7 +44,7 @@ const ContactForm = ({ search }) => {
             </div>
             <div className='input__group select'></div>
             <label htmlFor='subject'>Subject</label>
-            <select id='field-subject' name='subject' required value={ subject }>
+            <select id='field-subject' name='subject' required defaultValue={ subject }>
                 <option value='general'>General inquiries</option>
                 <option value='hiring'>Hire Ring of Keys</option>
                 <option value='job-submission'>Submit a casting notice for Keys</option>
