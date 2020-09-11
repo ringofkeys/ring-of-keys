@@ -2,6 +2,7 @@ const { SiteClient, buildModularBlock } = require('datocms-client')
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 const fileFields = ['headshot', 'featuredImage']
 
+
 exports.handler = async (event, context, callback) => {
     if (event.httpMethod === 'OPTIONS') {
         callback(null, {
