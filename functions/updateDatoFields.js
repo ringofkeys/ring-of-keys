@@ -7,13 +7,19 @@ exports.handler = async (event, context, callback) => {
         callback(null, {
             statusCode: 200,
             headers: {
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': 'ringofkeys.org',
                 'Access-Control-Allow-Headers': ['Content-Type'],
             },
         })
     } else {
         try {
-            const { id, name, data } = JSON.parse(event.body)
+            const { id, name, data, newName } = JSON.parse(event.body)
+
+            if (newName) {
+                const authToken = await getAuth0Token()
+                const auth0ID = await getAuth0UserID(authToken, id)
+                updateAuth0Name(authToken, auth0ID, name)
+            }
 
             const fileFildePromises = await Promise.all(fileFields.map(async fileField => {
                 if (!data[fileField]) return
@@ -65,3 +71,48 @@ exports.handler = async (event, context, callback) => {
         }
     }
 }
+
+async function getAuth0Token() {
+    const options = { 
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+        client_id: `${process.env.AUTH0_CLIENTID}`,
+        client_secret: `${process.env.AUTH_SECRET}`,
+        audience: `https://${ process.env.AUTH0_DOMAIN }/api/v2/`,
+        grant_type: "client_credentials",
+        scope: 'create:users read:users',
+        }),
+    }
+
+    return await fetch(`https://${ process.env.AUTH0_DOMAIN }/oauth/token`, options)
+        .then(res => res.json()).catch(err => console.error(err))
+}
+
+async function getAuth0UserID(auth, id) {
+    const options = {
+        method: 'GET',
+        headers: {
+            authorization: `${auth['token_type']} ${auth['access_token']}`,
+        },
+    }
+
+    return await fetch(`https://${ process.env.AUTH0_DOMAIN }/api/v2/users?q=user_metadata.entity_id%3A%22${ id }%22&fields=user_id&include_fields=true&search_engine=v3`, options)
+        .then(res => res.json()).catch(err => console.error(err))
+}
+
+async function updateAuth0Name(auth, id, name) {
+    const options = {
+        method: 'PATCH',
+        headers: {
+            authorization: `${auth['token_type']} ${auth['access_token']}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name
+        })
+    }
+
+    return await fetch(`https://${ process.env.AUTH0_DOMAIN }/api/v2/users/${ id }`, options)
+        .then(res => res.json()).catch(err => console.error(err))
+  }
