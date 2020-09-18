@@ -247,6 +247,10 @@ async function resetFilters(formik, filters, postCallback) {
   postCallback()
 }
 
+if (typeof window !== "undefined") {
+  window.onbeforeunload = function() { localStorage. removeItem(latestFilters); return ''; };
+}
+
 function getFuseConfig(thresh = 0.33) {
   return {
     includeScore: true,
