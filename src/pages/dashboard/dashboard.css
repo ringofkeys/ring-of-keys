@@ -28,6 +28,7 @@
 
 .block_intro h2 {
     margin-block-start: 0;
+    text-transform: none;
 }
 
 .dashboard .block_intro img {
