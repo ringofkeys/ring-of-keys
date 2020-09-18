@@ -75,7 +75,7 @@
     font-size: calc(.6rem + 2.5vw);
     margin: 1rem 0;
     font-weight: 600;
-    text-transform: capitalize;
+    text-transform: none;
 }
 
 .artist_social-icons {

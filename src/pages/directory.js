@@ -18,8 +18,8 @@ const SearchButton = () => (
 const Directory = ({ data }) => {
   let searchList = data.allDatoCmsKey.edges.filter(({ node }) => node.showInDirectory)
   searchList = searchList.sort((a,b) => {
-    const aNameToken = a.node.name.trim().split(' ')
-    const bNameToken = b.node.name.trim().split(' ')
+    const aNameToken = a.node.name.trim().toLowerCase.split(' ')
+    const bNameToken = b.node.name.trim().toLowerCase.split(' ')
 
     if (aNameToken[aNameToken.length-1] < bNameToken[bNameToken.length-1]) { return -1; }
     if (aNameToken[aNameToken.length-1] > bNameToken[bNameToken.length-1]) { return 1; }
@@ -245,6 +245,11 @@ async function resetFilters(formik, filters, postCallback) {
   await setStorageFilters()
 
   postCallback()
+}
+
+// set up listener to clear localStorage of filters/search settings before ending the browsing session.
+if (typeof window !== "undefined") {
+  window.onbeforeunload = function() { localStorage. removeItem('latestFilters'); return ''; };
 }
 
 function getFuseConfig(thresh = 0.33) {

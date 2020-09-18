@@ -215,7 +215,7 @@ span.results {
 .card__title {
     margin: 0;
     text-align: center;
-    text-transform: capitalize;
+    text-transform: none;
 }
 
 .key__card figcaption {
