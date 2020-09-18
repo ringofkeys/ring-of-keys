@@ -123,7 +123,7 @@ const ApplyForm = () => {
         <Field type='text' name='website' label='Website URL [optional]' />
         <div className='grid_2c-1r'>
           <Field type='file' name='headshot' required={true} label='Upload your headshot or picture' accept='image/*' />
-          <Field type='text' name='resume' label='Resumé URL [optional]' />
+          <Field type='text' name='resume' label='Resumé URL' required={true} />
         </div>
         <div className='grid_2c-1r'>
           <Field type='textarea' name='whyRok' label='Why do you want to be a Key?' required={true} />

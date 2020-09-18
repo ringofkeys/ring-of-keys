@@ -31,6 +31,7 @@ const MessageBlock = ({ messages }) => {
     { (messages.length > 0) &&
         <Popup isOpen={ isPopupOpen } onClose={ () => setPopupOpen(false) }>
             <h2>{ messages[popupIndex].fromName }</h2>
+            <a href={`mailto:${ messages[popupIndex].fromEmail }`} style={{ marginBlockEnd: '1em' }}>{ messages[popupIndex].fromEmail }</a>
             <p>Sent { messages[popupIndex].meta.timeSince }</p>
             <p class='message_body'>{ messages[popupIndex].message }</p>
             <a className='btn bg_slate' href={ 'mailto:' + messages[popupIndex].fromEmail } rel='noopener noreferrer'>Reply</a>

@@ -10,8 +10,6 @@ exports.handler = async (event) => {
     const data = JSON.parse(event.body)
     data.itemType = '194216'
 
-    console.log('data = ', data)
-
     try {        
         const newViewerRes = await client.items.create(data).catch(err => {
             console.log('the issue is the Viewer Upload!', data)
