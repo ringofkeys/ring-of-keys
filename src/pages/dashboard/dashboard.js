@@ -24,13 +24,6 @@ const Dashboard = ({ data }) => {
 
     let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
 
-
-    console.log('users', data.allDatoCmsKey.edges)
-    console.log('user names', data.allDatoCmsKey.edges.map(({node}) => node.name))
-    console.log('user', user)
-    console.log('user.length', user.length)
-    console.log('isAuthenticated', isAuthenticated())
-
     if (!userProfile || !isAuthenticated()) {
       login()
       return <Layout>
