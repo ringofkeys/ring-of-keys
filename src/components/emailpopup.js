@@ -37,12 +37,13 @@ const EmailPopup = () => {
             || keys.edges.some(({node: key}) => key.email.includes(email)))
     }
 
-    async function submitDatoViewer(email) {
+    async function submitDatoViewer(email, optedIntoNewsletter) {
         if (!isInDatoCMS(email)) {
-            return await fetch('/.netlify/functions/createDatoViewer', {
+            return await fetch('/.netlify/functions/createDatoViewer', { 
                 method: 'POST',
                 body: JSON.stringify({
-                    email
+                    email,
+                    optedIntoNewsletter,
                 }),
             }).catch(err => console.error(err))
         } else {
@@ -65,7 +66,7 @@ const EmailPopup = () => {
             <h2>Get Access</h2>
             <p>To Key Profiles Now</p>
             <div className='divider' style={{margin: '2vh 0'}}></div>
-            <EmailSignupBar labelText='Email Address' onSubmit={ submitDatoViewer } afterSubmit={ afterSubmit }/>
+            <EmailSignupBar labelText='Email Address' onSubmit={ submitDatoViewer } afterSubmit={ afterSubmit } optIn={ true }/>
             <p style={{marginBlockStart: '3vh'}}>Are you a Key? <Link to='/dashboard'>Sign in now.</Link></p>
         </Popup>
     )
