@@ -103,6 +103,9 @@ export default ({ data }) => {
                     <h1>{ infoFields[0].data }</h1>
                     { infoFields[2].data && <p>Based in {infoFields[2].data.replace(', ', ' • ')}</p> }
                     <p>{ infoFields[1].data }{ data.datoCmsKey.memberSince ? ` • Member Since ${ data.datoCmsKey.memberSince }` : '' }</p>
+                    { isEditable && 
+                    <p>RoK ID: { data.datoCmsKey.id.match(/.*-(\d+)-.*/)[1] }</p>
+                    }
                     <button className='btn btn_message' onClick={ () => setMessageOpen(true) }>Message</button>
                 </div>
                 <div className='artist_social-icons'>
