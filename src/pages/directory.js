@@ -251,7 +251,7 @@ async function resetFilters(formik, filters, postCallback) {
 if (typeof window !== "undefined") {
   window.onbeforeunload = function() {
     localStorage.removeItem('latestFilters');
-    return '';
+    return undefined;
   };
 }
 
