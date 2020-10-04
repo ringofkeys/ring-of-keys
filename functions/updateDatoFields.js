@@ -18,8 +18,11 @@ exports.handler = async (event, context, callback) => {
 
             if (newName) {
                 const authToken = await getAuth0Token()
+                console.log('auth0 token', authToken)
                 const auth0ID = await getAuth0UserID(authToken, id)
-                updateAuth0Name(authToken, auth0ID, name)
+                console.log('authID', auth0ID)
+                const nameResponse = await updateAuth0Name(authToken, auth0ID, name)
+                console.log('name change response:', nameResponse)
             }
 
             const fileFildePromises = await Promise.all(fileFields.map(async fileField => {

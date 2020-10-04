@@ -49,6 +49,7 @@ const ContactForm = ({ search }) => {
                 <option value='hiring'>Hire Ring of Keys</option>
                 <option value='job-submission'>Submit a casting notice for Keys</option>
                 <option value='volunteer'>Request to volunteer with Ring of Keys</option>
+                <option value='technical'>Technical issues</option>
             </select>
             <div className='input__group email'>
                 <label htmlFor='message'>Message</label>
@@ -68,14 +69,22 @@ ContactForm.propTypes = {
 }
 
 async function sendAdminEmail(data) {
+    const config = (data.subject !== 'technical') ? {
+        subject: `New Contact Submission from ${data.email}`,
+        text: 'A new Contact form submission through Ring of Keys',
+        to: 'info@ringofkeys.org',
+        from: data.email,
+        data,
+    } : {
+        subject: `New Technical Issue submission from ${ data.email }`,
+        text: `A new technical issue submission through Ring of Keys`,
+        to: `taylorpoer@gmail.com`,
+        from: data.email,
+        data,
+    }
+
     return await fetch('/.netlify/functions/sendAdminEmail', {
         method: 'POST',
-        body: JSON.stringify({
-            subject: `New Contact Submission from ${data.email}`,
-            text: 'A new Contact form submission through Ring of Keys',
-            to: 'info@ringofkeys.org',
-            from: data.email,
-            data,
-        })
+        body: JSON.stringify(config)
     })
 }
