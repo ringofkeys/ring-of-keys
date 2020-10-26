@@ -31,11 +31,11 @@ exports.handler = async (event) => {
 
     const newUser = JSON.parse(event.body)
     const data = Object.assign(blankUser, newUser)
-
+    const uploadPromises = []
     console.log('data = ', data)
 
     try {
-        const headshotUpload = await client.uploads.create({
+        uploadPromises.push(client.uploads.create({
             path:   data.headshot,
             author: data.name,
             copyright: data.name +' '+ new Date().getFullYear(),
@@ -48,8 +48,30 @@ exports.handler = async (event) => {
                     }
                 }
             }
-        }).catch(err => err)
-        data.headshot = { uploadId: headshotUpload.id }
+        }).catch(err => err))
+        if (data.resumeFile && !data.resumeFile.uploadId) {
+            uploadPromises.push(client.uploads.create({
+                path:   data.resumeFile,
+                author: data.name,
+                copyright: data.name +' '+ new Date().getFullYear(),
+                defaultFieldMetadata: {
+                    en: {
+                        alt: data.name + ' Resume',
+                        title: data.name+' Resume '+Date.now(),
+                        customData: {
+                            watermark: false,
+                        }
+                    }
+                }
+            }).catch(err => err))
+        }
+
+        const uploadResponses = await Promise.all(uploadPromises)
+        
+        data.headshot = { uploadId: uploadResponses[0].id }
+        if (data.resumeFile) {
+            data.resumeFile = { uploadId: uploadResponses[1].id }
+        }
 
         console.log('data.headshot = ', data.headshot)
 

@@ -183,8 +183,22 @@ async function submitApplication(data) {
   })
 
   console.log('newUser Object = ', newUser)
-  const headshotRes = await uploadFile(newUser.headshot)
-  newUser.headshot = headshotRes[0].id  
+
+  const uploadPromises = []
+
+  uploadPromises.push(uploadFile(newUser.headshot))
+  
+  if (newUser.resumeFile) {
+    uploadPromises.push(uploadFile(newUser.resumeFile))
+  }
+
+  const uploadResponses = await Promise.all(uploadPromises)
+  newUser.headshot = uploadResponses[0][0].id  
+  
+  if (newUser.resumeFile) {
+    newUser.resumeFile = uploadResponses[1][0].id
+  }
+
 
   console.log('newUser = ', JSON.stringify(newUser))
 
