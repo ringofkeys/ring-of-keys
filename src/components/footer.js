@@ -90,6 +90,7 @@ const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttri
                 <Link to='/contact/?subject=job-submission'>Job Submissions</Link>
                 <Link to='/contact/?subject=hiring'>Hiring</Link>
                 <Link to='/contact/?subject=volunteer'>Volunteer</Link>
+                <Link to='/contact/?subject=technical'>Technical Issues</Link>
             </div>
             <div className='account_nav'>
                 <p>Log In</p>
