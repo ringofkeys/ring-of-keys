@@ -7,8 +7,8 @@ const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 const otherFields = [
     'genderconsultantbio','isGenderConsultant','genderConsultantOrder',
     'mainLocation','locations',
-    'socialMedia','featuredImage','headshot','resume','discipline','vocalRange',
-    'danceExperience','sexualIdentity','genderIdentity','name','website',
+    'socialMedia','featuredImage','headshot','resume','resumeFile','discipline','vocalRange',
+    'danceExperience','sexualIdentity','genderIdentity','raceEthnicity','name','website',
     'showInDirectory','isMeetupAmbassador','meetupAmbassadorOrder','keyTeamPosition',
     'slug','quickBio','bio','keyTeamMember','keyTeamOrder','email','pronouns','memberSince'
 ]
@@ -19,7 +19,8 @@ blankUser.showInDirectory = true
 blankUser.hasLoginAccess = true
 blankUser.socialMedia = []
 blankUser.featuredImage = { uploadId: '1213483' }
-// blankUser.resume = { uploadId: '1213541' }
+blankUser.resume = "No resume"
+blankUser.resumeFile = { uploadId: '1213541' }
 blankUser.keyTeamOrder = 5
 blankUser.meetupAmbassadorOrder = 8
 blankUser.genderConsultantOrder = 8

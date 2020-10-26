@@ -16,7 +16,6 @@ import { decodeHTMLEntities, updateFields } from '../utils/profileEditor'
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
 export default ({ data }) => { 
-
     const isProfileOwner = isAuthenticated() && (decodeHTMLEntities(getProfile().name) === data.datoCmsKey.name)
     const [isEditable, setEditable] = useState(isProfileOwner)
     const [isSubmitting, setSubmitting] = useState(false)
@@ -78,7 +77,9 @@ export default ({ data }) => {
 
     async function handleProfileSave() {
         setSubmitting(true)
-        const saveRes = await updateFields(data.datoCmsKey.id, data.datoCmsKey.name, editedFields)
+        const updateFieldsConfig = [data.datoCmsKey.id, data.datoCmsKey.name, editedFields, data.datoCmsKey.name !== editedFields.name]
+        console.log(updateFieldsConfig)
+        const saveRes = await updateFields(...updateFieldsConfig)
         console.log('saveRes', saveRes)
         setSubmitting(false)
         setSubmitted(true)
@@ -220,6 +221,7 @@ export const query = graphql`
             }
             genderIdentity
             sexualIdentity
+            raceEthnicity
             mainLocation
             locations
             affiliations
@@ -259,6 +261,8 @@ function getBodyFields(affiliations) {
          infoText: `Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person `, },
         {label: 'Gender Identity', fieldName: 'genderIdentity', type: 'text',
          infoText: `One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.`},
+        {label: 'Race/Ethnicity', fieldName: 'raceEthnicity', type: 'text',
+         infoText: `Racial identity is the qualitative meaning one ascribes to one’s racial group, whereas ethnic identity is a concept that refers to one’s sense of self as a member of an ethnic group. At their core, both constructs reflect an individual’s sense of self as a member of a group; however, racial identity integrates the impact of race and related factors, while ethnic identity is focused on ethnic and cultural factors. We celebrate our Keys’ intersectionality and understand that creating one’s racial/ethnic identity is a fluid and nonlinear process that varies for every person. Many folks will identify with more than one background while others will identify with a single group more broadly.`},
         {label: 'Discipline', fieldName: 'discipline', type: 'text',},
         {label: 'Vocal Range', fieldName: 'vocalRange', type: 'text',},
         {label: 'Dance Experience', fieldName: 'danceExperience', type: 'text',},

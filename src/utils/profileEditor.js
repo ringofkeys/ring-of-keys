@@ -15,7 +15,7 @@ export const publishDato = async function(id) {
     return publishRes
 }
 
-export async function updateFields(id, name, data) {
+export async function updateFields(id, name, data, newName) {
     id = id.match(/-(\d+)-/)[1]
 
     const fieldEditRes = await fetch(fnDomain + '/.netlify/functions/updateDatoFields', {
@@ -27,10 +27,12 @@ export async function updateFields(id, name, data) {
             id,
             name,
             data,
+            newName,
         }),
-    }).catch(err => console.error(err))
+    }).then(res => res.json()).catch(err => console.error(err))
 
     const publishRes = await publishDato(id)
+        .then(res => res.json())
         .catch(err => console.error(err))
 
     return [fieldEditRes, publishRes]

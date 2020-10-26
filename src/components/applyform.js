@@ -19,6 +19,7 @@ let affiliations = [
 affiliations = affiliations.sort()
 
 const ApplyForm = () => {
+  const [resumeType, setResumeType] = useState('url')
   const [formStatus, setFormStatus] = useState('unsent')
   const formLabels = {
       submitting: 'Loading...',
@@ -66,6 +67,9 @@ const ApplyForm = () => {
 
 
       console.log('formData = ', formData)
+      delete formData.resumeType
+      console.log('formData after deletion = ', formData)
+
 
       submitApplication(formData).then(res => {
         console.log('createDatoUser response = ', res)
@@ -117,13 +121,24 @@ const ApplyForm = () => {
             helpText={`One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.`}/>
           <Field type='text' name='sexualIdentity' label='Sexual Orientation' required={true} placeholder='ie: Bisexual, Queer, Lesbian'
             helpText={`Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person.`}/>
+          <Field type='text' name='raceEthnicity' label='Race/Ethnicity' required={true} placeholder='ie: Black, Indigenous, Latinx, etc.'
+            helpText={`Racial identity is the qualitative meaning one ascribes to one’s racial group, whereas ethnic identity is a concept that refers to one’s sense of self as a member of an ethnic group. At their core, both constructs reflect an individual’s sense of self as a member of a group; however, racial identity integrates the impact of race and related factors, while ethnic identity is focused on ethnic and cultural factors. We celebrate our Keys’ intersectionality and understand that creating one’s racial/ethnic identity is a fluid and nonlinear process that varies for every person. Many folks will identify with more than one background while others will identify with a single group more broadly.`}/>
         </div>
         <div className='divider'></div>
         <h2>Just a little bit more...</h2>
         <Field type='text' name='website' label='Website URL [optional]' />
         <div className='grid_2c-1r'>
           <Field type='file' name='headshot' required={true} label='Upload your headshot or picture' accept='image/*' />
-          <Field type='text' name='resume' label='Resumé URL' required={true} />
+          <div>
+            <div class='grid_2c-1r' style={{marginBottom: '.5rem'}}>
+              <label><input name='resumeType' type='radio' checked={resumeType === 'url'} onInput={() => setResumeType('url')}/>URL</label>
+              <label><input name='resumeType' type='radio' checked={resumeType === 'file'} onInput={() => setResumeType('file')}/>File</label>
+            </div>
+            { (resumeType === 'url')
+              ? <Field type='text' name='resume' label='Resumé URL' required={true} />
+              : <Field type='file' name='resumeFile' required={true} label='Resumé File' />
+            }
+          </div>
         </div>
         <div className='grid_2c-1r'>
           <Field type='textarea' name='whyRok' label='Why do you want to be a Key?' required={true} />
