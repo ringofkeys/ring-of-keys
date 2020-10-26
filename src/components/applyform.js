@@ -65,11 +65,7 @@ const ApplyForm = () => {
       if (formData.website) { formData.website = validateURL(formData.website) }
       if (formData.resume) { formData.resume = validateURL(formData.resume) }
 
-
-      console.log('formData = ', formData)
       delete formData.resumeType
-      console.log('formData after deletion = ', formData)
-
 
       submitApplication(formData).then(res => {
         console.log('createDatoUser response = ', res)
@@ -121,7 +117,7 @@ const ApplyForm = () => {
             helpText={`One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.`}/>
           <Field type='text' name='sexualIdentity' label='Sexual Orientation' required={true} placeholder='ie: Bisexual, Queer, Lesbian'
             helpText={`Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person.`}/>
-          <Field type='text' name='raceEthnicity' label='Race/Ethnicity' required={true} placeholder='ie: Black, Indigenous, Latinx, etc.'
+          <Field type='text' name='raceEthnicity' label='Race/Ethnicity [optional]' placeholder='ie: Black, Indigenous, Latinx, etc.'
             helpText={`Racial identity is the qualitative meaning one ascribes to one’s racial group, whereas ethnic identity is a concept that refers to one’s sense of self as a member of an ethnic group. At their core, both constructs reflect an individual’s sense of self as a member of a group; however, racial identity integrates the impact of race and related factors, while ethnic identity is focused on ethnic and cultural factors. We celebrate our Keys’ intersectionality and understand that creating one’s racial/ethnic identity is a fluid and nonlinear process that varies for every person. Many folks will identify with more than one background while others will identify with a single group more broadly.`}/>
         </div>
         <div className='divider'></div>
