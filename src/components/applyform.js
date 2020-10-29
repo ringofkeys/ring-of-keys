@@ -127,8 +127,8 @@ const ApplyForm = () => {
           <Field type='file' name='headshot' required={true} label='Upload your headshot or picture (max 2Mb)' accept='image/*' />
           <div>
             <div class='grid_2c-1r' style={{marginBottom: '.5rem'}}>
-              <label><input name='resumeType' type='radio' checked={resumeType === 'url'} onInput={() => setResumeType('url')}/>URL</label>
-              <label><input name='resumeType' type='radio' checked={resumeType === 'file'} onInput={() => setResumeType('file')}/>File</label>
+              <label><input name='resumeType' type='radio' checked={resumeType === 'url'} onChange={() => setResumeType('url')}/>URL</label>
+              <label><input name='resumeType' type='radio' checked={resumeType === 'file'} onChange={() => setResumeType('file')}/>File</label>
             </div>
             { (resumeType === 'url')
               ? <Field type='text' name='resume' label='Resumé URL' required={true} />
