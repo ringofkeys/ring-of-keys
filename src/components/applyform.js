@@ -124,7 +124,7 @@ const ApplyForm = () => {
         <h2>Just a little bit more...</h2>
         <Field type='text' name='website' label='Website URL [optional]' />
         <div className='grid_2c-1r'>
-          <Field type='file' name='headshot' required={true} label='Upload your headshot or picture' accept='image/*' />
+          <Field type='file' name='headshot' required={true} label='Upload your headshot or picture (max 2Mb)' accept='image/*' />
           <div>
             <div class='grid_2c-1r' style={{marginBottom: '.5rem'}}>
               <label><input name='resumeType' type='radio' checked={resumeType === 'url'} onInput={() => setResumeType('url')}/>URL</label>

@@ -69,7 +69,8 @@ exports.handler = async (event) => {
         const uploadResponses = await Promise.all(uploadPromises)
         
         data.headshot = { uploadId: uploadResponses[0].id }
-        if (data.resumeFile) {
+
+        if (data.resumeFile && uploadResponses[1]) {
             data.resumeFile = { uploadId: uploadResponses[1].id }
         }
 
