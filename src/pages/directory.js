@@ -18,8 +18,9 @@ const SearchButton = () => (
 const Directory = ({ data }) => {
   let searchList = data.allDatoCmsKey.edges.filter(({ node }) => node.showInDirectory)
   searchList = searchList.sort((a,b) => {
-    const aNameToken = a.node.name.trim().toLowerCase().split(' ')
-    const bNameToken = b.node.name.trim().toLowerCase().split(' ')
+    const filterName = (name) => name.trim().toLowerCase().replace(/[\-\!\.]|(\(.+\))/gi, "").split(' ').filter(a => a)
+    const aNameToken = filterName(a.node.name)
+    const bNameToken = filterName(b.node.name)
 
     if (aNameToken[aNameToken.length-1] < bNameToken[bNameToken.length-1]) { return -1; }
     if (aNameToken[aNameToken.length-1] > bNameToken[bNameToken.length-1]) { return 1; }

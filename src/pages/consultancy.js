@@ -81,6 +81,16 @@ const Consultancy = ({ data }) => (
                 </p>
             </div>    
         </section>
+        <section style={{'margin': '3rem 0'}}>
+            <p>
+                Our Key Consultants have a variety of life experiences, expertise, and experiences consulting 
+                in theatre settings. They have all been vetted by our Consultancy Director, Josephine Kearns. 
+                If you are a casting director, theatremaker, or producer working on a production that requires 
+                a Gender / Queer Consultant, or are looking for a consultant with a particular area of expertise 
+                or with particular theatrical experience, fill out this form!
+            </p>
+            <ConsultantForm />
+        </section>
         <section className='section_consultant-bios' >
         {data.allDatoCmsKey.edges.map(({ node }) => (
             <div className='consultant_bio-group'>
@@ -109,14 +119,6 @@ const Consultancy = ({ data }) => (
             </div>
         ))}
         </section>
-        <p>
-            Our Key Consultants have a variety of life experiences, expertise, and experiences consulting 
-            in theatre settings. They have all been vetted by our Consultancy Director, Josephine Kearns. 
-            If you are a casting director, theatremaker, or producer working on a production that requires 
-            a Gender / Queer Consultant, or are looking for a consultant with a particular area of expertise 
-            or with particular theatrical experience, fill out this form!
-        </p>
-        <ConsultantForm />
         <p>
             If you are a Key interested in working as a Gender or Queer Consultant,&nbsp;
             <a href='https://docs.google.com/forms/d/e/1FAIpQLSfZUQsKql-TFoG4gh6yX9ZkOwsh9Ckih3j9J_-LO7J1ZeDslA/viewform' target='_blank' rel='noopener noreferrer'>fill out this form</a>&nbsp;and we will be in touch!
