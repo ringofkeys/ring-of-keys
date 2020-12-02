@@ -3,7 +3,6 @@ import { Link } from 'gatsby'
 import { Field } from './formfields'
 import CheckboxGrid from './checkboxgrid'
 import Popup from './popup'
-import sendTxtMsg from '../utils/twilioFns'
 import slugify from '../utils/slugify'
 import { uploadFile } from '../utils/datoUploads'
 let locations = [
@@ -66,6 +65,8 @@ const ApplyForm = () => {
       if (formData.resume) { formData.resume = validateURL(formData.resume) }
 
       delete formData.resumeType
+
+      // TODO: Add file size validation
 
       submitApplication(formData).then(res => {
         console.log('createDatoUser response = ', res)
