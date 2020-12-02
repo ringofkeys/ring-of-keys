@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import parse from 'html-react-parser'
 import { Link, graphql, useStaticQuery } from 'gatsby'
 import MessageBlock from '../../components/MessageBlock'
+import dashboardReducer from './dashboardReducer'
+import KeyshipPopup from '../../components/KeyshipPopup'
 
 const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
     const data = useStaticQuery(graphql`
@@ -42,6 +44,12 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
     if (user) {
       messages = data.allDatoCmsMessage.nodes.filter(node => node.toArtist.name === user.name)
     }
+
+    const initialState = {
+      popupOpen: '',
+    }
+
+    const [ state, dispatch ] = useReducer(dashboardReducer, initialState)
   
     return (<>
       <h1>Dashboard</h1>
@@ -50,6 +58,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
           <h2>{ user.name }</h2>
           { parse(data.dashboard.bodyNode.childMarkdownRemark.html) }
           <Link to={ '/keys/' + user.slug } className='btn btn-link_ghost'>View / Edit Profile</Link>
+          <button className='btn btn_message' onClick={ () => dispatch({ action: 'TOGGLE_POPUP', name: 'keyship' }) }>Manage Keyship</button>
         </div>
     { user.headshot && <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' /> }
       </div>
@@ -60,6 +69,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
           { parse(block.content) }
         </section>
       )) }
+      <KeyshipPopup isOpen={ state.popupOpen === 'keyship' } />
   </>)
   }
 export default Home  
