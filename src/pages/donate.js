@@ -1,4 +1,5 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import './donate.css'
 import Layout from "../components/layout"
