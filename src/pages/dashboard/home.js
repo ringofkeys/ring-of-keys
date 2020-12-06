@@ -51,6 +51,8 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
 
     const [ state, dispatch ] = useReducer(dashboardReducer, initialState)
   
+    console.log('click', state)
+
     return (<>
       <h1>Dashboard</h1>
       <div className='block block_intro'>
@@ -58,7 +60,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
           <h2>{ user.name }</h2>
           { parse(data.dashboard.bodyNode.childMarkdownRemark.html) }
           <Link to={ '/keys/' + user.slug } className='btn btn-link_ghost'>View / Edit Profile</Link>
-          <button className='btn btn_message' onClick={ () => dispatch({ action: 'TOGGLE_POPUP', name: 'keyship' }) }>Manage Keyship</button>
+          <button className='btn btn_message' onClick={ () => { dispatch({ type: 'TOGGLE_POPUP', name: 'keyship' }); console.log('click', state) } }>Manage Keyship</button>
         </div>
     { user.headshot && <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' /> }
       </div>
@@ -69,7 +71,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
           { parse(block.content) }
         </section>
       )) }
-      <KeyshipPopup isOpen={ state.popupOpen === 'keyship' } />
+      <KeyshipPopup isOpen={ state.popupOpen === 'keyship' } onClose={ () => dispatch({ type: 'TOGGLE_POPUP', name: 'keyship' }) } />
   </>)
   }
 export default Home  

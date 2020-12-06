@@ -1,8 +1,10 @@
-const acceptedOrigins = ['https://ringofkeys.org', 'http://localhost:8000']
+const acceptedOrigins = ['https://ringofkeys.org', 'http://localhost:8888']
 const stripe = require('stripe')('sk_test_51HVQvlFPVymKtzoP5V9ZxrDkceMALuuFjwElpawwZCuJt7xMAnD3ReabX8jEUPwZp5ReOEQj5la8txCuvbeJcavN00jwAnqRkZ')
 
 exports.handler = async (event, context, callback) => {
+    console.log('before all the things', event.body)
     if (event.httpMethod === 'OPTIONS') {
+        console.log('options', event.body)
         if (acceptedOrigins.some(origin => origin === event.headers.origin)) {
             callback(null, {
                 statusCode: 200,
@@ -21,25 +23,27 @@ exports.handler = async (event, context, callback) => {
             })
         }
     } else {
-        const { priceIdArray } = JSON.parse(event.body)
+        console.log('post', event.body)
+        const { priceId } = JSON.parse(event.body)
 
         try {
             // Create Stripe Checkout session
-            const session = stripe.checkout.sessions.create({
+            const session = await stripe.checkout.sessions.create({
                 mode: 'subscription',
                 payment_method_types: ['card'],
-                line_items: priceIdArray.map(pId => ({ price: pId, quantity: 1 })),
+                line_items: priceId.map(pId => ({ price: pId, quantity: 1 })),
                 success_url: event.headers.origin + '/keyship/success?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url: event.headers.origin + '/keyship/cancelled',
             })
 
+            console.log('session', session)
 
             callback(null, {
                 statusCode: 200,
                 headers: {
                     'Access-Control-Allow-Origin': '*'
                 },
-                body: session.id,
+                body: JSON.stringify({ sessionId: session.id}),
             })
         } catch (err) {
             callback(err, {

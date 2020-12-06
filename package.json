@@ -28,6 +28,7 @@
     "gatsby-transformer-sharp": "^2.3.7",
     "hast-to-hyperscript": "^7.0.4",
     "html-react-parser": "^0.10.3",
+    "netlify-cli": "^2.69.1",
     "node-fetch": "^2.6.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.10.1",

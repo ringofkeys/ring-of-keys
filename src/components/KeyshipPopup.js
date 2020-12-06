@@ -27,7 +27,7 @@ const statusReducer = (state, action) => {
 
 const KeyShipOption = ({ type, duration, tier, text, pId }) => (
     <label class={`keyship-popup__option ${duration} ${type}`}>
-        <input type='radio' name={type} id={`${type}-${duration}-${tier}`} data-productid={pId} defaultChecked={ tier == 1 && duration == 'annual' }  required />
+        <input type='radio' name={type} id={`${type}-${duration}-${tier}`} value={pId} defaultChecked={ tier == 1 && duration == 'annual' }  required />
         { text }
     </label>
 )
@@ -45,7 +45,24 @@ const KeyshipPopup = ({ isOpen, onClose }) => {
         e.persist()
         dispatch({ type: 'SENDING' })
 
-        console.log(e)
+        const serializeForm = function (form) {
+            var obj = {};
+            var formData = new FormData(form);
+            for (var key of formData.keys()) {
+                obj[key] = formData.get(key);
+            }
+            return obj;
+        };
+        
+        const formData = serializeForm(e.target)
+        const prices = (!formData.sponsorship) ? [formData.keyship] : [formData.keyship, formData.sponsorship]
+
+        createCheckoutSession(prices)
+            .then(({ sessionId }) => {
+                const stripe = window.Stripe('pk_test_51HVQvlFPVymKtzoP8gcKKRgAbnlOzl73ABOF5uyuEvPt5iVzKj0BtzRDEHdzZMUKEMKdLmCkxXpjjh5ugOgAP6lY00GbVZHixO')
+                stripe.redirectToCheckout({ sessionId })
+            })
+            //.then(handleResult)
 
         // if (sendRes.status === 201) {
         //     dispatch({ type: 'SUCCESS' })
@@ -78,7 +95,7 @@ const KeyshipPopup = ({ isOpen, onClose }) => {
                 </>))}
             </fieldset>
             <label>
-                <input type='checkbox' onChange={() => dispatch({ action: 'TOGGLE_SPONSORSHIP'})}/>
+                <input type='checkbox' onChange={() => dispatch({ type: 'TOGGLE_SPONSORSHIP'})}/>
                 I'd like to sponsor another Key!
             </label>
             {state.showSponsorship &&
@@ -96,3 +113,18 @@ const KeyshipPopup = ({ isOpen, onClose }) => {
     </Popup></>)
 }
 export default KeyshipPopup
+
+
+function createCheckoutSession(priceId) {
+    return fetch('/.netlify/functions/stripeCheckout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            priceId: priceId,
+        })
+    }).then((result) => {
+        return result.json()
+    })
+}
