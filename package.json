@@ -27,28 +27,17 @@
     "gatsby-transformer-remark": "^2.12.0",
     "gatsby-transformer-sharp": "^2.8.0",
     "hast-to-hyperscript": "^7.0.4",
-<<<<<<< HEAD
-    "html-react-parser": "^0.10.3",
-    "netlify-cli": "^2.69.1",
-    "node-fetch": "^2.6.0",
-=======
     "html-react-parser": "^0.10.5",
     "netlify-cli": "^2.69.2",
     "node-fetch": "^2.6.1",
->>>>>>> b8a83ca806fe37eb60e03440597a24935b696738
     "prop-types": "^15.7.2",
     "query-string": "^6.13.7",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-helmet": "^5.2.1",
-<<<<<<< HEAD
-    "request-promise": "^4.2.5",
-    "stripe": "^8.126.0",
-    "twilio": "^3.39.3"
-=======
     "request-promise": "^4.2.6",
+    "stripe": "^8.126.0",
     "twilio": "^3.53.0"
->>>>>>> b8a83ca806fe37eb60e03440597a24935b696738
   },
   "devDependencies": {
     "prettier": "^1.19.1"
