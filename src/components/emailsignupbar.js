@@ -13,10 +13,14 @@ const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Ke
         e.persist()
         setSubmitStatus('sending')
 
-        const sendRes = (!optIn) ? await onSubmit(e.target.elements[0].value) : onSubmit(e.target.elements[0].value, e.target.elements[2].checked)
+        const sendRes = (!optIn) ? await onSubmit(e.target.elements[0].value) : await onSubmit(e.target.elements[0].value, e.target.elements[2].checked)
 
-        if (optIn) {
-            addToMailchimp(e.target.elements[0].value)
+        if (optIn && e.target.elements[2].checked) {
+            try {
+                addToMailchimp(e.target.elements[0].value)
+            } catch(err) {
+                console.error(err)
+            }
         }
 
         console.log('sendRes = ', sendRes)

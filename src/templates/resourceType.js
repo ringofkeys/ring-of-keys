@@ -19,7 +19,7 @@ const ResourceType = ({ pageContext: context }) => {
             <div class='resource-grid'>
                 { context.resources && context.resources.map(resource => (
                     <ResourceCard title={ resource.title } description={ resource.description } href={ resource.link }
-                        color={ resourceThemes[ context.typeIndex % resourceThemes.length ] } />
+                        color={ resourceThemes[ context.typeIndex % (resourceThemes.length-1) ] } />
                 ))}
             </div>
         </Layout>
