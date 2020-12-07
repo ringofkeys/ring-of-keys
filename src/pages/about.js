@@ -1,6 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import { Link, useStaticQuery } from 'gatsby'
+import { Link, useStaticQuery, graphql } from 'gatsby'
 import SidebarLayout from '../components/sidebarlayout'
 import './about.css'
 import andrea_headshot from '../images/andrea_headshot.png'

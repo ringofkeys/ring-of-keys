@@ -16,7 +16,8 @@ import { decodeHTMLEntities, updateFields } from '../utils/profileEditor'
 const colors = ['slate-blue', 'peach-1', 'copper-1', 'gold-1', 'pale-green-1']
 
 export default ({ data }) => { 
-    const isProfileOwner = isAuthenticated() && (decodeHTMLEntities(getProfile().name) === data.datoCmsKey.name)
+    const userProfile = getProfile()
+    const isProfileOwner = isAuthenticated() && (userProfile && userProfile['https://ringofkeys.org/user_metadata'].entity_id === data.datoCmsKey.id.match(/-(\d+)-/)[1])
     const [isEditable, setEditable] = useState(isProfileOwner)
     const [isSubmitting, setSubmitting] = useState(false)
     const [isMessageOpen, setMessageOpen] = useState(false)

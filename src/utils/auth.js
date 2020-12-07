@@ -9,7 +9,7 @@ let auth = isBrowser
     clientID: process.env.GATSBY_AUTH0_CLIENTID,
     redirectUri: process.env.GATSBY_AUTH0_CALLBACK,
     responseType: "token id_token",
-    scope: "openid profile email entity_id",
+    scope: "openid profile email https://ringofkeys.org/user_metadata",
   }) : {}
 
 const tokens = {
@@ -57,6 +57,8 @@ const setSession = (cb = () => {}) => (err, authResult) => {
   }
   
   if (authResult && authResult.accessToken && authResult.idToken) {
+    console.log('authResult from auth.js', authResult)
+
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime()
     tokens.accessToken = authResult.accessToken
     tokens.idToken = authResult.idToken

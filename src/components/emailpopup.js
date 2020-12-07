@@ -38,6 +38,8 @@ const EmailPopup = () => {
     }
 
     async function submitDatoViewer(email, optedIntoNewsletter) {
+        console.log('submitting', email, optedIntoNewsletter)
+
         if (!isInDatoCMS(email)) {
             return await fetch('/.netlify/functions/createDatoViewer', { 
                 method: 'POST',
