@@ -16,13 +16,8 @@ const Events = ({ user }) => <h1>Events</h1>
 const Dashboard = ({ data }) => {
     let userProfile = getProfile()
 
-    // fix the html entities that Auth0 puts on name strings (if they have apostrophes, for example)
-    if (userProfile.name) {
-      userProfile.name = decodeHtmlEntity(userProfile.name)
-    }
-    console.log('userProfile = ', userProfile);
-
-    let user = data.allDatoCmsKey.edges.filter(({node}) => node.name === userProfile.name)
+    let user = data.allDatoCmsKey.edges
+      .filter(({node}) => node.id.match(/-(\d+)-/)[1] == userProfile['https://ringofkeys.org/user_metadata'].entity_id)
 
     if (!userProfile || !isAuthenticated()) {
       login()
@@ -57,6 +52,7 @@ query DashboardQuery {
   allDatoCmsKey{
     edges {
       node {
+        id
         originalId
         name
         headshot {
