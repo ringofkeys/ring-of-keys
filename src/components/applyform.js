@@ -67,6 +67,7 @@ const ApplyForm = () => {
       delete formData.resumeType
 
       // TODO: Add file size validation
+      // testing out my setup
 
       submitApplication(formData).then(res => {
         console.log('createDatoUser response = ', res)
