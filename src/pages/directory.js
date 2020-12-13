@@ -121,6 +121,8 @@ const Directory = ({ data }) => {
         finalResults = []
       }
 
+      console.log('results', finalResults)
+
       setSearchResults(finalResults)
     }
 
@@ -213,6 +215,7 @@ export const query = graphql`
           pronouns
           genderIdentity
           sexualIdentity
+          raceEthnicity
           discipline
           vocalRange
           danceExperience
@@ -351,6 +354,15 @@ function getFilters() {
       threshold: .3,
       logic: 'and',
       helpText: `Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person.`,
+    },
+    {
+      field: 'raceEthnicity',
+      label: 'Race / Ethnicity',
+      placeholder: 'ie: Black, Indigenous, Latinx, etc.',
+      type: 'fuzzy',
+      threshold: .3,
+      logic: 'and',
+      helpText: `Racial identity is the qualitative meaning one ascribes to one’s racial group, whereas ethnic identity is a concept that refers to one’s sense of self as a member of an ethnic group. At their core, both constructs reflect an individual’s sense of self as a member of a group; however, racial identity integrates the impact of race and related factors, while ethnic identity is focused on ethnic and cultural factors. We celebrate our Keys’ intersectionality and understand that creating one’s racial/ethnic identity is a fluid and nonlinear process that varies for every person. Many folks will identify with more than one background while others will identify with a single group more broadly.`,
     },
     {
       field: 'locations',
