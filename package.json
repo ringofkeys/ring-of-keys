@@ -46,7 +46,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build --log-pages",
+    "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",

@@ -80,8 +80,8 @@ const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttri
                 <p>About Us</p>
                 <Link className='visible_mobile invisible_desktop' to='/about'>About Us</Link>
                 <Link to='/about'>Our Story</Link>
-                <Link to='/about/#who-are-we'>Who We Are</Link>
-                <Link to='/about/#what-we-do'>What We Do</Link>
+                <Link to='/about#who-are-we'>Who We Are</Link>
+                <Link to='/about#what-we-do'>What We Do</Link>
             </div>
             <div>
                 <p>Contact Us</p>
