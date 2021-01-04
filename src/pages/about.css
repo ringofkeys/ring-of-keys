@@ -34,8 +34,8 @@ h1, h2 {
 }
 
 .co-founders img {
-    width: 8vmin;
-    height: 8vmin;
+    width: 100px;
+    height: 100px;
 }
 
 .co-founders img:first-of-type {
