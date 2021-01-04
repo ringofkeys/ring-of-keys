@@ -43,9 +43,16 @@ exports.createPages = ({ graphql, actions }) => {
                         }
                     }
                 }
+                allDatoCmsPage {
+                    edges {
+                        node {
+                            slug
+                        }
+                    }
+                }                  
             }
-        `).then(result => {
-            result.data.allDatoCmsKey.edges.map(({ node: key }) => {
+        `).then(({ data }) => {
+            data.allDatoCmsKey.edges.map(({ node: key }) => {
                 createPage({
                     path: `keys/${key.slug}`,
                     component: path.resolve(`./src/templates/key.js`),
@@ -54,7 +61,7 @@ exports.createPages = ({ graphql, actions }) => {
                     },
                 })
             })
-            result.data.allDatoCmsEvent.edges.map(({ node: event }) => {
+            data.allDatoCmsEvent.edges.map(({ node: event }) => {
                 createPage({
                     path: `events/${event.slug}`,
                     component: path.resolve(`./src/templates/event.js`),
@@ -63,7 +70,7 @@ exports.createPages = ({ graphql, actions }) => {
                     },
                 })
             })
-            // result.data.allDatoCmsNews.edges.map(({ node: news }) => {
+            // data.allDatoCmsNews.edges.map(({ node: news }) => {
             //     createPage({
             //         path: `news/${news.slug}`,
             //         component: path.resolve(`./src/templates/news.js`),
@@ -74,7 +81,7 @@ exports.createPages = ({ graphql, actions }) => {
             // })
             const resourceTypes = []
 
-            const resources = result.data.allDatoCmsResource.edges.reduce((acc, { node }) => {
+            const resources = data.allDatoCmsResource.edges.reduce((acc, { node }) => {
                 if (!resourceTypes.find(el => el === node.resourceType)) {
                     resourceTypes.push(node.resourceType)
                     acc.push([ node ])
@@ -94,6 +101,19 @@ exports.createPages = ({ graphql, actions }) => {
                     },
                 })
             })
+
+
+            // programmatically create Pages
+            data.allDatoCmsPage.edges.map(({ node: page}) => {
+                createPage({
+                    path: `/${ page.slug }`,
+                    component: path.resolve(`./src/templates/page.js`),
+                    context: {
+                        slug: page.slug,
+                    },
+                })
+            })
+
             resolve()
         })
     })

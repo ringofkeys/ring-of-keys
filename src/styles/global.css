@@ -193,7 +193,7 @@ p {
 }
 
 /* Pull Quotes */
-.quote_graphic-bar {
+blockquote, .quote_graphic-bar {
     font-family: 'Raleway', sans-serif;
     font-weight: 900;
     color: var(--rok-pale-green-1_hex);
@@ -202,7 +202,7 @@ p {
     margin: 0;
     padding-left: .5em;
 }
-.quote_graphic-bar p {
+blockquote p, .quote_graphic-bar p {
     color: var(--rok-pale-green-1_hex);
 }
 
@@ -224,11 +224,12 @@ p {
     flex-wrap: wrap;
 }
 
-.divider {
+.divider, hr {
     width: 100%;
     height: 2px;
     background: #f7f7f7;
     margin: 2em 0;
+    border: none;
 }
 
 textarea {
@@ -370,5 +371,185 @@ textarea {
 
     .checkbox__grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* CONSULTANCY STYLES */
+/* TODO: consolidate styling system. This page's content is managed in the CMS */
+/* so it's odd to have it's styles specially-defined here. */
+.btn_consultant {
+    padding: .75em 3em;
+}
+
+
+.section_consultant-bios {
+    display: 'grid';
+    grid-template-columns: '50% 50%';
+}
+
+.consultant_bio-group {
+    margin: 2em 1em;   
+}
+
+.consultant_bio-group .avatar_placeholder {
+    align-self: center;
+    margin: 1em 0;
+}
+
+.consultant_bio-img,
+.consultant_bio-heading h2 {
+    transition: all .12s ease-in-out;
+}
+
+.consultant_bio-img:hover,
+.consultant_bio-heading h2:hover {
+    transform: scale(1.03);
+} 
+
+.consultant_bio-heading h2 {
+    margin-bottom: 0;
+}
+
+.consultant_bio-heading {
+    display: grid;
+    grid-template-columns: 100px auto;
+    gap: 1em;
+}
+
+.consultant_bio-img {
+    max-width: 100%;
+    object-fit: scale-down;
+}
+
+a.h2_conversational {
+    text-decoration: none;
+}
+
+a.h2_conversational h2 {
+    text-transform: capitalize;
+}
+
+.consultant_bio-heading p {
+    margin: .5em 0;
+    font-weight: 300;
+}
+
+.gender-consultant_explain {
+    margin: 1em 0;
+}
+
+.gender-consultant_explain .icon-heading-label {
+    --margin-inline: 1vw;
+    margin: 3vh 0;
+    width: calc(33% - 2 * var(--margin-inline));
+}
+
+#consultancy-form .text-inputs {
+    display: grid; 
+    grid-template-columns: 50% 50%;
+    gap: 2em 2em;
+    margin-block-end: 2em;
+}
+
+#consultancy-form input[type='text'],
+#consultancy-form input[type='email'] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    padding: .5em 1em;
+}
+
+#consultancy-form textarea {
+    width: 100%;
+    min-height: 15vh;
+    margin-block-end: 1em;
+}
+
+#consultancy-form .btn-container {
+    margin-block-start: 1em;
+    display: flex;
+}
+
+#consultancy-form .btn {
+    padding: .75em 3em;
+}
+
+@media (max-width: 700px) {
+    .gender-consultant_explain .icon-heading-label {
+        width: 100%;
+    }
+
+    .section_consultant-bios {
+        display: block;
+    }
+}
+
+
+
+/* ABOUT STYLES */
+h1, h2, h3 {
+    text-transform: uppercase;
+}
+
+.about h1, .about h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: .5em;
+}
+
+.about h2 {
+    margin-top: 1.75em;
+}
+
+.about h4 {
+    color: var(--rok-peach-1_hex);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+}
+
+.about p {
+    line-height: 1.7;
+}
+
+.co-founders img {
+    width: 100px;
+    height: 100px;
+}
+
+.co-founders img:first-of-type {
+    margin-inline-end: .5vmax;
+}
+
+.co-founders p {
+    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    color: var(--rok-slate-blue_hex);
+    margin: .75em 0;
+    font-size: .8em;
+    letter-spacing: .75px;
+}
+
+.about-beliefs {
+    margin: 2vh 0;
+    margin-inline-end: 2vw;
+}
+
+.partner-logos img {
+    height: 5vh;
+    margin-inline-end: 1em;
+}
+
+@media (max-width: 700px) {
+    .about .grid_2c-2r {
+        grid-template-columns: 1fr;
+    }
+
+    .about .icon-heading-label {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 }
