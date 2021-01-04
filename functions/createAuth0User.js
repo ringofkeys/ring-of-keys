@@ -492,7 +492,7 @@ require('dotenv').config({
                           
                               <span style="font-size:18px"><span style="font-family:lato,helvetica neue,helvetica,arial,sans-serif"><strong>Let's Queer the Stage&nbsp;</strong></span></span><br>
   <br>
-  <em><span style="font-family:lato,helvetica neue,helvetica,arial,sans-serif">Copyright © 2020 Ring of Keys, All rights reserved.</span></em><br>
+  <em><span style="font-family:lato,helvetica neue,helvetica,arial,sans-serif">Copyright © 2021 Ring of Keys Coalition, Inc., All rights reserved.</span></em><br>
   <br>
   <span style="font-family:lato,helvetica neue,helvetica,arial,sans-serif">Want to change how you receive these emails?<br>
   You can <a href="https://ringofkeys.us4.list-manage.com/profile?u=539a4242e28417ba21438bdae&amp;id=f60441aafc&amp;e=[UNIQID]" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #656565;font-weight: normal;text-decoration: underline;">update your preferences</a> or <a href="https://ringofkeys.us4.list-manage.com/unsubscribe?u=539a4242e28417ba21438bdae&amp;id=f60441aafc&amp;e=[UNIQID]&amp;c=1cc05b9d0e" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #656565;font-weight: normal;text-decoration: underline;">unsubscribe from this list</a>.</span>
