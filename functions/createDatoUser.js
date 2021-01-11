@@ -27,7 +27,7 @@ blankUser = Object.assign(blankUser, {
     genderConsultantOrder: 8,
     keyshipId: '',
     keyshipStatus: 'none',
-    itemType: '177050',
+    itemType: '177050'
 })
 
 exports.handler = async (event) => {
