@@ -12,23 +12,21 @@ const otherFields = [
     'showInDirectory','isMeetupAmbassador','meetupAmbassadorOrder','keyTeamPosition',
     'slug','quickBio','bio','keyTeamMember','keyTeamOrder','email','pronouns','memberSince',
 ]
-let blankUser = {}
+const blankUser = {}
 otherFields.forEach(field => blankUser[field] = field.substr(0, 2) === 'is' ? false : '')
-blankUser = Object.assign(blankUser, {
-    keyTeamMember: false,
-    showInDirectory: true,
-    hasLoginAccess: true,
-    socialMedia: [],
-    featuredImage: { uploadId: '1213483' },
-    resume: "No resume",
-    resumeFile: { uploadId: '1213541' },
-    keyTeamOrder: 5,
-    meetupAmbassadorOrder: 8,
-    genderConsultantOrder: 8,
-    keyshipId: '',
-    keyshipStatus: 'none',
-    itemType: '177050'
-})
+blankUser.keyTeamMember = false
+blankUser.showInDirectory = true
+blankUser.hasLoginAccess = true
+blankUser.socialMedia = []
+blankUser.featuredImage = { uploadId: '1213483' }
+blankUser.resume = "No resume"
+blankUser.resumeFile = { uploadId: '1213541' }
+blankUser.keyTeamOrder = 5
+blankUser.meetupAmbassadorOrder = 8
+blankUser.genderConsultantOrder = 8
+blankUser.keyshipId = ''
+blankUser.keyshipStatus = 'none'
+blankUser.itemType = '177050'
 
 exports.handler = async (event) => {
     console.log('function is called!', event.body)
