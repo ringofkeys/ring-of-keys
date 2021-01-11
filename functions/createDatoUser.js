@@ -12,7 +12,7 @@ const otherFields = [
     'showInDirectory','isMeetupAmbassador','meetupAmbassadorOrder','keyTeamPosition',
     'slug','quickBio','bio','keyTeamMember','keyTeamOrder','email','pronouns','memberSince',
 ]
-const blankUser = {}
+let blankUser = {}
 otherFields.forEach(field => blankUser[field] = field.substr(0, 2) === 'is' ? false : '')
 blankUser = Object.assign(blankUser, {
     keyTeamMember: false,
