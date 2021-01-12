@@ -18,6 +18,8 @@ let affiliations = [
 ]
 affiliations = affiliations.sort()
 
+const MAX_IMAGE_FILE_SIZE_IN_BYTES = 4194304; // 4MB
+
 const ApplyForm = () => {
   const [resumeType, setResumeType] = useState('url')
   const [formStatus, setFormStatus] = useState('unsent')
@@ -124,7 +126,7 @@ const ApplyForm = () => {
         <h2>Just a little bit more...</h2>
         <Field type='text' name='website' label='Website URL [optional]' />
         <div className='grid_2c-1r'>
-          <Field type='file' name='headshot' required={true} label='Upload your headshot or picture (max 2Mb)' accept='image/*' />
+          <Field type='file' name='headshot' required={true} label='Upload your headshot or picture (max 4Mb)' accept='image/*' />
           <div>
             <div class='grid_2c-1r' style={{marginBottom: '.5rem'}}>
               <label><input name='resumeType' type='radio' checked={resumeType === 'url'} onChange={() => setResumeType('url')}/>URL</label>
@@ -179,6 +181,9 @@ async function submitApplication(data) {
   })
 
   console.log('newUser Object = ', newUser)
+
+  // TODO: fail form just like required=true behavior, possibly overriding formfields
+  console.log('Headshot filesize is ', newUser.headshot.size > MAX_IMAGE_FILE_SIZE_IN_BYTES ? 'above' : 'within', ' the limit of 4MB.');
 
   const uploadPromises = []
 
