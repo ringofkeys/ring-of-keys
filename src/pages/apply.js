@@ -9,7 +9,7 @@ const ApplyPage = () => {
         <SidebarLayout classNames={['apply']}
         title='Apply to be a Key' description='Ring of Keys is a network of industry professionals who identify as queer women, trans, and/or gender 
         non-conforming.'
-        footerQuoteAttribution='Kat Griffin, Key Member (they/she/he)' footerQuoteBgColor='var(--rok-pale-green-1_hex)'
+        footerQuoteAttribution='Kat Griffin, Key Member (they/them)' footerQuoteBgColor='var(--rok-pale-green-1_hex)'
         footerQuoteText={
             <blockquote>
                 With the help of Ring of Keys, I went from feeling so isolated 
