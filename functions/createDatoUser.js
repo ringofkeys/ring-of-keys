@@ -24,8 +24,7 @@ blankUser.resumeFile = { uploadId: '5669087' }
 blankUser.keyTeamOrder = 5
 blankUser.meetupAmbassadorOrder = 8
 blankUser.genderConsultantOrder = 8
-blankUser.keyshipId = ''
-blankUser.keyshipStatus = 'none'
+blankUser.stripeId = ''
 blankUser.itemType = '177050'
 
 exports.handler = async (event) => {
