@@ -30,8 +30,8 @@ const Dashboard = ({ data }) => {
       </Layout>
     } else {
       localStorage.setItem('hasEmailSignup', 'true') // ensure logged-in users don't receive popups
-      console.log('userProfile = ', userProfile, user)
       user = user[0] ? user[0].node : {}
+      console.log('userProfile = ', userProfile, user)
     }
 
     return (
@@ -63,6 +63,7 @@ query DashboardQuery {
           url
         }
         slug
+        stripeId
       }
     }
   }

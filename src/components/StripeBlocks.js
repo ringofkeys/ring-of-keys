@@ -1,15 +1,11 @@
-import React, { useState, useReducer } from 'react'
-import { Link } from 'gatsby'
-import Popup from './popup'
-import stripeProducts from '../utils/stripeProducts'
-import './popup.css'
-import './KeyshipPopup.css'
-import { Helmet } from 'react-helmet'
+import React, { useState, useReducer, useEffect } from 'react'
+import stripeProducts, { flattenedStripeProducts } from '../utils/stripeProducts'
+import './StripeBlocks.css'
 
-const statusReducer = (state, action) => {
+const keyshipReducer = (state, action) => {
     switch (action.type) {
         case 'UNSENT':
-            return { ...state, btnText: 'Begin Checkout', btnClass: 'unsent', }
+            return { ...state, btnText: 'Sign Up Now', btnClass: 'unsent', }
         case 'SENDING':
             return { ...state, btnText: 'Loading...', btnClass: 'sending' }
         case 'SUCCESS':
@@ -28,13 +24,13 @@ const statusReducer = (state, action) => {
 const KeyShipOption = ({ type, duration, tier, text, pId }) => (
     <label class={`keyship-popup__option ${duration} ${type}`}>
         <input type='radio' name={type} id={`${type}-${duration}-${tier}`} value={pId} defaultChecked={ tier == 1 && duration == 'annual' }  required />
-        { text }
+        <span>{ text }</span>
     </label>
 )
 
-const KeyshipPopup = ({ isOpen, onClose }) => {
-    const [state, dispatch] = useReducer(statusReducer, {
-        btnText: 'Begin Checkout',
+const KeyshipForm = () => {
+    const [state, dispatch] = useReducer(keyshipReducer, {
+        btnText: 'Sign Up Now',
         btnClass: 'unsent',
         showSponsorship: false,
         duration: 'annual',
@@ -59,7 +55,7 @@ const KeyshipPopup = ({ isOpen, onClose }) => {
 
         createCheckoutSession(prices)
             .then(({ sessionId }) => {
-                const stripe = window.Stripe('pk_test_51HVQvlFPVymKtzoP8gcKKRgAbnlOzl73ABOF5uyuEvPt5iVzKj0BtzRDEHdzZMUKEMKdLmCkxXpjjh5ugOgAP6lY00GbVZHixO')
+                const stripe = window.Stripe(process.env.GATSBY_STRIPE_PUBLIC_KEY)
                 stripe.redirectToCheckout({ sessionId })
             })
             //.then(handleResult)
@@ -68,25 +64,18 @@ const KeyshipPopup = ({ isOpen, onClose }) => {
         //     dispatch({ type: 'SUCCESS' })
         // } else {
         //     dispatch({ type: 'FAILURE' })        }
-    } 
+    }
 
-    return (<>
-    <Helmet>
-        <script src="https://js.stripe.com/v3/"></script>
-    </Helmet>
-    <Popup isOpen={isOpen} onClose={onClose}>
-        <h2>Pick a Keyship Level</h2>
-        <p>You can optionally also provide a sponsorship for another Key with financial need.</p>
+    return (
         <form onSubmit={ handleSubmit }>
             <section>
-                I'd like billed:
                 <label>
-                    <input type='radio' name='duration' onInput={(e) => dispatch({ type: 'UPDATE_DURATION', duration: 'annual'})}/>
-                    Annually    
+                    <input type='radio' name='duration' onChange={(e) => dispatch({ type: 'UPDATE_DURATION', duration: 'annual'})} defaultChecked={ state.duration === 'annual' }/>
+                    <span>Annually</span>    
                 </label> 
                 <label>
-                    <input type='radio' name='duration' onInput={(e) => dispatch({ type: 'UPDATE_DURATION', duration: 'monthly'})}/>
-                    Monthly    
+                    <input type='radio' name='duration' onChange={(e) => dispatch({ type: 'UPDATE_DURATION', duration: 'monthly'})} defaultChecked={ state.duration === 'monthly' }/>
+                    <span>Monthly</span>    
                 </label> 
             </section>
             <fieldset id='keyship-options'>
@@ -96,7 +85,7 @@ const KeyshipPopup = ({ isOpen, onClose }) => {
             </fieldset>
             <label>
                 <input type='checkbox' onChange={() => dispatch({ type: 'TOGGLE_SPONSORSHIP'})}/>
-                I'd like to sponsor another Key!
+                <span>I'd like to sponsor someone else too</span>
             </label>
             {state.showSponsorship &&
                 <fieldset id='sponsorship-options'>
@@ -105,14 +94,40 @@ const KeyshipPopup = ({ isOpen, onClose }) => {
                     </>))}
                 </fieldset>
             }
-            <button type='submit' className={`btn ${ state.btnClass === 'unsent' ? 'has-arrow' : '' } ${ state.btnClass }`}
-                style={{ width: '100%', padding: '1em 0' }}>
+            <button type='submit' className={`btn ${ state.btnClass }`} style={{ background: 'var(--rok-gold-1_hex', marginTop: '1rem' }}>
                 { state.btnText }
             </button>
         </form>
-    </Popup></>)
+    )
 }
-export default KeyshipPopup
+
+export const StripeSubscribed = ({ stripeId }) => {
+    const [status, setStatus] = useState(false)
+
+    useEffect(() => {
+        getCustomer(stripeId).then(customerData => {
+            const tier = flattenedStripeProducts.findIndex(p => p.some(el => el === customerData.subscriptions.data[0].items.data[0].plan.id))
+            const lastPaid = new Date(customerData.subscriptions.data[0].current_period_start * 1000) // Stripe stores timestamps in seconds since epoch, not milliseconds
+            const shortDate = (num) => num.toString().padStart(2, '0')
+
+            console.log({ tier, lastPaid })
+            setStatus(<p>✨ Thank you for being a <strong>`{ (tier >= 0) && stripeProducts[tier].label }</strong> paying member!
+            Your last payment was on <strong>{ shortDate(lastPaid.getMonth()+1) }/{ shortDate(lastPaid.getDate()+1) }/{ lastPaid.getFullYear().toString().substr(-2) }</strong>.</p>)
+        })
+    }, [])
+
+    return (!status) ? <>loading</>
+        : status
+}
+
+export const StripeUnsubscribed = () => {
+    return <section className='block block_stripe'>
+                <h2>Keyship</h2>
+                <p>Ring of Keys runs on the generosity of industry professionals like you! To help us keep the lights on and ceilings shattering, please consider becoming a paying member, and even sponsoring another Key.</p>
+                <KeyshipForm />
+            </section>
+}
+
 
 
 function createCheckoutSession(priceId) {
@@ -127,4 +142,15 @@ function createCheckoutSession(priceId) {
     }).then((result) => {
         return result.json()
     })
+}
+
+async function getCustomer(id) {
+    console.log('stripeId = ', id)
+    const customer = fetch(`https://api.stripe.com/v1/customers/${ id }?expand[]=subscriptions`, {
+        headers: {
+            Authorization: `Bearer ${ process.env.GATSBY_STRIPE_SECRET_KEY }`,
+        }
+    }).then(res => res.json())
+    // .then(customer => console.log(customer))
+    return customer
 }

@@ -3,7 +3,7 @@ import parse from 'html-react-parser'
 import { Link, graphql, useStaticQuery } from 'gatsby'
 import MessageBlock from '../../components/MessageBlock'
 import dashboardReducer from './dashboardReducer'
-import KeyshipPopup from '../../components/KeyshipPopup'
+import { StripeSubscribed, StripeUnsubscribed } from '../../components/StripeBlocks'
 
 const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
     const data = useStaticQuery(graphql`
@@ -60,10 +60,11 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
           <h2>{ user.name }</h2>
           { parse(data.dashboard.bodyNode.childMarkdownRemark.html) }
           <Link to={ '/keys/' + user.slug } className='btn btn-link_ghost'>View / Edit Profile</Link>
-          <button className='btn btn_message' onClick={ () => { dispatch({ type: 'TOGGLE_POPUP', name: 'keyship' }); console.log('click', state) } }>Manage Keyship</button>
+          { (user && user.stripeId) && <StripeSubscribed stripeId={ user.stripeId }/> }
         </div>
     { user.headshot && <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' /> }
       </div>
+      { (!user || !user.stripeId) && <StripeUnsubscribed/> }
       <MessageBlock messages={ messages } />
       { data.dashboard.contentBlocks.map((block, i) => (
         <section className={'block' + (block.area ? ` block_${ block.area }` : '')} key={'block'+i}>
@@ -71,7 +72,6 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
           { parse(block.content) }
         </section>
       )) }
-      <KeyshipPopup isOpen={ state.popupOpen === 'keyship' } onClose={ () => dispatch({ type: 'TOGGLE_POPUP', name: 'keyship' }) } />
   </>)
   }
 export default Home  

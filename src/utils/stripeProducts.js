@@ -1,6 +1,6 @@
 const products = [
     { 
-        label: 'Solidarity',
+        label: '✊ Solidarity',
         annual: {
             text: '$20/yr',
             keyship_id: 'price_1HVR3JFPVymKtzoPgialwcKs',
@@ -13,7 +13,7 @@ const products = [
         },
     },
     { 
-        label: 'Multiplicity',
+        label: '🤝 Multiplicity',
         annual: {
             text: '$50/yr',
             keyship_id: 'price_1Hp3LSFPVymKtzoPv39X72RP',
@@ -26,7 +26,7 @@ const products = [
         },
     },
     { 
-        label: 'Possibility',
+        label: '🗝 Possibility',
         annual: {
             text: '$100/yr',
             keyship_id: 'price_1Hp3LSFPVymKtzoPmtGWhnjo',
@@ -39,5 +39,15 @@ const products = [
         },
     },
 ]
+
+export const flattenedStripeProducts = products.map(p => {
+    return [
+        p.label,
+        p.annual.keyship_id,
+        p.annual.sponsorship_id,
+        p.monthly.keyship_id,
+        p.monthly.sponsorship_id,
+    ]
+})
 
 export default products
