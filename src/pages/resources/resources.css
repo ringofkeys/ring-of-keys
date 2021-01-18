@@ -55,6 +55,9 @@
 
 .resource-annotation {
     margin: 2em 12.5vw;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 

@@ -6,6 +6,8 @@ import Carousel from '../../components/carousel'
 import ResourceCard from '../../components/resourcecard'
 import slugify from '../../utils/slugify'
 import './resources.css'
+import devonImg from './devon-avatar.png'
+
 const resourceThemes = [
     'var(--rok-gold-1_hex)',
     'var(--rok-pale-green-1_hex)',
@@ -54,10 +56,11 @@ const Resources = ({ data }) => {
                     }
                 </Carousel>
             ))}
-            <p className='resource-annotation'>
-                This list was compiled by Key Member <Link to='/keys/devon-hayakawa'>Devon Hayakawa</Link>, 
+            <section className='resource-annotation'>
+                <img src={ devonImg } alt='Devon Hayawaka' style={{ width: '70px', marginRight: '1.2rem' }} />
+                This list was compiled by Key Member&nbsp;<Link to='/keys/devon-hayakawa'>Devon Hayakawa</Link>, 
                 a Chicago-based Performer, playwright, and dramaturg. 
-            </p>
+            </section>
         </Layout>
     )
 }
