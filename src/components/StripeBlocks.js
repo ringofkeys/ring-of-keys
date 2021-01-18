@@ -141,7 +141,19 @@ export const StripeSubscribed = ({ stripeId }) => {
 export const StripeUnsubscribed = () => {
     return <section className='block block_stripe'>
                 <h2>Keyship</h2>
-                <p>Ring of Keys runs on the generosity of industry professionals like you! To help us keep the lights on and ceilings shattering, please consider becoming a paying member, and even sponsoring another Key.</p>
+                <p>
+                    To help us keep the lights on and ceilings shattered, please consider paying a Keyship to offset our web and administrative costs.
+                </p>
+                <p> 
+                    Our priority as an organization is to provide visibility for our Members to our theatre industry at large.
+                    Therefore, this Keyship is only suggestive and will not prohibit any Key from remaining visible within our Directory.
+                </p>
+                <p>
+                    Another priority as an organization is asserting our value. There is a long tradition in the arts of being expected to do things for 
+                    free or our time being undervalued. RoK was built with the purpose of asserting the value of queer and trans artists. We hope to assert the value 
+                    of our Leadership Team, our Keys, and Ring of Keys at large by working in opposition of these toxic traditions to model that our time and labor as 
+                    artists has value.
+                </p>
                 <KeyshipForm />
             </section>
 }
