@@ -16,7 +16,7 @@ export const publishDato = async function(id) {
 }
 
 export async function updateFields(id, name, data, newName) {
-    id = id.match(/-(\d+)-/)[1]
+    id = (typeof id === 'string' && id.includes('-')) ? id.match(/-(\d+)-/)[1] : id
 
     const fieldEditRes = await fetch(fnDomain + '/.netlify/functions/updateDatoFields', {
         headers: {

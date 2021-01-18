@@ -35,7 +35,7 @@ const IndexPage = ({ data }) => {
           <span>e</span>
           <span>r</span>
           </span> The Stage</h1>
-        <div class='index_hero__right-col'>
+        <div className='index_hero__right-col'>
         Ring of Keys is an arts advocacy organization that promotes the hiring of musical 
         theatre professionals - onstage and off - who self-identify as queer women, transgender, 
         and gender non-conforming artists.
@@ -43,9 +43,9 @@ const IndexPage = ({ data }) => {
         </div>
       </div>
       <div className='section_icon-heading-labels'>
-        {keySteps.map(step => (
-          <div className='icon-heading-label' key={step.icon.url} alt={step.icon.alt}>
-            <img src={ step.icon.url } alt={ step.icon.alt} key={step.icon.alt} />
+        {keySteps.map((step, i) => (
+          <div className='icon-heading-label' key={step.icon.url + i} alt={step.icon.alt}>
+            <img src={ step.icon.url } alt={ step.icon.alt} key={step.icon.alt + i} />
             { renderHtmlToReact(step.headingNode.childMarkdownRemark.htmlAst) }
             { renderHtmlToReact(step.labelNode.childMarkdownRemark.htmlAst) }
           </div>

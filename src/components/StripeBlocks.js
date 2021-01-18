@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useEffect } from 'react'
 import stripeProducts, { flattenedStripeProducts } from '../utils/stripeProducts'
 import './StripeBlocks.css'
+import Helmet from 'react-helmet'
 
 const keyshipReducer = (state, action) => {
     switch (action.type) {
@@ -22,13 +23,13 @@ const keyshipReducer = (state, action) => {
 }
 
 const KeyShipOption = ({ type, duration, tier, text, pId }) => (
-    <label class={`keyship-popup__option ${duration} ${type}`}>
+    <label className={`keyship-popup__option ${duration} ${type}`}>
         <input type='radio' name={type} id={`${type}-${duration}-${tier}`} value={pId} defaultChecked={ tier == 1 && duration == 'annual' }  required />
         <span>{ text }</span>
     </label>
 )
 
-const KeyshipForm = () => {
+const KeyshipForm = ({ userId }) => {
     const [state, dispatch] = useReducer(keyshipReducer, {
         btnText: 'Sign Up Now',
         btnClass: 'unsent',
@@ -53,7 +54,7 @@ const KeyshipForm = () => {
         const formData = serializeForm(e.target)
         const prices = (!formData.sponsorship) ? [formData.keyship] : [formData.keyship, formData.sponsorship]
 
-        createCheckoutSession(prices)
+        createCheckoutSession(userId, prices)
             .then(({ sessionId }) => {
                 const stripe = window.Stripe(process.env.GATSBY_STRIPE_PUBLIC_KEY)
                 stripe.redirectToCheckout({ sessionId })
@@ -66,7 +67,10 @@ const KeyshipForm = () => {
         //     dispatch({ type: 'FAILURE' })        }
     }
 
-    return (
+    return (<>
+        <Helmet>
+            <script src='https://js.stripe.com/v3'></script>
+        </Helmet>
         <form onSubmit={ handleSubmit }>
             <section>
                 <label>
@@ -79,26 +83,30 @@ const KeyshipForm = () => {
                 </label> 
             </section>
             <fieldset id='keyship-options'>
-                {stripeProducts && stripeProducts.length && stripeProducts.map((product, i) => (<>
-                    <KeyShipOption type='keyship' duration={state.duration} tier={i+1} text={ product.label +' - '+ product[state.duration].text } pId={ product[state.duration].keyship_id }/>
-                </>))}
+                {stripeProducts && stripeProducts.length && stripeProducts.map((product, i) => (
+                    <KeyShipOption type='keyship' duration={state.duration} tier={i+1}
+                    text={ product.label +' - '+ product[state.duration].text } pId={ product[state.duration].keyship_id }
+                    key={ product[state.duration].keyship_id } />
+                ))}
             </fieldset>
             <label>
                 <input type='checkbox' onChange={() => dispatch({ type: 'TOGGLE_SPONSORSHIP'})}/>
-                <span>I'd like to sponsor someone else too</span>
+                <span>I'd like to sponsor another Key too</span>
             </label>
             {state.showSponsorship &&
                 <fieldset id='sponsorship-options'>
-                    {stripeProducts && stripeProducts.length && stripeProducts.map((product, i) => (<>
-                        <KeyShipOption type='sponsorship' duration={state.duration} tier={i+1} text={ product.label +' - '+ product[state.duration].text } pId={ product[state.duration].sponsorship_id }/>
-                    </>))}
+                    {stripeProducts && stripeProducts.length && stripeProducts.map((product, i) => (
+                        <KeyShipOption type='sponsorship' duration={state.duration} tier={i+1}
+                        text={ product.label +' - '+ product[state.duration].text } pId={ product[state.duration].sponsorship_id }
+                        key={ product.label } />
+                    ))}
                 </fieldset>
             }
             <button type='submit' className={`btn ${ state.btnClass }`} style={{ background: 'var(--rok-gold-1_hex', marginTop: '1rem' }}>
                 { state.btnText }
             </button>
         </form>
-    )
+    </>)
 }
 
 export const StripeSubscribed = ({ stripeId }) => {
@@ -106,18 +114,28 @@ export const StripeSubscribed = ({ stripeId }) => {
 
     useEffect(() => {
         getCustomer(stripeId).then(customerData => {
+            if (!customerData || !customerData.subscriptions || !customerData.subscriptions.data) return null
             const tier = flattenedStripeProducts.findIndex(p => p.some(el => el === customerData.subscriptions.data[0].items.data[0].plan.id))
             const lastPaid = new Date(customerData.subscriptions.data[0].current_period_start * 1000) // Stripe stores timestamps in seconds since epoch, not milliseconds
             const shortDate = (num) => num.toString().padStart(2, '0')
 
-            console.log({ tier, lastPaid })
-            setStatus(<p>✨ Thank you for being a <strong>`{ (tier >= 0) && stripeProducts[tier].label }</strong> paying member!
-            Your last payment was on <strong>{ shortDate(lastPaid.getMonth()+1) }/{ shortDate(lastPaid.getDate()+1) }/{ lastPaid.getFullYear().toString().substr(-2) }</strong>.</p>)
+            console.log({ customerData, tier, lastPaid })
+            if (customerData.delinquent || customerData.subscriptions.total_count === 0) {
+                setStatus(<p>
+                    ❕ Looks like there's something weird with your account. Might need to look into it.
+                </p>)
+            }
+            setStatus(<p>
+                ✨ Thank you for being a <strong>{ (tier >= 0) && stripeProducts[tier].label }</strong> paying member!
+                Your last payment was on <strong>{ shortDate(lastPaid.getMonth()+1) }/{ shortDate(lastPaid.getDate()+1) }/{ lastPaid.getFullYear().toString().substr(-2) }</strong>.
+            </p>)
         })
     }, [])
 
-    return (!status) ? <>loading</>
-        : status
+    return <div className='stripe_status'>
+        { status }
+        <button onClick={ () => createPortalSession(stripeId) }>Manage Account →</button>
+    </div>
 }
 
 export const StripeUnsubscribed = () => {
@@ -130,17 +148,34 @@ export const StripeUnsubscribed = () => {
 
 
 
-function createCheckoutSession(priceId) {
+function createCheckoutSession(user, priceId) {
     return fetch('/.netlify/functions/stripeCheckout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            priceId: priceId,
+            user,
+            priceId,
         })
     }).then((result) => {
         return result.json()
+    })
+}
+
+function createPortalSession(customer) {
+    return fetch('/.netlify/functions/stripePortal', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            customer,
+        })
+    }).then((result) => {
+        return result.json()
+    }).then(session => {
+        window.location = session.url
     })
 }
 

@@ -97,7 +97,7 @@ const Footer = ({ footerQuoteText: quoteText, footerQuoteAttribution: quoteAttri
                 <Link className='visible_mobile invisible_desktop' to='/dashboard'>Account</Link>
                 <Link to='/dashboard'>Sign In</Link>
                 <Link className='visible_mobile' to='/apply'>Apply to be a Key</Link>
-                <Link className='visible_mobile' to='https://docs.google.com/forms/d/e/1FAIpQLSdddSOlVOFaJf-4no9U0yZLnq4rYf_SppxPmvYct3tbvLmySg/viewform?fbclid=IwAR3kIoqje7TuxztVPP2XlldpKPzHSX9CKmpm1VBBcYLZwvnENFWgEW4Ic7I'>Help</Link>
+                <a className='visible_mobile' href='https://docs.google.com/forms/d/e/1FAIpQLSdddSOlVOFaJf-4no9U0yZLnq4rYf_SppxPmvYct3tbvLmySg/viewform?fbclid=IwAR3kIoqje7TuxztVPP2XlldpKPzHSX9CKmpm1VBBcYLZwvnENFWgEW4Ic7I'>Help</a>
             </div>
             <div className='visible_mobile'>
                 <p className='visible_mobile'>Follow Us</p>

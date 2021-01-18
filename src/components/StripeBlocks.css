@@ -67,3 +67,22 @@
     padding: 0;
     margin: 0;
 }
+
+.block .stripe_status {
+    display: flex;
+    align-items: center;
+    margin-top: 1.2rem;
+}
+
+.block .stripe_status p {
+    margin: 0;
+}
+
+.block .stripe_status button {
+    white-space: nowrap;
+    margin-left: 1.2rem;
+    color: var(--rok-gold-1_hex);
+    background: none;
+    border: none;
+    text-transform: uppercase;
+}

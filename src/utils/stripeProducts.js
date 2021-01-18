@@ -26,7 +26,7 @@ const products = [
         },
     },
     { 
-        label: '🗝 Possibility',
+        label: '🔑 Possibility',
         annual: {
             text: '$100/yr',
             keyship_id: 'price_1Hp3LSFPVymKtzoPmtGWhnjo',
