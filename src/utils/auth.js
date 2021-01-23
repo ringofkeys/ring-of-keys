@@ -77,7 +77,6 @@ const setSession = (cb = () => {}) => (err, authResult) => {
 
 export const silentAuth = cb => {
   if (!isAuthenticated()) {
-    if (isProtectedRoute) { login() }
     return cb()
   }
   auth.checkSession({}, setSession(cb))
