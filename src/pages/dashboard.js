@@ -39,8 +39,8 @@ const Dashboard = ({ data }) => {
     },[])
 
 
-    return (
-    <Layout classNames={['dashboard', 'fullwidth']}
+    return (<>
+    {user && <Layout classNames={['dashboard', 'fullwidth']}
       title={`Dashboard - ${ user.name }`} description='User dashboard for your Ring of Keys profile'>
         { user && <div className='dashboard_container'>
           {user && 
@@ -51,8 +51,8 @@ const Dashboard = ({ data }) => {
             ? <img src={ ROKMosaic_Dashboard } alt='mosaic of dozens of RoK members' className='img_desktop'/>
             : <img src={ Dashboard_Mobile } alt='mosaic of dozens of RoK members' className='img_mobile'/>}
         </div>}
-    </Layout>
-    )
+    </Layout>}
+    </>)
 }
 export default Dashboard
 
