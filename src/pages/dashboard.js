@@ -21,8 +21,9 @@ const Dashboard = ({ data }) => {
 
       let auth0Profile = getProfile()
   
-      if (!auth0Profile && !isAuthenticated) {
+      if (!auth0Profile || !auth0Profile.name ||  !isAuthenticated) {
         login()
+        return <p>Redirecting to login</p>
       }
   
       console.log({auth0Profile})
