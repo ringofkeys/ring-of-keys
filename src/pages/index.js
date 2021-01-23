@@ -35,16 +35,9 @@ const IndexPage = ({ data }) => {
           <span>e</span>
           <span>r</span>
           </span> The Stage</h1>
-<<<<<<< HEAD
         <div class='index_hero__right-col'>
         Ring of Keys is an artist service organization that fosters community and visibility for musical theatre professionals - onstage and off 
         - who self-identify as queer women, transgender, and gender non-conforming artists.
-=======
-        <div className='index_hero__right-col'>
-        Ring of Keys is an arts advocacy organization that promotes the hiring of musical 
-        theatre professionals - onstage and off - who self-identify as queer women, transgender, 
-        and gender non-conforming artists.
->>>>>>> stripe
           <Link to='/about' className='btn btn__learn-more'>Learn More</Link>
         </div>
       </div>
