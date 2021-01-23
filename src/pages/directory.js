@@ -254,7 +254,7 @@ async function resetFilters(formik, filters, postCallback) {
 // set up listener to clear localStorage of filters/search settings before ending the browsing session.
 if (typeof window !== "undefined") {
   window.onbeforeunload = function(e) {
-    e.preventDefault();
+    // e.preventDefault();
     localStorage.removeItem('latestFilters');
     return undefined;
   };

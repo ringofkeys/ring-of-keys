@@ -15,7 +15,7 @@ const Carousel = ({ heading, recordType, itemList, classNames = [], style, child
     }
 
     return (<section className='carousel-section' style={Object.assign({position: 'relative', paddingBlockStart: '1.5rem'}, (style) ? style : {})}>
-        <div class='carousel-title'>
+        <div className='carousel-title'>
             { heading && (
                 <h2>{ heading }</h2>
             )}
