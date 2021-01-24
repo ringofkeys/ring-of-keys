@@ -4,7 +4,7 @@ const products = [
         annual: {
             text: '$20/yr',
             keyship_id: 'price_1HVR3JFPVymKtzoPgialwcKs',
-            sponsorship_id: 'price_1Hp5siFPVymKtzoPrmY19L3e',
+            sponsorship_id: 'price_1ICuXxFPVymKtzoPNEROEB2K',
         },
         monthly: {
             text: '$2/mo',

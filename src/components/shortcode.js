@@ -1,9 +1,12 @@
 import React from 'react'
 import ConsultantBios from './ConsultantBios'
 import ConsultantForm from './consultantform'
+import KeyshipButton from './KeyshipButton'
+
 const shortcodes = {
     'consultancy-form': <ConsultantForm />,
     'consultant-bios': <ConsultantBios />,
+    'keyship-button': <KeyshipButton />,
 }
 
 const Shortcode = (props) => {

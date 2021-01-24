@@ -4,8 +4,6 @@ import hastToHyperscript from "hast-to-hyperscript";
 export const renderHtmlToReact = node => {
   const hs = hastToHyperscript(React.createElement, checkATags(node));
 
-  console.log('parsing html', node, hs)
-
   return hs
 }
 

@@ -11,11 +11,11 @@ const blockTypes = {
     'DatoCmsShortcode': props => shortcode(props),
 }
 
-const PageBlock = (props) => (blockTypes[props.__typename]) ? blockTypes[props.__typename](props) : false
+const PageBlock = (props) => (blockTypes[props.__typename] && props) ? blockTypes[props.__typename](props) : false
 export default PageBlock
 
 function basicBlock(props) {
-    return <section>{ renderHtmlToReact(props.contentNode.childMarkdownRemark.htmlAst) }</section>
+    return <section id={ (props.idHref) ? props.idHref : '' }>{ renderHtmlToReact(props.contentNode.childMarkdownRemark.htmlAst) }</section>
 }
 
 function button(props) {
@@ -30,11 +30,9 @@ function button(props) {
 }
 
 function iconHeadingLabel(props) {
-    console.log(props.blockGroup)
-
     return <section className="flex_center gender-consultant_explain">
-        { props.blockGroup.map(block => (
-            <div className={'icon-heading-label ' + ((!block.centered) ? 'flex-left' : '')} key={block.icon.url} alt={block.icon.alt}
+        { props.blockGroup.map((block, i) => (
+            <div className={'icon-heading-label ' + ((!block.centered) ? 'flex-left' : '')} key={block.icon.url + '-' + i} alt={block.icon.alt}
                 style={{ margin: `3vh 0`, width: `${ Math.floor(100 / block.columns) - 2 }%` }}>
                 <img src={ block.icon.url } alt={ block.icon.alt} key={block.icon.alt} />
                 { renderHtmlToReact(block.headingNode.childMarkdownRemark.htmlAst) }

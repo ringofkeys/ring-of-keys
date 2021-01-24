@@ -25,10 +25,10 @@ exports.handler = async (event, context, callback) => {
             })
         }
     } else {
-        let event;
+        let e;
 
         try {
-            event = JSON.parse(request.body);
+            e = JSON.parse(event.body);
 
             // Handle the events differently: currently we just send an admin email regardless.
             // switch (event.type) {
@@ -47,20 +47,20 @@ exports.handler = async (event, context, callback) => {
             //     console.log(`Unhandled event type ${event.type}`);
             // }
 
-            if (event.type) {
+            if (e.type) {
                 await fetch(`${ URL }/.netlify/functions/sendAdminEmail`, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     method: 'POST',
                     body: JSON.stringify({
-                        subject: `Stripe event fired: ${ event.type }`,
+                        subject: `Stripe event fired: ${ e.type }`,
                         text: `new webhook event from Stripe for Ring of Keys`,
                         to: 'frank.ringofkeys@gmail.com',
                         from: 'info@ringofkeys.org',
                         html: `
                             <h1>Ring of Keys Stripe Event</h1>
-                            <p>${ JSON.stringify(event.data.object, null, 2) }</p>
+                            <p>${ JSON.stringify(e.data.object, null, 2) }</p>
                         `
                     }),
                 })

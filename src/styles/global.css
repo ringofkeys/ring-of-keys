@@ -99,7 +99,7 @@ p {
     text-transform: uppercase;
 }
 
-.btn:hover, .btn:focus {
+.btn:not([href=""]):hover, .btn:not([href=""]):focus {
     transform: scale(1.04);
     box-shadow: 0 0.2vh 0.8vh rgba(0,0,0,0.1),
                 0 0.9vh 1.4vh rgba(0,0,0,0.05);
@@ -238,6 +238,10 @@ textarea {
 
 .bg_white {
     background: white;
+}
+
+.bg_gray {
+    background: #ceced3;
 }
 
 

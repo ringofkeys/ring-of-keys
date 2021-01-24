@@ -9,7 +9,7 @@ import { decodeHtmlEntity } from '../utils/htmlEntity'
 import { updateFields } from '../utils/profileEditor'
 
 
-const Keyship = ({ search }) => {
+const KeyshipButton = ({ search }) => {
     const [ ready, setReady ] = useState(false)
     console.log({ search })
 
@@ -49,18 +49,9 @@ const Keyship = ({ search }) => {
         }
     }, [])
 
-    return (
-    <Layout title='Keyship' description=''>
-        <Helmet>
-            <meta name="robots" content="noindex, nofollow" />
-        </Helmet>
-        <h1>Keyship</h1>
-        <p>
-        Thank you so much for becoming a Keyship member! 
-        We will strive to use your donation to make theatre a better place to work for all of us.
-        </p>
-        {ready && <a href={ (getProfile()) ? '/dashboard/' : '/'} class='btn has-arrow bg_navy'>{ (getProfile()) ? 'Return to Dashboard' : 'Return Home'}</a>}
-    </Layout>)
+    return <a href={ (getProfile()) ? ((ready) ? '/dashboard/' : '') : '/'} className={ 'btn bg_navy ' + (ready ? 'has-arrow' : 'bg_gray') }>
+        { (getProfile()) ? ((ready) ? 'Return to Dashboard' : 'Loading...') : 'Return Home'}
+    </a>
 }
 
-export default withLocation(Keyship)
+export default withLocation(KeyshipButton)

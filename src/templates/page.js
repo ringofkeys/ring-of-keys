@@ -1,18 +1,19 @@
 import React from 'react'
 // import Img from 'gatsby-image'
 import { graphql } from 'gatsby'
+import Helmet from 'react-helmet'
 import Layout from '../components/layout'
 import PageBlock from '../components/PageBlock.js'
 import './event.css'
 import SidebarLayout from '../components/sidebarlayout'
 
-export default ({ data: { datoCmsPage: page } }) => {
+const Page = ({ data: { datoCmsPage: page } }) => {
     console.log('API data', page)
     const footerQuote = page.content.find(block => block.__typename === 'DatoCmsQuote')
 
     groupIconBlocks(page.content)
 
-    console.log(footerQuote)
+    console.log(footerQuote) 
 
     let layoutProps = {
         classNames: ['landing-page', 'title', page.slug],
@@ -35,11 +36,15 @@ export default ({ data: { datoCmsPage: page } }) => {
         { page.content.filter(block => block.__typename !== 'DatoCmsQuote').map(block => <PageBlock { ...block } />) }
     </>
 
-    return ((!page.hasSidebar)
+    return (<>
+        { page.noindexNofollow && <Helmet><meta name="robots" content="noindex, nofollow" /></Helmet>}
+        { (!page.hasSidebar)
         ? <Layout { ...layoutProps }>{ content }</Layout>
-        : <SidebarLayout { ...layoutProps }>{ content }</SidebarLayout>
-    )
+        : <SidebarLayout { ...layoutProps }>{ content }</SidebarLayout> }
+    </>)
 }
+
+export default Page
 
 // Group up Icon Heading Label blocks together (allows proper programmatic layout)
 function groupIconBlocks(blocks) {
@@ -99,7 +104,7 @@ export const query = graphql`
                     }
                 }
                 ... on DatoCmsBasicBlock {
-                    id
+                    idHref
                     contentNode {
                         childMarkdownRemark {
                             htmlAst
@@ -122,6 +127,8 @@ export const query = graphql`
                 }
             }
             hasSidebar
+            usesQueries
+            noindexNofollow
             id
             title
             slug
