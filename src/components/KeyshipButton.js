@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Helmet } from 'react-helmet'
-import { graphql } from 'gatsby'
-import { renderHtmlToReact } from '../utils/renderHtmlToReact'
-import Layout from '../components/layout'
 import withLocation from '../components/withLocation'
 import { getProfile } from '../utils/auth'
 import { decodeHtmlEntity } from '../utils/htmlEntity'
@@ -30,13 +26,9 @@ const KeyshipButton = ({ search }) => {
             }
         }).then(res => res.json())
 
+        localStorage.setItem('stripe_customer', data.customer)
 
-
-        // console.log({ data, name, datoId })
-        
-        const response = await updateFields(datoId, name, { stripeId: data.customer })
-
-        console.log({ response })
+        // const response = await updateFields(datoId, name, { stripeId: data.customer })
 
         setReady(true)
     }

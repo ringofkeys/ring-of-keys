@@ -45,6 +45,13 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
       messages = data.allDatoCmsMessage.nodes.filter(node => node.toArtist.name === user.name)
     }
 
+    const storedStripeId = localStorage.getItem('stripe_customer')
+    if (!user.stripeId && storedStripeId) {
+      user.stripeId = storedStripeId
+    } else if (user.stripeId && storedStripeId) {
+      localStorage.removeItem('stripe_customer') // once we know we're covered, remove the localStorage item in case the user deletes their subscription in future.
+    }
+
     const initialState = {
       popupOpen: '',
     }

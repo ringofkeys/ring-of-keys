@@ -1,6 +1,6 @@
 const acceptedOrigins = ['https://ringofkeys.org', 'http://localhost:8888', 'https://stripe.com']
 const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
-const { SiteClient, buildModularBlock } = require('datocms-client')
+const { SiteClient } = require('datocms-client')
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 const fetch = require('node-fetch')
 const { URL } = process.env
