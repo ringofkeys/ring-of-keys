@@ -127,7 +127,7 @@ export const StripeSubscribed = ({ stripeId }) => {
             }
             setStatus(<p>
                 ✨ Thank you for being a <strong>{ (tier >= 0) && stripeProducts[tier].label }</strong> paying member!
-                Your last payment was on <strong>{ shortDate(lastPaid.getMonth()+1) }/{ shortDate(lastPaid.getDate()+1) }/{ lastPaid.getFullYear().toString().substr(-2) }</strong>.
+                Your last payment was on <strong>{ shortDate(lastPaid.getMonth()+1) }/{ shortDate(lastPaid.getDate()) }/{ lastPaid.getFullYear().toString().substr(-2) }</strong>.
             </p>)
         })
     }, [])

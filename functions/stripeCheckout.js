@@ -24,7 +24,7 @@ exports.handler = async (event, context, callback) => {
         }
     } else {
         console.log('post', event.body)
-        const { priceId } = JSON.parse(event.body)
+        const { user, priceId } = JSON.parse(event.body)
 
         try {
             // Create Stripe Checkout session
@@ -34,6 +34,9 @@ exports.handler = async (event, context, callback) => {
                 line_items: priceId.map(pId => ({ price: pId, quantity: 1 })),
                 success_url: event.headers.origin + '/keyship?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url: event.headers.origin + '/keyship',
+                metadata: {
+                    dato_user: user,
+                },
             })
 
             console.log('session', session)

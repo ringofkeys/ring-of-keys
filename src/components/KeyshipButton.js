@@ -33,7 +33,7 @@ const KeyshipButton = ({ search }) => {
 
 
         // console.log({ data, name, datoId })
-
+        
         const response = await updateFields(datoId, name, { stripeId: data.customer })
 
         console.log({ response })

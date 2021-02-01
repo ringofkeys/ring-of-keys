@@ -1,7 +1,7 @@
 const { SiteClient, buildModularBlock } = require('datocms-client')
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 const fileFields = ['headshot', 'featuredImage']
-const acceptedOrigins = ['https://ringofkeys.org', 'http://localhost:8000']
+const acceptedOrigins = ['https://ringofkeys.org', 'http://localhost:8000', 'http://localhost:8888']
 
 exports.handler = async (event, context, callback) => {
     if (event.httpMethod === 'OPTIONS') {
