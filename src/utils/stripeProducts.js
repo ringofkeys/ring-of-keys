@@ -3,39 +3,39 @@ const products = [
         label: '✊ Solidarity',
         annual: {
             text: '$20/yr',
-            keyship_id: 'price_1HVR3JFPVymKtzoPgialwcKs',
-            sponsorship_id: 'price_1ICuXxFPVymKtzoPNEROEB2K',
+            keyship_id: 'price_1IGELyFPVymKtzoP9VCGg5L0',
+            sponsorship_id: 'price_1IGEPSFPVymKtzoPFUR1eVeL',
         },
         monthly: {
             text: '$2/mo',
-            keyship_id: 'price_1HVR3JFPVymKtzoPANbOx4VJ',
-            sponsorship_id: 'price_1Hp5siFPVymKtzoPy3bAYAbk',
+            keyship_id: 'price_1IGELyFPVymKtzoPSGHgGkY7',
+            sponsorship_id: 'price_1IGEPSFPVymKtzoPWC8SUOQy',
         },
     },
     { 
         label: '🤝 Multiplicity',
         annual: {
             text: '$50/yr',
-            keyship_id: 'price_1Hp3LSFPVymKtzoPv39X72RP',
-            sponsorship_id: 'price_1Hp5siFPVymKtzoPoAwH6w22',
+            keyship_id: 'price_1IGELyFPVymKtzoPv8fyhaYd',
+            sponsorship_id: 'price_1IGEPSFPVymKtzoPOih7H2WK',
         },
         monthly: {
             text: '$5/mo',
-            keyship_id: 'price_1Hp3LSFPVymKtzoPU9SxOnE5',
-            sponsorship_id: 'price_1Hp5siFPVymKtzoP18x5Y75z',
+            keyship_id: 'price_1IGELyFPVymKtzoPhq0ak1SM',
+            sponsorship_id: 'price_1IGEPSFPVymKtzoPA9aze6rn',
         },
     },
     { 
         label: '🔑 Possibility',
         annual: {
             text: '$100/yr',
-            keyship_id: 'price_1Hp3LSFPVymKtzoPmtGWhnjo',
-            sponsorship_id: 'price_1Hp5shFPVymKtzoPLTTEveO3',
+            keyship_id: 'price_1IGELyFPVymKtzoPhyXTm3Ix',
+            sponsorship_id: 'price_1IGEPSFPVymKtzoP4Kx0gvh8',
         },
         monthly: {
             text: '$10/mo',
-            keyship_id: 'price_1Hp3LRFPVymKtzoPIsbrtCJ5',
-            sponsorship_id: 'price_1Hp5shFPVymKtzoPbz6HC2OB',
+            keyship_id: 'price_1IGELyFPVymKtzoPUbJPzvs7',
+            sponsorship_id: 'price_1IGEPSFPVymKtzoPSUyFPunw',
         },
     },
 ]
