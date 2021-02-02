@@ -57,6 +57,7 @@ const KeyshipForm = ({ userId }) => {
         createCheckoutSession(userId, prices)
             .then(({ sessionId }) => {
                 const stripe = window.Stripe(process.env.GATSBY_STRIPE_PUBLIC_KEY)
+                console.log("clicking!", { userId, prices, sessionId, stripe })
                 stripe.redirectToCheckout({ sessionId })
             })
             //.then(handleResult)

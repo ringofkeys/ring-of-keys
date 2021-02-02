@@ -1,5 +1,5 @@
 const acceptedOrigins = ['https://ringofkeys.org', 'http://localhost:8888']
-const stripe = require('stripe')('sk_test_51HVQvlFPVymKtzoP5V9ZxrDkceMALuuFjwElpawwZCuJt7xMAnD3ReabX8jEUPwZp5ReOEQj5la8txCuvbeJcavN00jwAnqRkZ')
+const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
 
 exports.handler = async (event, context, callback) => {
     console.log('before all the things', event.body)
