@@ -34,9 +34,12 @@ exports.handler = async (event, context, callback) => {
                 line_items: priceId.map(pId => ({ price: pId, quantity: 1 })),
                 success_url: event.headers.origin + '/keyship?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url: event.headers.origin + '/keyship',
+                metadata: {
+                    dato_user: user,
+                },
                 subscription_data: {
                     metadata: {
-                        dato_user: user,
+                        "dato_user": user,
                     },
                 },
             })

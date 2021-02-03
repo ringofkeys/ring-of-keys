@@ -71,7 +71,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
         </div>
     { user.headshot && <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' /> }
       </div>
-      { user.isBetaUser && !user.stripeId && <StripeUnsubscribed/> }
+      { user.isBetaUser && !user.stripeId && <StripeUnsubscribed userId={ user.id } /> }
       <MessageBlock messages={ messages } />
       { data.dashboard.contentBlocks.map((block, i) => (
         <section className={'block' + (block.area ? ` block_${ block.area }` : '')} key={'block'+i}>

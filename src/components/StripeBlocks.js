@@ -139,7 +139,7 @@ export const StripeSubscribed = ({ stripeId }) => {
     </div>
 }
 
-export const StripeUnsubscribed = () => {
+export const StripeUnsubscribed = ({ userId }) => {
     return <section className='block block_stripe'>
                 <h2>Keyship</h2>
                 <p>
@@ -155,13 +155,14 @@ export const StripeUnsubscribed = () => {
                     of our Leadership Team, our Keys, and Ring of Keys at large by working in opposition of these toxic traditions to model that our time and labor as 
                     artists has value.
                 </p>
-                <KeyshipForm />
+                <KeyshipForm userId={ userId } />
             </section>
 }
 
 
 
 function createCheckoutSession(user, priceId) {
+    console.log("creating checkout session", {user, priceId})
     return fetch('/.netlify/functions/stripeCheckout', {
         method: 'POST',
         headers: {
