@@ -32,16 +32,18 @@ exports.handler = async (event, context, callback) => {
         try {
             e = JSON.parse(event.body);
 
+            let stripeId, datoId
+
             // Handle the events differently: currently we just send an admin email regardless.
             switch (event.type) {
                 case 'customer.subscription.created':
-                    let stripeId = e.data.object.customer
-                    let datoId = e.data.object.metadata.dato_user
+                    stripeId = e.data.object.customer
+                    datoId = e.data.object.metadata.dato_user
 
                     await updateDato(datoId, { stripeId })
                     break;
                 case 'customer.subscription.deleted':
-                    let datoId = e.data.object.metadata.dato_user
+                    datoId = e.data.object.metadata.dato_user
 
                     await updateDato(datoId, { stripeId: '' })
                     break;
