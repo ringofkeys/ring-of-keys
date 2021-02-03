@@ -32,19 +32,18 @@ exports.handler = async (event, context, callback) => {
         try {
             e = JSON.parse(event.body);
 
-            let { id: stripeId, metadata: { dato_user: datoId } } = e.data.object;
-
             // Handle the events differently: currently we just send an admin email regardless.
             switch (event.type) {
-                case 'customer.created':
-                    // Then define and call a method to handle the successful payment intent.
+                case 'customer.subscription.created':
+                    let stripeId = e.data.object.customer
+                    let datoId = e.data.object.metadata.dato_user
+
                     await updateDato(datoId, { stripeId })
-                    console.log({ updateRes })
                     break;
                 case 'customer.subscription.deleted':
-                    // Then define and call a method to handle the successful payment intent.
+                    let datoId = e.data.object.metadata.dato_user
+
                     await updateDato(datoId, { stripeId: '' })
-                    console.log({ updateRes })
                     break;
             //     case 'payment_method.attached':
             //     const paymentMethod = event.data.object;
@@ -93,5 +92,7 @@ exports.handler = async (event, context, callback) => {
 }
 
 async function updateDato(id, data) {
-    return client.items.update(id, data).catch(err => console.error(err))
+    return client.items.update(id, data)
+        .then(datoResponse => console.log({ datoResponse }))
+        .catch(err => console.error(err))
 }
