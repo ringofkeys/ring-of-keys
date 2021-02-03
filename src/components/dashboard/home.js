@@ -67,11 +67,11 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
           <h2>{ user.name }</h2>
           { parse(data.dashboard.bodyNode.childMarkdownRemark.html) }
           <Link to={ '/keys/' + user.slug } className='btn btn-link_ghost'>View / Edit Profile</Link>
-          { user.isBetaUser && user.stripeId && <StripeSubscribed stripeId={ user.stripeId }/> }
+          { user.stripeId && <StripeSubscribed stripeId={ user.stripeId }/> }
         </div>
     { user.headshot && <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' /> }
       </div>
-      { user.isBetaUser && !user.stripeId && <StripeUnsubscribed userId={ user.id } /> }
+      { !user.stripeId && <StripeUnsubscribed userId={ user.id } /> }
       <MessageBlock messages={ messages } />
       { data.dashboard.contentBlocks.map((block, i) => (
         <section className={'block' + (block.area ? ` block_${ block.area }` : '')} key={'block'+i}>
