@@ -37,12 +37,14 @@ exports.handler = async (event, context, callback) => {
             // Handle the events differently: currently we just send an admin email regardless.
             switch (event.type) {
                 case 'customer.subscription.created':
+                    console.log("Customer Subscription created!")
                     stripeId = e.data.object.customer
                     datoId = e.data.object.metadata.dato_user
-
+                    
                     await updateDato(datoId, { stripeId })
                     break;
                 case 'customer.subscription.deleted':
+                    console.log("Customer Subscription deleted!")
                     datoId = e.data.object.metadata.dato_user
 
                     await updateDato(datoId, { stripeId: '' })
