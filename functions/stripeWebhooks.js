@@ -98,7 +98,12 @@ exports.handler = async (event, context, callback) => {
 }
 
 async function updateDato(id, data) {
-    return client.items.update(id, data)
-        .then(datoResponse => console.log({ datoResponse }))
-        .catch(err => console.error(err))
+    return Promise.all([
+        client.items.update(id, data)
+            .then(updateRes => console.log({ updateRes }))
+            .catch(err => console.error(err)),
+        client.items.publish(id)
+            .then(publishRes => console.log({ publishRes }))
+            .catch(err => console.error(err))
+    ])
 }
