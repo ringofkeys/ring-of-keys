@@ -32,10 +32,12 @@ exports.handler = async (event, context, callback) => {
         try {
             e = JSON.parse(event.body);
 
+            console.log('from within the try/catch', { stripeEvent: e, type: e.type })
+
             let stripeId, datoId
 
             // Handle the events differently: currently we just send an admin email regardless.
-            switch (event.type) {
+            switch (e.type) {
                 case 'customer.subscription.created':
                     console.log("Customer Subscription created!")
                     stripeId = e.data.object.customer
