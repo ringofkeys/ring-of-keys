@@ -45,11 +45,13 @@ exports.handler = async (event, context, callback) => {
                     
                     await updateDato(datoId, { stripeId })
                     break;
-                case 'customer.subscription.deleted':
-                    console.log("Customer Subscription deleted!")
+                case 'customer.subscription.updated':
+                    console.log("Customer Subscription updated!")
                     datoId = e.data.object.metadata.dato_user
-
-                    await updateDato(datoId, { stripeId: '' })
+                    
+                    if (e.data.object.cancel_at_period_end && e.data.object.canceled_at !== null) {
+                        await updateDato(datoId, { stripeId: '' })
+                    }
                     break;
             //     case 'payment_method.attached':
             //     const paymentMethod = event.data.object;
@@ -73,7 +75,7 @@ exports.handler = async (event, context, callback) => {
                     from: 'info@ringofkeys.org',
                     html: `
                         <h1>Ring of Keys Stripe Event</h1>
-                        <p>${ JSON.stringify(e.data.object, null, 2) }</p>
+                        <pre>${ JSON.stringify(e.data.object, null, 2) }</pre>
                     `
                 }),
             })
