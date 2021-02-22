@@ -378,9 +378,9 @@ require('dotenv').config({
                               <p style="text-align: left;margin: 10px 0;padding: 0;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;"><font color="#263e64"><strong>${ name }, Good News!&nbsp;</strong></font><br>
   <font face="lato, helvetica neue, helvetica, arial, sans-serif">We have reviewed your application and are happy to say that your account is now verified and you are officially a Key!<br>
   &nbsp;<br>
-  We’re so ecstatic to have you as a member of our <strong>RING OF KEYS</strong> network. We look forward to building a community together, elevating our narratives, and progressing the Musical Theatre landscape for the future.<br>
+  We’re so ecstatic to have you as a member of our <strong>RING OF KEYS</strong> network. We look forward to building a community together, elevating our narratives, and creating a more inclusive musical theatre landscape together.<br>
   <br>
-  <strong>Please click or tap the button below to confirm your email address and set up your password. From here you will be able to complete your Key Profile:</strong></font></p>
+  <strong>Please click or tap the button below to confirm your email address and set up your password. From here you will be able to complete your Key Profile. (PLEASE NOTE, THIS AUTHENTICATION EMAIL WILL EXPIRE TWO WEEKS FROM TODAY):</strong></font></p>
   
                           </td>
                       </tr>
@@ -429,14 +429,25 @@ require('dotenv').config({
                           
                           <td valign="top" class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;">
                           
-                              <p style="text-align: left;margin: 10px 0;padding: 0;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;"><font face="lato, helvetica neue, helvetica, arial, sans-serif">In our Members Only Dashboard, you can find access to Members Only content like a Keys Badge for your website or resumé and the link to our private Keys Facebook Group. And don't forget to check out our Directory, which is a great place to start meeting other Members.<br>
+                              <p style="text-align: left;margin: 10px 0;padding: 0;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;"><font face="lato, helvetica neue, helvetica, arial, sans-serif">In our Members Only Dashboard, you will find access to Members Only content like a Keys Badge for your website or resumé and the link to our private Keys Facebook Group. And don't forget to check out our Directory, which is a great place to start meeting other Members - you can directly message Keys with our messaging service!<br>
+  &nbsp;<br>
+  You’ll also find our Keyship program, which we hope you’ll consider investing in to help us offset our web and administrative costs.<br>
+  &nbsp;<br>
+  Our priority as an organization is to provide <strong>visibility</strong> for our Members to our theatre industry at large. Therefore, this Keyship is only suggestive and <strong>will not</strong> prohibit any Key from remaining visible within our Directory.<br>
+  &nbsp;<br>
+  Another priority as an organization is <strong>asserting our value</strong>. There is a long tradition in the arts of being expected to do things for free or our time being undervalued. RoK was built with the purpose of asserting the value of queer and trans artists. We hope to assert the value of our Leadership Team, our Keys, and Ring of Keys at large by working in opposition of these toxic traditions to model that our time and labor as artists has value.<br>
   &nbsp;<br>
   Please add <strong>info@ringofkeys.org</strong> to your contacts so you don't miss our Monthly Newsletters and Monthly Meetup and Workshop announcements.<br>
   <br>
   Feel free to reach out with any questions. We also welcome your ideas to grow our community! &nbsp;<br>
   &nbsp;&nbsp;<br>
   With love,<br>
-  Ring of Keys</font></p>
+  <a href="https://www.ringofkeys.org/keys/andrea-prestinario">Andrea Prestinario</a><br>
+  &nbsp;<br>
+  Executive Director, Co-Founder
+  &nbsp;<br>
+  Ring of Keys
+  </font></p>
   
                           </td>
                       </tr>
