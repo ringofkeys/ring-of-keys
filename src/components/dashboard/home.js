@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react'
 import parse from 'html-react-parser'
+import { parseBlock } from '../../utils/datoBlocks'
 import { Link, graphql, useStaticQuery } from 'gatsby'
 import MessageBlock from '../../components/MessageBlock'
 import dashboardReducer from './dashboardReducer'
@@ -58,8 +59,6 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
 
     const [ state, dispatch ] = useReducer(dashboardReducer, initialState)
   
-    console.log('This should only run once')
-
     return (<>
       <h1>Dashboard</h1>
       <div className='block block_intro'>
