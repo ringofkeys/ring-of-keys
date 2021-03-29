@@ -37,7 +37,7 @@
     "react-helmet": "^5.2.1",
     "request-promise": "^4.2.6",
     "stripe": "^8.126.0",
-    "twilio": "^3.53.0"
+    "twilio": "^3.57.0"
   },
   "devDependencies": {
     "prettier": "^1.19.1"

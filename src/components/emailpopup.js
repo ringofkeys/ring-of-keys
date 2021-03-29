@@ -68,7 +68,7 @@ const EmailPopup = () => {
             <h2>Get Access</h2>
             <p>To Key Profiles Now</p>
             <div className='divider' style={{margin: '2vh 0'}}></div>
-            <EmailSignupBar labelText='Email Address' onSubmit={ submitDatoViewer } afterSubmit={ afterSubmit } optIn={ true }/>
+            <EmailSignupBar labelText='Email Address' buttonText='Submit' onSubmit={ submitDatoViewer } afterSubmit={ afterSubmit } optIn={ true }/>
             <p style={{marginBlockStart: '3vh'}}>Are you a Key? <Link to='/dashboard'>Sign in now.</Link></p>
         </Popup>
     )

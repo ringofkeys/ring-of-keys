@@ -5,7 +5,8 @@ import './emailsignupbar.css'
 
 const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Keys', optIn = false,
     onSubmit = (val) => addToMailchimp(val),
-    afterSubmit = () => {} }) => {
+    afterSubmit = () => {},
+    buttonText = '' }) => {
     const [submitStatus, setSubmitStatus] = useState('unsent')
 
     async function handleSignup(e) {
@@ -53,7 +54,8 @@ const EmailSignupForm = ({ labelText = 'Receive news and updates from Ring of Ke
             </label>
             }
             <button className={`btn ${ submitStatus }`} type='submit' disabled={ submitStatus === 'sending' || submitStatus === 'sent' }>
-                <svg viewBox='0 0 5 7'>
+                { buttonText }
+                <svg viewBox='0 0 5 7' style={{margin: '0 .5rem'}}>
                     <path stroke='white' strokeLinecap='round'
                         d='M 1 1 l 3 2.5 l -3 2.5' />
                 </svg>

@@ -53,6 +53,7 @@
     height: 4vh;
     align-self: flex-end;
     border: solid 1px var(--rok-slate-blue_hex);
+    color: var(--rok-slate-blue_hex);
     border-radius: 0 .2vmax .2vmax 0;
     background: var(--rok-peach-1_hex);
     box-sizing: border-box;

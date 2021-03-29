@@ -71,8 +71,8 @@ exports.handler = async (event, context, callback) => {
                 body: JSON.stringify({
                     subject: `Stripe event fired: ${ e.type }`,
                     text: `new webhook event from Stripe for Ring of Keys`,
-                    to: 'andreaprestinario@gmail.com',
-                    from: 'info@ringofkeys.org',
+                    to: 'info@ringofkeys.org',
+                    from: 'stripe@ringofkeys.org',
                     html: `
                         <h1>Ring of Keys Stripe Event</h1>
                         <pre>${ JSON.stringify(e.data.object, null, 2) }</pre>
