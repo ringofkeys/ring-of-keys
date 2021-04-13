@@ -195,7 +195,11 @@
         justify-content: stretch;
     }
     .top-nav.open {
-        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
         padding-inline-start: 0;
         padding-inline-end: 0;
     }
