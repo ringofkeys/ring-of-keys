@@ -5,6 +5,7 @@ import { Link, graphql, useStaticQuery } from 'gatsby'
 import MessageBlock from '../../components/MessageBlock'
 import dashboardReducer from './dashboardReducer'
 import { StripeSubscribed, StripeUnsubscribed } from '../../components/StripeBlocks'
+import PageBlock from '../PageBlock'
 
 const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
     const data = useStaticQuery(graphql`
@@ -20,6 +21,11 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
               blockTitle
               content
               area
+            }
+
+            ... on DatoCmsShortcode {
+              id
+              name
             }
           }
         }
@@ -72,12 +78,19 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
       </div>
       { !user.stripeId && <StripeUnsubscribed userId={ user.id } /> }
       <MessageBlock messages={ messages } />
-      { data.dashboard.contentBlocks.map((block, i) => (
+      { data.dashboard.contentBlocks.map((block, i) => {
+        
+        return (
         <section className={'block' + (block.area ? ` block_${ block.area }` : '')} key={'block'+i}>
-          <h2>{ block.blockTitle }</h2>
-          { parse(block.content) }
-        </section>
-      )) }
+            {(block.__typename === "DatoCmsDashboardBlock")
+              ? (<>
+                <h2>{ block.blockTitle }</h2>
+                { parse(block.content) }
+              </>)
+              : <PageBlock { ...block }/>
+            }
+          </section>)
+      }) }
   </>)
   }
 export default Home  
