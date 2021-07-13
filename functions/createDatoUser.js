@@ -11,12 +11,14 @@ const otherFields = [
     'danceExperience','sexualIdentity','genderIdentity','raceEthnicity','name','website',
     'showInDirectory','isMeetupAmbassador','meetupAmbassadorOrder','keyTeamPosition',
     'slug','quickBio','bio','keyTeamMember','keyTeamOrder','email','pronouns','memberSince',
+    'isBetaUser',
 ]
 const blankUser = {}
 otherFields.forEach(field => blankUser[field] = field.substr(0, 2) === 'is' ? false : '')
 blankUser.keyTeamMember = false
 blankUser.showInDirectory = true
 blankUser.hasLoginAccess = true
+blankUser.isBetaUser = false
 blankUser.socialMedia = []
 blankUser.featuredImage = { uploadId: '1213483' }
 blankUser.resume = "No resume"
