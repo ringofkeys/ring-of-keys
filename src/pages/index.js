@@ -1,12 +1,9 @@
 import Link from 'next/link'
 import IconHeadingLabel from '../components/IconHeadingLabel'
-// import { renderHtmlToReact } from '../lib/renderHtmlToReact'
-// import Carousel from '../components/carousel'
+import Carousel from '../components/carousel'
 import { request } from '../lib/datocms'
 import styles from '../styles/home.module.css'
-
-// import Layout from "../components/layout"
-// import Image fr om "../components/image"
+import Layout from "../components/Layout"
 // import SEO from "../components/seo"
 
 export const HOMEPAGE_QUERY = `
@@ -59,7 +56,7 @@ const IndexPage = ({ data }) => {
   const  { keySteps, homepageBody } = data.homepage
   const { quoteAttribution, quoteTextNode } = homepageBody[0]
 
-  return (<>
+  return (<Layout>
        {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
         <div className={styles.index_hero}>
@@ -85,13 +82,12 @@ const IndexPage = ({ data }) => {
               <IconHeadingLabel key={step.icon.url + i} {...step} />
             ))}
          </section>
-         {/* <div className='section_news'>
-           <Carousel heading="News" itemList={ newsItems } recordType='news' />
+         <div className={styles['section_news']}>
+           <Carousel heading="News" itemList={ data.allNews } recordType='news' />
          </div>
-       </Layout> */}
-    <pre>
-      { JSON.stringify(data, null, 2) }
-    </pre>
-  </>)
+        <pre>
+          { JSON.stringify(data, null, 2) }
+        </pre>
+  </Layout>)
 }
 export default IndexPage
