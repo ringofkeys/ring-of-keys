@@ -1,0 +1,49 @@
+.content {
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 2em 3vw;
+}
+
+.gender-consultant_explain .content {
+    --margin-inline: 1vw;
+    margin: 3vh 0;
+    width: calc(33% - 2 * var(--margin-inline));
+}
+
+.content img {
+    max-height: 8vh;
+    object-fit: contain;
+}
+
+.content h3 {
+    margin: 1em 0;
+}
+
+.content p {
+    margin: 0;
+    color: #6d7278;
+}
+
+.content a {
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .content {
+        width: 100%;
+        max-width: 80vw;
+    }
+
+    .gender-consultant_explain .content {
+        width: 100%;
+    }
+
+    .about .content {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}

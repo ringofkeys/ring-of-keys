@@ -164,34 +164,6 @@ p {
 }
 
 
-/* Icon-Heading-Labels */
-.icon-heading-label {
-    width: 20vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin: 2em 3vw;
-}
-
-.icon-heading-label img {
-    max-height: 8vh;
-    object-fit: contain;
-}
-
-.icon-heading-label h3 {
-    margin: 1em 0;
-}
-
-.icon-heading-label p {
-    margin: 0;
-    color: #6d7278;
-}
-
-.icon-heading-label a {
-    white-space: nowrap;
-}
-
 /* Pull Quotes */
 blockquote, .quote_graphic-bar {
     font-family: 'Raleway', sans-serif;
@@ -347,10 +319,7 @@ textarea {
         display: initial;
     }
 
-    .icon-heading-label {
-        width: 100%;
-        max-width: 80vw;
-    }
+    
 
     .grid_2c-1r {
         grid-template-columns: auto;
@@ -442,11 +411,7 @@ a.h2_conversational h2 {
     margin: 1em 0;
 }
 
-.gender-consultant_explain .icon-heading-label {
-    --margin-inline: 1vw;
-    margin: 3vh 0;
-    width: calc(33% - 2 * var(--margin-inline));
-}
+
 
 #consultancy-form .text-inputs {
     display: grid; 
@@ -481,10 +446,6 @@ a.h2_conversational h2 {
 }
 
 @media (max-width: 700px) {
-    .gender-consultant_explain .icon-heading-label {
-        width: 100%;
-    }
-
     .section_consultant-bios {
         display: block;
     }
@@ -549,11 +510,5 @@ h1, h2, h3 {
 @media (max-width: 700px) {
     .about .grid_2c-2r {
         grid-template-columns: 1fr;
-    }
-
-    .about .icon-heading-label {
-        justify-content: center;
-        align-items: center;
-        text-align: center;
     }
 }

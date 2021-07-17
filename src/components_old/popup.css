@@ -1,0 +1,133 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 100vw;
+    right: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+}
+
+.popup.open {
+    left: 0;
+    opacity: 1;
+    z-index: 10;
+}
+
+.popup__card {
+    width: 45vw;
+    min-width: 550px;
+    max-width: 100vw;
+    max-height: 100vh;
+    box-sizing: border-box;
+    display: none;
+    opacity: 0;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    box-shadow: 0 .2vh .8vh rgba(0,0,0,0.3);
+    border-radius: .2em;
+    padding: 8vh 10vw;
+    position: relative;
+}
+
+.popup__card img {
+    max-width: 95%;
+}
+
+.open .popup__card {
+    display: flex;
+    animation: fade-up .22s ease-in-out forwards;
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translate(0, 10vh);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+.popup__card h2 {
+    font-size: 2.2rem;    
+    text-transform: capitalize;
+    margin-bottom: 0;
+    color: var(--rok-slate-blue_hex);
+}
+
+.popup__card p {
+    margin: 0;
+    margin-bottom: .25em;
+}
+
+.popup__card .input__group {
+    width: 100%;
+}
+
+.popup__card label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 85%;
+    color: var(--rok-gray-1_hex);
+    margin: .2em 0;
+}
+
+.popup__card textarea,
+.popup__card input[type='text'],
+.popup__card input[type='email'] {
+    width: 100%;
+}
+
+.popup__card textarea {
+    height: 4em;
+}
+
+
+.popup__card .checkbox {
+    font-weight: normal;
+}
+
+.popup__card .btn {
+    margin-top: 2em;
+    font-weight: normal;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn_close {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    width: 1.5em;
+    height: 1.5em;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.btn_close path {
+    stroke-width: 1px;
+    stroke: black;
+    stroke-linecap: round;
+}
+
+@media (max-width: 700px) {
+    .popup__card {
+        padding: 2vh 8vw;
+        
+    }
+}
+
+@media (max-width: 570px) {
+    .popup__card {
+        min-width: 350px;
+    }
+}

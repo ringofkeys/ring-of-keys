@@ -1,109 +1,97 @@
-import React from "react"
-import { graphql, Link } from 'gatsby'
-import { renderHtmlToReact } from '../utils/renderHtmlToReact'
-import Carousel from '../components/carousel'
+import Link from 'next/link'
+import IconHeadingLabel from '../components/IconHeadingLabel'
+// import { renderHtmlToReact } from '../lib/renderHtmlToReact'
+// import Carousel from '../components/carousel'
+import { request } from '../lib/datocms'
+import styles from '../styles/home.module.css'
 
-import './index.css'
-// import Img from 'gatsby-image'
+// import Layout from "../components/layout"
+// import Image fr om "../components/image"
+// import SEO from "../components/seo"
 
-import Layout from "../components/layout"
-// import Image from "../components/image"
-import SEO from "../components/seo"
+export const HOMEPAGE_QUERY = `
+query HomepageQuery($limit: IntType) {
+ homepage {
+   homepageBody {
+     quoteText
+     quoteAttribution
+   }
+   keySteps {
+     icon {
+       url
+       alt
+     }
+     heading
+     contentRich {
+       value
+     }
+     label
+   }
+ }
+  allNews(orderBy: publishDate_DESC, filter: { position: { lte: $limit }}) {
+    title
+    externalUrl
+    publishDate
+    featuredImage {
+      url
+    }
+    body(markdown:true)
+    slug
+  }
+}`
 
-const IndexPage = ({ data }) => {
-  const  { keySteps, homepageBody } = data.allDatoCmsHomepage.nodes[0]
-  const { edges: newsItems } = data.allDatoCmsNews
-
-  const { quoteAttribution, quoteTextNode } = homepageBody[0]
-
-  quoteTextNode.childMarkdownRemark.htmlAst.children[0].tagName = 'blockquote'
-
-  keySteps.forEach(step => { // Markdown wraps everything in <p> tags but I want these in h3's
-    const ast = step.headingNode.childMarkdownRemark.htmlAst
-    ast.children[0].tagName = 'h3'
+export async function getStaticProps() {
+  const data = await request({
+    query: HOMEPAGE_QUERY,
+    variables: {
+      limit: 10,
+    }
   })
 
-  return (
-    <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
-      footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'>
-      <SEO title="Home" />
-      <div className='index_hero'>
-        <h1><span>
-          <span>Q</span>
-          <span>u</span>
-          <span>e</span>
-          <span>e</span>
-          <span>r</span>
-          </span> The Stage</h1>
-        <div class='index_hero__right-col'>
-        Ring of Keys is an artist service organization that fosters community and visibility for musical theatre artists - onstage and off 
-        - who self-identify as queer women, transgender, and gender non-conforming artists.
-          <Link to='/about' className='btn btn__learn-more'>Learn More</Link>
-        </div>
-      </div>
-      <div className='section_icon-heading-labels'>
-        {keySteps.map((step, i) => (
-          <div className='icon-heading-label' key={step.icon.url + i} alt={step.icon.alt}>
-            <img src={ step.icon.url } alt={ step.icon.alt} key={step.icon.alt + i} />
-            { renderHtmlToReact(step.headingNode.childMarkdownRemark.htmlAst) }
-            { renderHtmlToReact(step.labelNode.childMarkdownRemark.htmlAst) }
-          </div>
-        ))}
-      </div>
-      <div className='section_news'>
-        <Carousel heading="News" itemList={ newsItems } recordType='news' />
-      </div>
-    </Layout>
-  )
-}
-export default IndexPage
-
-export const query = graphql`
-  query HomepageQuery {
-    allDatoCmsHomepage {
-      nodes {
-        homepageBody {
-          quoteTextNode {
-            childMarkdownRemark {
-              htmlAst
-            }
-          }
-          quoteAttribution
-        }
-        keySteps {
-          icon {
-            url
-            alt
-          }
-          headingNode {
-            childMarkdownRemark {
-              htmlAst
-            }
-          }
-          labelNode {
-            childMarkdownRemark {
-              htmlAst
-            }
-          }
-        }
-      }
-    } allDatoCmsNews(limit: 10, sort: {fields: publishDate, order: DESC}) {
-      edges {
-        node {
-          title
-          externalUrl
-          publishDate(formatString: "LL")
-          featuredImage {
-            url
-          }
-          bodyNode {
-            childMarkdownRemark {
-              excerptAst(truncate: true, pruneLength: 100)
-            }
-          }
-          slug
-        }
-      }
+  return {
+    props: {
+      data,
     }
   }
-`
+}
+
+const IndexPage = ({ data }) => {
+  const  { keySteps, homepageBody } = data.homepage
+  const { quoteAttribution, quoteTextNode } = homepageBody[0]
+
+  return (<>
+       {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
+         footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
+        <div className={styles.index_hero}>
+          <h1><span>
+            <span>Q</span>
+            <span>u</span>
+            <span>e</span>
+            <span>e</span>
+            <span>r</span>
+            </span> The Stage</h1>
+          <div class={styles["index_hero__right-col"]}>
+          Ring of Keys is an artist service organization that fosters community and visibility for musical theatre artists - onstage and off 
+          - who self-identify as queer women, transgender, and gender non-conforming artists.
+            <Link href='/about' className='btn btn__learn-more'>
+              <a>
+                Learn More
+              </a>
+            </Link>
+          </div>
+        </div>
+        <section className={styles['section_icon-heading-labels']}>
+           { keySteps.map((step, i) => (
+              <IconHeadingLabel key={step.icon.url + i} {...step} />
+            ))}
+         </section>
+         {/* <div className='section_news'>
+           <Carousel heading="News" itemList={ newsItems } recordType='news' />
+         </div>
+       </Layout> */}
+    <pre>
+      { JSON.stringify(data, null, 2) }
+    </pre>
+  </>)
+}
+export default IndexPage

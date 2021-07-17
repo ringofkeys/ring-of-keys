@@ -1,0 +1,135 @@
+footer {
+    box-sizing: border-box;
+    padding: 2.5em 15vw;
+    background-color: #f7f7f7;
+    border-top: solid 1px #979797;
+}
+
+footer nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+footer nav p {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.3em;
+    color: var(--rok-slate-blue-1_hex);
+    padding-bottom: .5em;
+    margin: 0;
+    position: relative;
+}
+
+footer nav p::after {
+    position: absolute;
+    content: '';
+    width: 3em;
+    height: .3vh;
+    border-radius: .15vh;
+    background-color: var(--rok-gold-1_hex);
+    top: 100%;
+    left: 0;
+}
+
+footer nav a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    font-weight: normal;
+    margin: 1em 0;
+}
+
+footer nav a:first-child {
+    margin-block-start: 1.5em;
+}
+
+footer a svg {
+    width: 1.3em;
+    margin-inline-end: .5em;
+}
+
+footer .social-link {
+    display: flex;
+    align-items: center;
+}
+
+footer .icon_facebook #fb_blue {
+    fill: var(--rok-slate-blue_hex);
+}
+
+footer .icon_instagram path,
+footer .icon_instagram circle {
+    fill: var(--rok-peach-1_hex);
+}    
+
+footer .icon_twitter path {
+    fill: var(--rok-gold-1_hex);
+}
+
+footer .icon_linkedin path {
+    fill: var(--rok-pale-green-1_hex);
+}
+
+footer .icon_youtube #Lozenge {
+    fill: var(--rok-copper-1_hex);
+}
+
+.footer-end {
+    font-size: .8em;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    color: var(--rok-gray-1_hex);
+}
+
+@media (max-width: 700px) {
+    footer {
+        padding-inline-start: 10vw;
+        padding-inline-end: 10vw;
+    }
+
+    footer > nav,
+    footer nav > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer > nav a:not(.visible_mobile),
+    footer > nav p:not(.visible_mobile) {
+        display: none;
+    }
+
+    footer .account_nav {
+        margin-block-end: 4vh;
+    }
+
+    footer > nav .social-links {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    nav .social-link {
+        margin-inline-start: 3vw;
+        margin-inline-end: 3vw;
+    }
+
+    nav .social-links a:first-child {
+        margin-block-start: 1em;
+    }
+
+    .social-link_label {
+        display: none;
+    }
+
+    footer nav p::after {
+        left: 50%;
+        transform: translate(-50%); 
+    }
+
+    .footer-end {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+}
