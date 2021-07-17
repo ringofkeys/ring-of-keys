@@ -1,0 +1,59 @@
+.contact_page {
+    width: fit-content;
+    min-width: 27vw;
+    margin: auto;
+}
+
+.contact_header {
+    text-align: center;
+    padding-block-end: .25em;
+    border-bottom: solid 1px #6d7278;
+    margin-block-end: 2em;
+}
+
+.contact_header h1 {
+    font-size: 2.5em;
+    margin: 1vh 0;
+}
+
+.contact_header p {
+    margin-block-start: 0;
+}
+
+.contact_form input,
+.contact_form select,
+.contact_form textarea {
+    width: 100%;
+}
+
+.contact_form .input__group {
+    margin: 1.5em 0;
+}
+
+.contact_form select {
+    padding: .25em 0;
+}
+
+.contact_form button {
+    padding: .75em 2.5em;
+    width: 100%;
+}
+
+.contact_form button.success {
+    background: lightgreen;
+    content: 'Sent';
+}
+
+.contact_form button.failure {
+    background: lightpink;
+    content: 'Try Again';
+}
+
+.contact_form textarea {
+    min-height: 15vh;
+}
+
+.contact_page h2 {
+    text-align: center;
+    margin-block-start: 5vh;
+}
