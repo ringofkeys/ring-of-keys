@@ -11,9 +11,10 @@ const Page = ({ data: { datoCmsPage: page } }) => {
     console.log('API data', page)
     const footerQuote = page.content.find(block => block.__typename === 'DatoCmsQuote')
 
-    groupIconBlocks(page.content)
+    groupBlocks('DatoCmsIconHeadingLabel', page.content)
+    groupBlocks('DatoCmsTeammateItem', page.content)
 
-    console.log(footerQuote) 
+    console.log('after grouping', page) 
 
     let layoutProps = {
         classNames: ['landing-page', 'title', page.slug],
@@ -46,24 +47,27 @@ const Page = ({ data: { datoCmsPage: page } }) => {
 
 export default Page
 
-// Group up Icon Heading Label blocks together (allows proper programmatic layout)
-function groupIconBlocks(blocks) {
+// Group up blocks of the same type together (allows proper programmatic layout)
+function groupBlocks(typename, blocks) {
     let streak = false, setIndex = 0
-    let iconSets = []
+    let sets = []
     blocks.forEach((block, i) => {
-        if (block.__typename === 'DatoCmsIconHeadingLabel' && !streak) {
+        if (block.__typename === typename && !streak) {
             streak = true
-            iconSets[setIndex] = []
-            iconSets[setIndex][0] = i
-        } else if (block.__typename !== 'DatoCmsIconHeadingLabel' && streak) {
+            sets[setIndex] = []
+            sets[setIndex][0] = i
+        } else if (block.__typename !== typename && streak) {
             streak = false
-            iconSets[setIndex][1] = i
+            sets[setIndex][1] = i
+            setIndex++
         }
     })
 
-    iconSets.forEach(([start, end]) => {
+    console.log({ sets })
+
+    sets.reverse().forEach(([start, end]) => {
         const blockGroup = blocks.slice(start, end)
-        blocks.splice(start, end-start, { __typename: 'DatoCmsIconHeadingLabel', blockGroup })
+        blocks.splice(start, end-start, { __typename: typename, blockGroup })
     })
 
     return blocks
@@ -124,6 +128,14 @@ export const query = graphql`
                 ... on DatoCmsShortcode {
                     id
                     name
+                }
+                ... on DatoCmsTeammateItem {
+                    name
+                    contentNode {
+                        childMarkdownRemark {
+                            htmlAst
+                        }
+                    }
                 }
             }
             hasSidebar

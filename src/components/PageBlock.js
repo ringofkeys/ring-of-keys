@@ -9,6 +9,7 @@ const blockTypes = {
     'DatoCmsIconHeadingLabel': props => iconHeadingLabel(props),
     'DatoCmsQuote': props => quote(props),
     'DatoCmsShortcode': props => shortcode(props),
+    'DatoCmsTeammateItem': props => teammateItem(props),
 }
 
 const PageBlock = (props) => (blockTypes[props.__typename] && props) ? blockTypes[props.__typename](props) : false
@@ -16,6 +17,19 @@ export default PageBlock
 
 function basicBlock(props) {
     return <section id={ (props.idHref) ? props.idHref : '' }>{ renderHtmlToReact(props.contentNode.childMarkdownRemark.htmlAst) }</section>
+}
+
+function teammateItem(props) {
+    return (
+        <section className="teammate-section">
+            { props.blockGroup.map((block, i) => (block.name && block.contentNode) && (
+                <article className="teammate-item" key={block.name}>
+                    <h4>{ block.name }</h4>
+                    { renderHtmlToReact(block.contentNode.childMarkdownRemark.htmlAst) }
+                </article>
+            ))}
+        </section>
+    )
 }
 
 function button(props) {
@@ -31,7 +45,7 @@ function button(props) {
 
 function iconHeadingLabel(props) {
     return <section className="flex_center gender-consultant_explain">
-        { props.blockGroup.map((block, i) => (
+        { props.blockGroup.map((block, i) => block.icon && (
             <div className={'icon-heading-label ' + ((!block.centered) ? 'flex-left' : '')} key={block.icon.url + '-' + i} alt={block.icon.alt}
                 style={{ margin: `3vh 0`, width: `${ Math.floor(100 / block.columns) - 2 }%` }}>
                 <img src={ block.icon.url } alt={ block.icon.alt} key={block.icon.alt} />
