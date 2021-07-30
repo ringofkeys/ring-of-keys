@@ -49,7 +49,7 @@ const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
     return (
     <Popup isOpen={isOpen} onClose={onClose}>
         <h2>Send a message</h2>
-        <p>Connect directly with this Key Member.</p>
+        <p>Ring of Keys will facilitate sending along your message to a Key.</p>
         <form onSubmit={ handleSubmit }>
             <Field type='text' name='fromName' label='Your Name' required={true}/>
             <Field type='email' name='fromEmail' label='Your Email Address' required={true} />

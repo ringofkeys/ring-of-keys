@@ -24,7 +24,10 @@ function teammateItem(props) {
         <section className="teammate-section">
             { props.blockGroup.map((block, i) => (block.name && block.contentNode) && (
                 <article className="teammate-item" key={block.name}>
-                    <h4>{ block.name }</h4>
+                    <h4>{ (block.linkUrl) 
+                        ? <a href={block.linkUrl} style={{textDecoration: 'none', color: 'inherit'}}>{ block.name }</a>
+                        : block.name
+                    }</h4>
                     { renderHtmlToReact(block.contentNode.childMarkdownRemark.htmlAst) }
                 </article>
             ))}

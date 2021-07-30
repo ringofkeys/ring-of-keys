@@ -8,13 +8,13 @@ import './event.css'
 import SidebarLayout from '../components/sidebarlayout'
 
 const Page = ({ data: { datoCmsPage: page } }) => {
-    console.log('API data', page)
+    // console.log('API data', page)
     const footerQuote = page.content.find(block => block.__typename === 'DatoCmsQuote')
 
     groupBlocks('DatoCmsIconHeadingLabel', page.content)
     groupBlocks('DatoCmsTeammateItem', page.content)
 
-    console.log('after grouping', page) 
+    // console.log('after grouping', page) 
 
     let layoutProps = {
         classNames: ['landing-page', 'title', page.slug],
@@ -136,6 +136,7 @@ export const query = graphql`
                             htmlAst
                         }
                     }
+                    linkUrl
                 }
             }
             hasSidebar
