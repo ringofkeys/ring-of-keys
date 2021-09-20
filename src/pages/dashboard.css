@@ -10,7 +10,7 @@
 
 .dashboard_container > div {
     box-sizing: border-box;
-    margin: 10vh 4vw;
+    margin: 10vh auto;
     width: 65vw;
 }
 

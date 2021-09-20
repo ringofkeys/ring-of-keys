@@ -47,9 +47,6 @@ const Dashboard = ({ data }) => {
           <Router basepath={ homeDir }>
               <Home path='/' user={ user } />
           </Router>}
-          { (window.innerWidth > 700)
-            ? <img src={ ROKMosaic_Dashboard } alt='mosaic of dozens of RoK members' className='img_desktop'/>
-            : <img src={ Dashboard_Mobile } alt='mosaic of dozens of RoK members' className='img_mobile'/>}
         </div>}
     </Layout>}
     </>)
