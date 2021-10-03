@@ -48,7 +48,6 @@ const Page = ({ data: { datoCmsPage: page } }) => {
             [block.props.area, block]
      
         )))
-        console.log({ specialLayoutProps, layoutProps })
     }
 
     return (<>
