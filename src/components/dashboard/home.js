@@ -10,7 +10,7 @@ import PageBlock from '../PageBlock'
 const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
     const data = useStaticQuery(graphql`
       query MessagesQuery {
-        dashboard: datoCmsLandingPage(originalId: { eq: "4610845"}) {
+        dashboard: datoCmsLandingPage(originalId: { eq: "62334592"}) {
           bodyNode {
             childMarkdownRemark {
               html
