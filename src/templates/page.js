@@ -3,18 +3,23 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 import Layout from '../components/layout'
+import Donate from '../components/Layouts/donate'
 import PageBlock from '../components/PageBlock.js'
 import './event.css'
 import SidebarLayout from '../components/sidebarlayout'
 
+const specialLayouts = {
+    'donate': Donate
+}
+
 const Page = ({ data: { datoCmsPage: page } }) => {
-    // console.log('API data', page)
+    const SpecialLayout = specialLayouts[page.slug]
+
     const footerQuote = page.content.find(block => block.__typename === 'DatoCmsQuote')
 
     groupBlocks('DatoCmsIconHeadingLabel', page.content)
     groupBlocks('DatoCmsTeammateItem', page.content)
 
-    // console.log('after grouping', page) 
 
     let layoutProps = {
         classNames: ['landing-page', 'title', page.slug],
@@ -33,15 +38,24 @@ const Page = ({ data: { datoCmsPage: page } }) => {
         }
     }
 
-    const content = <>
-        { page.content.filter(block => block.__typename !== 'DatoCmsQuote').map(block => <PageBlock { ...block } />) }
-    </>
+    const content = page.content
+        .filter(block => block.__typename !== 'DatoCmsQuote')
+        .map((block, i) => <PageBlock key={'block-'+i} { ...block } />)
+
+    let specialLayoutProps
+    if (SpecialLayout) {
+        specialLayoutProps = Object.fromEntries(content.map(block => (
+            [block.props.area, block]
+     
+        )))
+        console.log({ specialLayoutProps, layoutProps })
+    }
 
     return (<>
         { page.noindexNofollow && <Helmet><meta name="robots" content="noindex, nofollow" /></Helmet>}
         { (!page.hasSidebar)
-        ? <Layout { ...layoutProps }>{ content }</Layout>
-        : <SidebarLayout { ...layoutProps }>{ content }</SidebarLayout> }
+        ? <Layout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout { ...specialLayoutProps }/> : content }</Layout>
+        : <SidebarLayout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout { ...specialLayoutProps }/> : content }</SidebarLayout> }
     </>)
 }
 
@@ -62,8 +76,6 @@ function groupBlocks(typename, blocks) {
             setIndex++
         }
     })
-
-    console.log({ sets })
 
     sets.reverse().forEach(([start, end]) => {
         const blockGroup = blocks.slice(start, end)
@@ -128,7 +140,7 @@ export const query = graphql`
                 ... on DatoCmsShortcode {
                     id
                     name
-                }
+                }   
                 ... on DatoCmsTeammateItem {
                     name
                     contentNode {
@@ -137,6 +149,12 @@ export const query = graphql`
                         }
                     }
                     linkUrl
+                }
+                ...on DatoCmsImageArray {
+                    images {
+                      url
+                    }
+                    columns
                 }
             }
             hasSidebar

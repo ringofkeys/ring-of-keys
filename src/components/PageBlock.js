@@ -10,6 +10,7 @@ const blockTypes = {
     'DatoCmsQuote': props => quote(props),
     'DatoCmsShortcode': props => shortcode(props),
     'DatoCmsTeammateItem': props => teammateItem(props),
+    'DatoCmsImageArray': props => imageArray(props),    
 }
 
 const PageBlock = (props) => (blockTypes[props.__typename] && props) ? blockTypes[props.__typename](props) : false
@@ -30,6 +31,16 @@ function teammateItem(props) {
                     }</h4>
                     { renderHtmlToReact(block.contentNode.childMarkdownRemark.htmlAst) }
                 </article>
+            ))}
+        </section>
+    )
+}
+
+function imageArray(props) {
+    return (
+        <section className="image-array">
+            { props.images.map((image) => image.url && (
+                <img src={image.url} alt={image.alt} />
             ))}
         </section>
     )
