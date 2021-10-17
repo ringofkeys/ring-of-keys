@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { graphql } from 'gatsby'
 import { Router } from '@reach/router'
-import { login, isAuthenticated, getProfile, silentAuth } from '../utils/auth.js'
-import { decodeHtmlEntity } from '../utils/htmlEntity.js'
-import Layout from '../components/layout'
-import Home from '../components/dashboard/home'
-import ROKMosaic_Dashboard from '../images/ROKMosaic_Dashboard.jpg'
-import Dashboard_Mobile from '../images/Dashboard_Mobile.jpg'
+import { login, isAuthenticated, getProfile } from '../../utils/auth.js'
+import { decodeHtmlEntity } from '../../utils/htmlEntity.js'
+import Home from '../dashboard/home'
 import './dashboard.css'
 
 const homeDir = '/dashboard'
@@ -20,13 +16,13 @@ const Dashboard = ({ data }) => {
       }
 
       let auth0Profile = getProfile()
+
+      console.log({ auth0Profile, isAuthenticated })
   
       if (!auth0Profile || !auth0Profile.name ||  !isAuthenticated) {
         login()
         return <p>Redirecting to login</p>
       }
-  
-      console.log({auth0Profile})
   
       if (auth0Profile.name) {
         auth0Profile.name = decodeHtmlEntity(auth0Profile.name)
@@ -40,15 +36,11 @@ const Dashboard = ({ data }) => {
 
 
     return (<>
-    {user && <Layout classNames={['dashboard', 'fullwidth']}
-      title={`Dashboard - ${ user.name }`} description='User dashboard for your Ring of Keys profile'>
-        { user && <div className='dashboard_container'>
-          {user && 
+    { user && <div className='dashboard_container'>
           <Router basepath={ homeDir }>
               <Home path='/' user={ user } />
-          </Router>}
-        </div>}
-    </Layout>}
+          </Router>
+    </div> }
     </>)
 }
 export default Dashboard

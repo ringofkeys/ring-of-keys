@@ -5,6 +5,7 @@ import Helmet from 'react-helmet'
 import Layout from '../components/layout'
 import Donate from '../components/Layouts/donate'
 import Resources from '../components/Layouts/resources'
+import Dashboard from '../components/Layouts/dashboard'
 import PageBlock from '../components/PageBlock.js'
 import './event.css'
 import SidebarLayout from '../components/sidebarlayout'
@@ -12,6 +13,7 @@ import SidebarLayout from '../components/sidebarlayout'
 const specialLayouts = {
     'donate': Donate,
     'resources': Resources,
+    'dashboard': Dashboard,
 }
 
 const Page = ({ data: { datoCmsPage: page } }) => {

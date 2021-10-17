@@ -8,21 +8,24 @@ import { StripeSubscribed, StripeUnsubscribed } from '../../components/StripeBlo
 import PageBlock from '../PageBlock'
 
 const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
-    const data = useStaticQuery(graphql`
+    const { dashboard, allDatoCmsMessage } = useStaticQuery(graphql`
       query MessagesQuery {
-        dashboard: datoCmsLandingPage(originalId: { eq: "62334592"}) {
-          bodyNode {
-            childMarkdownRemark {
-              html
+        dashboard: datoCmsPage(originalId: { eq: "65961427"}) {
+          content {
+            ... on DatoCmsBasicBlock {
+              idHref
+              contentNode {
+                  childMarkdownRemark {
+                      htmlAst
+                  }
+              }
+              area
             }
-          }
-          contentBlocks {
             ... on DatoCmsDashboardBlock {
               blockTitle
               content
               area
             }
-
             ... on DatoCmsShortcode {
               id
               name
@@ -49,7 +52,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
   
     let messages = []
     if (user) {
-      messages = data.allDatoCmsMessage.nodes.filter(node => node.toArtist.name === user.name)
+      messages = allDatoCmsMessage.nodes.filter(node => node.toArtist.name === user.name)
     }
 
     const storedStripeId = localStorage.getItem('stripe_customer')
@@ -63,14 +66,16 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
       popupOpen: '',
     }
 
-    const [ state, dispatch ] = useReducer(dashboardReducer, initialState)
+    // const [ state, dispatch ] = useReducer(dashboardReducer, initialState)
   
+    const intro = dashboard.content.filter(b => b.area === 'intro')[0]
+
     return (<>
       <h1>Dashboard</h1>
       <div className='block block_intro'>
         <div>
           <h2>{ user.name }</h2>
-          { parse(data.dashboard.bodyNode.childMarkdownRemark.html) }
+          { intro ? <PageBlock { ...intro }/> : '' }
           <Link to={ '/keys/' + user.slug } className='btn btn-link_ghost'>View / Edit Profile</Link>
           { user.stripeId && <StripeSubscribed stripeId={ user.stripeId }/> }
         </div>
@@ -78,7 +83,7 @@ const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', titl
       </div>
       { !user.stripeId && <StripeUnsubscribed userId={ user.id } /> }
       <MessageBlock messages={ messages } />
-      { data.dashboard.contentBlocks.map((block, i) => {
+      { dashboard.content.filter(b => b.area !== "intro").map((block, i) => {
         
         return (
         <section className={'block' + (block.area ? ` block_${ block.area }` : '')} key={'block'+i}>
