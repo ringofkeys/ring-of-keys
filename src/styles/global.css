@@ -31,7 +31,8 @@ main {
     position: relative;
 }
 
-main.fullwidth {
+main.fullwidth,
+main.resources {
     width: 100%;
     margin: 0;
 }

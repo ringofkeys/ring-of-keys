@@ -2,6 +2,7 @@ import React from 'react'
 import QuoteBlock from './quoteblock'
 import Shortcode from './shortcode'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
+import * as pageBlockStyles from "./pageBlock.module.css"
 
 const blockTypes = {
     'DatoCmsBasicBlock': props => basicBlock(props),
@@ -21,6 +22,8 @@ function basicBlock(props) {
 }
 
 function teammateItem(props) {
+    console.log(props)
+
     return (
         <section className="teammate-section">
             { props.blockGroup.map((block, i) => (block.name && block.contentNode) && (
@@ -38,9 +41,11 @@ function teammateItem(props) {
 
 function imageArray(props) {
     return (
-        <section className="image-array">
+        <section className={ pageBlockStyles.imageArray } style={{'--columns': props.columns}}>
             { props.images.map((image) => image.url && (
-                <img src={image.url} alt={image.alt} />
+                <div className={ pageBlockStyles.imageWrapper }>
+                    <img src={image.url} alt={image.alt} />
+                </div>
             ))}
         </section>
     )

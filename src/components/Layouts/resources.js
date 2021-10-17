@@ -1,12 +1,9 @@
 import React from 'react'
-import { graphql, Link } from 'gatsby'
-import { renderHtmlToReact } from '../../utils/renderHtmlToReact'
-import Layout from "../../components/layout"
-import Carousel from '../../components/carousel'
-import ResourceCard from '../../components/resourcecard'
+import { useStaticQuery, graphql, Link } from 'gatsby'
+import Carousel from '../carousel'
+import ResourceCard from '../resourcecard'
 import slugify from '../../utils/slugify'
 import './resources.css'
-import devonImg from './devon-avatar.png'
 
 const resourceThemes = [
     'var(--rok-gold-1_hex)',
@@ -18,7 +15,29 @@ const resourceThemes = [
 ]
 
 
-const Resources = ({ data }) => {
+const Resources = ({ intro, outro }) => {
+    const data = useStaticQuery(graphql`
+    query ResourceQuery {
+        pageContent: datoCmsLandingPage(title: { eq: "Resources" }) {
+            bodyNode {
+                childMarkdownRemark {
+                    htmlAst
+                }
+            }
+        }
+        allDatoCmsResource {
+            edges {
+                node {
+                    title
+                    description
+                    link
+                    resourceType
+                }
+            }
+        }
+    }
+    `)
+
     const resourceTypes = ['Advocacy & Access', 'Reading', 'Podcasts', 'Videos', 'Tools & Directories', 'Organizations']
 
     const resources = data.allDatoCmsResource.edges.reduce((acc, { node }) => {
@@ -32,13 +51,11 @@ const Resources = ({ data }) => {
     }, resourceTypes.map(val => { return { type: val, resources: [] } }))
 
     const numResources = resources && resources.reduce((acc, r) => acc + r.resources.length, 0)
-    const approxNumResources = numResources && (numResources - numResources % 5)
 
-    return (
-        <Layout title='Resources' description={`A curated list of ${ approxNumResources ? approxNumResources : 50 }+ queer resources for theatremakers.`} classNames={['fullwidth']}>
+    return (<>
             <div className='resources-intro'>
                 <h1>Resources</h1>
-                { renderHtmlToReact(data.pageContent.bodyNode.childMarkdownRemark.htmlAst) }
+                { intro }
             </div>
             { resources &&
                 resources.map(({ type, resources: resourceList }, i) => (
@@ -57,33 +74,8 @@ const Resources = ({ data }) => {
                 </Carousel>
             ))}
             <section className='resource-annotation'>
-                <img src={ devonImg } alt='Devon Hayawaka' style={{ width: '70px', marginRight: '1.2rem' }} />
-                This list was compiled by Key Member&nbsp;<Link to='/keys/devon-hayakawa'>Devon Hayakawa</Link>, 
-                a Chicago-based Performer, playwright, and dramaturg. 
+                { outro }
             </section>
-        </Layout>
-    )
+    </>)
 }
 export default Resources
-
-export const query = graphql`
-query ResourceQuery {
-    pageContent: datoCmsLandingPage(title: { eq: "Resources" }) {
-        bodyNode {
-            childMarkdownRemark {
-                htmlAst
-            }
-        }
-    }
-    allDatoCmsResource {
-        edges {
-            node {
-                title
-                description
-                link
-                resourceType
-            }
-        }
-    }
-}
-`

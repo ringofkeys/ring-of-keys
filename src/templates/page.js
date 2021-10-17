@@ -4,12 +4,14 @@ import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 import Layout from '../components/layout'
 import Donate from '../components/Layouts/donate'
+import Resources from '../components/Layouts/resources'
 import PageBlock from '../components/PageBlock.js'
 import './event.css'
 import SidebarLayout from '../components/sidebarlayout'
 
 const specialLayouts = {
-    'donate': Donate
+    'donate': Donate,
+    'resources': Resources,
 }
 
 const Page = ({ data: { datoCmsPage: page } }) => {
