@@ -1,15 +1,15 @@
-.dashboard > .imageArray {
+.imageArray {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
 
-.dashboard > .imageWrapper {
+.imageWrapper {
     --gap: 3em;
     max-width: calc(100% / var(--columns) - 2 * var(--gap));
     margin: var(--gap);
 }
 
-.dashboard > .imageWrapper > img {
+.imageWrapper > img {
     max-width: 100%;
 }
