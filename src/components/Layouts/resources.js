@@ -18,13 +18,6 @@ const resourceThemes = [
 const Resources = ({ intro, outro }) => {
     const data = useStaticQuery(graphql`
     query ResourceQuery {
-        pageContent: datoCmsLandingPage(title: { eq: "Resources" }) {
-            bodyNode {
-                childMarkdownRemark {
-                    htmlAst
-                }
-            }
-        }
         allDatoCmsResource {
             edges {
                 node {
