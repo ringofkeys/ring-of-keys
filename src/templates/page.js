@@ -159,6 +159,30 @@ export const query = graphql`
                     }
                     columns
                 }
+                ... on DatoCmsCarousel {
+                    contentType
+                    selectionType
+                    items {
+                      ... on DatoCmsNews {
+                        id
+                        slug
+                      }
+                      ... on DatoCmsEvent {
+                        id
+                        slug
+                      }
+                      ... on DatoCmsResource {
+                        id
+                        link
+                      }
+                      ... on DatoCmsKey {
+                        id
+                        slug
+                        
+                      }
+                    }
+                    id
+                }
             }
             hasSidebar
             usesQueries
@@ -169,6 +193,9 @@ export const query = graphql`
             seo {
                 title
                 description
+                image {
+                    url
+                }
             }
         }
     }
