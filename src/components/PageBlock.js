@@ -1,17 +1,20 @@
 import React from 'react'
 import QuoteBlock from './quoteblock'
 import Shortcode from './shortcode'
+import Hero from './Hero'
 import { renderHtmlToReact } from '../utils/renderHtmlToReact'
 import * as pageBlockStyles from "./PageBlock.module.css"
 
 const blockTypes = {
+    'DatoCmsHero': props => heroBlock(props),
     'DatoCmsBasicBlock': props => basicBlock(props),
     'DatoCmsButton': props => button(props),
     'DatoCmsIconHeadingLabel': props => iconHeadingLabel(props),
     'DatoCmsQuote': props => quote(props),
     'DatoCmsShortcode': props => shortcode(props),
     'DatoCmsTeammateItem': props => teammateItem(props),
-    'DatoCmsImageArray': props => imageArray(props),    
+    'DatoCmsImageArray': props => imageArray(props), 
+    'DatoCmsCarousel': props => carouselBlock(props),   
 }
 
 const PageBlock = (props) => (blockTypes[props.__typename] && props) ? blockTypes[props.__typename](props) : false
@@ -61,10 +64,10 @@ function button(props) {
 }
 
 function iconHeadingLabel(props) {
-    return <section className="flex_center gender-consultant_explain">
+    return <section className="flex_center section_icon-heading-labels">
         { props.blockGroup.map((block, i) => block.icon && (
             <div className={'icon-heading-label ' + ((!block.centered) ? 'flex-left' : '')} key={block.icon.url + '-' + i} alt={block.icon.alt}
-                style={{ margin: `3vh 0`, width: `${ Math.floor(100 / block.columns) - 2 }%` }}>
+                style={{ margin: `3vh 2%`, width: `${ Math.floor(100 / block.columns) - 8 }%` }}>
                 <img src={ block.icon.url } alt={ block.icon.alt} key={block.icon.alt} />
                 { renderHtmlToReact(block.headingNode.childMarkdownRemark.htmlAst) }
                 { renderHtmlToReact(block.labelNode.childMarkdownRemark.htmlAst) }
@@ -94,3 +97,10 @@ function shortcode(props) {
     return <Shortcode { ...parsedProps} />
 }
 
+function carouselBlock(props) {
+    return <p>This should be a carousel with the props { JSON.stringify(props, null, 2) }</p>
+}
+
+function heroBlock(props) {
+    return <Hero {...props} />
+}

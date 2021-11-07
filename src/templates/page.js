@@ -6,18 +6,32 @@ import Layout from '../components/layout'
 import Donate from '../components/Layouts/donate'
 import Resources from '../components/Layouts/resources'
 import Dashboard from '../components/Layouts/dashboard'
+import Home from '../components/Layouts/home'
 import PageBlock from '../components/PageBlock.js'
 import './event.css'
 import SidebarLayout from '../components/sidebarlayout'
 
 const specialLayouts = {
-    'donate': Donate,
-    'resources': Resources,
-    'dashboard': Dashboard,
+    'donate': {
+        component: Donate,
+        layoutClasses: '',
+    },
+    'resources': {
+        component: Resources,
+        layoutClasses: '',
+    },
+    'dashboard': {
+        component: Dashboard,
+        layoutClasses: '',
+    },
+    'home': {
+        component: Home,
+        layoutClasses: 'fullwidth',
+    },
 }
 
 const Page = ({ data: { datoCmsPage: page } }) => {
-    const SpecialLayout = specialLayouts[page.slug]
+    const SpecialLayout = (page.slug) ? specialLayouts[page.slug] : specialLayouts['home']
 
     const footerQuote = page.content.find(block => block.__typename === 'DatoCmsQuote')
 
@@ -26,7 +40,7 @@ const Page = ({ data: { datoCmsPage: page } }) => {
 
 
     let layoutProps = {
-        classNames: ['landing-page', 'title', page.slug],
+        classNames: ['landing-page', page.slug, (SpecialLayout) ? SpecialLayout.layoutClasses : ''],
     }
     
     if (page.seo) {
@@ -48,17 +62,17 @@ const Page = ({ data: { datoCmsPage: page } }) => {
 
     let specialLayoutProps
     if (SpecialLayout) {
-        specialLayoutProps = Object.fromEntries(content.map(block => (
-            [block.props.area, block]
-     
-        )))
+        specialLayoutProps = Object.fromEntries(content.map((block, i) => {
+            return [block.props.area || `block-${i}`, block]
+            
+        }))
     }
 
     return (<>
         { page.noindexNofollow && <Helmet><meta name="robots" content="noindex, nofollow" /></Helmet>}
         { (!page.hasSidebar)
-        ? <Layout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout { ...specialLayoutProps }/> : content }</Layout>
-        : <SidebarLayout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout { ...specialLayoutProps }/> : content }</SidebarLayout> }
+        ? <Layout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout.component { ...specialLayoutProps }/> : content }</Layout>
+        : <SidebarLayout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout.component { ...specialLayoutProps }/> : content }</SidebarLayout> }
     </>)
 }
 
@@ -143,6 +157,13 @@ export const query = graphql`
                 ... on DatoCmsShortcode {
                     id
                     name
+                }   
+                ... on DatoCmsHero {
+                    id
+                    heroType
+                    description
+                    linkText
+                    linkUrl
                 }   
                 ... on DatoCmsTeammateItem {
                     name
