@@ -10,9 +10,9 @@ import { getProfile, isAuthenticated, logout } from "../utils/auth"
 const Header = ({ path }) => {
   const [isNavOpen, setNavOpen] = useState(false)
 
-  const users = useStaticQuery(graphql`
-    query HeaderLoggedInQuery {
-      data: allDatoCmsKey{
+  const { users, menu } = useStaticQuery(graphql`
+    query HeaderUserQuery {
+      users: allDatoCmsKey{
         edges {
           node {
             name
@@ -20,6 +20,27 @@ const Header = ({ path }) => {
               url
             }
             slug
+          }
+        }
+      }
+      menu: datoCmsMenu(label: { eq: "Top Nav" }) {
+        id
+        treeChildren {
+          id
+          label
+          link
+          position
+          treeChildren {
+            id
+            label
+            link
+            position
+            image {
+              url
+              alt
+            }
+            description
+            ctaText
           }
         }
       }
@@ -38,7 +59,7 @@ const Header = ({ path }) => {
     if (profile.name) {
       profile.name = decodeHtmlEntity(profile.name)
     }
-    const artistsFiltered = users.data.edges.filter(({node}) => node.name === profile.name)
+    const artistsFiltered = users.edges.filter(({node}) => node.name === profile.name)
     const artist = artistsFiltered[0] ? artistsFiltered[0].node : ''
 
     secondaryNav = (
@@ -72,22 +93,48 @@ const Header = ({ path }) => {
         </div>
         <div className={'nav__mobile-wrap'}>
           { secondaryNav }
-          <div className='nav__main'>
-            <Link to='/directory' className={ path === '/directory' ? 'active' : '' }>Directory</Link>
-            <Link to='/news' className={ path === '/news' ? 'active' : '' }>News</Link>
-            <Link to='/consultancy' className={ path === '/consultancy' ? 'active' : '' }>Consultancy</Link>
-            <Link to='/resources' className={ path === '/resources' ? 'active' : '' }>Resources</Link>
-            <Link to='/donate' className={ path === '/donate' ? 'active' : '' }>Donate</Link>
-            <Link to='/contact' className={ path === '/contact' ? 'active' : '' }>Contact</Link>
+          <ul className='nav__main'>
+            { menu.treeChildren.sort((a,b) => a.position - b.position).map((menu, i) =>
+              <NavLink path={path} {...menu} key={"navlink-"+i} />
+            )}
             { (isAuthenticated() === true) 
-              ? <Link to='/dashboard' className='has-dropdown'>Dashboard</Link>
+              ? <li><Link to='/dashboard'>Dashboard</Link></li>
               : ''
             }
-          </div>
+          </ul>
         </div>
       </nav>
     </header>
   )
+}
+
+function NavLink ({ path, label, link, treeChildren }) {
+  return <li className="nav__dropdown-wrapper">
+    <Link to={link} className={ 'has-dropdown ' + (path === link ? 'active' : '') }>
+      { label }&nbsp;
+      { treeChildren.length
+        ? <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 10 7" fill="none">
+          <path d="M4.71471 6.7608L9.42199 0.760803H0.00744629L4.71471 6.7608Z" fill="currentColor"/>
+        </svg>
+        : ''
+      }</Link>
+      { (treeChildren.length > 0) && 
+        <div className="nav__dropdown" style={{'--cols': treeChildren.length}}>
+          { treeChildren.map((navItem, j) => (
+            <Link to={navItem.link} className="dropdown-item">
+              <div className="dropdown-item-img-wrap">
+                <img src={navItem.image.url} alt={navItem.image.alt} /> 
+              </div>
+              <div className="dropdown-item-content">
+                <p className="dropdown-item-title">{ navItem.label }</p>
+                <p className="dropdown-item-description">{ navItem.description }</p>
+                <p className="dropdown-item-cta">{ navItem.ctaText }</p>
+              </div>
+            </Link>
+          )) }
+        </div>
+      }
+  </li>
 }
 
 Header.propTypes = {
