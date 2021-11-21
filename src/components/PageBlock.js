@@ -41,13 +41,23 @@ function teammateItem(props) {
 }
 
 function imageArray(props) {
+    const WrappedImage = ({ image }) => (
+        <img src={image.url} alt={image.alt} />
+    )
+
     return (
         <section className={`imageArray ${pageBlockStyles.imageArray}`} style={{'--columns': props.columns}}>
-            { props.images.map((image) => image.url && (
-                <div className={`imageWrapper ${pageBlockStyles.imageWrapper}`}>
-                    <img src={image.url} alt={image.alt} />
-                </div>
-            ))}
+            { props.images.map((image, i) => image.url && (<>
+                { (image.customData?.linkUrl)
+                ?   <a href={image.customData.linkUrl} className={`imageWrapper ${pageBlockStyles.imageWrapper}`}
+                        rel="norefferer" target="_blank" key={'image-wrap-'+i}>
+                        <WrappedImage image={image} />
+                    </a>
+                :   <div className={`imageWrapper ${pageBlockStyles.imageWrapper}`} key={'image-wrap-'+i}>
+                        <WrappedImage image={image} />
+                    </div>
+                }
+            </>))}
         </section>
     )
 }
@@ -67,7 +77,7 @@ function iconHeadingLabel(props) {
     return <section className="flex_center section_icon-heading-labels">
         { props.blockGroup.map((block, i) => block.icon && (
             <div className={'icon-heading-label ' + ((!block.centered) ? 'flex-left' : '')} key={block.icon.url + '-' + i} alt={block.icon.alt}
-                style={{ margin: `3vh 2%`, width: `${ Math.floor(100 / block.columns) - 8 }%` }}>
+                style={{ '--margin': `3vh 2%`, '--width': `${ Math.floor(100 / block.columns) - 8 }%` }}>
                 <img src={ block.icon.url } alt={ block.icon.alt} key={block.icon.alt} />
                 { renderHtmlToReact(block.headingNode.childMarkdownRemark.htmlAst) }
                 { renderHtmlToReact(block.labelNode.childMarkdownRemark.htmlAst) }

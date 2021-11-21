@@ -8,6 +8,7 @@
     --gap: 3em;
     max-width: calc(100% / var(--columns) - 2 * var(--gap));
     margin: var(--gap);
+    display: block;
 }
 
 .imageWrapper > img {

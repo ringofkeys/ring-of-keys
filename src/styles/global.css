@@ -170,11 +170,13 @@ p {
 /* Icon-Heading-Labels */
 .icon-heading-label {
     width: 20vw;
+    width: var(--width);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     margin: 2em 3vw;
+    margin: var(--margin);
 }
 
 .icon-heading-label img {

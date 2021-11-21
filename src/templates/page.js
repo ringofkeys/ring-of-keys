@@ -13,19 +13,19 @@ import SidebarLayout from '../components/sidebarlayout'
 
 const specialLayouts = {
     'donate': {
-        component: Donate,
+        Component: Donate,
         layoutClasses: '',
     },
     'resources': {
-        component: Resources,
+        Component: Resources,
         layoutClasses: '',
     },
     'dashboard': {
-        component: Dashboard,
+        Component: Dashboard,
         layoutClasses: '',
     },
     'home': {
-        component: Home,
+        Component: Home,
         layoutClasses: 'fullwidth',
     },
 }
@@ -71,8 +71,8 @@ const Page = ({ data: { datoCmsPage: page } }) => {
     return (<>
         { page.noindexNofollow && <Helmet><meta name="robots" content="noindex, nofollow" /></Helmet>}
         { (!page.hasSidebar)
-        ? <Layout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout.component { ...specialLayoutProps }/> : content }</Layout>
-        : <SidebarLayout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout.component { ...specialLayoutProps }/> : content }</SidebarLayout> }
+        ? <Layout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout.Component { ...specialLayoutProps }/> : content }</Layout>
+        : <SidebarLayout { ...layoutProps }>{ (SpecialLayout) ? <SpecialLayout.Component { ...specialLayoutProps }/> : content }</SidebarLayout> }
     </>)
 }
 
@@ -177,6 +177,7 @@ export const query = graphql`
                 ...on DatoCmsImageArray {
                     images {
                       url
+                      customData
                     }
                     columns
                 }
