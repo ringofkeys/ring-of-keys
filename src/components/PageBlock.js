@@ -21,7 +21,7 @@ const PageBlock = (props) => (blockTypes[props.__typename] && props) ? blockType
 export default PageBlock
 
 function basicBlock(props) {
-    return <section id={ (props.idHref) ? props.idHref : '' }>{ renderHtmlToReact(props.contentNode.childMarkdownRemark.htmlAst) }</section>
+    return <section id={ props.idHref ? props.idHref : '' } className={ props.area ? props.area : '' }>{ renderHtmlToReact(props.contentNode.childMarkdownRemark.htmlAst) }</section>
 }
 
 function teammateItem(props) {

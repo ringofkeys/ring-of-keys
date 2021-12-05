@@ -2,7 +2,6 @@ import React from 'react'
 import { renderHtmlToReact } from '../../utils/renderHtmlToReact'
 import './donate.css'
 import DonorBoxWidget from '../DonorBoxWidget'
-import '../../pages/apply.css'
 
 const Donate = ({ quote, rightCol }) => {
 
