@@ -7,15 +7,30 @@ import Layout from "components/Layout"
 import { pageQuery } from 'queries/page.js'
 // import SEO from "../components/seo"
 
+export async function getStaticPaths() {
+  const slugs = await request({
+    query: 'query AllPageQuery { allPages { slug }}',
+  })
+
+  return {
+    paths: slugs.allPages.filter(({ slug }) => slug) // filters out the home page, which has an empty slug.
+      .map(({ slug }) => {
+      return { 
+        params: { slug },
+      }
+    }), // https://nextjs.org/docs/basic-features/data-fetching#the-paths-key-required
+    fallback: false,
+  }
+}
+
 export async function getStaticProps({ params }) {
   const data = await request({
     query: pageQuery,
     variables: {
-      slug: ""
+      slug: params.slug
     },
   })
 
-  console.log(data)
 
   return {
     props: {
