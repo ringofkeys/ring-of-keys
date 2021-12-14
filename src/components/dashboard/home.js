@@ -1,101 +1,129 @@
-import React, { useReducer } from 'react'
-import parse from 'html-react-parser'
-import { parseBlock } from '../../utils/datoBlocks'
-import { Link, graphql, useStaticQuery } from 'gatsby'
-import MessageBlock from '../../components/MessageBlock'
-import dashboardReducer from './dashboardReducer'
-import { StripeSubscribed, StripeUnsubscribed } from '../../components/StripeBlocks'
-import PageBlock from '../PageBlock'
+import React, { useReducer } from "react"
+import parse from "html-react-parser"
+import { parseBlock } from "../../utils/datoBlocks"
+import { Link, graphql, useStaticQuery } from "gatsby"
+import MessageBlock from "../../components/MessageBlock"
+import dashboardReducer from "./dashboardReducer"
+import {
+  StripeSubscribed,
+  StripeUnsubscribed,
+} from "../../components/StripeBlocks"
+import PageBlock from "../PageBlock"
 
-const Home = ({ user = { name: '', slug: '/directory', headshot: { url: '', title: '' }} }) => {
-    const { dashboard, allDatoCmsMessage } = useStaticQuery(graphql`
-      query MessagesQuery {
-        dashboard: datoCmsPage(originalId: { eq: "65961427"}) {
-          content {
-            ... on DatoCmsBasicBlock {
-              idHref
-              contentNode {
-                  childMarkdownRemark {
-                      htmlAst
-                  }
+const Home = ({
+  user = { name: "", slug: "/directory", headshot: { url: "", title: "" } },
+}) => {
+  const { dashboard, allDatoCmsMessage } = useStaticQuery(graphql`
+    query MessagesQuery {
+      dashboard: datoCmsPage(originalId: { eq: "65961427" }) {
+        content {
+          ... on DatoCmsBasicBlock {
+            idHref
+            contentNode {
+              childMarkdownRemark {
+                htmlAst
               }
-              area
             }
-            ... on DatoCmsDashboardBlock {
-              blockTitle
-              content
-              area
-            }
-            ... on DatoCmsShortcode {
-              id
-              name
-            }
+            area
           }
-        }
-        allDatoCmsMessage(sort: { fields: meta___firstPublishedAt, order: DESC }) {
-          nodes {
-            fromEmail
-            fromName
-            message
-            toArtist {
-              name
-            }
-            meta {
-              timeDiff: firstPublishedAt(difference: "days")
-              timeSince: firstPublishedAt(fromNow: true)
-              timeString:firstPublishedAt(formatString: "MM/DD/YY")
-            }
+          ... on DatoCmsDashboardBlock {
+            blockTitle
+            content
+            area
+          }
+          ... on DatoCmsShortcode {
+            id
+            name
           }
         }
       }
-    `)
-  
-    let messages = []
-    if (user) {
-      messages = allDatoCmsMessage.nodes.filter(node => node.toArtist.name === user.name)
+      allDatoCmsMessage(
+        sort: { fields: meta___firstPublishedAt, order: DESC }
+      ) {
+        nodes {
+          fromEmail
+          fromName
+          message
+          toArtist {
+            name
+          }
+          meta {
+            timeDiff: firstPublishedAt(difference: "days")
+            timeSince: firstPublishedAt(fromNow: true)
+            timeString: firstPublishedAt(formatString: "MM/DD/YY")
+          }
+        }
+      }
     }
+  `)
 
-    const storedStripeId = localStorage.getItem('stripe_customer')
-    if (!user.stripeId && storedStripeId) {
-      user.stripeId = storedStripeId
-    } else if (user.stripeId && storedStripeId) {
-      localStorage.removeItem('stripe_customer') // once we know we're covered, remove the localStorage item in case the user deletes their subscription in future.
-    }
-
-    const initialState = {
-      popupOpen: '',
-    }
-
-    // const [ state, dispatch ] = useReducer(dashboardReducer, initialState)
-  
-    const intro = dashboard.content.filter(b => b.area === 'intro')[0]
-
-    return (<>
-      <h1>Dashboard</h1>
-      <div className='block block_intro'>
-        <div>
-          <h2>{ user.name }</h2>
-          { intro ? <PageBlock { ...intro }/> : '' }
-          <Link to={ '/keys/' + user.slug } className='btn btn-link_ghost'>View / Edit Profile</Link>
-          { user.stripeId && <StripeSubscribed stripeId={ user.stripeId }/> }
-        </div>
-    { user.headshot && <img src={ user.headshot.url+'?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&' } alt={ user.headshot.title } className='avatar' /> }
-      </div>
-      { !user.stripeId && <StripeUnsubscribed userId={ user.id } /> }
-      <MessageBlock messages={ messages } />
-      { dashboard.content.filter(b => b.area !== "intro").map((block, i) => {
-        
-        return (
-        <section className={'block' + (block.area ? ` block_${ block.area }` : '')} key={'block'+i}>
-            {(block.__typename === "DatoCmsDashboardBlock")
-              ? (<>
-                <h2>{ block.blockTitle }</h2>
-                { parse(block.content) }
-              </>)
-              : <PageBlock { ...block }/>
-            }
-          </section>)
-      }) }
-  </>)
+  let messages = []
+  if (user) {
+    messages = allDatoCmsMessage.nodes.filter(
+      node => node.toArtist.name === user.name
+    )
   }
-export default Home  
+
+  const storedStripeId = localStorage.getItem("stripe_customer")
+  if (!user.stripeId && storedStripeId) {
+    user.stripeId = storedStripeId
+  } else if (user.stripeId && storedStripeId) {
+    localStorage.removeItem("stripe_customer") // once we know we're covered, remove the localStorage item in case the user deletes their subscription in future.
+  }
+
+  const initialState = {
+    popupOpen: "",
+  }
+
+  // const [ state, dispatch ] = useReducer(dashboardReducer, initialState)
+
+  const intro = dashboard.content.filter(b => b.area === "intro")[0]
+
+  return (
+    <>
+      <h1>Dashboard</h1>
+      <div className="block block_intro">
+        <div>
+          <h2>{user.name}</h2>
+          {intro ? <PageBlock {...intro} /> : ""}
+          <Link to={"/keys/" + user.slug} className="btn btn-link_ghost">
+            View / Edit Profile
+          </Link>
+          {user.stripeId && <StripeSubscribed stripeId={user.stripeId} />}
+        </div>
+        {user.headshot && (
+          <img
+            src={
+              user.headshot.url +
+              "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&"
+            }
+            alt={user.headshot.title}
+            className="avatar"
+          />
+        )}
+      </div>
+      {!user.stripeId && <StripeUnsubscribed userId={user.id} />}
+      <MessageBlock messages={messages} />
+      {dashboard.content
+        .filter(b => b.area !== "intro")
+        .map((block, i) => {
+          return (
+            <section
+              className={"block" + (block.area ? ` block_${block.area}` : "")}
+              key={"block" + i}
+            >
+              {block.__typename === "DatoCmsDashboardBlock" ? (
+                <>
+                  <h2>{block.blockTitle}</h2>
+                  {parse(block.content)}
+                </>
+              ) : (
+                <PageBlock {...block} />
+              )}
+            </section>
+          )
+        })}
+    </>
+  )
+}
+export default Home

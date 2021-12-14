@@ -1,272 +1,307 @@
-require('dotenv').config({
-    path: `.env.${process.env.NODE_ENV}`,
-  })
-  const SiteClient = require('datocms-client').SiteClient
-  const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
-  const rp = require("request-promise")
-  const sgMail = require('@sendgrid/mail')
-  sgMail.setApiKey(process.env.SENDGRID_KEY)
-  
-  exports.handler = async (event) => {
-    try {
-      // Don't run if the requester doesn't have the secret code
-      if (event.headers.datocms_agent !== process.env.DATOCMS_AGENT) {
-        return {
-          statusCode: 403,
-          body: 'Forbidden'
-        }
-      }
-      
-      const userData = JSON.parse(event.body)
-      if (userData.name) { userData.name = userData.name.trim() }
-      if (userData.email) { userData.email = userData.email.trim() }
-  
-  
-      
-      // Do nothing else if the user isn't supposed to have login access (which is set on their profile in DatoCMS)
-      if (!userData.hasLoginAccess) {
-          return {
-              statusCode: 200,
-              body: `Not running Auth0 function because "Has Login Access" is set to false on user's profile.`,
-          }
-      }
-      
-      const authToken = JSON.parse(await getAuth0Token().catch(err => JSON.stringify(err)))
-      // Check if an Auth0 account already exists for the user.
-      const userExistsRes = JSON.parse(await checkUserExists(authToken, userData.name).catch(err => JSON.stringify(err)))
-  
-      if (userExistsRes.length > 0) {
-        return {
-          statusCode: 200,
-          body: `Not creating new Auth0 login for user because a user with name ${ userData.name } already exists.
-          This likely means that the user is updating their profile.`,
-        }
-      }
-  
-      // create an Auth0 account for the user
-      const createUserResponse = JSON.parse(await createUser(authToken, userData).catch(err => JSON.stringify(err)))
-  
-      if (createUserResponse.status > 299) {
-          console.log(`User creation failed! Something seems to be going wrong on the Auth0 side of things: we received a 299 error.
-          Check the Netlify Function logs for createAuth0User to see the full error details.`)
-          if (createUserResponse.status === 409) {
-              return {
-                  statusCode: 409,
-                  body: `User with email ${ userData.email } already exists! This is likely an issue, as we checked to see if the user existed in Auth0 already and none was found.`,
-              }
-          }
-  
-          return {
-              statusCode: 501,
-              body: 'Auth0 service failure: ' + JSON.parse(createUserResponse.body)
-          }
-      }
-  
-      // console.log('testing we get to just before the deploy trigger is fired')
-  
-      const buildTriggerId = '8003'
-  
-      const displayTime = (date) => `currentTime is ${ date.toLocaleDateString() }, ${ date.toLocaleTimeString() }`
-  
-      console.log(displayTime(new Date()))
-      await client.buildTriggers.trigger(buildTriggerId)
-          .then(() => {
-              console.log('Done! Build Triggered.', displayTime(new Date()))
-          })
-          .catch((error) => {
-              console.error(error, displayTime(new Date()))
-          });
-      
-  
-  
-      // Create a reset password ticket on the newly created Auth0 account.
-      const resetPasswordResponse = JSON.parse(await resetPassword(authToken, userData.email.toLowerCase()).catch(err => JSON.stringify(err)))
-  
-      if (!resetPasswordResponse.ticket) return {
-          statusCode: 500,
-          body: 'Unable to create a reset password ticket in Auth0. Email not sent.'
-      }
-  
-      console.log('got past the password reset ticket')
-  
-      if (userData.email) {
-          // Add user's email to the MailChimp Newsletter list then Members list
-          const mailchimpResOne = await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676')
-          const mailchimpResTwo = await addToMailchimpNode(userData.email, { /* list fields, optional MailChimp data */ }, 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11')
-          console.log('mailchimp = ', [mailchimpResOne, mailchimpResTwo])
-      }
-  
-      // Send welcome email to user via SendGrid
-      const emailSendResponse = await sendWelcomeEmail(userData.email, userData.name, resetPasswordResponse.ticket).catch(err => JSON.stringify(err))
-      
-      console.log('got past the welcome email send')
-  
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+const SiteClient = require("datocms-client").SiteClient
+const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const rp = require("request-promise")
+const sgMail = require("@sendgrid/mail")
+sgMail.setApiKey(process.env.SENDGRID_KEY)
+
+exports.handler = async event => {
+  try {
+    // Don't run if the requester doesn't have the secret code
+    if (event.headers.datocms_agent !== process.env.DATOCMS_AGENT) {
       return {
-        statusCode: 201,
-        body: JSON.stringify(emailSendResponse),
+        statusCode: 403,
+        body: "Forbidden",
       }
-    } catch (err) {
-      return { statusCode: 500, body: err.toString() }
     }
-  }
-  
-  function getAuth0Token() {
-    const options = { 
-      method: 'POST',
-      url: `https://${ process.env.AUTH0_DOMAIN }/oauth/token`, 
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        client_id: `${process.env.AUTH0_CLIENTID}`,
-        client_secret: `${process.env.AUTH_SECRET}`,
-        audience: `https://${ process.env.AUTH0_DOMAIN }/api/v2/`,
-        grant_type: "client_credentials",
-        scope: 'create:users read:users',
-      }),
+
+    const userData = JSON.parse(event.body)
+    if (userData.name) {
+      userData.name = userData.name.trim()
     }
-  
-    return rp(options)
-  }
-  
-  function checkUserExists(auth, name) {
-    const options = {
-      method: 'GET',
-      url: 'https://ringofkeys.auth0.com/api/v2/users',
-      qs: {q: `name:"${ name }"`, search_engine: 'v3'},
-      headers: {authorization: `${auth['token_type']} ${auth['access_token']}`},
+    if (userData.email) {
+      userData.email = userData.email.trim()
     }
-  
-    return rp(options)
-  }
-  
-  let pwd = Math.random().toString(36).slice(-14)
-  
-  function createUser(auth, userInfo) {
-    const options = {
-      method: 'POST',
-      url: `https://${ process.env.AUTH0_DOMAIN }/api/v2/users`,
-      headers: {
-        authorization: `${auth['token_type']} ${auth['access_token']}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: userInfo.email,
-        name: userInfo.name,
-        password: pwd,
-        user_metadata: {
-          entity_id: userInfo.entity_id.toString(),
-        },
-        connection: "Username-Password-Authentication",
-      })
+
+    // Do nothing else if the user isn't supposed to have login access (which is set on their profile in DatoCMS)
+    if (!userData.hasLoginAccess) {
+      return {
+        statusCode: 200,
+        body: `Not running Auth0 function because "Has Login Access" is set to false on user's profile.`,
+      }
     }
-  
-    return rp(options)
-  }
-  
-  function resetPassword(auth, email) {
-    const options = {
-      method: 'POST',
-      url: `https://${ process.env.AUTH0_DOMAIN }/api/v2/tickets/password-change`,
-      headers: {
-        authorization: `${auth['token_type']} ${auth['access_token']}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        result_url: process.env.AUTH0_CALLBACK,
-        connection_id: process.env.AUTH0_CONNECTIONID,
-        email: email,
-        ttl_sec: 1209600,
-        mark_email_as_verified: true,
-      })
+
+    const authToken = JSON.parse(
+      await getAuth0Token().catch(err => JSON.stringify(err))
+    )
+    // Check if an Auth0 account already exists for the user.
+    const userExistsRes = JSON.parse(
+      await checkUserExists(authToken, userData.name).catch(err =>
+        JSON.stringify(err)
+      )
+    )
+
+    if (userExistsRes.length > 0) {
+      return {
+        statusCode: 200,
+        body: `Not creating new Auth0 login for user because a user with name ${userData.name} already exists.
+          This likely means that the user is updating their profile.`,
+      }
     }
-  
-    console.log('resetPassword body = ', options)
-  
-    return rp(options)
-  }
-  
-  
-  //Mailchimp email subscribe
-  
-  function validateEmail(email) {
-      var tester = /^[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
-  
-      // taken from email-validator npm package
-      if (!email) return false;
-      
-      if (email.length > 256) return false;
-      
-      if (!tester.test(email)) return false;
-      
-      // Further checking of some things regex can't handle
-      var [account, address] = email.split('@');
-      if (account.length > 64) return false;
-      
-      var domainParts = address.split('.');
-      if (domainParts.some(function (part) {
-          return part.length > 63;
-      })) return false;
-      
-      return true;
-  }
-  
-  
-  function subscribeEmailToMailchimp(url) {
-      const options = {
-          method: 'GET',
-          url,
+
+    // create an Auth0 account for the user
+    const createUserResponse = JSON.parse(
+      await createUser(authToken, userData).catch(err => JSON.stringify(err))
+    )
+
+    if (createUserResponse.status > 299) {
+      console.log(`User creation failed! Something seems to be going wrong on the Auth0 side of things: we received a 299 error.
+          Check the Netlify Function logs for createAuth0User to see the full error details.`)
+      if (createUserResponse.status === 409) {
+        return {
+          statusCode: 409,
+          body: `User with email ${userData.email} already exists! This is likely an issue, as we checked to see if the user existed in Auth0 already and none was found.`,
         }
-  
-      return rp(options)
+      }
+
+      return {
+        statusCode: 501,
+        body: "Auth0 service failure: " + JSON.parse(createUserResponse.body),
+      }
+    }
+
+    // console.log('testing we get to just before the deploy trigger is fired')
+
+    const buildTriggerId = "8003"
+
+    const displayTime = date =>
+      `currentTime is ${date.toLocaleDateString()}, ${date.toLocaleTimeString()}`
+
+    console.log(displayTime(new Date()))
+    await client.buildTriggers
+      .trigger(buildTriggerId)
+      .then(() => {
+        console.log("Done! Build Triggered.", displayTime(new Date()))
+      })
+      .catch(error => {
+        console.error(error, displayTime(new Date()))
+      })
+
+    // Create a reset password ticket on the newly created Auth0 account.
+    const resetPasswordResponse = JSON.parse(
+      await resetPassword(authToken, userData.email.toLowerCase()).catch(err =>
+        JSON.stringify(err)
+      )
+    )
+
+    if (!resetPasswordResponse.ticket)
+      return {
+        statusCode: 500,
+        body:
+          "Unable to create a reset password ticket in Auth0. Email not sent.",
+      }
+
+    console.log("got past the password reset ticket")
+
+    if (userData.email) {
+      // Add user's email to the MailChimp Newsletter list then Members list
+      const mailchimpResOne = await addToMailchimpNode(
+        userData.email,
+        {
+          /* list fields, optional MailChimp data */
+        },
+        "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676"
+      )
+      const mailchimpResTwo = await addToMailchimpNode(
+        userData.email,
+        {
+          /* list fields, optional MailChimp data */
+        },
+        "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11"
+      )
+      console.log("mailchimp = ", [mailchimpResOne, mailchimpResTwo])
+    }
+
+    // Send welcome email to user via SendGrid
+    const emailSendResponse = await sendWelcomeEmail(
+      userData.email,
+      userData.name,
+      resetPasswordResponse.ticket
+    ).catch(err => JSON.stringify(err))
+
+    console.log("got past the welcome email send")
+
+    return {
+      statusCode: 201,
+      body: JSON.stringify(emailSendResponse),
+    }
+  } catch (err) {
+    return { statusCode: 500, body: err.toString() }
   }
-  
-  function convertListFields(fields) {
-      let queryParams = '';
-      for (const field in fields) {
-          if (Object.prototype.hasOwnProperty.call(fields, field)) {
-              // If this is a list group, not user field then keep lowercase, as per MC reqs
-              // https://github.com/benjaminhoffman/gatsby-plugin-mailchimp/blob/master/README.md#groups
-              const fieldTransformed =
-                  field.substring(0, 6) === 'group[' ? field : field.toUpperCase();
-              queryParams = queryParams.concat(`&${fieldTransformed}=${fields[field]}`);
-          }
-      }
-      return queryParams;
-  };
-  
-  function addToMailchimpNode(email, fields, endpoint) {
-      const isEmailValid = validateEmail(email);
-      const emailEncoded = encodeURIComponent(email);
-      if (!isEmailValid) {
-          return Promise.resolve({
-              result: 'error',
-              msg: 'The email you entered is not valid.',
-          });
-      }
-  
-      // The following tests for whether you passed in a `fields` object. If
-      // there are only two params and the second is a string, then we can safely
-      // assume the second param is a MC mailing list, and not a fields object.
-      if (arguments.length < 3 && typeof fields === 'string') {
-          endpoint = fields;
-      }
-  
-      // Generates MC endpoint for our jsonp request. We have to
-      // change `/post` to `/post-json` otherwise, MC returns an error
-      endpoint = endpoint.replace(/\/post/g, '/post-json');
-      const queryParams = `&EMAIL=${emailEncoded}${convertListFields(fields)}`;
-      const url = `${endpoint}${queryParams}`;
-  
-      return subscribeEmailToMailchimp(url);
-  };
-  
-  async function sendWelcomeEmail(email, name, pwdResetUrl) {
-    const msg = {
-      to: email,
-      from: 'info@ringofkeys.org',
-      bcc: [{ email: 'taylorjo@ringofkeys.org' }],
-      subject: 'Welcome to Ring of Keys',
-      text: 'You can set up your password at '+ pwdResetUrl,
-      html:  `<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border: 0;max-width: 600px !important;">
+}
+
+function getAuth0Token() {
+  const options = {
+    method: "POST",
+    url: `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      client_id: `${process.env.AUTH0_CLIENTID}`,
+      client_secret: `${process.env.AUTH_SECRET}`,
+      audience: `https://${process.env.AUTH0_DOMAIN}/api/v2/`,
+      grant_type: "client_credentials",
+      scope: "create:users read:users",
+    }),
+  }
+
+  return rp(options)
+}
+
+function checkUserExists(auth, name) {
+  const options = {
+    method: "GET",
+    url: "https://ringofkeys.auth0.com/api/v2/users",
+    qs: { q: `name:"${name}"`, search_engine: "v3" },
+    headers: { authorization: `${auth["token_type"]} ${auth["access_token"]}` },
+  }
+
+  return rp(options)
+}
+
+let pwd = Math.random()
+  .toString(36)
+  .slice(-14)
+
+function createUser(auth, userInfo) {
+  const options = {
+    method: "POST",
+    url: `https://${process.env.AUTH0_DOMAIN}/api/v2/users`,
+    headers: {
+      authorization: `${auth["token_type"]} ${auth["access_token"]}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: userInfo.email,
+      name: userInfo.name,
+      password: pwd,
+      user_metadata: {
+        entity_id: userInfo.entity_id.toString(),
+      },
+      connection: "Username-Password-Authentication",
+    }),
+  }
+
+  return rp(options)
+}
+
+function resetPassword(auth, email) {
+  const options = {
+    method: "POST",
+    url: `https://${process.env.AUTH0_DOMAIN}/api/v2/tickets/password-change`,
+    headers: {
+      authorization: `${auth["token_type"]} ${auth["access_token"]}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      result_url: process.env.AUTH0_CALLBACK,
+      connection_id: process.env.AUTH0_CONNECTIONID,
+      email: email,
+      ttl_sec: 1209600,
+      mark_email_as_verified: true,
+    }),
+  }
+
+  console.log("resetPassword body = ", options)
+
+  return rp(options)
+}
+
+//Mailchimp email subscribe
+
+function validateEmail(email) {
+  var tester = /^[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/
+
+  // taken from email-validator npm package
+  if (!email) return false
+
+  if (email.length > 256) return false
+
+  if (!tester.test(email)) return false
+
+  // Further checking of some things regex can't handle
+  var [account, address] = email.split("@")
+  if (account.length > 64) return false
+
+  var domainParts = address.split(".")
+  if (
+    domainParts.some(function(part) {
+      return part.length > 63
+    })
+  )
+    return false
+
+  return true
+}
+
+function subscribeEmailToMailchimp(url) {
+  const options = {
+    method: "GET",
+    url,
+  }
+
+  return rp(options)
+}
+
+function convertListFields(fields) {
+  let queryParams = ""
+  for (const field in fields) {
+    if (Object.prototype.hasOwnProperty.call(fields, field)) {
+      // If this is a list group, not user field then keep lowercase, as per MC reqs
+      // https://github.com/benjaminhoffman/gatsby-plugin-mailchimp/blob/master/README.md#groups
+      const fieldTransformed =
+        field.substring(0, 6) === "group[" ? field : field.toUpperCase()
+      queryParams = queryParams.concat(`&${fieldTransformed}=${fields[field]}`)
+    }
+  }
+  return queryParams
+}
+
+function addToMailchimpNode(email, fields, endpoint) {
+  const isEmailValid = validateEmail(email)
+  const emailEncoded = encodeURIComponent(email)
+  if (!isEmailValid) {
+    return Promise.resolve({
+      result: "error",
+      msg: "The email you entered is not valid.",
+    })
+  }
+
+  // The following tests for whether you passed in a `fields` object. If
+  // there are only two params and the second is a string, then we can safely
+  // assume the second param is a MC mailing list, and not a fields object.
+  if (arguments.length < 3 && typeof fields === "string") {
+    endpoint = fields
+  }
+
+  // Generates MC endpoint for our jsonp request. We have to
+  // change `/post` to `/post-json` otherwise, MC returns an error
+  endpoint = endpoint.replace(/\/post/g, "/post-json")
+  const queryParams = `&EMAIL=${emailEncoded}${convertListFields(fields)}`
+  const url = `${endpoint}${queryParams}`
+
+  return subscribeEmailToMailchimp(url)
+}
+
+async function sendWelcomeEmail(email, name, pwdResetUrl) {
+  const msg = {
+    to: email,
+    from: "info@ringofkeys.org",
+    bcc: [{ email: "taylorjo@ringofkeys.org" }],
+    subject: "Welcome to Ring of Keys",
+    text: "You can set up your password at " + pwdResetUrl,
+    html: `<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border: 0;max-width: 600px !important;">
                               <tbody><tr>
                                   <td valign="top" id="templatePreheader" style="background:#FAFAFA none no-repeat center/cover;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #FAFAFA;background-image: none;background-repeat: no-repeat;background-position: center;background-size: cover;border-top: 0;border-bottom: 0;padding-top: 9px;padding-bottom: 9px;"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
       <tbody class="mcnTextBlockOuter">
@@ -332,7 +367,7 @@ require('dotenv').config({
                       <tbody>
                           <tr>
                               <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;padding: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                                  <a class="mcnButton " title="Complete your Key Profile" href="${ pwdResetUrl }" target="_blank" style="font-weight: normal;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;">Complete your Key Profile</a>
+                                  <a class="mcnButton " title="Complete your Key Profile" href="${pwdResetUrl}" target="_blank" style="font-weight: normal;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;">Complete your Key Profile</a>
                               </td>
                           </tr>
                       </tbody>
@@ -375,7 +410,7 @@ require('dotenv').config({
                           
                           <td valign="top" class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;">
                           
-                              <p style="text-align: left;margin: 10px 0;padding: 0;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;"><font color="#263e64"><strong>${ name }, Good News!&nbsp;</strong></font><br>
+                              <p style="text-align: left;margin: 10px 0;padding: 0;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;"><font color="#263e64"><strong>${name}, Good News!&nbsp;</strong></font><br>
   <font face="lato, helvetica neue, helvetica, arial, sans-serif">We have reviewed your application and are happy to say that your account is now verified and you are officially a Key!<br>
   &nbsp;<br>
   We’re so ecstatic to have you as a member of our <strong>RING OF KEYS</strong> network. We look forward to building a community together, elevating our narratives, and creating a more inclusive musical theatre landscape together.<br>
@@ -404,7 +439,7 @@ require('dotenv').config({
                       <tbody>
                           <tr>
                               <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;padding: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                                  <a class="mcnButton " title="Complete your Key Profile" href="${ pwdResetUrl }" target="_blank" style="font-weight: normal;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;">Complete your Key Profile</a>
+                                  <a class="mcnButton " title="Complete your Key Profile" href="${pwdResetUrl}" target="_blank" style="font-weight: normal;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;">Complete your Key Profile</a>
                               </td>
                           </tr>
                       </tbody>
@@ -524,7 +559,7 @@ require('dotenv').config({
   </table></td>
                               </tr>
                           </tbody></table>`,
-    }
-  
-    return sgMail.send(msg)
   }
+
+  return sgMail.send(msg)
+}

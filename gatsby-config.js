@@ -1,5 +1,5 @@
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
 })
 
 module.exports = {
@@ -8,9 +8,9 @@ module.exports = {
     description: `Ring of Keys is a musical theatre advocacy program for queer women, transgender,
     and gender non-conforming artists.`,
     author: `@ringofkeysorg`,
-    siteUrl: 'https://www.ringofkeys.org',
+    siteUrl: "https://www.ringofkeys.org",
     image: `/rok_logo.png`,
-    twitterUsername: '@ringofkeysorg',
+    twitterUsername: "@ringofkeysorg",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -54,22 +54,23 @@ module.exports = {
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
     {
-      resolve: 'gatsby-source-datocms',
+      resolve: "gatsby-source-datocms",
       options: {
         apiToken: process.env.DATO_READ_ONLY_TOKEN,
         preview: false,
         disableLiveReload: false,
-        apiUrl: 'https://site-api.datocms.com',
+        apiUrl: "https://site-api.datocms.com",
       },
     },
     {
-      resolve: 'gatsby-plugin-mailchimp',
+      resolve: "gatsby-plugin-mailchimp",
       options: {
-          endpoint: 'https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676',
+        endpoint:
+          "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676",
       },
     },
   ],
   flags: {
     PRESERVE_WEBPACK_CACHE: true,
-  }
+  },
 }

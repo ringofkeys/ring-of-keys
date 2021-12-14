@@ -1,6 +1,6 @@
 import React from "react"
 import { silentAuth, isLoggedIn } from "./src/utils/auth"
-import './src/styles/global.css'
+import "./src/styles/global.css"
 
 class SessionCheck extends React.Component {
   constructor(props) {
@@ -21,12 +21,12 @@ class SessionCheck extends React.Component {
   render() {
     return (
       this.state.loading === false && (
-        <React.Fragment>{ this.props.children }</React.Fragment>
+        <React.Fragment>{this.props.children}</React.Fragment>
       )
     )
   }
 }
 
 export const wrapRootElement = ({ element }) => {
-    return <SessionCheck>{ element }</SessionCheck>
+  return <SessionCheck>{element}</SessionCheck>
 }
