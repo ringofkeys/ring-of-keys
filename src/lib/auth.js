@@ -5,12 +5,13 @@ const isBrowser = typeof window !== "undefined"
 
 let auth = isBrowser
   ? new auth0.WebAuth({
-    domain: process.env.GATSBY_AUTH0_DOMAIN,
-    clientID: process.env.GATSBY_AUTH0_CLIENTID,
-    redirectUri: process.env.GATSBY_AUTH0_CALLBACK,
-    responseType: "token id_token",
-    scope: "openid profile email https://ringofkeys.org/user_metadata",
-  }) : {}
+      domain: process.env.GATSBY_AUTH0_DOMAIN,
+      clientID: process.env.GATSBY_AUTH0_CLIENTID,
+      redirectUri: process.env.GATSBY_AUTH0_CALLBACK,
+      responseType: "token id_token",
+      scope: "openid profile email https://ringofkeys.org/user_metadata",
+    })
+  : {}
 
 const tokens = {
   accessToken: false,
@@ -20,10 +21,12 @@ const tokens = {
 
 let user = {}
 
-const protectedRoutes = [`/dashboard`, `/callback`];
-const isProtectedRoute = isBrowser && protectedRoutes
-  .map(route => window.location.pathname.includes(route))
-  .some(route => route)
+const protectedRoutes = [`/dashboard`, `/callback`]
+const isProtectedRoute =
+  isBrowser &&
+  protectedRoutes
+    .map(route => window.location.pathname.includes(route))
+    .some(route => route)
 
 export const hasEmailSignup = () => {
   if (!isBrowser) return
@@ -55,9 +58,9 @@ const setSession = (cb = () => {}) => (err, authResult) => {
       login()
     }
   }
-  
+
   if (authResult && authResult.accessToken && authResult.idToken) {
-    console.log('authResult from auth.js', authResult)
+    console.log("authResult from auth.js", authResult)
 
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime()
     tokens.accessToken = authResult.accessToken
@@ -65,8 +68,7 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     tokens.expiresAt = expiresAt
     user = authResult.idTokenPayload
     localStorage.setItem("isLoggedIn", true)
-    
-    
+
     if (isProtectedRoute) {
       navigate("/dashboard")
     }

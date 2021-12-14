@@ -1,6 +1,6 @@
 import { useState } from "react"
-import Link from 'next/link'
-import styles from './header.module.css'
+import Link from "next/link"
+import styles from "./header.module.css"
 
 // TODO: Reimplement Auth as context
 // import { getProfile, isAuthenticated, logout } from "../utils/auth"
@@ -10,9 +10,13 @@ const Header = ({ path }) => {
   const [isNavOpen, setNavOpen] = useState(false)
 
   let secondaryNav = (
-    <div className={styles['nav__login']}>
-      <Link href='/apply' className={isNavOpen ? 'btn btn-link_ghost' : ''}><a>Apply to be a key</a></Link>
-      <Link href='/dashboard' id='btn__login' ><a>Log In</a></Link>  
+    <div className={styles["nav__login"]}>
+      <Link href="/apply" className={isNavOpen ? "btn btn-link_ghost" : ""}>
+        <a>Apply to be a key</a>
+      </Link>
+      <Link href="/dashboard" id="btn__login">
+        <a>Log In</a>
+      </Link>
     </div>
   )
 
@@ -29,7 +33,7 @@ const Header = ({ path }) => {
   //     <div className='nav__login'>
   //       <div className='login_wrap'>
   //         <Link to='/dashboard' className='login_avatar'>
-  //           {artist && 
+  //           {artist &&
   //             <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } />
   //           }
   //           { profile.name }
@@ -46,23 +50,58 @@ const Header = ({ path }) => {
 
   return (
     <header className={styles.header}>
-      <button className='visually-hidden' onClick={() => document.querySelector('#main-content').focus()}>Skip to main content</button>
-      <nav className={`${styles['top-nav']} ${styles[isNavOpen ? 'open' : 'closed']}`}>
-        <div className={styles['top__inner']}>
-          <Link href='/' >
-            <a className={styles['site-logo']}><img src='/img/rok_logo.png' alt='Ring of Keys' /></a>
+      <button
+        className="visually-hidden"
+        onClick={() => document.querySelector("#main-content").focus()}
+      >
+        Skip to main content
+      </button>
+      <nav
+        className={`${styles["top-nav"]} ${
+          styles[isNavOpen ? "open" : "closed"]
+        }`}
+      >
+        <div className={styles["top__inner"]}>
+          <Link href="/">
+            <a className={styles["site-logo"]}>
+              <img src="/img/rok_logo.png" alt="Ring of Keys" />
+            </a>
           </Link>
           {/* <MenuIcon onClick={() => setNavOpen(!isNavOpen)} className={styles['hamburger']} /> */}
         </div>
-        <div className={styles['nav__mobile-wrap']}>
-          { secondaryNav }
-          <div className={styles['nav__main']}>
-            <Link href='/directory' className={ path === '/directory' ? 'active' : '' }><a>Directory</a></Link>
-            <Link href='/news' className={ path === '/news' ? 'active' : '' }><a>News</a></Link>
-            <Link href='/consultancy' className={ path === '/consultancy' ? 'active' : '' }><a>Consultancy</a></Link>
-            <Link href='/resources' className={ path === '/resources' ? 'active' : '' }><a>Resources</a></Link>
-            <Link href='/donate' className={ path === '/donate' ? 'active' : '' }><a>Donate</a></Link>
-            <Link href='/contact' className={ path === '/contact' ? 'active' : '' }><a>Contact</a></Link>
+        <div className={styles["nav__mobile-wrap"]}>
+          {secondaryNav}
+          <div className={styles["nav__main"]}>
+            <Link
+              href="/directory"
+              className={path === "/directory" ? "active" : ""}
+            >
+              <a>Directory</a>
+            </Link>
+            <Link href="/news" className={path === "/news" ? "active" : ""}>
+              <a>News</a>
+            </Link>
+            <Link
+              href="/consultancy"
+              className={path === "/consultancy" ? "active" : ""}
+            >
+              <a>Consultancy</a>
+            </Link>
+            <Link
+              href="/resources"
+              className={path === "/resources" ? "active" : ""}
+            >
+              <a>Resources</a>
+            </Link>
+            <Link href="/donate" className={path === "/donate" ? "active" : ""}>
+              <a>Donate</a>
+            </Link>
+            <Link
+              href="/contact"
+              className={path === "/contact" ? "active" : ""}
+            >
+              <a>Contact</a>
+            </Link>
             {/* { (isAuthenticated() === true) 
               ? <Link href='/dashboard' className='has-dropdown'>Dashboard</Link>
               : ''

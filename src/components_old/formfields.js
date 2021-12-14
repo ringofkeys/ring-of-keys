@@ -1,40 +1,54 @@
-import React from 'react'
-import InfoIcon from './infoicon'
+import React from "react"
+import InfoIcon from "./infoicon"
 
-export const Field = ({ name, label, change, value, type, placeholder, inputClasses, required = false, accept='',
-    defaultChecked, defaultValue, helpText}) => (
-    <div className={`input__group ${type}`}>
-        {label && <label htmlFor={name} className={`${required ? 'is-required' : ''}`}>
-            {label}
-            { helpText && <InfoIcon infoText={ helpText } /> }    
-        </label>}
-        {type !== 'textarea' 
-        ? <input
-            id={name}
-            name={name}
-            type={type}
-            onChange={change}
-            value={value}
-            placeholder={placeholder}
-            className={inputClasses}
-            required={required}
-            accept={accept}
-            defaultChecked={defaultChecked}
-            defaultValue={defaultValue}
-            />
-        : <textarea id={name}
-            name={name}
-            type={type}
-            onChange={change}
-            value={value}
-            placeholder={placeholder}
-            className={inputClasses}
-            required={required}
-            defaultChecked={defaultChecked}
-            defaultValue={defaultValue}
-            />
-        }
-    </div>
+export const Field = ({
+  name,
+  label,
+  change,
+  value,
+  type,
+  placeholder,
+  inputClasses,
+  required = false,
+  accept = "",
+  defaultChecked,
+  defaultValue,
+  helpText,
+}) => (
+  <div className={`input__group ${type}`}>
+    {label && (
+      <label htmlFor={name} className={`${required ? "is-required" : ""}`}>
+        {label}
+        {helpText && <InfoIcon infoText={helpText} />}
+      </label>
+    )}
+    {type !== "textarea" ? (
+      <input
+        id={name}
+        name={name}
+        type={type}
+        onChange={change}
+        value={value}
+        placeholder={placeholder}
+        className={inputClasses}
+        required={required}
+        accept={accept}
+        defaultChecked={defaultChecked}
+        defaultValue={defaultValue}
+      />
+    ) : (
+      <textarea
+        id={name}
+        name={name}
+        type={type}
+        onChange={change}
+        value={value}
+        placeholder={placeholder}
+        className={inputClasses}
+        required={required}
+        defaultChecked={defaultChecked}
+        defaultValue={defaultValue}
+      />
+    )}
+  </div>
 )
-
-

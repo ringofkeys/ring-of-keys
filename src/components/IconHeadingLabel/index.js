@@ -1,1 +1,1 @@
-export { default } from './IconHeadingLabel'
+export { default } from "./IconHeadingLabel"
