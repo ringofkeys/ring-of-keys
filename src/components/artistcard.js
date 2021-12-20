@@ -18,7 +18,8 @@ const ArtistCard = ({ obj, index }) => {
           <img
             src={
               artist.headshot.url +
-              "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=120&h=120&"
+              ((artist.headshot.url.indexOf("?") > -1) ? "&" : "?") +
+              "fit=facearea&faceindex=1&facepad=5&w=120&h=120&"
             }
             alt={artist.name + " headshot"}
             loading="lazy"

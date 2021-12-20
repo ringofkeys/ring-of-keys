@@ -202,11 +202,12 @@ span.results {
 
 .key__card img {
     max-width: 100%;
+    width: 100px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 100px;
     position: absolute;
     left: 50%;
-    border: solid white 2px;
+    border: solid white;
     top: 0;
     transform: translate(-50%, -50%);
     background: transparent;

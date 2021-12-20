@@ -76,7 +76,8 @@ const Header = ({ path }) => {
               <img
                 src={
                   artist.headshot.url +
-                  "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&"
+                  ((artist.headshot.url.indexOf("?") > -1) ? "&" : "?") +
+                  "fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&"
                 }
                 alt={artist.name + " headshot"}
               />
