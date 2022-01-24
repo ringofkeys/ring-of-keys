@@ -39,7 +39,7 @@ const News = ({ data }) => (
       <div className="section_news bg_white">
         <Carousel
           heading="Events"
-          itemList={data.events.edges}
+          itemList={data.events.edges.filter(({ node: eventPost }) => eventPost.includeInCarousels)}
           recordType="events"
           classNames={["carousel__gray"]}
         />
@@ -133,6 +133,7 @@ export const query = graphql`
             url
             alt
           }
+          includeInCarousels
           title
           startTime(formatString: "LLLL")
           slug
