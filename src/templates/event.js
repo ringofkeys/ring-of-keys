@@ -12,14 +12,19 @@ export default ({ data }) => {
       <h1>{title}</h1>
       <p>{startTime}</p>
       {featuredImage && (
-        <img
-          src={featuredImage.url}
-          alt={featuredImage.alt}
-          class="featured-image"
-        />
+        <div>
+          <img
+            src={featuredImage.url}
+            alt={featuredImage.alt}
+            class="featured-image"
+          />
+        </div>
       )}
       {descriptionNode &&
-        renderHtmlToReact(descriptionNode.childMarkdownRemark.htmlAst)}
+        <article className="event-content">
+          { renderHtmlToReact(descriptionNode.childMarkdownRemark.htmlAst) }
+        </article>
+      }
     </Layout>
   )
 }
