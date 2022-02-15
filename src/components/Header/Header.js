@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from "next/link"
 import styles from "./header.module.css"
 
@@ -14,9 +15,9 @@ const Header = ({ path }) => {
       <Link href="/apply" className={isNavOpen ? "btn btn-link_ghost" : ""}>
         <a>Apply to be a key</a>
       </Link>
-      <Link href="/dashboard" id="btn__login">
-        <a>Log In</a>
-      </Link>
+      <button onClick={() => signIn(null, { callbackUrl: 'http://localhost:3000/dashboard' })} id="btn__login">
+        Log In
+      </button>
     </div>
   )
 
