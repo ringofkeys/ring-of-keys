@@ -18,8 +18,9 @@ exports.handler = async event => {
       to: datoUser.email,
       from: "info@ringofkeys.org",
       templateId: 'd-22d616ebfb2347cabb4a2bbb5936f4ba',
+      text: 'You have a new message through Ring of Keys',
       dynamicTemplateData: {
-        toArtist: data.toArtist,
+        fromName: data.fromName,
       },
     }
 
