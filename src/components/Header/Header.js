@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from "next/link"
 import styles from "./header.module.css"
+import { request } from "lib/datocms"
 
 // TODO: Reimplement Auth as context
 // import { getProfile, isAuthenticated, logout } from "../utils/auth"
@@ -9,45 +10,7 @@ import styles from "./header.module.css"
 
 const Header = ({ path }) => {
   const [isNavOpen, setNavOpen] = useState(false)
-
-  let secondaryNav = (
-    <div className={styles["nav__login"]}>
-      <Link href="/apply" className={isNavOpen ? "btn btn-link_ghost" : ""}>
-        <a>Apply to be a key</a>
-      </Link>
-      <button onClick={() => signIn('auth0', { callbackUrl: 'http://localhost:3000/dashboard' })} id="btn__login">
-        Log In
-      </button>
-    </div>
-  )
-
-  // TODO: reimplement authentication states
-  // if (isAuthenticated() === true) {
-  //   const profile = getProfile()
-  //   if (profile.name) {
-  //     profile.name = decodeHtmlEntity(profile.name)
-  //   }
-  //   const artistsFiltered = users.data.edges.filter(({node}) => node.name === profile.name)
-  //   const artist = artistsFiltered[0] ? artistsFiltered[0].node : ''
-
-  //   secondaryNav = (
-  //     <div className='nav__login'>
-  //       <div className='login_wrap'>
-  //         <Link to='/dashboard' className='login_avatar'>
-  //           {artist &&
-  //             <img src={ artist.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ artist.name +' headshot' } />
-  //           }
-  //           { profile.name }
-  //           <span className='tooltip'>My Account</span>
-  //         </Link>
-  //         <a href='#logout' onClick={e => {
-  //             logout()
-  //             e.preventDefault()
-  //         }}>Log Out</a>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  const { data: session } = useSession()
 
   return (
     <header className={styles.header}>
@@ -71,12 +34,9 @@ const Header = ({ path }) => {
           {/* <MenuIcon onClick={() => setNavOpen(!isNavOpen)} className={styles['hamburger']} /> */}
         </div>
         <div className={styles["nav__mobile-wrap"]}>
-          {secondaryNav}
+          <SecondaryNav session={session} navOpen={isNavOpen} />
           <div className={styles["nav__main"]}>
-            <Link
-              href="/directory"
-              className={path === "/directory" ? "active" : ""}
-            >
+            <Link href="/directory" className={path === "/directory" ? "active" : ""}>
               <a>Directory</a>
             </Link>
             <Link href="/news" className={path === "/news" ? "active" : ""}>
@@ -103,15 +63,75 @@ const Header = ({ path }) => {
             >
               <a>Contact</a>
             </Link>
-            {/* { (isAuthenticated() === true) 
-              ? <Link href='/dashboard' className='has-dropdown'>Dashboard</Link>
-              : ''
-            } */}
+            { session &&
+              <Link href='/dashboard' className='has-dropdown'>
+                <a>Dashboard</a>
+              </Link> }
           </div>
         </div>
       </nav>
     </header>
   )
+}
+
+function NavLink({ href, children, path }) {
+  console.log("LINK HREF IS ", href)
+  return <Link href={href || ''} className={path === href ? "active": "" }>
+    <a>{children}</a>
+  </Link>
+}
+
+function SecondaryNav({ session, navOpen }) {
+  const [user, setUser] = useState(false)
+
+  useEffect(() => {
+    if (session) {
+      getUserData(session.token.datoId).then(({user: userData}) => setUser(userData))
+    }
+  }, [session])
+
+  return <div className={styles["nav__login"]}>
+    { (!session)
+    ? (<>
+      <Link href="/apply" className={navOpen ? "btn btn-link_ghost" : ""}>
+        <a>Apply to be a key</a>
+      </Link>
+      <button onClick={() => signIn('auth0', { callbackUrl: 'http://localhost:3000/dashboard' })} id="btn__login">
+        Log In
+      </button>
+    </>)
+    : <div className='login_wrap'>
+        <Link href='/dashboard' className='login_avatar'>
+          <a>
+            { user && (<>
+              <img src={ user.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ user.name +' headshot' } />
+              { user.name }
+            </>)}
+            <span className='tooltip'>My Account</span>
+          </a>
+        </Link>
+        <button onClick={() => signOut({ callbackUrl: 'http://localhost:3000/'})}>Log Out</button>
+      </div>
+    }
+  </div>
+}
+
+async function getUserData(datoId) {
+  const NAV_QUERY = `
+    query DASHBOARD($id: ItemId) {
+      user: key(filter: { id: { eq: $id}}) {
+        id
+        name
+        headshot {
+            url
+        }
+      }
+    }`
+
+    return await request({
+      query: NAV_QUERY,
+      variables: { id: datoId }
+    })
 }
 
 export default Header
