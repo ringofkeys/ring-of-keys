@@ -15,7 +15,7 @@ const Header = ({ path }) => {
       <Link href="/apply" className={isNavOpen ? "btn btn-link_ghost" : ""}>
         <a>Apply to be a key</a>
       </Link>
-      <button onClick={() => signIn(null, { callbackUrl: 'http://localhost:3000/dashboard' })} id="btn__login">
+      <button onClick={() => signIn('auth0', { callbackUrl: 'http://localhost:3000/dashboard' })} id="btn__login">
         Log In
       </button>
     </div>

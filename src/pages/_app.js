@@ -1,4 +1,4 @@
-import { SessionProvider } from 'next-auth/react'
+import { SessionProvider, signIn, useSession } from 'next-auth/react'
 import "../styles/global.css"
 
 // This default export is required in a new `pages/_app.js` file.
