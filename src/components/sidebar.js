@@ -8,6 +8,7 @@ const Sidebar = () => {
       events: allDatoCmsEvent(
         limit: 4
         sort: { fields: startTime, order: DESC }
+        filter: { includeInCarousels: { eq: true } }
       ) {
         edges {
           node {
