@@ -1,11 +1,13 @@
 import Link from "next/link"
 import IconHeadingLabel from "components/IconHeadingLabel"
 import Carousel from "components/carousel"
-import { request } from "lib/datocms"
+import { request, requestAll } from "lib/datocms"
 import styles from "styles/home.module.css"
 import Layout from "components/Layout"
 import { pageQuery } from 'queries/page.js'
-// import SEO from "../components/seo"
+import { sidebarQuery } from 'queries/sidebar.js'
+import PageContent from "components/PageContent"
+import { getPageSpecificQueries } from "queries"
 
 export async function getStaticPaths() {
   const slugs = await request({
@@ -31,24 +33,54 @@ export async function getStaticProps({ params }) {
     },
   })
 
+  const [pageSpecificQuery, pageSpecificVariables, isRepeatingQuery] = getPageSpecificQueries(params.slug)
+  let pageSpecificData = {}
+
+  console.log('from within [slug]', params.slug, isRepeatingQuery)
+
+  if (pageSpecificQuery) {
+    pageSpecificData = (!isRepeatingQuery) ? await request({
+      query: pageSpecificQuery,
+      variables: pageSpecificVariables,
+    }) : await requestAll({
+      query: pageSpecificQuery,
+      variables: pageSpecificVariables,
+    })
+  }
+
+  console.log(params.slug, pageSpecificQuery, pageSpecificVariables, pageSpecificData.length)
+
+  let sidebarData = false
+  if (data?.page?.hasSidebar) {
+    sidebarData = await request({
+      query: sidebarQuery,
+      variables: {},
+    })
+  }
+
 
   return {
     props: {
-      data,
+      ...data.page,
+      pageSpecificData,
+      sidebarData,
     },
   }
 }
 
-const IndexPage = ({ data }) => {
+const Page = ({ sidebarData, ...pageProps }) => {
   // const { keySteps, homepageBody } = data.homepage
   // const { quoteAttribution, quoteTextNode } = homepageBody[0]
 
-  return (
-    <Layout>
+  console.log('from page', pageProps)
+
+  return (<>
+    <Layout sidebarData={sidebarData}>
       {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <PageContent content={ pageProps.content } pageSpecificData={pageProps.pageSpecificData} />
+      { (pageProps.pageSpecificData) && <pre>{ JSON.stringify(pageProps.pageSpecificData, null, 2) }</pre> }
     </Layout>
-  )
+  </>)
 }
-export default IndexPage
+export default Page

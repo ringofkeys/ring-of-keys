@@ -468,12 +468,6 @@ h1, h2, h3 {
     margin-top: 1.75em;
 }
 
-.about h4 {
-    color: var(--rok-peach-1_hex);
-    font-family: 'EB Garamond', serif;
-    font-size: 1rem;
-}
-
 .about p {
     line-height: 1.7;
 }

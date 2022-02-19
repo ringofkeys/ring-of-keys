@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from "next/link"
-import styles from "./header.module.css"
 import { request } from "lib/datocms"
+import { NAV_QUERY } from "queries/nav"
+import styles from "./header.module.css"
+import tooltipStyles from 'styles/tooltip.module.css'
 
 // TODO: Reimplement Auth as context
 // import { getProfile, isAuthenticated, logout } from "../utils/auth"
@@ -36,7 +38,7 @@ const Header = ({ path }) => {
         <div className={styles["nav__mobile-wrap"]}>
           <SecondaryNav session={session} navOpen={isNavOpen} />
           <div className={styles["nav__main"]}>
-            <Link href="/directory" className={path === "/directory" ? "active" : ""}>
+            <Link href="/directory-2" className={path === "/directory" ? "active" : ""}>
               <a>Directory</a>
             </Link>
             <Link href="/news" className={path === "/news" ? "active" : ""}>
@@ -100,14 +102,14 @@ function SecondaryNav({ session, navOpen }) {
         Log In
       </button>
     </>)
-    : <div className='login_wrap'>
-        <Link href='/dashboard' className='login_avatar'>
-          <a>
+    : <div className={styles["login_wrap"]}>
+        <Link href='/dashboard'>
+          <a className={styles["login_avatar"]}>
             { user && (<>
               <img src={ user.headshot.url + '?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&'} alt={ user.name +' headshot' } />
               { user.name }
             </>)}
-            <span className='tooltip'>My Account</span>
+            <span className={tooltipStyles.tooltip}>My Account</span>
           </a>
         </Link>
         <button onClick={() => signOut({ callbackUrl: 'http://localhost:3000/'})}>Log Out</button>
@@ -117,21 +119,10 @@ function SecondaryNav({ session, navOpen }) {
 }
 
 async function getUserData(datoId) {
-  const NAV_QUERY = `
-    query DASHBOARD($id: ItemId) {
-      user: key(filter: { id: { eq: $id}}) {
-        id
-        name
-        headshot {
-            url
-        }
-      }
-    }`
-
     return await request({
       query: NAV_QUERY,
       variables: { id: datoId }
     })
 }
 
-export default Header
+export default React.memo(Header)

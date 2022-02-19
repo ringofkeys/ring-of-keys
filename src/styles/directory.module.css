@@ -1,15 +1,3 @@
-.directory > section {
-    width: 75vw;
-    margin: 2em auto;
-}
-
-.directory > section:first-of-type {
-    margin-top: 10vh;
-}
-.directory > section:last-of-type {
-    margin-bottom: 10vh;
-}
-
 .directory > .section_search {
     margin: 2em auto;
     margin-block-end: 0;
@@ -160,8 +148,9 @@ span.results {
 }
 
 /* Artist Cards */
-.directory .key__grid {
+.key__grid {
     width: 100%;
+    margin: 2em auto 10vh;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;

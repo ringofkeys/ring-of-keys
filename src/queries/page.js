@@ -3,6 +3,7 @@ query SinglePageQuery($slug: String!) {
     page(filter: { slug: { eq: $slug }}) {
       content {
         ... on IconHeadingLabelRecord {
+          __typename
           id
           icon {
             blurhash
@@ -14,6 +15,7 @@ query SinglePageQuery($slug: String!) {
           columns
         }
         ... on QuoteRecord {
+          __typename
           id
           quoteText
           quoteAttribution
@@ -25,11 +27,13 @@ query SinglePageQuery($slug: String!) {
           }
         }
         ... on BasicBlockRecord {
+          __typename
           idHref
           content
           area
         }
         ... on ButtonRecord {
+          __typename
           id
           url
           text
@@ -39,10 +43,12 @@ query SinglePageQuery($slug: String!) {
           }
         }
         ... on ShortcodeRecord {
+          __typename
           id
           name
         }
         ... on HeroRecord {
+          __typename
           id
           heroType
           description
@@ -50,11 +56,13 @@ query SinglePageQuery($slug: String!) {
           linkUrl
         }
         ... on TeammateItemRecord {
+          __typename
           name
           content
           linkUrl
         }
         ... on ImageArrayRecord {
+          __typename
           images {
             url
             customData
