@@ -3,10 +3,12 @@
 // import KeyshipButton from "./KeyshipButton"
 // import DonorBoxWidget from "./DonorBoxWidget"
 // import VimeoEmbed from "./VimeoEmbed"
+import ApplyForm from 'components/forms/ApplyForm'
 import DirectorySection from "./DirectorySection"
 
 const shortcodes = {
   "directory-section": DirectorySection,
+  "apply-form": ApplyForm,
   // "consultancy-form": <ConsultantForm />,
   // "consultant-bios": <ConsultantBios />,
   // "keyship-button": <KeyshipButton />,

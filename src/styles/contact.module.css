@@ -1,59 +1,59 @@
-.contact_page {
+.contactPage {
     width: fit-content;
     min-width: 27vw;
     margin: auto;
 }
 
-.contact_header {
+.contactHeader {
     text-align: center;
     padding-block-end: .25em;
     border-bottom: solid 1px #6d7278;
     margin-block-end: 2em;
 }
 
-.contact_header h1 {
+.contactHeader h1 {
     font-size: 2.5em;
     margin: 1vh 0;
 }
 
-.contact_header p {
+.contactHeader p {
     margin-block-start: 0;
 }
 
-.contact_form input,
-.contact_form select,
-.contact_form textarea {
+.contactForm input,
+.contactForm select,
+.contactForm textarea {
     width: 100%;
 }
 
-.contact_form .input__group {
+.contactForm .input__group {
     margin: 1.5em 0;
 }
 
-.contact_form select {
+.contactForm select {
     padding: .25em 0;
 }
 
-.contact_form button {
+.contactForm button {
     padding: .75em 2.5em;
     width: 100%;
 }
 
-.contact_form button.success {
+.contactForm button.success {
     background: lightgreen;
     content: 'Sent';
 }
 
-.contact_form button.failure {
+.contactForm button.failure {
     background: lightpink;
     content: 'Try Again';
 }
 
-.contact_form textarea {
+.contactForm textarea {
     min-height: 15vh;
 }
 
-.contact_page h2 {
+.contactPage h2 {
     text-align: center;
     margin-block-start: 5vh;
 }

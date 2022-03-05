@@ -1,39 +1,39 @@
-.apply__intro {
-    margin-bottom: 4em;
+.applyForm {
+    margin-block-start: 4rem;
 }
 
-.apply__form h2,
-.apply__form h3 {
+.applyForm h2,
+.applyForm h3 {
     text-transform: none;
     margin-bottom: 1.25rem;
 }
 
-.apply__form h2 { font-size: 1.2rem; }
-.apply__form h3 { font-size: 1rem; }
+.applyForm h2 { font-size: 1.2rem; }
+.applyForm h3 { font-size: 1rem; }
 
-.apply__form input[type='text'],
-.apply__form input[type='email'] {
+.applyForm input[type='text'],
+.applyForm input[type='email'] {
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
 }
 
-.apply__form .basic_info {
+.applyForm .basicInfo {
     display: flex;
     flex-wrap: wrap;
 }
 
-.basic_info .input__group {
+.basicInfo .inputGroup {
     margin: 1rem;
     max-width: calc(33% - 2rem);
 }
 
-.apply__form .basic_info > * {
+.applyForm .basicInfo > * {
     width: 30%;
     margin-bottom: 1em;
 }
 
-.checkbox__grid {
+.checkboxGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: .5em;
@@ -41,25 +41,25 @@
     margin-bottom: 2em;
 }
 
-.checkbox__grid label {
+.checkboxGrid label {
     display: inline-block;
     font-weight: normal;
 }
 
-.checkbox__grid .input__group > * {
+.checkboxGrid .inputGroup > * {
     align-self: center;
 }
 
-.grid_2c-2r .checkbox__grid {
+.grid2C2R .checkboxGrid {
     grid-row: 1 / 3;
 }
 
-.apply .grid_2c-1r {
+.apply .grid2C1R {
     gap: 1em;
     margin: 2em 0;
 }
 
-.grid_2c-1r textarea {
+.grid2C1R textarea {
     display: block;
     width: 100%;
     height: 8em;
@@ -71,21 +71,21 @@
 }
 
 @media(max-width: 700px) {
-    .basic_info .input__group {
+    .basicInfo .inputGroup {
         margin: 1rem 0;
         width: 100%;
         max-width: 100%;
     }
 
-    .apply .cb-grid_wrapper .checkbox__grid {
+    .apply .cb-grid_wrapper .checkboxGrid {
         grid-template-columns: 1fr;
     }
 
-    .apply .grid_2c-2r {
+    .apply .grid2C2R {
         grid-template-columns: 1fr;
     }
 
-    .apply .grid_2c-1r {
+    .apply .grid2C1R {
         gap: 2em 0;
     }
 }

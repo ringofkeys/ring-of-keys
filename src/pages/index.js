@@ -5,6 +5,7 @@ import { request } from "lib/datocms"
 import styles from "styles/home.module.css"
 import Layout from "components/Layout"
 import { pageQuery } from 'queries/page.js'
+import PageContent from "components/PageContent"
 // import SEO from "../components/seo"
 
 export async function getStaticProps({ params }) {
@@ -30,6 +31,7 @@ const IndexPage = ({ data }) => {
     <Layout>
       {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
+      <PageContent content={ data?.page?.content } />
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </Layout>
   )
