@@ -27,7 +27,6 @@ const KeyshipButton = ({ search }) => {
       }
     ).then(res => res.json())
 
-    localStorage.setItem("stripe_customer", data.customer)
 
     // const response = await updateFields(datoId, name, { stripeId: data.customer })
 

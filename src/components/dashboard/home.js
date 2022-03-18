@@ -64,13 +64,6 @@ const Home = ({
     )
   }
 
-  const storedStripeId = localStorage.getItem("stripe_customer")
-  if (!user.stripeId && storedStripeId) {
-    user.stripeId = storedStripeId
-  } else if (user.stripeId && storedStripeId) {
-    localStorage.removeItem("stripe_customer") // once we know we're covered, remove the localStorage item in case the user deletes their subscription in future.
-  }
-
   const initialState = {
     popupOpen: "",
   }

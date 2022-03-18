@@ -67,7 +67,6 @@ const KeyshipForm = ({ userId }) => {
 
     createCheckoutSession(userId, prices).then(({ sessionId }) => {
       const stripe = window.Stripe(process.env.GATSBY_STRIPE_PUBLIC_KEY)
-      console.log("clicking!", { userId, prices, sessionId, stripe })
       stripe.redirectToCheckout({ sessionId })
     })
     //.then(handleResult)
@@ -178,7 +177,6 @@ export const StripeSubscribed = ({ stripeId }) => {
       ) // Stripe stores timestamps in seconds since epoch, not milliseconds
       const shortDate = num => num.toString().padStart(2, "0")
 
-      console.log({ customerData, tier, lastPaid })
       if (
         customerData.delinquent ||
         customerData.subscriptions.total_count === 0
@@ -282,7 +280,6 @@ function createPortalSession(customer) {
 }
 
 async function getCustomer(id) {
-  console.log("stripeId = ", id)
   const customer = fetch(
     `https://api.stripe.com/v1/customers/${id}?expand[]=subscriptions`,
     {
