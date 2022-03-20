@@ -21,57 +21,6 @@
     margin-right: 15vw;
 }
 
-.btn__learn-more {
-    display: block;
-    padding: .6em 1.5em;
-    font-size: 1em;
-}
-
-.index_hero {
-    box-sizing: border-box;
-    padding: 6vh 10vw;
-    width: 100vw;
-    display: grid;
-    grid-template-columns: 70% 30%;
-    grid-gap: 3vw;
-    align-items: center;
-    font-size: calc(.6rem + .9vw);
-}
-
-.index_hero h1 {
-    font-size: 8.5vw;
-    font-weight: 900;
-    font-family: 'Raleway', sans-serif;
-    text-align: right;
-    line-height: 0.8;
-    padding-left: 2rem;
-    margin: 0;
-    border-left: solid 1px var(--rok-copper-1_hex);
-}
-
-.index_hero h1 > span {
-    font-size: 15vw;
-    color: var(--rok-gold-1_hex);
-}
-
-.index_hero h1 > span > span:nth-child(2) { color: var(--rok-slate-blue_hex); }
-.index_hero h1 > span > span:nth-child(3) { color: var(--rok-peach-1_hex); }
-.index_hero h1 > span > span:nth-child(4) { color: var(--rok-pale-green-1_hex); }
-.index_hero h1 > span > span:last-child { color: var(--rok-copper-1_hex); }
-
-.index_hero__right-col {
-    padding-right: 2rem;
-    font-size: calc(.6em + .5vw);
-}
-
-.index_hero .btn {
-    font-size: .6em;
-    font-weight: 400;
-    margin-top: 1.5rem;
-    display: block;
-    padding: 1em 3em;
-}
-
 .section_icon-heading-labels {
     display: flex;
         justify-content: center;
@@ -129,38 +78,6 @@
 
 /* Mobile styling */
 @media (max-width: 700px) {
-    .index_hero {
-        display: block;
-        width: 100%;
-    }
-
-    .index_hero h1 {
-        padding: 0;
-        border-left: none;
-        text-align: center;
-        font-size: 10vw;
-        line-height: .9;
-    }
-
-    .index_hero  h1 > span {
-        font-size: 22vw;
-        display: block;
-    }
-
-    .index_hero .index_hero__right-col {
-        text-align: center;
-        margin: auto;
-        margin-block-start: 3vh;
-        padding: 0;
-        font-size: 1rem;
-    }
-
-    .index_hero__right-col .btn {
-        margin: 0 auto;
-        margin-block-start: 3vh;
-        font-size: .8em;
-    }
-
     .section_icon-heading-labels {
         flex-direction: column;
         margin: 5vh auto;
