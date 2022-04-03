@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "gatsby"
-import SidebarLayout from "../components/sidebarlayout"
+import SidebarLayout from "../components/SidebarLayout"
 import ApplyForm from "../components/applyform"
 import "./apply.css"
 
