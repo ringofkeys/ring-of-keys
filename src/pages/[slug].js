@@ -9,13 +9,16 @@ import { sidebarQuery } from 'queries/sidebar.js'
 import PageContent from "components/PageContent"
 import { getPageSpecificQueries } from "queries"
 
+const unincludedPages = ['dashboard']
+
 export async function getStaticPaths() {
   const slugs = await request({
     query: 'query AllPageQuery { allPages { slug }}',
   })
 
   return {
-    paths: slugs.allPages.filter(({ slug }) => slug) // filters out the home page, which has an empty slug.
+    paths: slugs.allPages
+      .filter(({ slug }) => slug && unincludedPages.indexOf(slug) < 0) // filters out the home page, which has an empty slug.
       .map(({ slug }) => {
       return { 
         params: { slug },
@@ -36,7 +39,6 @@ export async function getStaticProps({ params }) {
   const [pageSpecificQuery, pageSpecificVariables, isRepeatingQuery] = getPageSpecificQueries(params.slug)
   let pageSpecificData = {}
 
-  console.log('from within [slug]', params.slug, isRepeatingQuery)
 
   if (pageSpecificQuery) {
     pageSpecificData = (!isRepeatingQuery) ? await request({
@@ -47,8 +49,6 @@ export async function getStaticProps({ params }) {
       variables: pageSpecificVariables,
     })
   }
-
-  console.log(params.slug, pageSpecificQuery, pageSpecificVariables, pageSpecificData.length)
 
   let sidebarData = false
   if (data?.page?.hasSidebar) {

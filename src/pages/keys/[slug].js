@@ -1,7 +1,7 @@
 import { Image } from "react-datocms"
-import { request } from "../../lib/datocms"
-import Layout from "../../components/Layout"
-import { ALL_KEY_SLUGS_QUERY, KEY_QUERY } from "./queries"
+import { request } from "lib/datocms"
+import Layout from "components/Layout"
+import { KEY_QUERY } from "queries/keys"
 
 export default function KeyPage(props) {
   return (
@@ -19,8 +19,6 @@ export async function getServerSideProps(context) {
       slug: context.params.slug,
     },
   })
-
-  console.log(data)
 
   return {
     props: data.key,

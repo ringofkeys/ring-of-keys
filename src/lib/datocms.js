@@ -31,7 +31,7 @@ export async function requestAll({ query, variables, preview }) {
     results = results.concat(resultsSubArray)
 
     skip += variables.limit || 20
-    keepQuerying = false  // for dev purposes, remove in PROD
+    // keepQuerying = false  // for dev purposes, remove in PROD
 
     if (resultsSubArray.length < (variables.limit || 20)) {
       keepQuerying = false

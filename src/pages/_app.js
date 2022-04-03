@@ -1,5 +1,5 @@
 import { SessionProvider, signIn, useSession } from 'next-auth/react'
-import SEO from "components/seo"
+import SEO from "components/SEO"
 import "../styles/global.css"
 
 // This default export is required in a new `pages/_app.js` file.

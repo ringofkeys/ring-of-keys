@@ -1,12 +1,26 @@
 export const newsItemQuery = `
 query NewsPieceQuery($slug: String!) {
-  news(slug: { eq: $slug }) {
+  news(filter: { slug: { eq: $slug }}) {
     title
     featuredImage {
       url
       alt
     }
     body
+  }
+}`
+
+export const eventItemQuery = `
+query EventQuery($slug: String!) {
+  event(filter: { slug: { eq: $slug }}) {
+    title
+    featuredImage {
+      url
+      alt
+    }
+    description
+    startTime
+    endTime
   }
 }`
 
