@@ -1,8 +1,7 @@
 [build]
-  publish = "public"
+  publish = ".next"
   functions = "functions"
   command = "npm run build"
-  publish = ".next"
 
 [[plugins]]
   # Installs the Lighthouse Build Plugin for all deploy contexts
