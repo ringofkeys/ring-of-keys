@@ -1,12 +1,12 @@
 import Link from "next/link"
 import IconHeadingLabel from "components/IconHeadingLabel"
-import Carousel from "components/carousel"
+import Carousel from "components/Carousel"
 import { request } from "lib/datocms"
 import styles from "styles/home.module.css"
 import Layout from "components/Layout"
 import { pageQuery } from 'queries/page.js'
 import PageContent from "components/PageContent"
-// import SEO from "../components/seo"
+// import SEO from "../components/SEO"
 
 export async function getStaticProps({ params }) {
   const data = await request({
