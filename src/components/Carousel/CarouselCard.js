@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
-import { useIntersect } from "../../hooks/useIntersect"
+import { useIntersect } from "hooks/useIntersect"
 import render from "html-react-parser"
 import styles from "./Carousel.module.css"
 

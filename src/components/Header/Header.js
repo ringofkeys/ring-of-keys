@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from "next/link"
 import { request } from "lib/datocms"
 import { NAV_QUERY } from "queries/nav"
-import styles from "./header.module.css"
+import styles from "./Header.module.css"
 import tooltipStyles from 'styles/tooltip.module.css'
 
 // TODO: Reimplement Auth as context
