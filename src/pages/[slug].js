@@ -72,8 +72,6 @@ const Page = ({ sidebarData, ...pageProps }) => {
   // const { keySteps, homepageBody } = data.homepage
   // const { quoteAttribution, quoteTextNode } = homepageBody[0]
 
-  console.log('from page', pageProps)
-
   return (<>
     <Layout sidebarData={sidebarData}>
       {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }

@@ -77,7 +77,6 @@ const Header = ({ path }) => {
 }
 
 function NavLink({ href, children, path }) {
-  console.log("LINK HREF IS ", href)
   return <Link href={href || ''} className={path === href ? "active": "" }>
     <a>{children}</a>
   </Link>
