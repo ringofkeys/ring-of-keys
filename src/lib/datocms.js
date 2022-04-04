@@ -5,7 +5,7 @@ export function request({ query, variables, preview }) {
 
   const client = new GraphQLClient(endpoint, {
     headers: {
-      authorization: `Bearer ${process.env.NEXT_PUBLIC_DATO_READ_ONLY_TOKEN}`,
+      authorization: `Bearer ${process.env.DATO_CONTENT_TOKEN}`,
     },
   })
 
