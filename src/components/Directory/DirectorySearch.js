@@ -1,32 +1,44 @@
 import { useState, useEffect } from "react"
 
-export default function DirectorySearch({ searcher, searchResults, setSearchResults }) {
-  const [searchTerm, setSearchTerm] = useState('')
+export default function DirectorySearch({
+  searcher,
+  searchResults,
+  setSearchResults,
+  resetSearchResults,
+}) {
+  function handleSearchChange(e) {
+    const searchTerm = e.target.value
 
-  useEffect(() => {
-    if (!searchTerm || searchTerm.length < 2) return
-    setSearchResults(searcher.search(searchTerm))
-  }, [searchTerm])
+    if (!searchTerm || searchTerm.length <= 2) {
+      resetSearchResults()
+    } else {
+      const results = searcher.search(searchTerm)
+      console.log({ searchTerm, results })
+      setSearchResults(results)
+    }
+  }
 
-    return (<>
-        <section className="section_search">
-            <div className="input__group text">
-            <label htmlFor="fuzzy">
-                Search any keywords here or use the advanced search feature to
-                narrow your results.
-            </label>
-            <input
-                type="text"
-                name="fuzzy"
-                onChange={e => setSearchTerm(e.target.value)}
-                placeholder="Keyword"
-            />
-            </div>
-            {/* <SearchButton /> */}
-            <span class="results">
-            <strong>{searchResults.length}</strong> artists
-            </span>
-            {/* <button
+
+  return (
+    <>
+      <section className="section_search">
+        <div className="input__group text">
+          <label htmlFor="fuzzy">
+            Search any keywords here or use the advanced search feature to
+            narrow your results.
+          </label>
+          <input
+            type="text"
+            name="fuzzy"
+            onChange={handleSearchChange}
+            placeholder="Keyword"
+          />
+        </div>
+        {/* <SearchButton /> */}
+        <span className="results">
+          <strong>{searchResults.length}</strong> artists
+        </span>
+        {/* <button
             onClick={() => setFilterVisibility(!filtersAreVisible)}
             className={"advanced-btn " + (activeFilters ? "active" : "")}
             style={{
@@ -44,8 +56,8 @@ export default function DirectorySearch({ searcher, searchResults, setSearchResu
                 <path d="M .5 2 l 1.5 -1.5 l 1.5 1.5"></path>
             </svg>
             </button> */}
-        </section>
-        {/* <section
+      </section>
+      {/* <section
             className={`section_filters ${filtersAreVisible ? "active" : ""}`}
         >
             <div className="filters">
@@ -69,5 +81,6 @@ export default function DirectorySearch({ searcher, searchResults, setSearchResu
             <SearchButton />
             </div>
         </section> */}
-    </>)
+    </>
+  )
 }

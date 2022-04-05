@@ -21,6 +21,7 @@ query AllKeysQuery($limit: IntType!, $skip: IntType!) {
         vocalRange
         danceExperience
         affiliations
+        showInDirectory
     }
 }`
 
