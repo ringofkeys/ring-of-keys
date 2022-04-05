@@ -27,7 +27,7 @@ export default function Shortcode(props) {
       props[key] = props[key].slice(1, props[key].length - 1)
     }
   })
-  console.log("a shortcode!", props)
+  // console.log("a shortcode!", props)
   if (!shortcodes[props.name]) {
     console.error('Unsupported shortcode in use', props)
     return null
