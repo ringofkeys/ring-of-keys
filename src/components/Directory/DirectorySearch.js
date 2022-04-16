@@ -1,86 +1,82 @@
-import { useState, useEffect } from "react"
+import styles from 'styles/directory.module.css'
 
 export default function DirectorySearch({
-  searcher,
-  searchResults,
-  setSearchResults,
-  resetSearchResults,
+  appliedFilters = [],
+  setAppliedFilters,
+  setFilterVisibility,
+  filtersAreVisible,
+  numResults,
 }) {
+
   function handleSearchChange(e) {
+    e.preventDefault()
     const searchTerm = e.target.value
+    const foundIndex = appliedFilters.findIndex(filter => filter[0] === e.target.name)
 
     if (!searchTerm || searchTerm.length <= 2) {
-      resetSearchResults()
+      setAppliedFilters([...appliedFilters.slice(0, foundIndex), ...appliedFilters.slice(foundIndex + 1)])
     } else {
-      const results = searcher.search(searchTerm)
-      console.log({ searchTerm, results })
-      setSearchResults(results)
+      if (foundIndex >= 0) {
+        const newFilters = [...appliedFilters]
+        newFilters[foundIndex][1] = e.target.value
+        setAppliedFilters(newFilters)
+      } else {
+          setAppliedFilters([...appliedFilters, [e.target.name, e.target.value]])
+      }
     }
   }
 
 
   return (
     <>
-      <section className="section_search">
-        <div className="input__group text">
-          <label htmlFor="fuzzy">
+      <section className={styles["section_search"]}>
+        <div className={styles["input__group"] + " text"}>
+          <label htmlFor="general">
             Search any keywords here or use the advanced search feature to
             narrow your results.
           </label>
           <input
             type="text"
-            name="fuzzy"
+            name="general"
             onChange={handleSearchChange}
             placeholder="Keyword"
           />
         </div>
-        {/* <SearchButton /> */}
-        <span className="results">
-          <strong>{searchResults.length}</strong> artists
+        <button
+          className={"btn bg_slate " + styles["btn_search"]}
+          onClick={() =>
+            window.scrollTo({
+              top:
+                document.getElementById("key__grid").getBoundingClientRect().top -
+                100,
+              behavior: "smooth",
+            })
+          }
+        >
+          Search
+        </button>
+        <span className={styles["results"]}>
+          <strong>{numResults}</strong> artists
         </span>
-        {/* <button
+        <button
             onClick={() => setFilterVisibility(!filtersAreVisible)}
-            className={"advanced-btn " + (activeFilters ? "active" : "")}
+            className={styles["advanced-btn"] + (appliedFilters.length ? " active" : "")}
             style={{
-                "--active": `'${activeFilters} filter${
-                activeFilters === 1 ? "" : "s"
+                "--active": `'${appliedFilters.length} filter${
+                appliedFilters.length === 1 ? "" : "s"
                 }'`,
             }}
             >
             Advanced Search
             <svg
-                className="advanced-arrow"
+                className={styles["advanced-arrow"]}
                 style={{ transform: `rotate(${filtersAreVisible ? 180 : 0}deg)` }}
                 viewBox="0 0 4 4"
             >
                 <path d="M .5 2 l 1.5 -1.5 l 1.5 1.5"></path>
             </svg>
-            </button> */}
+            </button>
       </section>
-      {/* <section
-            className={`section_filters ${filtersAreVisible ? "active" : ""}`}
-        >
-            <div className="filters">
-            <button
-                className="visually-hidden"
-                onClick={() => document.querySelector("a.key__card").focus()}
-            >
-                click to skip past filters to Artists' Cards
-            </button>
-            <Filters formik={formik} filters={filters} />
-            </div>
-            <div className="btn-row">
-            <button
-                className="btn btn-link_ghost btn_filters"
-                onClick={() =>
-                resetFilters(formik, filters, () => setSearchResults(searchList))
-                }
-            >
-                Clear Advanced Search
-            </button>
-            <SearchButton />
-            </div>
-        </section> */}
     </>
   )
 }

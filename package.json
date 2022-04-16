@@ -17,6 +17,7 @@
     "graphql-request": "^3.4.0",
     "hast-to-hyperscript": "^10.0.0",
     "html-react-parser": "^1.2.7",
+    "lodash.debounce": "^4.0.8",
     "next": "^11.0.1",
     "next-auth": "^4.2.1",
     "query-string": "^7.0.1",

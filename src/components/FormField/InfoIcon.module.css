@@ -1,0 +1,87 @@
+.tooltip,
+.info-icon {
+    display: none;
+}
+
+.info-icon {
+    position: relative;
+    font-family: serif;
+    display: inline-block;
+    width: fit-content;
+    text-transform: initial;
+    margin: 0 1em;
+    border: solid 1px var(--rok-slate-blue_hex);
+    border-radius: 50%;
+    font-size: .7em;
+    width: 1.25em;
+    height: 1.25em;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.info-icon .tooltip {
+    left: 50%;
+    max-width: 25vw;
+    --bg: rgba(255,255,255,0.9);
+    color: #333;
+
+    box-shadow: var(--rok-shadow_bottom);
+    text-transform: initial;
+    --init-transform: translate(-50%, 1vh);
+    --end-transform: translate(-50%, 0);
+}
+
+.tooltip {
+    font-size: .8rem;
+    font-family: sans-serif;
+    font-weight: lighter;
+    line-height: 1.6;
+    position: absolute;
+    --bg: rgba(0, 0, 0, 0.9);
+    background: var(--bg);
+    border-radius: .5vmin;
+    color: white;
+    box-sizing: border-box;
+    padding: 1.5em;
+    top: calc(100% + .25em);
+    width: max-content;
+    pointer-events: none;
+    max-width: 15vw;
+    --init-transform: translateY(1vh);
+    --end-transform: translateY(0);
+    transform: var(--init-transform);
+    opacity: 0;
+    z-index: 10;
+    transition: opacity .12s ease-in-out, transform .12s .04s ease-in-out;
+}
+
+.tooltip.from-above {
+    top: initial;
+    bottom: calc(100% + .25em);
+    --init-transform: translateY(-1vh);
+}
+
+.info-icon:hover > .tooltip,
+.info-icon:focus > .tooltip {
+    transform: var(--end-transform);
+    opacity: 1;
+}
+
+.tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: .2vmax;
+    height: .7vmax;
+    border: .5vmax solid transparent;
+    border-bottom-color: var(--bg);
+    transform-origin: 50% 50%;
+    transform: translate(-50%);
+}
+
+.tooltip.from-above::before {
+    top: 100%;
+    bottom: initial;
+    transform: translate(-50%) rotate(180deg);
+}

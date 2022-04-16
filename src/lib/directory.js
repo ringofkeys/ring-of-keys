@@ -16,6 +16,54 @@ export function prepareMemberList(memberList) {
     return t
 }
 
+export const locations = [
+  "New York City",
+  "Chicago",
+  "Los Angeles",
+  "Philadelphia",
+  "San Francisco / Oakland",
+  "Minneapolis / St. Paul",
+  "Denver",
+  "Boulder",
+  "Orlando",
+  "Sarasota",
+  "Louisville",
+  "Baltimore",
+  "Boston",
+  "St. Louis",
+  "Las Vegas",
+  "Raleigh",
+  "Cleveland",
+  "Ashland",
+  "Portland, OR",
+  "Pittsburgh",
+  "Austin",
+  "Salt Lake City",
+  "Washington, D.C.",
+  "Seattle",
+  "Toronto",
+  "Ontario",
+  "London",
+]
+
+export const affiliations = [
+  "AEA",
+  "AFM",
+  "AGMA",
+  "AGVA",
+  "ASCAP",
+  "BMI",
+  "CSA",
+  "EMC",
+  "IATSE",
+  "LMDA",
+  "SAFD",
+  "SAG/AFTRA",
+  "SDC",
+  "USA",
+  "Non-union",
+]
+
 /**
  * get a fuzzy search class, currently using Fuse.js,
  * to power text-based search given a list to search over
@@ -30,11 +78,11 @@ export function getDirectorySearch(searchableList, searchKeysList) {
         includeScore: true,
         shouldSort: true,
         includeMatches: true,
-        threshold: .3,
+        threshold: .25,
         location: 0,
         distance: 100,
         maxPatternLength: 32,
-        minMatchCharLength: 3,
+        minMatchCharLength: 2,
     })
 }
 
@@ -46,7 +94,7 @@ export function getDirectorySearch(searchableList, searchKeysList) {
  * @returns MemberObject[]
  */
 export function sortMembersByName(memberList) {
-    return searchList.sort((a, b) => {
+    return memberList.sort((a, b) => {
         const filterName = name => name.trim()
             .toLowerCase()
             .replace(/[\-\!\.]|(\(.+\))/gi, "")

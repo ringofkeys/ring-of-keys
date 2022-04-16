@@ -77,7 +77,7 @@ const Page = ({ sidebarData, ...pageProps }) => {
       {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
       <PageContent content={ pageProps.content } pageSpecificData={pageProps.pageSpecificData} />
-      { (pageProps.pageSpecificData) && <pre>{ JSON.stringify(pageProps.pageSpecificData, null, 2) }</pre> }
+      {/* { (pageProps.pageSpecificData) && <pre>{ JSON.stringify(pageProps.pageSpecificData, null, 2) }</pre> } */}
     </Layout>
   </>)
 }

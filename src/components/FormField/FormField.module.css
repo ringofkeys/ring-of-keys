@@ -1,0 +1,36 @@
+.input__group.checkbox {
+    display: grid;
+    grid-template-columns: 1.5em auto;
+    grid-gap: .5em;
+    grid-template-rows: 1fr;
+    align-items: center;
+    align-self: flex-start;
+}
+
+.input__group.checkbox label {
+    grid-column: 2 / 3;
+    text-transform: capitalize;
+    font-size: .8rem;  
+    margin: 0;
+}
+
+.input__group [type='checkbox'] {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+@media (max-width: 700px) {
+    .input__group.checkbox {
+        grid-template-columns: 1.5rem 1fr;
+        gap: 1rem;
+    }
+
+    .input__group.checkbox label {
+        font-size: .9rem;
+    }
+
+    .input__group.checkbox input {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
