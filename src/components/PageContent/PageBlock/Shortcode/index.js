@@ -4,7 +4,7 @@
 // import DonorBoxWidget from "./DonorBoxWidget"
 // import VimeoEmbed from "./VimeoEmbed"
 import ApplyForm from 'components/forms/ApplyForm'
-import DirectorySection from "./DirectorySection"
+import DirectorySection from "components/Directory/DirectorySection"
 
 const shortcodes = {
   "directory-section": DirectorySection,

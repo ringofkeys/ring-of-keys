@@ -1,3 +1,16 @@
+.checkbox__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: .5em;
+    margin-top: .5em;
+    margin-bottom: 2em;
+}
+
+.checkbox__grid label {
+    display: inline-block;
+    font-weight: normal;
+}
+
 @media (max-width: 700px) {
     .checkbox__grid {
         grid-template-columns: 1fr;

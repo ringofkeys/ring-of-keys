@@ -76,6 +76,7 @@ query SinglePageQuery($slug: String!) {
       id
       title
       slug
+      layout
       seo {
         title
         description

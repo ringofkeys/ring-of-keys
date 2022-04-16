@@ -58,7 +58,6 @@ export async function getStaticProps({ params }) {
     })
   }
 
-
   return {
     props: {
       ...data.page,
@@ -73,7 +72,7 @@ const Page = ({ sidebarData, ...pageProps }) => {
   // const { quoteAttribution, quoteTextNode } = homepageBody[0]
 
   return (<>
-    <Layout sidebarData={sidebarData}>
+    <Layout sidebarData={sidebarData} className={pageProps.layout}>
       {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
       <PageContent content={ pageProps.content } pageSpecificData={pageProps.pageSpecificData} />
