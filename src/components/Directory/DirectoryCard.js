@@ -34,9 +34,9 @@ export default function DirectoryCard({ obj }){
             >
               {artist.name}
             </h3>
-            <div className="card__meta">
+            <div className={styles["card__meta"]}>
               <span
-                className={styles["card__pronouns"] +' '+ matchClass("pronouns")}
+                className={styles["card__pronouns"] +' '+ styles[matchClass("pronouns")]}
                 style={{
                   "--match-opacity":
                     fieldHasMatch(obj, "pronouns") && obj.score
@@ -49,7 +49,7 @@ export default function DirectoryCard({ obj }){
                   : artist.pronouns}
               </span>
               <span
-                className={styles["card__location"] +' '+ matchClass(locationFieldToSearch)}
+                className={styles["card__location"] +' '+ styles[matchClass(locationFieldToSearch)]}
                 style={{
                   "--match-opacity":
                     fieldHasMatch(obj, locationFieldToSearch) && obj.score

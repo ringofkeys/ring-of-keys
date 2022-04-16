@@ -36,6 +36,19 @@ main.fullWidth {
     margin: 0;
 }
 
+/* LAYOUT STYLES THAT I DON'T WANT TO MODULARIZE */
+.directory-2 section {
+    width: 75vw;
+    margin: 2em auto;
+}
+
+.directory-2 section:first-of-type {
+    margin-top: 10vh;
+}
+.directory-2 section:last-of-type {
+    margin-bottom: 10vh;
+}
+
 .hover_scale {
     --init-transform: translate(0);
     --hov-scale: 1.03;

@@ -99,7 +99,7 @@ export default function DirectoryFilters({ filtersAreVisible, appliedFilters, se
                     fieldData={ affiliations }
                     >
                     {affiliations.map(val => (
-                        <div className={`input__group checkbox`}>
+                        <div className={styles["input__group"] +' '+ styles.checkbox +' '+ fieldStyles["input__group"] +' '+ fieldStyles.checkbox}>
                             <label htmlFor={'affiliations-'+val}>
                                 { val }
                             </label>
@@ -115,7 +115,7 @@ export default function DirectoryFilters({ filtersAreVisible, appliedFilters, se
                     ))}
                 </CheckboxGrid>
             </div>
-            <div className="btn-row">
+            <div style={{marginTop: "2rem"}}>
                 <button
                     type="reset"
                     className="btn btn-link_ghost btn_filters"

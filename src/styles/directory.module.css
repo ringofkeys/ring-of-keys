@@ -1,4 +1,4 @@
-.directory > .section_search {
+.section_search {
     margin: 2em auto;
     margin-block-end: 0;
     margin-block-end: 0;
@@ -83,7 +83,7 @@ span.results {
 }
 
 /* Filter inputs  */
-.section_filters {
+.section_search + .section_filters {
     background: #f7f7f7;
     transition: all .12s ease-in-out;
     opacity: 0;
@@ -148,7 +148,7 @@ span.results {
 }
 
 /* Artist Cards */
-.key__grid {
+.section_filters + .key__grid {
     width: 100%;
     margin: 2em auto 10vh;
     display: flex;
@@ -282,11 +282,6 @@ span.card__location {
 
     .filters {
         display: block;
-    }
-
-    .section_filters .input__group {
-        width: 100%;
-        margin: 1rem 0;
     }
 
     .section_filters input[type='text'],

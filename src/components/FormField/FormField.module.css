@@ -33,4 +33,9 @@
         width: 1.5rem;
         height: 1.5rem;
     }
+
+    .input__group {
+        width: 100%;
+        margin: 1rem 0;
+    }
 }
