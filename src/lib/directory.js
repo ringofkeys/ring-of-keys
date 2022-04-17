@@ -6,9 +6,9 @@ export function prepareMemberList(memberList) {
     
     // add firstName and lastName props by splitting name at first ' '
     t.forEach((artist) => {
-        artist.firstName = artist.name.substr(0, artist.name.indexOf(" "))
+        artist.firstName = artist.name.substr(0, artist.name.lastIndexOf(" "))
         artist.lastName = artist.name.substr(
-            artist.name.indexOf(" ") + 1,
+            artist.name.lastIndexOf(" ") + 1,
             artist.name.length
         )
     })
