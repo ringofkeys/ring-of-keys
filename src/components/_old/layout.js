@@ -14,74 +14,74 @@ import Helmet from "react-helmet"
 import Footer from "./footer"
 
 const Layout = ({
-  path,
-  children,
-  classNames,
-  title,
-  description,
-  image,
-  footerQuoteText,
-  footerQuoteAttribution,
-  footerQuoteBgColor,
-  footerQuoteTextColor,
+    path,
+    children,
+    classNames,
+    title,
+    description,
+    image,
+    footerQuoteText,
+    footerQuoteAttribution,
+    footerQuoteBgColor,
+    footerQuoteTextColor,
 }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
+    const data = useStaticQuery(graphql`
+        query SiteTitleQuery {
+            site {
+                siteMetadata {
+                    title
+                }
+            }
+            datoCmsSite {
+                faviconMetaTags {
+                    tags
+                }
+            }
         }
-      }
-      datoCmsSite {
-        faviconMetaTags {
-          tags
-        }
-      }
-    }
-  `)
-  const { tags } = data.datoCmsSite.faviconMetaTags
+    `)
+    const { tags } = data.datoCmsSite.faviconMetaTags
 
-  return (
-    <>
-      <Helmet
-        link={tags
-          .filter(tag => tag.tagName === "link")
-          .map(tag => tag.attributes)}
-        meta={tags
-          .filter(tag => tag.tagName === "meta")
-          .map(tag => tag.attributes)}
-      />
-      {(title || description) && (
-        <SEO
-          title={title ? title : "Home"}
-          description={
-            description
-              ? description
-              : `Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
+    return (
+        <>
+            <Helmet
+                link={tags
+                    .filter((tag) => tag.tagName === "link")
+                    .map((tag) => tag.attributes)}
+                meta={tags
+                    .filter((tag) => tag.tagName === "meta")
+                    .map((tag) => tag.attributes)}
+            />
+            {(title || description) && (
+                <SEO
+                    title={title ? title : "Home"}
+                    description={
+                        description
+                            ? description
+                            : `Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
              transgender, or gender non-conforming artists.`
-          }
-          image={image ? image : null}
-        />
-      )}
-      <Header siteTitle={data.site.siteMetadata.title} path={path} />
-      <main className={classNames && classNames.join(" ")}>
-        <a id="main-content" href="#" className="visually-hidden">
-          Main content.
-        </a>
-        {children}
-      </main>
-      <Footer
-        footerQuoteText={footerQuoteText}
-        footerQuoteAttribution={footerQuoteAttribution}
-        footerQuoteBgColor={footerQuoteBgColor}
-        footerQuoteTextColor={footerQuoteTextColor}
-      />
-    </>
-  )
+                    }
+                    image={image ? image : null}
+                />
+            )}
+            <Header siteTitle={data.site.siteMetadata.title} path={path} />
+            <main className={classNames && classNames.join(" ")}>
+                <a id="main-content" href="#" className="visually-hidden">
+                    Main content.
+                </a>
+                {children}
+            </main>
+            <Footer
+                footerQuoteText={footerQuoteText}
+                footerQuoteAttribution={footerQuoteAttribution}
+                footerQuoteBgColor={footerQuoteBgColor}
+                footerQuoteTextColor={footerQuoteTextColor}
+            />
+        </>
+    )
 }
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 export default Layout

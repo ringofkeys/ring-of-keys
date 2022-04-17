@@ -26,9 +26,9 @@ export const locations = [
     "St. Louis",
     "Toronto",
     "Washington DC",
-  ]
+]
 
-  export const affiliations = [
+export const affiliations = [
     "AEA",
     "AFM",
     "AGMA",
@@ -44,4 +44,4 @@ export const locations = [
     "SAG/AFTRA",
     "SDC",
     "USA",
-  ]
+]

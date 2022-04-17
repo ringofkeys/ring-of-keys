@@ -1,7 +1,7 @@
 /**
  * Converts a camelCaseString into a Title Case String
  * from StackOverflow: https://stackoverflow.com/questions/7225407/convert-camelcasetext-to-title-case-text
- * @param {string} camelCase 
+ * @param {string} camelCase
  * @returns {string}
  */
 export function camelCaseToLabel(camelCase) {

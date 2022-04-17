@@ -7,14 +7,14 @@ import BodyInfoField from "./BodyInfoField"
 import ResumeField from "./ResumeField"
 
 export const Hero = {
-  HeroHeadshotImageEditor,
-  HeroFeaturedImageEditor,
-  HeroSocialMediaEditor,
+    HeroHeadshotImageEditor,
+    HeroFeaturedImageEditor,
+    HeroSocialMediaEditor,
 }
 
 export const Body = {
-  BioField,
-  BasicInfoField,
-  BodyInfoField,
-  ResumeField,
+    BioField,
+    BasicInfoField,
+    BodyInfoField,
+    ResumeField,
 }

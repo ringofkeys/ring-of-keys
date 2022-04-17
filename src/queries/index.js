@@ -1,5 +1,5 @@
-import { KEYS_DIRECTORY_QUERY } from "./keys";
-import { RESOURCES_QUERY } from "./resources";
+import { KEYS_DIRECTORY_QUERY } from "./keys"
+import { RESOURCES_QUERY } from "./resources"
 
 export function getPageSpecificQueries(slug) {
     switch (slug) {

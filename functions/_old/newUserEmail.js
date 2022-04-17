@@ -1,20 +1,20 @@
 require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
+    path: `.env.${process.env.NODE_ENV}`,
 })
 const sgMail = require("@sendgrid/mail")
 sgMail.setApiKey(process.env.SENDGRID_KEY)
 
-exports.handler = async event => {
-  const data = JSON.parse(event.body)
+exports.handler = async (event) => {
+    const data = JSON.parse(event.body)
 
-  try {
-    const msg = {
-      to: "royerbockus.ringofkeys@gmail.com",
-      from: "website@ringofkeys.org",
-      bcc: [{ email: "info@ringofkeys.org" }],
-      subject: `New RoK User: ${data.name}`,
-      text: "There is  a new RoK user pending approval",
-      html: `
+    try {
+        const msg = {
+            to: "royerbockus.ringofkeys@gmail.com",
+            from: "website@ringofkeys.org",
+            bcc: [{ email: "info@ringofkeys.org" }],
+            subject: `New RoK User: ${data.name}`,
+            text: "There is  a new RoK user pending approval",
+            html: `
                 <h1>New Key Awaiting Approval</h1>
                 <p>
                     You can approve or reject them them by logging in to the 
@@ -27,37 +27,37 @@ exports.handler = async event => {
                             <th>Value</th>
                         </tr>
                         ${Object.keys(data)
-                          .map(
-                            key =>
-                              `<tr>
+                            .map(
+                                (key) =>
+                                    `<tr>
                                 <td>${key}</td>
                                 <td>${data[key]}</td>
                             </tr>`
-                          )
-                          .join("")}
+                            )
+                            .join("")}
                     </tbody>
                 </table>
             `,
-    }
+        }
 
-    const emailRes = await sgMail.send(msg)
+        const emailRes = await sgMail.send(msg)
 
-    return {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(emailRes),
-    }
-  } catch (err) {
-    console.error(err)
+        return {
+            statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
+            body: JSON.stringify(emailRes),
+        }
+    } catch (err) {
+        console.error(err)
 
-    return {
-      statusCode: 500,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: err.message,
+        return {
+            statusCode: 500,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
+            body: err.message,
+        }
     }
-  }
 }

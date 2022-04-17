@@ -14,56 +14,60 @@ import Footer from "./footer"
 import Sidebar from "./sidebar"
 
 const SidebarLayout = ({
-  path,
-  children,
-  title,
-  description,
-  classNames,
-  footerQuoteText,
-  footerQuoteAttribution,
-  footerQuoteBgColor,
-  footerQuoteTextColor,
+    path,
+    children,
+    title,
+    description,
+    classNames,
+    footerQuoteText,
+    footerQuoteAttribution,
+    footerQuoteBgColor,
+    footerQuoteTextColor,
 }) => {
-  const data = useStaticQuery(graphql`
-    query SidebarLayoutQuery {
-      site {
-        siteMetadata {
-          title
+    const data = useStaticQuery(graphql`
+        query SidebarLayoutQuery {
+            site {
+                siteMetadata {
+                    title
+                }
+            }
         }
-      }
-    }
-  `)
+    `)
 
-  return (
-    <>
-      {(title || description) && (
-        <SEO
-          title={title ? title : "Home"}
-          description={
-            description
-              ? description
-              : `Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
+    return (
+        <>
+            {(title || description) && (
+                <SEO
+                    title={title ? title : "Home"}
+                    description={
+                        description
+                            ? description
+                            : `Ring of Keys is dedicated to supporting theatremakers that identify as queer women,
              transgender, or gender non-conforming artists.`
-          }
-        />
-      )}
-      <Header siteTitle={data.site.siteMetadata.title} path={path} />
-      <main className={`has-sidebar ${classNames ? classNames.join(" ") : ""}`}>
-        <div>{children}</div>
-        <Sidebar />
-      </main>
-      <Footer
-        footerQuoteText={footerQuoteText}
-        footerQuoteAttribution={footerQuoteAttribution}
-        footerQuoteBgColor={footerQuoteBgColor}
-        footerQuoteTextColor={footerQuoteTextColor}
-      />
-    </>
-  )
+                    }
+                />
+            )}
+            <Header siteTitle={data.site.siteMetadata.title} path={path} />
+            <main
+                className={`has-sidebar ${
+                    classNames ? classNames.join(" ") : ""
+                }`}
+            >
+                <div>{children}</div>
+                <Sidebar />
+            </main>
+            <Footer
+                footerQuoteText={footerQuoteText}
+                footerQuoteAttribution={footerQuoteAttribution}
+                footerQuoteBgColor={footerQuoteBgColor}
+                footerQuoteTextColor={footerQuoteTextColor}
+            />
+        </>
+    )
 }
 
 SidebarLayout.propTypes = {
-  children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 export default SidebarLayout

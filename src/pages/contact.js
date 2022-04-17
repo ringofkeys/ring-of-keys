@@ -6,20 +6,23 @@ import SEO from "components/SEO"
 import styles from "styles/contact.module.css"
 
 const Contact = () => {
-  return (
-    <Layout>
-      <SEO seoData={{
-        title: "Contact Us",
-        description: "Get in touch with the Ring of Keys team to post jobs, hire our services, or ask any questions.",
-      }} />
-      <section className={styles.contactPage}>
-        <div className={styles.contactHeader}>
-          <h1>Contact Us</h1>
-          <p>Let's queer the stage.</p>
-        </div>
-        {/* <ContactForm /> */}
-        <h2>Follow Us</h2>
-        {/* <div className="social-row">
+    return (
+        <Layout>
+            <SEO
+                seoData={{
+                    title: "Contact Us",
+                    description:
+                        "Get in touch with the Ring of Keys team to post jobs, hire our services, or ask any questions.",
+                }}
+            />
+            <section className={styles.contactPage}>
+                <div className={styles.contactHeader}>
+                    <h1>Contact Us</h1>
+                    <p>Let's queer the stage.</p>
+                </div>
+                {/* <ContactForm /> */}
+                <h2>Follow Us</h2>
+                {/* <div className="social-row">
           {Object.keys(peachIcons).map(key => (
             <a
               href={peachIcons[key].href}
@@ -30,8 +33,8 @@ const Contact = () => {
             </a>
           ))}
         </div> */}
-      </section>
-    </Layout>
-  )
+            </section>
+        </Layout>
+    )
 }
 export default Contact

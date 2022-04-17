@@ -1,10 +1,11 @@
-import React from 'react'
-import { unified } from 'unified'
-import markdown from 'remark-parse'
+import React from "react"
+import { unified } from "unified"
+import markdown from "remark-parse"
 
-export const parseMarkdown = content => cleanNode(unified().use(markdown).parse(content))
+export const parseMarkdown = (content) =>
+    cleanNode(unified().use(markdown).parse(content))
 
-const mdRenderer = props => <Node {...props.ast} />
+const mdRenderer = (props) => <Node {...props.ast} />
 export const MarkdownRenderer = React.memo(mdRenderer)
 
 function cleanNode(node) {
@@ -27,7 +28,7 @@ function Node(node) {
 
     return children ? (
         <Component {...node}>
-            { children.map((child, i) => (
+            {children.map((child, i) => (
                 <Node key={i} {...child} />
             ))}
         </Component>
@@ -39,23 +40,23 @@ function Node(node) {
 function getComponent(node) {
     switch (node.type) {
         case "root":
-            return ({ children }) => <>{ children }</>
+            return ({ children }) => <>{children}</>
         case "paragraph":
-            return ({ children }) => <p>{ children }</p>
+            return ({ children }) => <p>{children}</p>
         case "emphasis":
-            return ({ children }) => <em>{ children }</em>
+            return ({ children }) => <em>{children}</em>
         case "heading":
-            return ({ children, depth=2 }) => {
+            return ({ children, depth = 2 }) => {
                 const Heading = `h${depth}`
-                return <Heading>{ children }</Heading>
+                return <Heading>{children}</Heading>
             }
         case "link":
-            return ({ children, url }) => <a href={url}>{ children} </a>
+            return ({ children, url }) => <a href={url}>{children} </a>
         case "text":
-            return ({ value }) => <>{ value }</>
+            return ({ value }) => <>{value}</>
         // TODO: Add all other content types
         default:
             console.log("Unhandled node type", node)
-            return ({ children }) => <>{ children }</>
+            return ({ children }) => <>{children}</>
     }
 }

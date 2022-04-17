@@ -1,7 +1,7 @@
-import * as React from 'react'
-import BasicBlock from './BasicBlock';
-import Shortcode from './Shortcode';
-import Hero from './Hero';
+import * as React from "react"
+import BasicBlock from "./BasicBlock"
+import Shortcode from "./Shortcode"
+import Hero from "./Hero"
 
 export default function PageBlock(props) {
     if (!props.__typename) return <></>

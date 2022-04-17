@@ -1,1 +1,1 @@
-export { default } from './EmailSignupBar'
+export { default } from "./EmailSignupBar"

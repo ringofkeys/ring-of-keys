@@ -1,1 +1,1 @@
-export { default } from './PageContent'
+export { default } from "./PageContent"

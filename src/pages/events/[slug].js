@@ -4,43 +4,45 @@ import { request } from "lib/datocms"
 import Layout from "components/Layout"
 
 export default function Event({ event }) {
-  const { title, featuredImage, description, startTime } = event
-  return (
-    <Layout>
-      <h1>{title}</h1>
-      <h4>{ startTime }</h4>
-      {featuredImage && 
-        <img src={featuredImage.url} alt={featuredImage.alt} /> }
-      {description && description }
-    </Layout>
-  )
+    const { title, featuredImage, description, startTime } = event
+    return (
+        <Layout>
+            <h1>{title}</h1>
+            <h4>{startTime}</h4>
+            {featuredImage && (
+                <img src={featuredImage.url} alt={featuredImage.alt} />
+            )}
+            {description && description}
+        </Layout>
+    )
 }
 
 export async function getStaticPaths() {
-  const data = await request({
-    query: 'query AllEventsQuery { allEvents { slug }}',
-  })
+    const data = await request({
+        query: "query AllEventsQuery { allEvents { slug }}",
+    })
 
-  return {
-    paths: data.allEvents.filter(({ slug }) => slug) // filters out any events that for some reason have an empty slug.
-      .map(({ slug }) => {
-      return { 
-        params: { slug },
-      }
-    }), // https://nextjs.org/docs/basic-features/data-fetching#the-paths-key-required
-    fallback: false,
-  }
+    return {
+        paths: data.allEvents
+            .filter(({ slug }) => slug) // filters out any events that for some reason have an empty slug.
+            .map(({ slug }) => {
+                return {
+                    params: { slug },
+                }
+            }), // https://nextjs.org/docs/basic-features/data-fetching#the-paths-key-required
+        fallback: false,
+    }
 }
 
 export async function getStaticProps(context) {
-  const data = await request({
-    query: eventItemQuery,
-    variables: {
-      slug: context.params.slug,
-    },
-  })
+    const data = await request({
+        query: eventItemQuery,
+        variables: {
+            slug: context.params.slug,
+        },
+    })
 
-  return {
-    props: data,
-  }
+    return {
+        props: data,
+    }
 }
