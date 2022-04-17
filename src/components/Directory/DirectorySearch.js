@@ -48,32 +48,6 @@ export default function DirectorySearch({
         }
     }
 
-    function handleSearchChange(e) {
-        e.preventDefault()
-        const searchTerm = e.target.value
-        const foundIndex = appliedFilters.findIndex(
-            (filter) => filter[0] === e.target.name
-        )
-
-        if (!searchTerm || searchTerm.length <= 2) {
-            setAppliedFilters([
-                ...appliedFilters.slice(0, foundIndex),
-                ...appliedFilters.slice(foundIndex + 1),
-            ])
-        } else {
-            if (foundIndex >= 0) {
-                const newFilters = [...appliedFilters]
-                newFilters[foundIndex][1] = e.target.value
-                setAppliedFilters(newFilters)
-            } else {
-                setAppliedFilters([
-                    ...appliedFilters,
-                    [e.target.name, e.target.value],
-                ])
-            }
-        }
-    }
-
     return (
         <>
             <section className={styles["section_search"]}>
