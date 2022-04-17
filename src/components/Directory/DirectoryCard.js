@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useRef } from "react"
 import Link from "next/link"
 import styles from "styles/directory.module.css"
+import { camelCaseToLabel } from "lib/utils"
 
 export default function DirectoryCard({ obj }){
   const artist = obj.item ? obj.item : obj
@@ -8,11 +9,14 @@ export default function DirectoryCard({ obj }){
 
   const matchClass = fieldName => fieldHasMatch(artist, obj, fieldName) ? "searchMatch" : ""
 
+  const randomDegreesFromString = seed => seed.split('').reduce((prev, curr) => prev + curr.charCodeAt(0), 0) % 360
+  const cardColorDegrees = useRef(randomDegreesFromString(artist.name))
+
   return (
     <Link
       href={`/keys/${artist.slug}`}
     >
-      <a className={styles["key__card"]} style={{ "--grad-rotate": Math.random() * 360 + "deg" }}>
+      <a className={styles["key__card"]} style={{ "--grad-rotate": cardColorDegrees.current + "deg" }}>
         <figure>
           <div className={styles["card__img"]}>
             <img
@@ -67,6 +71,13 @@ export default function DirectoryCard({ obj }){
             >
               View Profile
             </p>
+            { obj.matches && obj.matches.length &&
+              <p className={styles["card__meta"]}>
+                <span className={styles["card__matches"]}>
+                  Matches on: { obj.matches.map(match => camelCaseToLabel(match.key)).join(', ') }
+                </span>
+              </p>
+            }
           </figcaption>
         </figure>
       </a>

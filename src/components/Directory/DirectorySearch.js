@@ -60,7 +60,7 @@ export default function DirectorySearch({
         </span>
         <button
             onClick={() => setFilterVisibility(!filtersAreVisible)}
-            className={styles["advanced-btn"] + (appliedFilters.length ? " active" : "")}
+            className={styles["advanced-btn"] + (appliedFilters.length ? ' ' + styles["active"] : "")}
             style={{
                 "--active": `'${appliedFilters.length} filter${
                 appliedFilters.length === 1 ? "" : "s"

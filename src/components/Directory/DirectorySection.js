@@ -11,6 +11,8 @@ const fuzzySearchKeys = [
   'discipline',
   'vocalRange',
   'danceExperience',
+  'mainLocation',
+  'locations',
   'pronouns',
   'genderIdentity',
   'sexualIdentity',
@@ -18,17 +20,16 @@ const fuzzySearchKeys = [
 ]
 
 export default function DirectorySection(props) {
-  // Filter artists that are marked de-listed in DatoCMS
-  let fullMemberList = prepareMemberList(props.pageSpecificData)
-  const [filtersAreVisible, setFilterVisibility] = useState(false)
-  const [appliedFilters, setAppliedFilters] = useState([])
+    // Filter artists that are marked de-listed in DatoCMS
+    let fullMemberList = prepareMemberList(props.pageSpecificData)
+    const [filtersAreVisible, setFilterVisibility] = useState(false)
+    const [appliedFilters, setAppliedFilters] = useState([])
 
-  const [searchResults, setSearchResults] = useState(fullMemberList)
-  const searcher = getDirectorySearch(fullMemberList, fuzzySearchKeys)
+    const [searchResults, setSearchResults] = useState(fullMemberList)
+    const searcher = getDirectorySearch(fullMemberList, fuzzySearchKeys)
 
-  const debouncedFilterHandler = useMemo(() => debounce(filterSearchResults, 200), [appliedFilters])
+    const debouncedFilterHandler = useMemo(() => debounce(filterSearchResults, 200), [appliedFilters])
 
-    useEffect(() => console.log({ filtersAreVisible }), [filtersAreVisible])
 
     // Set up a listener to remove appliedFilters from localStorage when the tab is closed.
     useEffect(() => {
@@ -39,7 +40,7 @@ export default function DirectorySection(props) {
             }
         }
         return () => {
-          debouncedChangeHandler.cancel();
+          debouncedFilterHandler.cancel();
         }
     }, [])
 
@@ -81,7 +82,6 @@ export default function DirectorySection(props) {
           preparedFuzzyFilters.$and = otherFuzzyFilters.map(([key, value]) => ({ [key]: value }))
         }
         
-        console.log({ generalFilter, preparedFuzzyFilters, checkboxFilters })
         let results = fullMemberList
 
         if (preparedFuzzyFilters.$and || preparedFuzzyFilters.$or) {
@@ -103,6 +103,8 @@ export default function DirectorySection(props) {
             }))
           })
         }
+
+        console.log({ searchResults })
 
         setSearchResults(results)
     }

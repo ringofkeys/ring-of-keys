@@ -243,6 +243,17 @@ span.card__location {
     text-transform: capitalize;
 }
 
+span.card__matches {
+    text-transform: none;
+    display: inline-block;
+    box-sizing: border-box;
+    width: auto;
+    padding: 1ch;
+    border-radius: 6px;
+    color: var(--rok-pale-green-1_hex);
+    background: hsla(var(--rok-pale-green-1_hsl), .1);
+}
+
 .key__card .search_match {
     font-weight: bold;
     outline-offset: 3px;
