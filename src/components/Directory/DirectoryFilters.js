@@ -42,8 +42,12 @@ export default function DirectoryFilters({ filtersAreVisible, appliedFilters, se
                     onClick={() => document.querySelector("a.key__card").focus()}>
                     click to skip past filters to Artists' Cards
                 </button>
-                <FormField name="firstName" label="First Name" type="text" onChange={fieldValueChange} />
-                <FormField name="lastName" label="Last Name" type="text" onChange={fieldValueChange} />
+                <FormField name="firstName" label="First Name" type="text" onChange={fieldValueChange} 
+                    placeholder="First Name"
+                    />
+                <FormField name="lastName" label="Last Name" type="text" onChange={fieldValueChange}
+                    placeholder="Last Name"
+                />
                 <FormField name="discipline" label="Discipline" type="text" onChange={fieldValueChange}
                     placeholder="ie: Actor, Stage Manager, Music Director"
                 />
