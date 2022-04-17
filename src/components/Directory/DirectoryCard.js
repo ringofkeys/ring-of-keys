@@ -5,9 +5,7 @@ import { camelCaseToLabel } from "lib/utils"
 
 export default function DirectoryCard({ obj }){
   const artist = obj.item ? obj.item : obj
-  const [locationToShow, locationFieldToSearch] = getProperLocation(artist)
-
-  const matchClass = fieldName => fieldHasMatch(artist, obj, fieldName) ? "searchMatch" : ""
+  const locationToShow = getProperLocation(artist)
 
   const randomDegreesFromString = seed => seed.split('').reduce((prev, curr) => prev + curr.charCodeAt(0), 0) % 360
   const cardColorDegrees = useRef(randomDegreesFromString(artist.name))
@@ -30,42 +28,21 @@ export default function DirectoryCard({ obj }){
           </div>
           <figcaption>
             <h3
-              className={styles['card__title'] +' '+ matchClass("name")}
-              style={{
-                "--match-opacity":
-                  fieldHasMatch(obj, "name") && obj.score ? 1 - obj.score : 0,
-              }}
-            >
+              className={styles['card__title']}>
               {artist.name}
             </h3>
             <div className={styles["card__meta"]}>
               <span
-                className={styles["card__pronouns"] +' '+ styles[matchClass("pronouns")]}
-                style={{
-                  "--match-opacity":
-                    fieldHasMatch(obj, "pronouns") && obj.score
-                      ? 1 - obj.score
-                      : 0,
-                }}
-              >
+                className={styles["card__pronouns"]}>
                 {artist.pronouns.indexOf(",") >= 0
                   ? artist.pronouns.slice(0, artist.pronouns.indexOf(","))
                   : artist.pronouns}
               </span>
-              <span
-                className={styles["card__location"] +' '+ styles[matchClass(locationFieldToSearch)]}
-                style={{
-                  "--match-opacity":
-                    fieldHasMatch(obj, locationFieldToSearch) && obj.score
-                      ? 1 - obj.score
-                      : 0,
-                }}
-              >
+              <span className={styles["card__location"]}>
                 {locationToShow}
               </span>
             </div>
             <p
-              to={`/keys/${artist.slug}`}
               className="btn btn-link_ghost bg_copper"
               tabIndex="-1"
             >
@@ -85,19 +62,12 @@ export default function DirectoryCard({ obj }){
   )
 }
 
-function fieldHasMatch(obj, fieldName) {
-  return obj.matches && obj.matches.some(match => match.key.includes(fieldName))
-}
-
 function getProperLocation(artist) {
   if (artist.mainLocation) {
-    return [artist.mainLocation, "mainLocation"]
+    return artist.mainLocation
   } else {
-    return [
-      artist.locations.indexOf(",") >= 0
-        ? artist.locations.slice(0, artist.locations.indexOf(","))
-        : artist.locations,
-      "locations",
-    ]
+    return artist.locations.indexOf(",") >= 0
+      ? artist.locations.slice(0, artist.locations.indexOf(","))
+      : artist.locations
   }
 }
