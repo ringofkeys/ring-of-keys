@@ -23,7 +23,7 @@ export default function DirectoryCard({ obj }) {
                         <img
                             src={
                                 artist.headshot.url +
-                                "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=120&h=120&"
+                                "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=120&h=120&fm=jpg"
                             }
                             alt={artist.name + " headshot"}
                             loading="lazy"
