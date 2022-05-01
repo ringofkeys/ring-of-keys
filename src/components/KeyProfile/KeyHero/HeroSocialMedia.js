@@ -1,3 +1,15 @@
+import { ProfileContext } from "pages/keys/[slug]"
+import { useContext } from "react"
+import styles from "styles/key.module.css"
+
+const socialIcons = {
+    instagram: '/img/social-icons/icon_instagram.svg',
+    facebook: '/img/social-icons/icon_facebook.svg',
+    twitter: '/img/social-icons/icon_twitter.svg',
+    youtube: '/img/social-icons/icon_youtube.svg',
+    linkedin: '/img/social-icons/icon_linkedin.svg',
+}
+
 export default function HeroSocialMedia() {
     const {
         artist: {
@@ -6,12 +18,14 @@ export default function HeroSocialMedia() {
         isEditable
     } = useContext(ProfileContext)
 
+    
+
     return (
-        <div className="artist_social-icons">
-            {/* {!isEditable ? (
-                heroFields.socialMedia.data && (
+        <div className={styles["artist_social-icons"]}>
+            {!isEditable ? (
+                socialMedia && (
                     <>
-                        {heroFields.socialMedia.data.map(
+                        {socialMedia.map(
                             (socialObj) => {
                                 const mediaPlatform = Object.keys(
                                     socialIcons
@@ -27,7 +41,7 @@ export default function HeroSocialMedia() {
                                         }
                                         rel="noopener noreferrer"
                                         target="_blank"
-                                        className="social-icon"
+                                        className={styles["social-icon"]}
                                         key={mediaPlatform}
                                     >
                                         <img
@@ -48,32 +62,34 @@ export default function HeroSocialMedia() {
                 <>
                     {Object.keys(socialIcons).map((key) => {
                         const hasLink =
-                            heroFields.socialMedia.data.find(
+                            socialMedia.find(
                                 (socialObj) =>
                                     socialObj.socialMediaLink.includes(
                                         key
                                     )
                             )
                         return (
-                            <div className="social-icon">
+                            <div className={styles["social-icon"]}>
                                 <img
                                     src={socialIcons[key]}
                                     alt={`${key}`}
                                     className={
-                                        !hasLink ? "inactive" : ""
+                                        !hasLink ? styles["inactive"] : ""
                                     }
                                 />
                             </div>
                         )
                     })}
                     <button
-                        className="btn_edit edit_social"
-                        onClick={() =>
-                            heroFields.socialMedia.setEditing(true)
+                        className={styles["btn_edit edit_social"]}
+                        onClick={() => {
+                            // TODO! acknowledge editing
+                            // socialMedia.setEditing(true)
+                        }
                         }
                     >
                         <img
-                            src={profileIcons.pencil}
+                            src="/img/profile-icons/icon_pencil.svg"
                             className="icon_edit"
                             alt={`edit pencil`}
                         />
@@ -82,7 +98,7 @@ export default function HeroSocialMedia() {
                         </span>
                     </button>
                 </>
-            )} */}
+            )}
         </div>
     )
 }
