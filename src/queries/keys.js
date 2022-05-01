@@ -69,7 +69,7 @@ query KeyQuery($slug: String!) {
         }
       }
       featuredImage {
-        responsiveImage(imgixParams: { fit: crop, w: 300, h: 300, auto: format }) {
+        responsiveImage(imgixParams: { auto: format }) {
           srcSet
           webpSrcSet
           sizes

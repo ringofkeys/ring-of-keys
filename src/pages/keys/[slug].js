@@ -2,14 +2,42 @@ import { Image } from "react-datocms"
 import { request } from "lib/datocms"
 import Layout from "components/Layout"
 import { KEY_QUERY } from "queries/keys"
+import { KeyHero } from "components/KeyProfile"
+import React, { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
+import MessagePopup from "components/MessagePopup"
+import styles from "styles/key.module.css"
 
-export default function KeyPage(props) {
-    return (
-        <Layout>
-            <Image data={props.headshot.responsiveImage} />
-            <pre>{JSON.stringify(props, null, 2)}</pre>
+export const ProfileContext = React.createContext({})
+
+export default function KeyPage({ artist }) {
+    const [isEditable, setEditable] = useState(false)
+    const { data: session } = useSession()
+    const [isMessageOpen, setMessageOpen] = useState(false)
+
+    useEffect(() => {
+        if (session) {
+            setEditable(true)
+        }
+    }, [session])
+
+    return (<>
+        <Layout className={"fullWidth " + styles['key-profile']}>
+            <ProfileContext.Provider value={{
+                artist,
+                isEditable,
+            }}>
+                <KeyHero setMessageOpen={setMessageOpen} />
+                <pre>{JSON.stringify(artist, null, 2)}</pre>
+            </ProfileContext.Provider>
         </Layout>
-    )
+        <MessagePopup
+            isOpen={isMessageOpen}
+            artistId={artist.id}
+            artistName={artist.name}
+            onClose={() => setMessageOpen(false)}
+        />
+    </>)
 }
 
 export async function getServerSideProps(context) {
@@ -21,6 +49,8 @@ export async function getServerSideProps(context) {
     })
 
     return {
-        props: data.key,
+        props: {
+            artist: data.key
+        },
     }
 }

@@ -1,0 +1,1 @@
+export { KeyHero } from './KeyHero'
