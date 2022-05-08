@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { ProfileContext } from "pages/keys/[slug]"
 import styles from "styles/key.module.css"
 
-export default function HeroHeadShot() {
+export default function HeroHeadShot({ setHeadshotFullOpen }) {
     const {
         artist: {
             headshot

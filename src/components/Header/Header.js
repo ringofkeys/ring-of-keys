@@ -116,12 +116,12 @@ function SecondaryNav({ session, navOpen }) {
                         <a>Apply to be a key</a>
                     </Link>
                     <button
+                        className={styles.login}
                         onClick={() =>
                             signIn("auth0", {
                                 callbackUrl: "http://localhost:3000/dashboard",
                             })
                         }
-                        id="btn__login"
                     >
                         Log In
                     </button>
@@ -148,6 +148,7 @@ function SecondaryNav({ session, navOpen }) {
                         </a>
                     </Link>
                     <button
+                        className={styles.logout}
                         onClick={() =>
                             signOut({ callbackUrl: "http://localhost:3000/" })
                         }

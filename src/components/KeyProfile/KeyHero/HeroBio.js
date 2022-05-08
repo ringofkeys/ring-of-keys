@@ -6,7 +6,7 @@ export default function HeroBio({ setMessageOpen }) {
     const {
         artist: {
             name,
-            location,
+            mainLocation,
             pronouns,
             memberSince,
             id,
@@ -17,10 +17,10 @@ export default function HeroBio({ setMessageOpen }) {
     return (
         <div className={styles["artist_bio"]}>
             <h1>{ name }</h1>
-            {location && (
+            {mainLocation && (
                 <p>
                     Based in{" "}
-                    {location.replace(", ", " • ")}
+                    {mainLocation.replace(", ", " • ")}
                 </p>
             )}
             <p>

@@ -98,7 +98,7 @@
     margin-right: 0;
 }
 
-#btn__login {
+.login {
     background: var(--rok-slate-blue_hex);
     color: white;
     text-transform: uppercase;
@@ -106,7 +106,7 @@
     border-radius: .3em;
 }
 
-#btn__login::after {
+.login::after {
     display: none;
 }
 
@@ -283,7 +283,7 @@
         display: block;
     }
 
-    .top-nav .nav__login [href='#logout'] {
+    .top-nav .nav__login .logout {
         border: solid 1px var(--rok-slate-blue_hex);
         color: var(--rok-slate-blue_hex);
         padding: .5em 1.5em;
@@ -291,7 +291,7 @@
         width: fit-content;
     }
 
-    #btn__login {
+    .login {
         margin: 0;
         padding: .5em 2em;
         width: fit-content;

@@ -67,6 +67,10 @@ query KeyQuery($slug: String!) {
           title
           base64
         }
+        fullRes: responsiveImage(imgixParams: { w: 960, auto: format }) {
+          src
+          alt
+        }
       }
       featuredImage {
         responsiveImage(imgixParams: { auto: format }) {
