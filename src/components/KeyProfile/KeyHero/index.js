@@ -14,7 +14,6 @@ export function KeyHero({ setMessageOpen, setHeadshotFullOpen }) {
             featuredImage,
             id,
         },
-        isEditable
     } = useContext(ProfileContext)
 
     // const idNumber = parseInt(getIdNumber(id))

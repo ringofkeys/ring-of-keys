@@ -7,7 +7,7 @@ export default function HeroHeadShot({ setHeadshotFullOpen }) {
         artist: {
             headshot
         },
-        isEditable
+        isEditing
     } = useContext(ProfileContext)
 
     const HeadShot = () => (
@@ -21,7 +21,7 @@ export default function HeroHeadShot({ setHeadshotFullOpen }) {
 
     return (
         <div className={styles["avatar"]}>
-            {!isEditable ? (
+            {!isEditing ? (
                 <HeadShot />
             ) : (
                 <div className={styles["headshot_group"]}>

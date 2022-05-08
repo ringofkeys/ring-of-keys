@@ -14,6 +14,7 @@ export const ProfileContext = React.createContext({})
 
 export default function KeyPage({ artist }) {
     const [isEditable, setEditable] = useState(false)
+    const [isEditing, setEditing] = useState(false)
     const { data: session } = useSession()
     const [isMessageOpen, setMessageOpen] = useState(false)
     const [isHeadshotFullOpen, setHeadshotFullOpen] = useState(false)
@@ -34,6 +35,8 @@ export default function KeyPage({ artist }) {
             <ProfileContext.Provider value={{
                 artist,
                 isEditable,
+                isEditing,
+                setEditing,
             }}>
                 <KeyHero
                     setMessageOpen={setMessageOpen}

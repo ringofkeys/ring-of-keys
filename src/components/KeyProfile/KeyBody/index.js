@@ -17,12 +17,41 @@ export function KeyBody() {
             affiliations,
             website,
         },
-        isEditable
+        isEditable,
+        isEditing,
+        setEditing,
     } = useContext(ProfileContext)
+
+    function handleProfileSave() {
+        console.log('TODO: save profile and reload')
+    }
 
     return (
         <section className={styles["artist_body"]}>
-            {/* TODO: add in toggle for editing mode */}
+            {isEditable &&
+            <div className={styles.toggleRow}>
+                <label
+                    className={styles["toggle_group"]}
+                    htmlFor="profile-edit-toggle"
+                >
+                    <input
+                        id="profile-edit-toggle"
+                        type="checkbox"
+                        className="visually-hidden"
+                        checked={isEditing}
+                        onChange={() => setEditing(!isEditing)}
+                    />
+                    <span className={styles.toggle}></span>
+                    <span className={styles["toggle_label"]}>
+                        Toggle Editing View
+                    </span>
+                </label>
+                {isEditing && (
+                        <button onClick={handleProfileSave} className={`btn`}>
+                            Save Profile Edits
+                        </button>
+                )}
+            </div>}
             {bio && (
                 <div className={styles["my_story"]}>
                     <h2>My Story</h2>
@@ -59,10 +88,6 @@ export function KeyBody() {
             {vocalRange && (<>
                 <h3>Vocal Range</h3>
                 <p>{ vocalRange }</p>
-            </>)}
-            {danceExperience && (<>
-                <h3>Dance Experience</h3>
-                <p>{ danceExperience }</p>
             </>)}
             {danceExperience && (<>
                 <h3>Dance Experience</h3>

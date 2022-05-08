@@ -125,6 +125,12 @@
     display: none;
 }
 
+.toggleRow {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .toggle_group {
     display: flex;
     align-items: center;

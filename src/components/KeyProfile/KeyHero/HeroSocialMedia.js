@@ -15,14 +15,14 @@ export default function HeroSocialMedia() {
         artist: {
             socialMedia,
         },
-        isEditable
+        isEditing
     } = useContext(ProfileContext)
 
     
 
     return (
         <div className={styles["artist_social-icons"]}>
-            {!isEditable ? (
+            {!isEditing ? (
                 socialMedia && (
                     <>
                         {socialMedia.map(
