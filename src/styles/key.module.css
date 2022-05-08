@@ -243,7 +243,11 @@
 }
 
 .icon_edit {
-    max-width: 100%;
+    display: block;
+    min-width: 25px;
+    height: 100%;
+    min-height: 25px;
+    width: 100%;
 }
 
 .edit_featuredImage {
