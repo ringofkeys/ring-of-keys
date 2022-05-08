@@ -15,6 +15,8 @@ export default function Dashboard() {
     })
 
     useEffect(() => {
+        console.log({ session })
+
         if (session) {
             getDashboardContent(session.token.datoId).then((data) =>
                 setDashboardData(data)

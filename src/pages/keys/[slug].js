@@ -26,9 +26,9 @@ export default function KeyPage({ artist }) {
 
     return (<>
         <SEO seoData={{
-            title: artist.name,
-            description: `${ artist.name } (${ artist.pronouns}) is a ${ artist.discipline }, and a member of Ring of Keys.`,
-            image: artist.headshot?.src,
+            title: artist?.name,
+            description: `${ artist?.name } (${ artist?.pronouns}) is a ${ artist?.discipline }, and a member of Ring of Keys.`,
+            image: artist?.headshot?.src,
         }} />
         <Layout className={"fullWidth " + styles['key-profile']}>
             <ProfileContext.Provider value={{
@@ -45,8 +45,8 @@ export default function KeyPage({ artist }) {
         </Layout>
         <MessagePopup
             isOpen={isMessageOpen}
-            artistId={artist.id}
-            artistName={artist.name}
+            artistId={artist?.id}
+            artistName={artist?.name}
             onClose={() => setMessageOpen(false)}
         />
         <Popup
@@ -54,8 +54,8 @@ export default function KeyPage({ artist }) {
             onClose={() => setHeadshotFullOpen(false)}
         >
             <img
-                src={artist.headshot.fullRes.src}
-                alt={`${artist.name} headshot`}
+                src={artist?.headshot?.fullRes.src}
+                alt={`${artist?.name} headshot`}
                 loading="lazy"
             />
         </Popup>

@@ -13,6 +13,8 @@ export default function HeroBio({ setMessageOpen }) {
         },
         isEditable
     } = useContext(ProfileContext)
+
+    console.log('within bio', { id, name, memberSince })
     
     return (
         <div className={styles["artist_bio"]}>
@@ -32,7 +34,7 @@ export default function HeroBio({ setMessageOpen }) {
             {isEditable && (
                 <p>
                     RoK ID:{" "}
-                    {id.match(/.*-(\d+)-.*/)[1]}
+                    {(!id.includes('-')) ? id : id.match(/.*-(\d+)-.*/)[1]}
                 </p>
             )}
             <button
