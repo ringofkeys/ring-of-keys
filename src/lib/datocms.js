@@ -2,15 +2,16 @@ import { GraphQLClient } from "graphql-request"
 
 export function request({ query, variables, preview }) {
     const endpoint = `https://graphql.datocms.com/${preview ? "preview" : ""}`
-
-    const client = new GraphQLClient(endpoint, {
+    const gqlClient = new GraphQLClient(endpoint, {
         headers: {
             authorization: `Bearer ${process.env.NEXT_PUBLIC_DATO_READ_ONLY_TOKEN}`,
         },
     })
-
-    return client.request(query, variables)
+    
+    return gqlClient.request(query, variables)
 }
+
+
 
 export async function requestAll({ query, variables, preview }) {
     let skip = 0

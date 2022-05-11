@@ -24,7 +24,7 @@ const Header = ({ path }) => {
             </button>
             <nav
                 className={`${styles["top-nav"]} ${
-                    styles[isNavOpen ? "open" : "closed"]
+                    styles[isNavOpen ? " open" : " closed"]
                 }`}
             >
                 <div className={styles["top__inner"]}>

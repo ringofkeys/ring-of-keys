@@ -3,7 +3,7 @@ import { request } from "lib/datocms"
 import Layout from "components/Layout"
 import { KEY_QUERY } from "queries/keys"
 import { KeyBody, KeyHero } from "components/KeyProfile"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useReducer, useState } from "react"
 import { useSession } from "next-auth/react"
 import MessagePopup from "components/MessagePopup"
 import styles from "styles/key.module.css"
@@ -12,12 +12,27 @@ import Popup from "components/Popup"
 
 export const ProfileContext = React.createContext({})
 
-export default function KeyPage({ artist }) {
+function artistReducer(state, action) {
+    switch (action.type) {
+        case 'UPDATE_FIELD':
+            return {
+                ...state,
+                ...action.payload,
+            }
+        case 'UPDATE_ARTIST':
+            return action.payload
+        default:
+            throw new Error('Unsupported artistReducer action: ' + action.type)
+    }
+}
+
+export default function KeyPage({ artistData }) {
     const [isEditable, setEditable] = useState(false)
     const [isEditing, setEditing] = useState(false)
     const { data: session } = useSession()
     const [isMessageOpen, setMessageOpen] = useState(false)
     const [isHeadshotFullOpen, setHeadshotFullOpen] = useState(false)
+    const [artist, artistDispatch] = useReducer(artistReducer, artistData)
 
     useEffect(() => {
         if (session) {
@@ -34,6 +49,7 @@ export default function KeyPage({ artist }) {
         <Layout className={"fullWidth " + styles['key-profile']}>
             <ProfileContext.Provider value={{
                 artist,
+                artistDispatch,
                 isEditable,
                 isEditing,
                 setEditing,
@@ -43,7 +59,6 @@ export default function KeyPage({ artist }) {
                     setHeadshotFullOpen={setHeadshotFullOpen}
                 />
                 <KeyBody />
-                <pre>{JSON.stringify(artist, null, 2)}</pre>
             </ProfileContext.Provider>
         </Layout>
         <MessagePopup
@@ -75,7 +90,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
-            artist: data.key
+            artistData: data.key
         },
     }
 }

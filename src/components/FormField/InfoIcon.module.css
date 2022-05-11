@@ -62,7 +62,9 @@
 }
 
 .info-icon:hover > .tooltip,
-.info-icon:focus > .tooltip {
+.info-icon:focus > .tooltip,
+.info-icon:hover ~ .tooltip,
+.info-icon:focus ~ .tooltip {
     transform: var(--end-transform);
     opacity: 1;
 }

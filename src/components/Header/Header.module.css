@@ -19,14 +19,22 @@
     background: var(--nav-bg);
 }
 
-.top-nav a {
+.top-nav a,
+.top-nav button {
     text-decoration: none;
     display: inline-block;
     transition: all .12s ease-in-out;
     position: relative;
 }
 
-.top-nav a:not(.site-logo):not(.login_avatar)::after {
+.logout {
+    border: none;
+    background: transparent;
+    color: var(--rok-gold-1_hex);
+}
+
+.top-nav a:not(.site-logo):not(.login_avatar)::after,
+.top-nav button::after {
     position: absolute;
     content: '';
     top: 100%;
@@ -90,6 +98,8 @@
 
 .top-nav a:not(.site-logo):hover::after,
 .top-nav a:not(.site-logo):focus::after,
+.top-nav button:hover::after,
+.top-nav button:focus::after,
 .top-nav [aria-current]:not([aria-current="false"]):not(.site-logo)::after {
     width: 100%;
 }
@@ -277,13 +287,14 @@
         display: block;
     }
     
-    .top-nav .nav__login a {
+    .top-nav .nav__login a,
+    .top-nav .nav__login button {
         margin: 1vh 0;
         font-size: 1rem; 
         display: block;
     }
 
-    .top-nav .nav__login .logout {
+    .logout {
         border: solid 1px var(--rok-slate-blue_hex);
         color: var(--rok-slate-blue_hex);
         padding: .5em 1.5em;

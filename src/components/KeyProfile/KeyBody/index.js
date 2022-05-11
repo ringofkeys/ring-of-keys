@@ -1,9 +1,12 @@
+import CheckboxGrid from "components/CheckboxGrid"
 import InfoIcon from "components/FormField/InfoIcon"
+import { affiliations, locations } from "components/forms/ApplyForm/constants"
 import { PROFILE_INFO_COPY } from "lib/constants"
 import { ProfileContext } from "pages/keys/[slug]"
 import { useContext } from "react"
 import styles from "styles/key.module.css"
 import KeyField from "../KeyField"
+import fieldStyles from "components/FormField/FormField.module.css"
 
 /**
  * React component of all Key profile fields below the Hero
@@ -16,6 +19,9 @@ export function KeyBody() {
         isEditing,
         setEditing,
     } = useContext(ProfileContext)
+
+    const finalLocationVal = artist?.locations?.slice(artist?.locations?.lastIndexOf('| ') + 2) || ''
+    const locationsOther = (locations.findIndex(l => l === finalLocationVal) < 0) ? finalLocationVal : ''
 
     function handleProfileSave() {
         console.log('TODO: save profile and reload')
@@ -43,7 +49,10 @@ export function KeyBody() {
                     </span>
                 </label>
             </div>}
-            <KeyField fieldName="bio" heading={<h2>My Story</h2>}>
+            <KeyField fieldName="bio"
+                heading={<h2>My Story</h2>}
+                editFormFields={<textarea name="bio" defaultValue={artist?.bio} placeholder="Tell us about yourself!" />}
+            >
                 <div>
                     <p>{ artist?.bio }</p>
                 </div>
@@ -64,7 +73,55 @@ export function KeyBody() {
                 <KeyField fieldName="mainLocation" heading={<h3>Your Main Location</h3>}>
                     <p>{ artist?.mainLocation }</p>
                 </KeyField>
-                <KeyField fieldName="locations" heading={<h3>Your Regions</h3>}>
+                <KeyField fieldName="locations"
+                    heading={<h3>Your Regions</h3>}
+                    editFormFields={<CheckboxGrid
+                        className={styles["locations"]}
+                        label="Region"
+                        helpText="(check as many that apply)"
+                    >
+                        {locations.map((val) => (
+                            <div
+                                className={
+                                    styles["input__group"] +
+                                    " " +
+                                    styles.checkbox +
+                                    " " +
+                                    fieldStyles["input__group"] +
+                                    " " +
+                                    fieldStyles.checkbox
+                                }
+                            >
+                                <label htmlFor={"locations-" + val}>
+                                    {val}
+                                </label>
+                                <input
+                                    id={"locations-" + val}
+                                    key={"locations-" + val}
+                                    name="locations[]"
+                                    type="checkbox"
+                                    value={val}
+                                    defaultChecked={artist?.locations.includes(val)}
+                                />
+                            </div>
+                        ))}
+                        <div className={fieldStyles["input__group"]}>
+                            <label htmlFor="locationsOther">Other</label>
+                            <input type='text' name='locationsOther' defaultValue={locationsOther} />
+                        </div>
+
+                    </CheckboxGrid>}
+                    processDataCallback={(_, formSubmitEvent) => {
+                        const locationArray = Array.from(formSubmitEvent.currentTarget.elements["locations[]"])
+                            .filter(field => field.checked)
+                            .map(field => field.value)
+                        const locationOther = formSubmitEvent.currentTarget.elements.locationsOther.value
+
+                        return {
+                            locations: locationArray.join('| ') + (locationOther ? '| ' : '') + locationOther
+                        }
+                    }}
+                >
                     <p>{ artist?.locations.replaceAll('| ', ', ') }</p>
                 </KeyField>
             </>)}
@@ -102,7 +159,49 @@ export function KeyBody() {
             <KeyField fieldName="danceExperience" heading={<h3>Dance Experience</h3>}>
                 <p>{ artist?.danceExperience }</p>
             </KeyField>
-            <KeyField fieldName="affiliations" heading={<h3>Unions & Affiliations</h3>}>
+            <KeyField fieldName="affiliations"
+                heading={<h3>Unions & Affiliations</h3>}
+                editFormFields={<CheckboxGrid
+                    className={styles["affiliations"]}
+                    label="Unions & Affiliations"
+                    helpText="(check as many that apply)"
+                >
+                    {affiliations.map((val) => (
+                        <div
+                            className={
+                                styles["input__group"] +
+                                " " +
+                                styles.checkbox +
+                                " " +
+                                fieldStyles["input__group"] +
+                                " " +
+                                fieldStyles.checkbox
+                            }
+                        >
+                            <label htmlFor={"affiliations-" + val}>
+                                {val}
+                            </label>
+                            <input
+                                id={"affiliations-" + val}
+                                key={"affiliations-" + val}
+                                name="affiliations[]"
+                                type="checkbox"
+                                value={val}
+                                defaultChecked={artist?.affiliations?.includes(val)}
+                            />
+                        </div>
+                    ))}
+                </CheckboxGrid>}
+                processDataCallback={(_, formSubmitEvent) => {
+                    const affiliationArray = Array.from(formSubmitEvent.currentTarget.elements["affiliations[]"])
+                        .filter(field => field.checked)
+                        .map(field => field.value)
+
+                    return {
+                        affiliations: affiliationArray.join(', ')
+                    }
+                }}
+            >
                 <p>{ artist?.affiliations }</p>
             </KeyField>
             <KeyField fieldName="website" heading={<h3>Website</h3>}>
