@@ -9,7 +9,7 @@ export default function Dashboard() {
     const { data: session } = useSession({
         required: true,
         onUnauthenticated() {
-            signIn("auth0", { callbackUrl: "http://localhost:3000/dashboard" })
+            signIn("auth0", { callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://nextjs-profile--ringofkeys.netlify.app/dashboard" })
             return <Redirecting />
         },
     })

@@ -119,7 +119,7 @@ function SecondaryNav({ session, navOpen }) {
                         className={styles.login}
                         onClick={() =>
                             signIn("auth0", {
-                                callbackUrl: "http://localhost:3000/dashboard",
+                                callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://nextjs-profile--ringofkeys.netlify.app/dashboard",
                             })
                         }
                     >
@@ -150,7 +150,7 @@ function SecondaryNav({ session, navOpen }) {
                     <button
                         className={styles.logout}
                         onClick={() =>
-                            signOut({ callbackUrl: "http://localhost:3000/" })
+                            signOut({ callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/" : "https://nextjs-profile--ringofkeys.netlify.app/" })
                         }
                     >
                         Log Out
