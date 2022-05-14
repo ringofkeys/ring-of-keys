@@ -1,8 +1,10 @@
 import { useContext } from "react"
 import { ProfileContext } from "pages/keys/[slug]"
 import styles from "styles/key.module.css"
+import Icon from "components/Icon"
+import tooltipStyles from "styles/tooltip.module.css"
 
-export default function HeroHeadShot({ setHeadshotFullOpen }) {
+export default function HeroHeadShot({ setHeadshotFullOpen, setEditingHeadshot }) {
     const {
         artist: {
             headshot
@@ -27,18 +29,14 @@ export default function HeroHeadShot({ setHeadshotFullOpen }) {
                 <div className={styles["headshot_group"]}>
                     <HeadShot />
                     <button
-                        className={styles["btn_edit edit_headshot"]}
-                        onClick={() =>
+                        className={styles["btn_edit"] +' '+ styles["edit_headshot"]}
+                        onClick={() => {
                             console.log('editing!')
-                            // headshot.setEditing(true)
-                        }
+                            setEditingHeadshot(true)
+                        }}
                     >
-                        {/* <img
-                            src={profileIcons.camera}
-                            className="icon_edit"
-                            alt={`edit headshot`}
-                        /> */}
-                        <span className="tooltip">
+                        <Icon type="camera" className={styles["icon_edit"]} />
+                        <span className={tooltipStyles["tooltip"]}>
                             Change Profile Photo
                         </span>
                     </button>

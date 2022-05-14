@@ -8,7 +8,7 @@ import HeroSocialMedia from "./HeroSocialMedia";
 
 const brandColors = ["slate-blue", "peach-1", "copper-1", "gold-1", "pale-green-1"]
 
-export function KeyHero({ setMessageOpen, setHeadshotFullOpen }) {
+export function KeyHero({ setMessageOpen, setHeadshotFullOpen, setEditingHeadshot }) {
     const {
         artist: {
             featuredImage,
@@ -28,7 +28,7 @@ export function KeyHero({ setMessageOpen, setHeadshotFullOpen }) {
                 "--grad-col-1": `var(--rok-${ gradientColor.current }_hex)`,
             }}
         >
-            <HeroHeadShot setHeadshotFullOpen={setHeadshotFullOpen} />
+            <HeroHeadShot setHeadshotFullOpen={setHeadshotFullOpen} setEditingHeadshot={setEditingHeadshot} />
             <HeroBio setMessageOpen={setMessageOpen} />
             <HeroSocialMedia />
             {featuredImage && (

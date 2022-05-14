@@ -23,6 +23,32 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
         </p>
     )
 
+    function handleSubmit(e) {
+        e.persist()
+        e.preventDefault()
+
+        fetch('/api/updateKey', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: artist.id,
+                ...processDataCallback(fieldName, e),
+            }),
+            Headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(res => res.json())
+            .then(data => {
+                console.log('got some data!', data)
+
+                artistDispatch({
+                    type: 'UPDATE_FIELD',
+                    payload: { [fieldName]: data[fieldName]
+                }})
+            })
+
+        setEditingField(false)
+    }
+
     // Public view of field: hide fields without data
     if (!isEditingProfile) {
         if (fieldValue) {
@@ -57,31 +83,7 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
         {heading}
         <div className={styles["profile_field_group"]}>
             <form
-                onSubmit={async (e) => {
-                    e.persist()
-                    e.preventDefault()
-
-                    fetch('/api/updateKey', {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            id: artist.id,
-                            ...processDataCallback(fieldName, e),
-                        }),
-                        Headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    }).then(res => res.json())
-                        .then(data => {
-                            console.log('got some data!', data)
-
-                            artistDispatch({
-                                type: 'UPDATE_FIELD',
-                                payload: { [fieldName]: data[fieldName]
-                            }})
-                        })
-
-                    setEditingField(false)
-                }}
+                onSubmit={handleSubmit}
             >
                 { (editFormFields)
                     ? editFormFields

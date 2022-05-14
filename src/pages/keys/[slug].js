@@ -9,6 +9,7 @@ import MessagePopup from "components/MessagePopup"
 import styles from "styles/key.module.css"
 import SEO from "components/SEO"
 import Popup from "components/Popup"
+import HeroHeadshotEditor from "components/KeyProfile/KeyHero/HeroHeadshotEditor"
 
 export const ProfileContext = React.createContext({})
 
@@ -32,6 +33,7 @@ export default function KeyPage({ artistData }) {
     const { data: session } = useSession()
     const [isMessageOpen, setMessageOpen] = useState(false)
     const [isHeadshotFullOpen, setHeadshotFullOpen] = useState(false)
+    const [isEditingHeadshot, setEditingHeadshot] = useState(false)
     const [artist, artistDispatch] = useReducer(artistReducer, artistData)
 
     useEffect(() => {
@@ -46,37 +48,42 @@ export default function KeyPage({ artistData }) {
             description: `${ artist?.name } (${ artist?.pronouns}) is a ${ artist?.discipline }, and a member of Ring of Keys.`,
             image: artist?.headshot?.src,
         }} />
-        <Layout className={"fullWidth " + styles['key-profile']}>
-            <ProfileContext.Provider value={{
-                artist,
-                artistDispatch,
-                isEditable,
-                isEditing,
-                setEditing,
-            }}>
-                <KeyHero
-                    setMessageOpen={setMessageOpen}
-                    setHeadshotFullOpen={setHeadshotFullOpen}
-                />
-                <KeyBody />
-            </ProfileContext.Provider>
-        </Layout>
-        <MessagePopup
-            isOpen={isMessageOpen}
-            artistId={artist?.id}
-            artistName={artist?.name}
-            onClose={() => setMessageOpen(false)}
-        />
-        <Popup
-            isOpen={isHeadshotFullOpen}
-            onClose={() => setHeadshotFullOpen(false)}
-        >
-            <img
-                src={artist?.headshot?.fullRes.src}
-                alt={`${artist?.name} headshot`}
-                loading="lazy"
+        <ProfileContext.Provider value={{
+            artist,
+            artistDispatch,
+            isEditable,
+            isEditing,
+            setEditing,
+        }}>
+            <Layout className={"fullWidth " + styles['key-profile']}>
+                    <KeyHero
+                        setMessageOpen={setMessageOpen}
+                        setHeadshotFullOpen={setHeadshotFullOpen}
+                        setEditingHeadshot={setEditingHeadshot}
+                    />
+                    <KeyBody />
+            </Layout>
+            <HeroHeadshotEditor
+                isOpen={isEditingHeadshot}
+                onClose={() => setEditingHeadshot(false)}
             />
-        </Popup>
+            <MessagePopup
+                isOpen={isMessageOpen}
+                artistId={artist?.id}
+                artistName={artist?.name}
+                onClose={() => setMessageOpen(false)}
+            />
+            <Popup
+                isOpen={isHeadshotFullOpen}
+                onClose={() => setHeadshotFullOpen(false)}
+            >
+                <img
+                    src={artist?.headshot?.fullRes.src}
+                    alt={`${artist?.name} headshot`}
+                    loading="lazy"
+                />
+            </Popup>
+        </ProfileContext.Provider>
     </>)
 }
 

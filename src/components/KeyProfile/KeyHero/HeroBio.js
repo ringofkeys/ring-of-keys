@@ -13,8 +13,6 @@ export default function HeroBio({ setMessageOpen }) {
         },
         isEditable
     } = useContext(ProfileContext)
-
-    console.log('within bio', { id, name, memberSince })
     
     return (
         <div className={styles["artist_bio"]}>
