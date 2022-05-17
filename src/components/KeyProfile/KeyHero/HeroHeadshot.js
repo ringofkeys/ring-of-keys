@@ -6,16 +6,14 @@ import tooltipStyles from "styles/tooltip.module.css"
 
 export default function HeroHeadShot({ setHeadshotFullOpen, setEditingHeadshot }) {
     const {
-        artist: {
-            headshot
-        },
+        artist,
         isEditing
     } = useContext(ProfileContext)
 
     const HeadShot = () => (
         <img
-            src={headshot.responsiveImage.src}
-            alt={headshot.responsiveImage.title}
+            src={artist?.headshot.responsiveImage.src}
+            alt={artist?.headshot.responsiveImage.title}
             className={styles["headshot"]}
             onClick={() => setHeadshotFullOpen(true)}
         />

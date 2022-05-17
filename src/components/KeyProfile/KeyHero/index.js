@@ -18,15 +18,12 @@ export function KeyHero({
     setEditingFeaturedImage,
 }) {
     const {
-        artist: {
-            featuredImage,
-            id,
-        },
+        artist,
         isEditing,
     } = useContext(ProfileContext)
 
-    const gradientRotation = useRef(parseInt(id) % 360 + "deg");
-    const gradientColor = useRef(brandColors[parseInt(id) % brandColors.length])
+    const gradientRotation = useRef(parseInt(artist?.id) % 360 + "deg");
+    const gradientColor = useRef(brandColors[parseInt(artist?.id) % brandColors.length])
 
     return (
         <section
@@ -39,10 +36,10 @@ export function KeyHero({
             <HeroHeadShot setHeadshotFullOpen={setHeadshotFullOpen} setEditingHeadshot={setEditingHeadshot} />
             <HeroBio setMessageOpen={setMessageOpen} />
             <HeroSocialMedia setEditingSocialMedia={setEditingSocialMedia} />
-            {featuredImage && (
+            {artist?.featuredImage && (
                 <img
-                    src={featuredImage.responsiveImage.src}
-                    alt={featuredImage.responsiveImage.alt}
+                    src={artist?.featuredImage?.responsiveImage.src}
+                    alt={artist?.featuredImage?.responsiveImage.alt}
                     className={styles["featured_image"]}
                 />
             )}
