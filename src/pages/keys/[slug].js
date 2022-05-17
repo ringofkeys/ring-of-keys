@@ -10,6 +10,8 @@ import styles from "styles/key.module.css"
 import SEO from "components/SEO"
 import Popup from "components/Popup"
 import HeroHeadshotEditor from "components/KeyProfile/KeyHero/HeroHeadshotEditor"
+import HeroSocialMediaEditor from "components/KeyProfile/KeyHero/HeroSocialMediaEditor"
+import HeroFeaturedImageEditor from "components/KeyProfile/KeyHero/HeroFeaturedImageEditor"
 
 export const ProfileContext = React.createContext({})
 
@@ -34,10 +36,12 @@ export default function KeyPage({ artistData }) {
     const [isMessageOpen, setMessageOpen] = useState(false)
     const [isHeadshotFullOpen, setHeadshotFullOpen] = useState(false)
     const [isEditingHeadshot, setEditingHeadshot] = useState(false)
+    const [isEditingFeaturedImage, setEditingFeaturedImage] = useState(false)
+    const [isEditingSocialMedia, setEditingSocialMedia] = useState(false)
     const [artist, artistDispatch] = useReducer(artistReducer, artistData)
 
     useEffect(() => {
-        if (session) {
+        if (session && session.token.datoId == artistData?.id) {
             setEditable(true)
         }
     }, [session])
@@ -60,19 +64,31 @@ export default function KeyPage({ artistData }) {
                         setMessageOpen={setMessageOpen}
                         setHeadshotFullOpen={setHeadshotFullOpen}
                         setEditingHeadshot={setEditingHeadshot}
+                        setEditingSocialMedia={setEditingSocialMedia}
+                        setEditingFeaturedImage={setEditingFeaturedImage}
                     />
                     <KeyBody />
             </Layout>
-            <HeroHeadshotEditor
-                isOpen={isEditingHeadshot}
-                onClose={() => setEditingHeadshot(false)}
-            />
-            <MessagePopup
-                isOpen={isMessageOpen}
-                artistId={artist?.id}
-                artistName={artist?.name}
-                onClose={() => setMessageOpen(false)}
-            />
+            {isEditable && <>
+                <HeroFeaturedImageEditor
+                    isOpen={isEditingFeaturedImage}
+                    onClose={() => setEditingFeaturedImage(false)}
+                />
+                <HeroHeadshotEditor
+                    isOpen={isEditingHeadshot}
+                    onClose={() => setEditingHeadshot(false)}
+                />
+                <HeroSocialMediaEditor
+                    isOpen={isEditingSocialMedia}
+                    onClose={() => setEditingSocialMedia(false)}
+                />
+                <MessagePopup
+                    isOpen={isMessageOpen}
+                    artistId={artist?.id}
+                    artistName={artist?.name}
+                    onClose={() => setMessageOpen(false)}
+                />
+            </>}
             <Popup
                 isOpen={isHeadshotFullOpen}
                 onClose={() => setHeadshotFullOpen(false)}

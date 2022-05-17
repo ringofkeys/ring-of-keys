@@ -1,16 +1,10 @@
 import { ProfileContext } from "pages/keys/[slug]"
 import { useContext } from "react"
 import styles from "styles/key.module.css"
+import tooltipStyles from "styles/tooltip.module.css"
+import { socialIcons } from 'lib/constants'
 
-const socialIcons = {
-    instagram: '/img/social-icons/icon_instagram.svg',
-    facebook: '/img/social-icons/icon_facebook.svg',
-    twitter: '/img/social-icons/icon_twitter.svg',
-    youtube: '/img/social-icons/icon_youtube.svg',
-    linkedin: '/img/social-icons/icon_linkedin.svg',
-}
-
-export default function HeroSocialMedia() {
+export default function HeroSocialMedia({ setEditingSocialMedia }) {
     const {
         artist: {
             socialMedia,
@@ -69,7 +63,7 @@ export default function HeroSocialMedia() {
                                     )
                             )
                         return (
-                            <div className={styles["social-icon"]}>
+                            <div className={styles["social-icon"]} key={key}>
                                 <img
                                     src={socialIcons[key]}
                                     alt={`${key}`}
@@ -81,19 +75,15 @@ export default function HeroSocialMedia() {
                         )
                     })}
                     <button
-                        className={styles["btn_edit edit_social"]}
-                        onClick={() => {
-                            // TODO! acknowledge editing
-                            // socialMedia.setEditing(true)
-                        }
-                        }
+                        className={styles["btn_edit"] +' '+ styles["edit_social"]}
+                        onClick={() => { setEditingSocialMedia(true) }}
                     >
                         <img
                             src="/img/profile-icons/icon_pencil.svg"
-                            className="icon_edit"
+                            className={styles["icon_edit"]}
                             alt={`edit pencil`}
                         />
-                        <span className="tooltip from-above">
+                        <span className={tooltipStyles["tooltip"] +' '+ tooltipStyles["from-above"]}>
                             Change Social Media Links
                         </span>
                     </button>

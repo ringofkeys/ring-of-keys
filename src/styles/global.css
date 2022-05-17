@@ -306,6 +306,25 @@ textarea {
     display: none;
 }
 
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    33% {
+        transform: scale(.96);
+    }
+    66% {
+        transform: scale(1.04);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 
 /* Mobile styles */
 @media (max-width: 700px) {

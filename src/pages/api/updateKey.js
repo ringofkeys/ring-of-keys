@@ -5,6 +5,15 @@ async function handler(req, res) {
     const { id, ...fields } = JSON.parse(req.body)
     console.log({ id, fields })
 
+    if (fields.socialMedia) {
+        fields.socialMedia = fields.socialMedia.map(({ socialMediaLink }) =>
+            buildModularBlock({
+                socialMediaLink,
+                itemType: "181488",
+            })
+        )
+    }
+
     await client.items.update(id, fields)
     const item = await client.item.publish(id)
 

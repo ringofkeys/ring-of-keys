@@ -1,6 +1,4 @@
-import React, { useContext, useState } from "react"
-// import { handleFileSubmit } from "../../utils/profileEditor"
-// import FileDrop from "../filedrop"
+import { useContext, useState } from "react"
 import { ProfileContext } from "pages/keys/[slug]"
 import Popup from "components/Popup"
 import popupStyles from 'components/Popup/Popup.module.css'
@@ -9,9 +7,9 @@ import { getDatoWriteClient } from "lib/datocms"
 import { useSession } from "next-auth/react"
 import { toKebabCase } from "lib/utils"
 
-function HeroHeadshotEditor({
+function HeroFeaturedImageEditor({
     isOpen = false,
-    onClose=() => { console.log('closing hero editor!') }
+    onClose=() => { console.log('closing featured image editor!') }
 }) {
     const { 
         artist,
@@ -65,7 +63,7 @@ function HeroHeadshotEditor({
             defaultFieldMetadata: {
             en: {
                 alt: artist?.name,
-                title: artist?.name + ' Headshot',
+                title: artist?.name + ' Featured Image',
                 customData: {
                     watermark: true,
                 },
@@ -80,7 +78,7 @@ function HeroHeadshotEditor({
             method: 'POST',
             body: JSON.stringify({
                 id: artist.id,
-                headshot: { uploadId: upload.id },
+                featuredImage: { uploadId: upload.id },
             }),
             Headers: {
                 'Content-Type': 'application/json',
@@ -90,7 +88,7 @@ function HeroHeadshotEditor({
                 artistDispatch({
                     type: 'UPDATE_FIELD',
                     payload: {
-                        headshot: buildHeadshotObj(upload),
+                        featuredImage: buildFeaturedImageObj(upload),
                     }
                 })
             })
@@ -100,13 +98,13 @@ function HeroHeadshotEditor({
     }
 
     return (<Popup isOpen={isOpen} onClose={onClose}>
-        <h2 className="file-drop_h2">Change Profile Photo</h2>
+        <h2>Change Cover Photo</h2>
         <form
-            id="edit-headshot"
+            id="edit-featured-image"
             onSubmit={handleSubmit}
         >
             {(!isSubmitting)
-                ? <FileDrop helpText="For best results, keep file size below 2Mb" />
+                ? <FileDrop helpText="For best results, use a 3:1 aspect ratio and keep file size below 2Mb" />
                 : <>
                     <label>
                         Upload Progress
@@ -135,20 +133,13 @@ function HeroHeadshotEditor({
     </Popup>)
 }
 
-export default HeroHeadshotEditor
+export default HeroFeaturedImageEditor
 
-function buildHeadshotObj(headshot) {
+function buildFeaturedImageObj(featuredImage) {
     return {
         responsiveImage: {
-            src: headshot.url + '?auto=format&facepad=50&fit=facearea&h=300&w=300',
-            width: 300,
-            height: 300,
-            aspectRatio: 1,
-            altText: headshot.altText,
+            src: featuredImage.url + '?auto',
+            altText: featuredImage.altText,
         },
-        fullRes: {
-            src: headshot.url + '?auto=format&w=960',
-            altText: headshot.altText,
-        }
     }
 }

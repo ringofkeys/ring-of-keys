@@ -14,6 +14,7 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
         isEditing: isEditingProfile,
     } = useContext(ProfileContext)
     const [isEditingField, setEditingField] = useState(false)
+    const [isSubmitting, setSubmitting] = useState(false)
     const fieldValue = artist[fieldName]
     const EmptyState = () => (
         <p>
@@ -26,6 +27,7 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
     function handleSubmit(e) {
         e.persist()
         e.preventDefault()
+        setSubmitting(true)
 
         fetch('/api/updateKey', {
             method: 'POST',
@@ -44,6 +46,7 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
                     type: 'UPDATE_FIELD',
                     payload: { [fieldName]: data[fieldName]
                 }})
+                setSubmitting(false)
             })
 
         setEditingField(false)
@@ -66,7 +69,9 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
         return <>
             {heading}
             <div className={styles["profile_field_group"]}>
-                {(fieldValue) ? children : <EmptyState />}
+                <div className={isSubmitting ? 'loading' : ''}>
+                    {(fieldValue) ? children : <EmptyState />}
+                </div>
                 <button
                     className={styles["btn_edit"] +' '+ styles["edit_field"]}
                     onClick={() => setEditingField(true)}
@@ -81,18 +86,24 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
     // Field editing view: show edit form
     return (<>
         {heading}
-        <div className={styles["profile_field_group"]}>
-            <form
-                onSubmit={handleSubmit}
-            >
+        <form
+            onSubmit={handleSubmit}
+        >
+            <div className={styles["profile_field_group"]}>
                 { (editFormFields)
                     ? editFormFields
                     : <input defaultValue={fieldValue} type="text" />
                 }
-                <button type="submit">Update</button>
-                <button onClick={() => setEditingField(false)}>Cancel</button>
-            </form>
-        </div>
+                <button
+                    className={styles["btn_edit"] +' '+ styles["edit_field"]}
+                    onClick={() => setEditingField(false)}
+                >
+                    <Icon type="close" className={styles["icon_edit"]} fill="white" />
+                    <span className={iconStyles["tooltip"]}>Cancel Edit</span>
+                </button>
+            </div>
+            <button type="submit" className="btn bg_slate" style={{margin: '1rem 0'}}>Update</button>
+        </form>
     </>)
 }
 

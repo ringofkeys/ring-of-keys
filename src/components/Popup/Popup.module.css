@@ -60,7 +60,7 @@
 .popup__card h2 {
     font-size: 2.2rem;    
     text-transform: capitalize;
-    margin-bottom: 0;
+    margin-bottom: 1rem;
     color: var(--rok-slate-blue_hex);
 }
 
@@ -73,16 +73,24 @@
     width: 100%;
 }
 
+.popup__card form {
+    width: 100%;
+}
+
 .popup__card label {
     font-family: 'Raleway', sans-serif;
     font-size: 85%;
     color: var(--rok-gray-1_hex);
     margin: .2em 0;
+    margin-top: 1rem;
+    width: 100%;
 }
 
 .popup__card textarea,
+.popup__card input,
 .popup__card input[type='text'],
 .popup__card input[type='email'] {
+    display: block;
     width: 100%;
 }
 
@@ -117,6 +125,19 @@
     stroke-width: 1px;
     stroke: black;
     stroke-linecap: round;
+}
+
+.buttonRow {
+    display: flex;
+    gap: 1rem;
+    justify-content: stretch;
+}
+
+.buttonRow button {
+    margin: 1rem 0;
+    width: auto;
+    display: block;
+    flex: 1 1;
 }
 
 @media (max-width: 700px) {

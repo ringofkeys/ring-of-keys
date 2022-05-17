@@ -91,6 +91,7 @@ export function KeyBody() {
                                     " " +
                                     fieldStyles.checkbox
                                 }
+                                key={val}
                             >
                                 <label htmlFor={"locations-" + val}>
                                     {val}
@@ -177,6 +178,7 @@ export function KeyBody() {
                                 " " +
                                 fieldStyles.checkbox
                             }
+                            key={val}
                         >
                             <label htmlFor={"affiliations-" + val}>
                                 {val}
