@@ -67,9 +67,13 @@ query KeyQuery($slug: String!) {
           title
           base64
         }
+        fullRes: responsiveImage(imgixParams: { w: 960, auto: format }) {
+          src
+          alt
+        }
       }
       featuredImage {
-        responsiveImage(imgixParams: { fit: crop, w: 300, h: 300, auto: format }) {
+        responsiveImage(imgixParams: { auto: format }) {
           srcSet
           webpSrcSet
           sizes

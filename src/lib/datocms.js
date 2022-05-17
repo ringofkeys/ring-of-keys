@@ -1,16 +1,27 @@
 import { GraphQLClient } from "graphql-request"
+import { SiteClient } from "datocms-client"
+import { useSession } from "next-auth/react"
 
 export function request({ query, variables, preview }) {
     const endpoint = `https://graphql.datocms.com/${preview ? "preview" : ""}`
-
-    const client = new GraphQLClient(endpoint, {
+    const gqlClient = new GraphQLClient(endpoint, {
         headers: {
-            authorization: `Bearer ${process.env.DATO_CONTENT_TOKEN}`,
+            authorization: `Bearer ${process.env.NEXT_PUBLIC_DATO_READ_ONLY_TOKEN}`,
         },
     })
-
-    return client.request(query, variables)
+    
+    return gqlClient.request(query, variables)
 }
+
+export function getDatoWriteClient(artistId, tokenId) {
+    if (!artistId == tokenId) {
+        throw new Error('You are not authorized to make this request!')
+    }
+
+    return new SiteClient(process.env.NEXT_PUBLIC_DATO_READ_WRITE_TOKEN);
+}
+
+
 
 export async function requestAll({ query, variables, preview }) {
     let skip = 0

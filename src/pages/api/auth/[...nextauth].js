@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import Auth0Provider from "next-auth/providers/auth0"
 
 const options = {
-    site: "http://localhost:3000",
+    site: (process.env.NODE_ENV == "development") ? "http://localhost:3000" : "https://nextjs-profile--ringofkeys.netlify.app",
     providers: [
         Auth0Provider({
             clientId: process.env.AUTH0_NEXT_CLIENT_ID,

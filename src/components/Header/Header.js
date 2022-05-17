@@ -24,7 +24,7 @@ const Header = ({ path }) => {
             </button>
             <nav
                 className={`${styles["top-nav"]} ${
-                    styles[isNavOpen ? "open" : "closed"]
+                    styles[isNavOpen ? " open" : " closed"]
                 }`}
             >
                 <div className={styles["top__inner"]}>
@@ -116,12 +116,12 @@ function SecondaryNav({ session, navOpen }) {
                         <a>Apply to be a key</a>
                     </Link>
                     <button
+                        className={styles.login}
                         onClick={() =>
                             signIn("auth0", {
-                                callbackUrl: "http://localhost:3000/dashboard",
+                                callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://nextjs-profile--ringofkeys.netlify.app/dashboard",
                             })
                         }
-                        id="btn__login"
                     >
                         Log In
                     </button>
@@ -148,8 +148,9 @@ function SecondaryNav({ session, navOpen }) {
                         </a>
                     </Link>
                     <button
+                        className={styles.logout}
                         onClick={() =>
-                            signOut({ callbackUrl: "http://localhost:3000/" })
+                            signOut({ callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/" : "https://nextjs-profile--ringofkeys.netlify.app/" })
                         }
                     >
                         Log Out
