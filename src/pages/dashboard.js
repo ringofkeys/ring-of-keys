@@ -4,6 +4,7 @@ import Link from "next/link"
 import Layout from "components/Layout"
 import { request } from "../lib/datocms"
 import styles from 'styles/dashboard.module.css'
+import MessageBlock from "components/MessageBlock"
 
 export default function Dashboard() {
     const [dashboardData, setDashboardData] = useState(false)
@@ -51,7 +52,9 @@ export default function Dashboard() {
                         )}
                     </div>
                     {/* {!user.stripeId && <StripeUnsubscribed userId={user.id} />} */}
-                    {/* <MessageBlock messages={messages} /> */}
+                    <section className={styles.block}>
+                        <MessageBlock messages={dashboardData.messages} />
+                    </section>
                     <pre>{JSON.stringify(dashboardData.messages, null, 2)}</pre>
                     {dashboardData.page.content.map((block, i) => {
                         return (

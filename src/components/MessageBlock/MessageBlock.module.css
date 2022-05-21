@@ -1,0 +1,66 @@
+.block.blockMessages2 {
+    /* optional block-level styles */
+    counter-reset: dashboard_messages;
+}
+
+.message {
+    position: relative;
+    margin: .125em 0;
+    padding: 0 1em;
+    transition: all .12s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+    counter-increment: dashboard_messages;
+}
+
+.message.recent {
+    --recent-color: hsl(110deg, 85%, 74%);
+    border-left: solid 2px var(--recent-color);
+}
+
+.message.recent:first-of-type::before {
+    content: 'Recent';
+    position: absolute;
+    right: calc(100% + .5rem);
+    bottom: calc(100% - .5rem);
+    transform-origin: bottom right;
+    transform: rotate(-90deg);
+    color: var(--recent-color);
+    font-family: 'Raleway', sans-serif;
+}
+
+.message:hover {
+    background: #f4f4f4;
+}
+
+.messageLabels p {
+    margin-block-start: 0;
+}
+
+.message p {
+    display: inline-block;
+}
+
+.message button {
+    margin: 0;
+    justify-self: flex-end;
+}
+
+@media(max-width: 700px) {
+    .message {
+        display: block;
+        border-left: 3px solid #f4f4f4;
+    }
+
+    .message.recent:first-of-type::before {
+        display: none;
+    }
+
+    .messageLabels p {
+        margin: 0;
+    }
+}
