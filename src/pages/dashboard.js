@@ -3,6 +3,7 @@ import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
 import Layout from "components/Layout"
 import { request } from "../lib/datocms"
+import styles from 'styles/dashboard.module.css'
 
 export default function Dashboard() {
     const [dashboardData, setDashboardData] = useState(false)
@@ -25,18 +26,16 @@ export default function Dashboard() {
     }, [session])
 
     return (
-        <Layout>
+        <Layout className={"fullwidth " + styles.dashboard}>
             <h1>Dashboard</h1>
             {dashboardData ? (
                 <>
-                    <div className="block block_intro">
+                    <div className={styles.block +' '+ styles.blockIntro}>
                         <div>
                             <h2>{dashboardData.user.name}</h2>
-                            <Link
-                                href={"/keys/" + dashboardData.user.slug}
-                                className="btn btn-link_ghost"
-                            >
-                                <a>View / Edit Profile</a>
+                            <p>Welcome to the Key Member dashboard! Here you can find access to Members Only content like our Proud Member: Ring of Keys badges to use on your website, resumé, or portfolio.</p>
+                            <Link href={"/keys/" + dashboardData.user.slug}>
+                                <a className="btn btn-link_ghost">View / Edit Profile</a>
                             </Link>
                             {/* {dashboardData.user.stripeId && <StripeSubscribed stripeId={dashboardData.user.stripeId} />} */}
                         </div>
