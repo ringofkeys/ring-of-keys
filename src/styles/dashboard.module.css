@@ -38,6 +38,7 @@
     align-self: flex-start;
 }
 
+
 .blockIntro .btn {
     padding: .75em 2.5em;
     border-color: var(--rok-copper-1_hex);
@@ -54,7 +55,7 @@
     max-width: 120px;
 }
 
-.block_badge .btn {
+.block_badge a {
     display: inline-block;
 }
 
