@@ -36,7 +36,7 @@ const KeyShipOption = ({ type, duration, tier, text, pId }) => (
             name={type}
             id={`${type}-${duration}-${tier}`}
             value={pId}
-            defaultChecked={tier == 1 && duration == "annual"}
+            defaultChecked={tier == 1}
             required
         />
         <span>{text}</span>
