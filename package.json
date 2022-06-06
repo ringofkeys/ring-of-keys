@@ -10,6 +10,7 @@
     "aws-sdk": "^2.948.0",
     "buffer": "^6.0.3",
     "cuid": "^2.1.8",
+    "date-format": "^4.0.10",
     "datocms-client": "^3.5.20",
     "dotenv": "^10.0.0",
     "fs": "0.0.1-security",

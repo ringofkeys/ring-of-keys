@@ -1,3 +1,5 @@
+export const DAY_IN_MS = 1000 * 60 * 60 * 24
+
 export const PROFILE_INFO_COPY = {
     sexualOrientation: "Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person.",
     genderIdentity: "One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.",

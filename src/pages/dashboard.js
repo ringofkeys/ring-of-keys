@@ -3,6 +3,11 @@ import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
 import Layout from "components/Layout"
 import { request } from "../lib/datocms"
+import parse from "html-react-parser"
+import styles from 'styles/dashboard.module.css'
+import MessageBlock from "components/MessageBlock"
+import PageBlock from "components/PageContent/PageBlock"
+import { StripeSubscribed, StripeUnsubscribed } from "components/StripeBlocks"
 
 export default function Dashboard() {
     const [dashboardData, setDashboardData] = useState(false)
@@ -25,20 +30,20 @@ export default function Dashboard() {
     }, [session])
 
     return (
-        <Layout>
+        <Layout className={"fullwidth"}>
             <h1>Dashboard</h1>
             {dashboardData ? (
                 <>
-                    <div className="block block_intro">
+                    <div className={styles.block +' '+ styles.blockIntro}>
                         <div>
                             <h2>{dashboardData.user.name}</h2>
-                            <Link
-                                href={"/keys/" + dashboardData.user.slug}
-                                className="btn btn-link_ghost"
-                            >
-                                <a>View / Edit Profile</a>
+                            <p>{ parse(dashboardData.page.content.find(block => block.area === 'intro')?.content)
+                                || "Welcome to the Key Member dashboard! Here you can find access to Members Only content like our Proud Member: Ring of Keys badges to use on your website, resumé, or portfolio."
+                            }</p>
+                            <Link href={"/keys/" + dashboardData.user.slug}>
+                                <a className="btn btn-link_ghost">View / Edit Profile</a>
                             </Link>
-                            {/* {dashboardData.user.stripeId && <StripeSubscribed stripeId={dashboardData.user.stripeId} />} */}
+                            {dashboardData.user?.stripeId && <StripeSubscribed stripeId={dashboardData.user.stripeId} />}
                         </div>
                         {dashboardData.user.headshot && (
                             <img
@@ -51,27 +56,27 @@ export default function Dashboard() {
                             />
                         )}
                     </div>
-                    {/* {!user.stripeId && <StripeUnsubscribed userId={user.id} />} */}
-                    {/* <MessageBlock messages={messages} /> */}
-                    <pre>{JSON.stringify(dashboardData.messages, null, 2)}</pre>
-                    {dashboardData.page.content.map((block, i) => {
+                    {!dashboardData.user?.stripeId && <StripeUnsubscribed userId={dashboardData.user?.id} />}
+                    <section className={styles.block}>
+                        <MessageBlock messages={dashboardData.messages} />
+                    </section>
+                    {dashboardData.page.content.filter(block => block.area !== "intro").map((block, i) => {
                         return (
                             <section
                                 className={
-                                    "block" +
-                                    (block.area ? ` block_${block.area}` : "")
+                                    styles.block +
+                                    (block.area ? " " + styles[`block_${block.area}`] : "")
                                 }
                                 key={"block" + i}
                             >
                                 {block.__typename ===
-                                "DatoCmsDashboardBlock" ? (
+                                "DashboardBlockRecord" ? (
                                     <>
                                         <h2>{block.blockTitle}</h2>
                                         {parse(block.content)}
                                     </>
                                 ) : (
-                                    <></>
-                                    // <PageBlock {...block} />
+                                    <PageBlock {...block} />
                                 )}
                             </section>
                         )
@@ -103,6 +108,7 @@ async function getDashboardContent(datoId) {
                     url
                     title
                 }
+                stripeId
             }
 
             messages: allMessages(filter: { toArtist: { eq: $id }}, orderBy: _firstPublishedAt_DESC) {
@@ -118,19 +124,22 @@ async function getDashboardContent(datoId) {
             page(filter: { id: { eq: "65961427" } }) {
                 content {
                     ... on BasicBlockRecord {
+                        __typename
                         area
                         content
                         id
                     }
                     
                     ... on DashboardBlockRecord {
+                        __typename
                         blockTitle
                         content
                         area
                         id
                     }
-                
+                    
                     ... on ShortcodeRecord {
+                        __typename
                         id
                         name
                     }
