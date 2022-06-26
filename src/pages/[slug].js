@@ -9,7 +9,10 @@ import { sidebarQuery } from "queries/sidebar.js"
 import PageContent from "components/PageContent"
 import { getPageSpecificQueries } from "queries"
 
-const unincludedPages = ["dashboard"]
+const unincludedPages = [
+    "dashboard",
+    "donate",
+]
 
 export async function getStaticPaths() {
     const slugs = await request({

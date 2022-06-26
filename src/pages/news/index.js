@@ -33,10 +33,15 @@ export async function getStaticProps() {
 }
 
 export default function News({ data }) {
+    const {
+        industryNews,
+        pressReleases,
+        newsletters,
+        events,
+    } = data
+
     return (
-        <Layout className={["fullwidth"]}>
-            <h1>News</h1>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
+        <Layout className={"news fullWidth"}>
             {/* <div className='view-all_nav' >
             <nav styl={{display: 'none'}}>
                 <a href='/'>All</a>
@@ -45,33 +50,33 @@ export default function News({ data }) {
                 <a href='/'>Events</a>
             </nav>
         </div> */}
-            {data.newsletters.length > 0 && (
+            {newsletters.length > 0 && (
                 <div className="section_news bg_white">
-                    {/* <Carousel
-          heading="Ring of Keys Newsletter"
-          itemList={data.newsletters}
-          classNames={["carousel__gray"]}
-        /> */}
+                    <Carousel
+                        heading="Ring of Keys Newsletter"
+                        entryList={newsletters}
+                        classNames={["carousel__gray"]}
+                    />
                 </div>
             )}
-            {data.events.length > 0 && (
+            {events.length > 0 && (
                 <div className="section_news bg_white">
-                    {/* <Carousel
-          heading="Events"
-          itemList={data.events}
-          recordType="events"
-          classNames={["carousel__gray"]}
-        /> */}
+                    <Carousel
+                        heading="Events"
+                        entryList={events}
+                        entryType="events"
+                        classNames={["carousel__gray"]}
+                    />
                 </div>
             )}
-            {data.pressReleases.length > 0 && (
+            {pressReleases.length > 0 && (
                 <div className="section_news bg_white">
-                    {/* <Carousel
-          heading="Press Releases"
-          itemList={data.pressReleases}
-          recordType="news"
-          classNames={["carousel__gray"]}
-        /> */}
+                    <Carousel
+                        heading="Press Releases"
+                        entryList={pressReleases}
+                        entryType="pressRelease"
+                        classNames={["carousel__gray"]}
+                    />
                 </div>
             )}
         </Layout>

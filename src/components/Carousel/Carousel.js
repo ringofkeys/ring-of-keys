@@ -5,7 +5,7 @@ import styles from "./Carousel.module.css"
 const Carousel = ({
     heading,
     recordType,
-    itemList,
+    entryList,
     classNames = [],
     style,
     children,
@@ -58,14 +58,15 @@ const Carousel = ({
                 }`}
             >
                 <ul className={styles["carousel_inner"]}>
-                    {itemList &&
-                        itemList.map((node, i) => (
+                    {entryList &&
+                        entryList.map((entry, i) => (
                             <CarouselCard
-                                node={node}
-                                recordType={recordType}
+                                entry={entry}
+                                entryType={recordType}
                                 key={`carousel-${classNames[0]}-${i}`}
                             />
-                        ))}
+                        ))
+                    }
                     {children && children}
                 </ul>
             </div>
