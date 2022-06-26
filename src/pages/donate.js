@@ -5,7 +5,7 @@ import { MarkdownRenderer, parseMarkdown } from "lib/markdown"
 import { pageQuery } from "queries/page"
 import { request } from "lib/datocms"
 
-export async function getStaticProps() {
+export async function getStaticProps() { 
     const data = await request({
         query: pageQuery,
         variables: {
