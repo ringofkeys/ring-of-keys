@@ -3,7 +3,8 @@ import { unified } from "unified"
 import markdown from "remark-parse"
 
 export const parseMarkdown = (content) =>
-    cleanNode(unified().use(markdown).parse(content))
+    cleanNode(unified().use(markdown).parse(content)
+)
 
 const mdRenderer = (props) => <Node {...props.ast} />
 export const MarkdownRenderer = React.memo(mdRenderer)
@@ -54,7 +55,10 @@ function getComponent(node) {
             return ({ children, url }) => <a href={url}>{children} </a>
         case "text":
             return ({ value }) => <>{value}</>
-        // TODO: Add all other content types
+        case "blockquote":
+            return ({ children }) => <blockquote>{ children }</blockquote>
+        case "html":
+            return ({ value }) => <div style={{boxSizing: 'content-box', display: 'contents'}} dangerouslySetInnerHTML={{__html: value}} />
         default:
             console.log("Unhandled node type", node)
             return ({ children }) => <>{children}</>

@@ -1,7 +1,7 @@
 // import ConsultantBios from "./ConsultantBios"
 // import ConsultantForm from "./consultantform"
 // import KeyshipButton from "./KeyshipButton"
-// import DonorBoxWidget from "./DonorBoxWidget"
+import DonorBoxWidget from "components/DonorBoxWidget"
 // import VimeoEmbed from "./VimeoEmbed"
 import ApplyForm from "components/forms/ApplyForm"
 import DirectorySection from "components/Directory/DirectorySection"
@@ -12,7 +12,7 @@ const shortcodes = {
     // "consultancy-form": <ConsultantForm />,
     // "consultant-bios": <ConsultantBios />,
     // "keyship-button": <KeyshipButton />,
-    // donorbox: <DonorBoxWidget />,
+    donorbox: DonorBoxWidget,
     // vimeo: VimeoEmbed,
 }
 
