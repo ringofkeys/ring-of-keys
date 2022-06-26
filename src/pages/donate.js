@@ -1,11 +1,9 @@
-import React from "react"
 import styles from "styles/donate.module.css"
-import Layout from "../components/layout"
-import DonorBoxWidget from "../components/DonorBoxWidget"
+import Layout from "components/Layout"
+import DonorBoxWidget from "components/DonorBoxWidget"
 import { MarkdownRenderer, parseMarkdown } from "lib/markdown"
 import { pageQuery } from "queries/page"
 import { request } from "lib/datocms"
-// import "./apply.css"
 
 export async function getStaticProps() {
     const data = await request({
@@ -28,7 +26,6 @@ const Donate = ({ pageData }) => {
     
     // add in Blockquote class
     quote.children[0].properties = Object.assign(quote.children[0].properties || {}, {class: "quote_graphic-bar"})
-    console.log({content: pageData.content, quote, rightCol})
 
 
     return (
