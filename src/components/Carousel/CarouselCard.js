@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useRef } from "react"
 import Link from "next/link"
-import { useIntersect } from "hooks/useIntersect"
+// import { useIntersect } from "hooks/useIntersect"
 import render from "html-react-parser"
 import styles from "./Carousel.module.css"
 
 const TRUNCATE_LENGTH = 120
-const buildThresholdArray = (size) =>
-    Array.from(Array(size).keys(), (i) => i / size)
 
 function cssModularize(cssClassString) {
     cssClassString
@@ -15,8 +13,37 @@ function cssModularize(cssClassString) {
         .join(" ")
 }
 
+function ImageOrFallback({ src, className = '', ...props }) {
+    const rotation = useRef(Math.random() * 360)
+    return (src) 
+        ? (<div className={styles['img_wrapper']}>
+            <img src={src} className={className} {...props} />
+        </div>)
+        : (<div
+            className={styles['img_replacement'] + " fullwidth " + className}
+            style={{ "--grad-rotate": rotation.current + "deg" }}
+            {...props}
+        ></div>)
+}
+
+function truncateDescription(descriptionHTML) {
+    const descriptionObjects = render(descriptionHTML)
+    const truncatedPara = descriptionObjects.find(
+        (d) =>
+            typeof d == "string" ||
+            (d.type == "p" && typeof d.props.children == "string")
+    )
+    if (!truncatedPara) return
+    return (
+        (typeof truncatedPara == "string"
+            ? truncatedPara
+            : truncatedPara.props.children
+        ).slice(0, TRUNCATE_LENGTH) + "..."
+    )
+}
+
 const CarouselCardInner = ({ node, recordType, ratio, className }) => {
-    function wrapLink(node, className, children) {
+    function DynamicLink({ className, children }) {
         return node.externalUrl ? (
             <a
                 href={node.externalUrl}
@@ -130,23 +157,30 @@ const CarouselCardInner = ({ node, recordType, ratio, className }) => {
     )
 }
 
-const CarouselCard = (props) => {
-    // const [ref, entry] = useIntersect({
-    //     threshold: buildThresholdArray(70)
-    // })
+const CarouselCard = ({entry, entryType, className}) => {
+    const excerptLength = 128
 
-    function wrapButton(node, isFirst, children) {
-        return (
-            <button
-                className={`carousel_btn carousel_btn_${
-                    isFirst ? "prev" : "next"
-                }`}
-            >
-                {children}
-            </button>
-        )
-    }
-
-    return <CarouselCardInner {...props} />
+    return (
+        <li
+            className={`${styles["carousel_card"]} ${styles["hover_scale"]} ${className}`}
+        >
+            <Link href={entry.externalUrl || `/${entryType}/${entry.slug}`}>
+                <a {...((entry.externalUrl) ? {rel: 'nofollower noreferrer', target: '_blank'} : '')}>
+                    <ImageOrFallback src={entry.featuredImage?.url} alt={entry.featuredImage?.alt} />
+                    {entry.title && (
+                    <h3>{entry.title.substr(0, 70) + (entry.title.length > 70 ? "..." : '')}</h3>)}
+                    <div className={styles.cardDetails}>
+                        {(entry.startTime || entry.publishDate) && (
+                        <p><em>{entry.startTime ? entry.startTime : entry.publishDate}</em></p>
+                        )}
+                        <p>
+                            {(entry.description || entry.body).substr(0, excerptLength) + (((entry.description || entry.body)).length > excerptLength ? "..." : '')}
+                        </p>
+                    </div>
+                    <div className={"btn btn-link_ghost " + styles.button}>Read More</div>
+                </a>
+            </Link>
+        </li>
+    )
 }
 export default CarouselCard

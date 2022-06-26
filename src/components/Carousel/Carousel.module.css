@@ -6,7 +6,7 @@
     margin-inline-start: 12.5%;
     -ms-overflow-style: none;
     overflow-x: scroll;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     overflow: -moz-scrollbars-none;
     scroll-behavior: smooth;
     position: relative;
@@ -81,12 +81,11 @@
     box-sizing: border-box;
     padding-bottom: 1.5em;
 
-    transition: all .12s ease-in-out;
 }
 
-.carousel_btn:hover,
-.carousel_btn:focus {
-    transform: scaleY(var(--hov-scale));
+.carousel_card:hover,
+.carousel_card:focus {
+    transform: scale(var(--hov-scale));
 }
 
 .carousel_btn.disabled {
@@ -102,6 +101,10 @@
     height: 2.5em;
     background: var(--btn-c);
     width: 90%;
+}
+
+.button {
+    justify-self: flex-end;
 }
 
 .carousel_btn_paragraph > div {
@@ -135,13 +138,25 @@
 .carousel_card {
     --hov-scale: 1.03;
     background: white;
-    display: grid;
-    grid-template-rows: 25vh auto 1fr 2em;
-    position: relative;
     box-sizing: border-box;
+    list-style: none;
     padding-bottom: 1.5em;
     margin: 0 1em;
     width: calc(25vw - 2em);
+    transition: all .12s ease-in-out;
+}
+
+.carousel_card a {
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: 100%;
+}
+.carousel_card a > * {
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .carousel_card:last-child {
@@ -152,28 +167,22 @@
     background: #f7f7f7;
 }
 
-.carousel_card > *:not(.fullwidth) {
-    margin-left: 1em;
-    margin-right: 1em;
-}
-
 .img_replacement {
-    height: 25vh;
+    padding-bottom: 160px;
     width: 100%;
     background: linear-gradient(var(--grad-rotate), var(--rok-copper-1_hex), var(--rok-peach-1_hex));
 }
 
 .carousel_card .img_wrapper {
-    height: 25vh;
+    max-height: 220px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    margin: 0;
 }
 
 .carousel_card img {
     max-width: 100%;
     object-fit: cover;
+    object-position: 50% 0%;
 }
 
 .carousel_card h3 {
@@ -184,11 +193,13 @@
     text-decoration: none;
 }
 
-.carousel_card p:first-of-type {
-    margin-top: .5em;
+.cardDetails {
+    flex-grow: 2;
 }
 
 .carousel_card p {
+    margin-top: .5em;
+    margin-bottom: .5em;
     color: #6d7278;
 }
 
