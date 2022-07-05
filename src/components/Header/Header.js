@@ -40,43 +40,37 @@ const Header = ({ path }) => {
                     <div className={styles["nav__main"]}>
                         <Link
                             href="/directory-2"
-                            className={path === "/directory" ? "active" : ""}
                         >
-                            <a>Directory</a>
+                            <a className={path === "/directory-2" ? styles.active : ""}>Directory</a>
                         </Link>
                         <Link
                             href="/news"
-                            className={path === "/news" ? "active" : ""}
                         >
-                            <a>News</a>
+                            <a className={path === "/news" ? styles.active : ""}>News</a>
                         </Link>
                         <Link
                             href="/consultancy"
-                            className={path === "/consultancy" ? "active" : ""}
                         >
-                            <a>Consultancy</a>
+                            <a className={path === "/consultancy" ? styles.active : ""}>Consultancy</a>
                         </Link>
                         <Link
-                            href="/resources"
-                            className={path === "/resources" ? "active" : ""}
+                            href="/resources-2"
                         >
-                            <a>Resources</a>
+                            <a className={path === "/resources-2" ? styles.active : ""}>Resources</a>
                         </Link>
                         <Link
                             href="/donate"
-                            className={path === "/donate" ? "active" : ""}
                         >
-                            <a>Donate</a>
+                            <a className={path === "/donate" ? styles.active : ""}>Donate</a>
                         </Link>
                         <Link
                             href="/contact"
-                            className={path === "/contact" ? "active" : ""}
                         >
-                            <a>Contact</a>
+                            <a className={path === "/contact" ? styles.active : ""}>Contact</a>
                         </Link>
                         {session && (
-                            <Link href="/dashboard" className="has-dropdown">
-                                <a>Dashboard</a>
+                            <Link href="/dashboard">
+                                <a className="has-dropdown">Dashboard</a>
                             </Link>
                         )}
                     </div>
@@ -88,8 +82,8 @@ const Header = ({ path }) => {
 
 function NavLink({ href, children, path }) {
     return (
-        <Link href={href || ""} className={path === href ? "active" : ""}>
-            <a>{children}</a>
+        <Link href={href || ""}>
+            <a className={path === href ? styles.active : ""}>{children}</a>
         </Link>
     )
 }
@@ -111,9 +105,8 @@ function SecondaryNav({ session, navOpen }) {
                 <>
                     <Link
                         href="/apply"
-                        className={navOpen ? "btn btn-link_ghost" : ""}
                     >
-                        <a>Apply to be a key</a>
+                        <a className={navOpen ? "btn btn-link_ghost" : ""}>Apply to be a key</a>
                     </Link>
                     <button
                         className={styles.login}

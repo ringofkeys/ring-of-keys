@@ -5,10 +5,12 @@ import DonorBoxWidget from "components/DonorBoxWidget"
 // import VimeoEmbed from "./VimeoEmbed"
 import ApplyForm from "components/forms/ApplyForm"
 import DirectorySection from "components/Directory/DirectorySection"
+import ResourceSection from "components/ResourceSection"
 
 const shortcodes = {
     "directory-section": DirectorySection,
     "apply-form": ApplyForm,
+    "resources-section": ResourceSection,
     // "consultancy-form": <ConsultantForm />,
     // "consultant-bios": <ConsultantBios />,
     // "keyship-button": <KeyshipButton />,

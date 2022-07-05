@@ -100,6 +100,7 @@
 .top-nav a:not(.site-logo):focus::after,
 .top-nav button:hover::after,
 .top-nav button:focus::after,
+.top-nav a.active::after,
 .top-nav [aria-current]:not([aria-current="false"]):not(.site-logo)::after {
     width: 100%;
 }

@@ -9,7 +9,7 @@ export default function Layout({ children, className, sidebarData }) {
 
     return (
         <>
-            <Header path={router.pathname} />
+            <Header path={router.asPath} />
             <main
                 className={
                     router.asPath.slice(1).replace("/", "_") +
