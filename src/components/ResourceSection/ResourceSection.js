@@ -1,77 +1,42 @@
 import Carousel from "components/Carousel"
 import ResourceCard from "components/ResourceCard"
+import { resourceThemes } from "lib/constants"
 import { slugify } from "lib/utils"
 import Link from "next/link"
 import styles from "./ResourceSection.module.css"
 // import devonImg from "./devon-avatar.png"
 
-const resourceThemes = [
-    "var(--rok-gold-1_hex)",
-    "var(--rok-pale-green-1_hex)",
-    "var(--rok-slate-blue_hex)",
-    "var(--rok-peach-1_hex)",
-    "var(--rok-copper-1_hex)",
-    "#494949",
-]
-
 function ResourceSection({ pageSpecificData: data }) {
-    const resourceTypes = [
-        "Advocacy & Access",
-        "Reading",
-        "Podcasts",
-        "Videos",
-        "Tools & Directories",
-        "Organizations",
-    ]
-
     const resources = data.reduce(
         (acc, node) => {
-            if (!resourceTypes.find((el) => el === node.resourceType)) {
-                resourceTypes.push(node.resourceType)
-                acc.push({ type: node.resourceType, resources: [node] })
-            } else {
-                acc[
-                    acc.findIndex(
-                        (resource) => resource.type === node.resourceType
-                    )
-                ].resources.push(node)
-            }
+            acc.find(theme => theme.title === node.resourceType)?.resources.push(node)
             return acc
         },
-        resourceTypes.map((val) => {
-            return { type: val, resources: [] }
+        Object.entries(resourceThemes).map(([key, values]) => {
+            return { slug: key, ...values, resources: [] }
         })
     )
 
     return (resources &&
-        resources.map(({ type, resources: resourceList }, i) => (
+        resources.map(({ title, color, slug, resources: resourceList }, i) => (<div class="my-16">
             <Carousel
-                key={type}
+                key={title}
                 classNames={[styles.resourceCarousel]}
-                style={{
-                    "--theme-color":
-                        resourceThemes[i % resourceThemes.length],
-                }}
+                style={{"--theme-color": color}}
             >
                 <div
                     className={styles.resourceTitle}
                     style={{
-                        "--theme-color":
-                            resourceThemes[i % resourceThemes.length],
+                        "--theme-color": color,
                     }}
                 >
-                    <h2>{type}</h2>
-                    <Link href={`/resources/${slugify(type)}`}>
+                    <h2>{title}</h2>
+                    <Link href={`/resources/${slug}`}>
                         <a className={styles.categoryLink}>
                             Explore Category
                         </a>
                     </Link>
-                    <p
-                        style={{
-                            color: "white",
-                            textTransform: "none",
-                        }}
-                    >
+                    <p className="text-white normal-case text-sm">
                         {resourceList.length} Resources
                     </p>
                 </div>
@@ -82,17 +47,11 @@ function ResourceSection({ pageSpecificData: data }) {
                             title={resource.title}
                             description={resource.description}
                             href={resource.link}
-                            color={
-                                resourceThemes[
-                                    resourceTypes.findIndex(
-                                        (el) =>
-                                            el === resource.resourceType
-                                    ) % resourceThemes.length
-                                ]
-                            }
+                            color={color}
+                            className="md:w-96"
                         />
                     ))}
             </Carousel>
-        )))
+        </div>)))
 }
 export default ResourceSection

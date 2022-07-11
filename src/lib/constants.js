@@ -14,3 +14,30 @@ export const socialIcons = {
     youtube: '/img/social-icons/icon_youtube.svg',
     linkedin: '/img/social-icons/icon_linkedin.svg',
 }
+
+export const resourceThemes = {
+    "advocacy-and-access": {
+        title: "Advocacy & Access",
+        color: "var(--rok-gold-1_hex)",
+    },
+    "reading": {
+        title: "Reading",
+        color: "var(--rok-pale-green-1_hex)",
+    },
+    "podcasts": {
+        title: "Podcasts",
+        color: "var(--rok-slate-blue_hex)",
+    },
+    videos: {
+        title: "Videos",
+        color: "var(--rok-peach-1_hex)",
+    },
+    "tools-directories": {
+        title: "Tools & Directories",
+        color: "var(--rok-copper-1_hex)",
+    },
+    organizations: {
+        title: "Organizations",
+        color: "#494949",
+    }
+}

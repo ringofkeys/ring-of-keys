@@ -1,10 +1,10 @@
 import React from "react"
 import styles from "./ResourceCard.module.css"
 
-const ResourceCard = ({ title, description, href, color }) => {
+const ResourceCard = ({ title, description, href, color, className }) => {
     return (
-        <div className={styles["resource-card"]} style={{ "--theme-color": color }}>
-            <h3>{title}</h3>
+        <div className={styles["resource-card"] +' '+ className} style={{ "--theme-color": color }}>
+            <h3 className="text-xl">{title}</h3>
             <p>{description}</p>
             <a
                 href={href}

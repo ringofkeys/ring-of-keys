@@ -12,3 +12,16 @@ query AllResourcesQuery($limit: IntType!, $skip: IntType!) {
         resourceType
     }
 }`
+
+export const RESOURCE_TYPE_QUERY = `
+query ResourcesByTypeQuery($type: String!) {
+    allResources(
+        orderBy: title_DESC
+        filter: { resourceType: { eq: $type }}
+    ) {
+        id
+        title
+        description
+        link
+    }
+}`

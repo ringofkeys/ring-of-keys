@@ -1,13 +1,14 @@
 .resource-card {
     background: #f7f7f7;
     color: var(--rok-slate-blue_hex);
-    max-width: 30vw;
     min-width: 50ch;
     padding: 1.5em;
     box-sizing: border-box;
     border-top: solid 10px var(--theme-color);
     min-height: 40vh;
     margin: 0 0.5rem;
+    @apply grid gap-2;
+    grid-template-rows: auto 1fr auto;
 }
 
 .carousel.resource-carousel .carousel_inner > .resource-card:last-child {

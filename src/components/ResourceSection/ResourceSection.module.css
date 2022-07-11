@@ -20,16 +20,11 @@
 .resourceTitle {
     color: white;
     text-transform: uppercase;
-    width: 15vw;
     height: min-content;
-    padding: 2rem;
     border-radius: 4px;
     background: var(--theme-color);
-}
-
-.resourceTitle h2 {
-    margin-block-end: 1.5rem;
-    margin-block-start: 0;
+    @apply text-xl md:text-2xl mb-2 w-72;
+    @apply p-8;
 }
 
 .resourcesIntro {
@@ -45,6 +40,7 @@
     font-weight: 200;
     text-transform: none;
     text-decoration: none;
+    @apply block my-4;
 }
 
 .categoryLink::after {

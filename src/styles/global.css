@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import url('https://fonts.googleapis.com/css?family=EB+Garamond|Raleway:400,400i,600,900&display=swap');
 
 :root {
@@ -35,6 +38,10 @@ main {
 main.fullWidth {
     width: 100%;
     margin: 0;
+}
+
+h1 {
+    @apply text-3xl mb-2;
 }
 
 /* LAYOUT STYLES THAT I DON'T WANT TO MODULARIZE */

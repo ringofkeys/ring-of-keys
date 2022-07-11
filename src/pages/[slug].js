@@ -22,11 +22,9 @@ export async function getStaticPaths() {
     return {
         paths: slugs.allPages
             .filter(({ slug }) => slug && unincludedPages.indexOf(slug) < 0) // filters out the home page, which has an empty slug.
-            .map(({ slug }) => {
-                return {
-                    params: { slug },
-                }
-            }), // https://nextjs.org/docs/basic-features/data-fetching#the-paths-key-required
+            .map(({ slug }) => ({
+                params: { slug },
+            })), // https://nextjs.org/docs/basic-features/data-fetching#the-paths-key-required
         fallback: false,
     }
 }
