@@ -57,3 +57,23 @@
     text-align: center;
     margin-block-start: 5vh;
 }
+
+.field {
+    @apply p-2 px-4 border border-black rounded-sm font-sans;
+}
+
+/* Social Icons */
+.socialRow {
+    display: flex;
+    width: 100%;
+    max-width: 250px;
+    align-items: center;
+    margin: auto;
+    justify-content: space-between;
+}
+
+.socialRow img {
+    box-sizing: border-box;
+    height: calc(150px / 5);
+    padding: 3px;
+}
