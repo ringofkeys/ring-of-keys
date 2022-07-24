@@ -1,10 +1,9 @@
 import React from "react"
 import Layout from "components/Layout"
 import SEO from "components/SEO"
-// import ContactForm from "../components/contactform"
 // import peachIcons from "../images/social-icons/peachIcons"
 import styles from "styles/contact.module.css"
-import Contactform from "components/contactform"
+import Contactform from "components/ContactForm"
 import { useRouter } from "next/router"
 
 const SocialIcon = (props) => (

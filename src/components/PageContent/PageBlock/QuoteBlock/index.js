@@ -1,7 +1,6 @@
 import styles from './QuoteBlock.module.css'
 
 export default function QuoteBlock(props) {
-    console.log('quote props', props)
     return (
         <div
             className={styles.quote}
