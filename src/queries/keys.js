@@ -25,6 +25,27 @@ query AllKeysQuery($limit: IntType!, $skip: IntType!) {
     }
 }`
 
+export const ALL_KEYS_CONSULTANTS_QUERY = `
+query AllGenderConsultantsQuery {
+  allKeys(
+      filter: {
+        showInDirectory:{ eq: true }
+        isGenderConsultant: { eq: true }
+      }
+      orderBy: name_ASC
+  ) {
+      slug
+      name
+      headshot {
+          url
+      }
+      mainLocation
+      locations
+      pronouns
+      showInDirectory
+  }
+}`
+
 export const ALL_KEY_SLUGS_QUERY = `
 query AllKeySlugsQuery {
   allKeys {

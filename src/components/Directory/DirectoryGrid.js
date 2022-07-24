@@ -1,9 +1,9 @@
 import DirectoryCard from "./DirectoryCard"
 import styles from "styles/directory.module.css"
 
-export default function DirectoryGrid({ artists }) {
+export default function DirectoryGrid({ artists, className = '' }) {
     return (
-        <section id="key__grid" className={styles["key__grid"]}>
+        <section id="key__grid" className={styles["key__grid"] +' '+ className}>
             {artists.length ? (
                 artists.map((obj, i) => (
                     <DirectoryCard

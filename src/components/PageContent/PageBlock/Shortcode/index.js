@@ -1,18 +1,19 @@
 // import ConsultantBios from "./ConsultantBios"
-// import ConsultantForm from "./consultantform"
+import ConsultancyForm from "components/forms/ConsultancyForm"
 // import KeyshipButton from "./KeyshipButton"
 import DonorBoxWidget from "components/DonorBoxWidget"
 // import VimeoEmbed from "./VimeoEmbed"
 import ApplyForm from "components/forms/ApplyForm"
 import DirectorySection from "components/Directory/DirectorySection"
 import ResourceSection from "components/ResourceSection"
+import ConsultantGrid from "components/ConsultantGrid"
 
 const shortcodes = {
     "directory-section": DirectorySection,
     "apply-form": ApplyForm,
     "resources-section": ResourceSection,
-    // "consultancy-form": <ConsultantForm />,
-    // "consultant-bios": <ConsultantBios />,
+    "consultancy-form": ConsultancyForm,
+    "consultant-bios": ConsultantGrid,
     // "keyship-button": <KeyshipButton />,
     donorbox: DonorBoxWidget,
     // vimeo: VimeoEmbed,

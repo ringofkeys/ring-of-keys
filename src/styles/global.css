@@ -75,6 +75,10 @@ nav, a, button {
     font-weight: 600;
 }
 
+h2 {
+    @apply text-2xl;
+}
+
 a {
     font-family: inherit;
     font-weight: 600;
@@ -192,8 +196,7 @@ blockquote, .quote_graphic-bar {
     color: var(--rok-pale-green-1_hex);
     font-size: 1.9rem;
     border-left: solid 2px var(--rok-gold-1_hex);
-    margin: 0;
-    padding-left: .5em;
+    @apply leading-tight my-4 pl-4;
 }
 blockquote p, .quote_graphic-bar p {
     color: var(--rok-pale-green-1_hex);
@@ -301,6 +304,19 @@ textarea {
     padding: 3px;
 }
 
+.field-with-label input,
+.field-with-label textarea {
+    @apply border border-slate-800 rounded-sm;
+    @apply text-sm placeholder:text-sm;
+    font-family: 'Arial', sans-serif;
+}
+
+.checkbox-with-label {
+    @apply flex gap-2 items-center;
+}
+.checkbox-with-label label {
+    @apply m-0;
+}
 
 
 /* Layout Utilities */

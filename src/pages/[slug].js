@@ -7,7 +7,7 @@ import Layout from "components/Layout"
 import { pageQuery } from "queries/page.js"
 import { sidebarQuery } from "queries/sidebar.js"
 import PageContent from "components/PageContent"
-import { getPageSpecificQueries } from "queries"
+import { getComponentSpecificQueries, getPageSpecificQueries } from "queries"
 
 const unincludedPages = [
     "dashboard",
@@ -37,20 +37,18 @@ export async function getStaticProps({ params }) {
         },
     })
 
-    const [pageSpecificQuery, pageSpecificVariables, isRepeatingQuery] =
-        getPageSpecificQueries(params.slug)
+    const pageSpecificQueries = [getPageSpecificQueries(params.slug), ...getComponentSpecificQueries(data.page.content)]
+        .filter((query => query && query !== null))
     let pageSpecificData = {}
 
-    if (pageSpecificQuery) {
-        pageSpecificData = !isRepeatingQuery
-            ? await request({
-                  query: pageSpecificQuery,
-                  variables: pageSpecificVariables,
-              })
-            : await requestAll({
-                  query: pageSpecificQuery,
-                  variables: pageSpecificVariables,
-              })
+    console.log({ pageSpecificQueries  })
+
+    if (pageSpecificQueries.length) {
+        for (const {name, query, variables, isRepeating} of pageSpecificQueries) {
+            pageSpecificData[name] = !isRepeating
+                ? await request({ query, variables })
+                : await requestAll({ query, variables })
+        }
     }
 
     let sidebarData = false

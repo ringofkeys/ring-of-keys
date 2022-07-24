@@ -20,7 +20,7 @@ const fuzzySearchKeys = [
 
 export default function DirectorySection(props) {
     // Filter artists that are marked de-listed in DatoCMS
-    let fullMemberList = prepareMemberList(props.pageSpecificData)
+    let fullMemberList = prepareMemberList(props.pageSpecificData.allKeys)
     const [filtersAreVisible, setFilterVisibility] = useState(false)
     const [appliedFilters, setAppliedFilters] = useState([])
 

@@ -7,7 +7,7 @@ import styles from "./ResourceSection.module.css"
 // import devonImg from "./devon-avatar.png"
 
 function ResourceSection({ pageSpecificData: data }) {
-    const resources = data.reduce(
+    const resources = data.allResources.reduce(
         (acc, node) => {
             acc.find(theme => theme.title === node.resourceType)?.resources.push(node)
             return acc
@@ -36,7 +36,7 @@ function ResourceSection({ pageSpecificData: data }) {
                             Explore Category
                         </a>
                     </Link>
-                    <p className="text-white normal-case text-sm">
+                    <p className="text-sm text-white normal-case">
                         {resourceList.length} Resources
                     </p>
                 </div>

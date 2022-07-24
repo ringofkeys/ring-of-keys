@@ -56,7 +56,7 @@ function getComponent(node) {
         case "text":
             return ({ value }) => <>{value}</>
         case "blockquote":
-            return ({ children }) => <blockquote>{ children }</blockquote>
+            return ({ children }) => <blockquote className="leading-tight">{ children }</blockquote>
         case "html":
             return ({ value }) => <div style={{boxSizing: 'content-box', display: 'contents'}} dangerouslySetInnerHTML={{__html: value}} />
         default:
