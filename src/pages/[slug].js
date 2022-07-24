@@ -37,11 +37,19 @@ export async function getStaticProps({ params }) {
         },
     })
 
+    // Find and filter out the QuoteBlock if it's present
+    const quoteBlockIndex = data.page.content.findIndex(block => block.__typename === 'QuoteRecord')
+    let quoteBlock = false
+    if (quoteBlockIndex >= 0) {
+        quoteBlock = data.page.content.find(block => block.__typename === 'QuoteRecord')
+        data.page.content = [...data.page.content.slice(0, quoteBlockIndex), ...data.page.content.slice(quoteBlockIndex + 1, 0)]
+    }
+
+    console.log({quoteBlock, content: data.page.content })
+
     const pageSpecificQueries = [getPageSpecificQueries(params.slug), ...getComponentSpecificQueries(data.page.content)]
         .filter((query => query && query !== null))
     let pageSpecificData = {}
-
-    console.log({ pageSpecificQueries  })
 
     if (pageSpecificQueries.length) {
         for (const {name, query, variables, isRepeating} of pageSpecificQueries) {
@@ -64,6 +72,7 @@ export async function getStaticProps({ params }) {
             ...data.page,
             pageSpecificData,
             sidebarData,
+            quoteBlock,
         },
     }
 }
@@ -74,7 +83,7 @@ const Page = ({ sidebarData, ...pageProps }) => {
 
     return (
         <>
-            <Layout sidebarData={sidebarData} className={pageProps.layout}>
+            <Layout sidebarData={sidebarData} className={pageProps.layout} quote={pageProps.quoteBlock}>
                 {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
                 <PageContent

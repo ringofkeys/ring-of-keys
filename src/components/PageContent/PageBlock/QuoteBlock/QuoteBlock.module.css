@@ -1,0 +1,45 @@
+.quote {
+    background-color: var(--rok-copper-1_hex);
+    color: #fffffff0;
+    display: flex;
+    align-items: center;
+    padding: 2em 5vw;
+    box-sizing: border-box;
+}
+
+.quote img {
+    max-height: 6em;
+}
+
+.quote blockquote {
+    font-size: 1.2em;
+    font-family: Raleway, sans-serif;
+    color: var(--rok-peach-1_hex);
+    line-height: 1.6;
+    font-weight: bold;
+    margin: 0;
+    margin-block-end: .5em;
+}
+
+.quote > div {
+    margin-inline-start: 2em;
+}
+
+.quote p {
+    margin: 0;
+    margin-block-start: .5em;
+}
+
+/* Mobile styling */
+@media (max-width: 700px) {
+    .quote {
+        display: grid;
+        padding: 2em 5vw;
+        grid-template-columns: 12vw 1fr;
+    }
+
+    .quote img {
+        max-height: initial;
+        width: 100%;
+    }
+}

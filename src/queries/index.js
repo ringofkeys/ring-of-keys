@@ -29,7 +29,6 @@ export function getComponentSpecificQueries(pageContent) {
     console.log({ pageContent})
 
     for (const block of pageContent) {
-        console.log('getting component queries', { block })
         switch (block.__typename) {
             case "ShortcodeRecord": 
                 switch (block.name) {
