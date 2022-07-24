@@ -70,6 +70,8 @@
 
 .block .stripe_status {
     display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
     align-items: center;
     margin-top: 1.2rem;
 }
@@ -80,9 +82,15 @@
 
 .block .stripe_status button {
     white-space: nowrap;
-    margin-left: 1.2rem;
+    padding: .4rem 1.2rem;
     color: var(--rok-gold-1_hex);
     background: none;
     border: none;
     text-transform: uppercase;
+    border-radius: 4px;
+}
+
+.block .stripe_status button:hover,
+.block .stripe_status button:focus {
+    background: #fff8e8;
 }

@@ -161,58 +161,57 @@ export const StripeSubscribed = ({ stripeId }) => {
 
   useEffect(() => {
     getCustomer(stripeId).then(customerData => {
+      console.log({ customerData })
+
       if (
         !customerData ||
         !customerData.subscriptions ||
-        !customerData.subscriptions.data
-      )
-        return null
-      const tier = flattenedStripeProducts.findIndex(p =>
-        p.some(
-          el => el === customerData.subscriptions.data[0].items.data[0].plan.id
-        )
-      )
-      const lastPaid = new Date(
-        customerData.subscriptions.data[0].current_period_start * 1000
-      ) // Stripe stores timestamps in seconds since epoch, not milliseconds
-      const shortDate = num => num.toString().padStart(2, "0")
-
-      if (
         customerData.delinquent ||
         customerData.subscriptions.total_count === 0
       ) {
         setStatus(
-          <p>
-            ❕ Looks like there's something weird with your account. Might need
+          <p style={{ padding: '.4rem', background: 'hsl(5deg, 90%, 98%)', color: 'hsl(5deg, 80%, 40%)'}}>
+            ❗️ Looks like there's something weird with your account. Might need
             to look into it.
           </p>
         )
+      } else {
+        const tier = customerData.subscriptions.data.length && flattenedStripeProducts.findIndex(p =>
+          p.some(
+            el => el === customerData.subscriptions.data[0].items.data[0].plan.id
+          )
+        )
+        const lastPaid = new Date(
+          customerData.subscriptions.data[0].current_period_start * 1000
+        ) // Stripe stores timestamps in seconds since epoch, not milliseconds
+        const shortDate = num => num.toString().padStart(2, "0")
+
+        setStatus(
+          <p>
+            ✨ Thank you for being a{" "}
+            <strong>{tier >= 0 && stripeProducts[tier].label}</strong> paying
+            member! Your last payment was on{" "}
+            <strong>
+              {shortDate(lastPaid.getMonth() + 1)}/{shortDate(lastPaid.getDate())}
+              /
+              {lastPaid
+                .getFullYear()
+                .toString()
+                .substr(-2)}
+            </strong>
+            .
+          </p>
+        )
       }
-      setStatus(
-        <p>
-          ✨ Thank you for being a{" "}
-          <strong>{tier >= 0 && stripeProducts[tier].label}</strong> paying
-          member! Your last payment was on{" "}
-          <strong>
-            {shortDate(lastPaid.getMonth() + 1)}/{shortDate(lastPaid.getDate())}
-            /
-            {lastPaid
-              .getFullYear()
-              .toString()
-              .substr(-2)}
-          </strong>
-          .
-        </p>
-      )
     })
   }, [])
 
   return (
     <div className="stripe_status">
-      {status}
-      <button onClick={() => createPortalSession(stripeId)}>
+      <button className="manage_btn" onClick={() => createPortalSession(stripeId)}>
         Manage Account →
       </button>
+      {status}
     </div>
   )
 }

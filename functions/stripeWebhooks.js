@@ -63,6 +63,19 @@ exports.handler = async (event, context, callback) => {
             await updateDato(datoId, { stripeId: "" })
           }
           break
+        case "customer.subscription.deleted":
+          console.log("Customer Subscription deleted!")
+          datoId = e.data.object.metadata.dato_user
+
+          await updateDato(datoId, { stripeStatus: "cancelled" })
+          break
+        case "invoice.upcoming":
+          datoId = e.data.object.metadata.dato_user
+          await updateDato(datoId, { stripeStatus: "upcoming" })
+
+          await sendUpcomingInvoiceEmail(e.data.object.customer_email)
+
+          break
         //     case 'payment_method.attached':
         //     const paymentMethod = event.data.object;
         //     // Then define and call a method to handle the successful attachment of a PaymentMethod.
@@ -120,4 +133,22 @@ async function updateDato(id, data) {
       .then(publishRes => console.log({ publishRes }))
       .catch(err => console.error(err)),
   ])
+}
+
+async function sendUpcomingInvoiceEmail(userEmail) {
+  const emailRes = await fetch("/.netlify/functions/sendAdminEmail", {
+    method: "POST",
+    body: JSON.stringify({
+      subject: `Ring of Keys Keyship auto-renewal coming up for ${userEmail}`,
+      text: `keyship is set to auto-renew in 7 days`,
+      to: `info@ringofkeys.org`,
+      from: `info@ringofkeys.org`,
+      html: `
+        <h1>Your Ring of Keys Keyship will renew in 7 days</h1>
+        <p>You have an automatic invoice coming in 7 days for your Ring of Keys recurring donation. If you need to cancel or adjust your level of contribution before then, please <a href="https://ringofkeys.org">log into your Ring of Keys dashboard</a> and click Manage Account near the top of the page.</p>
+        `,
+    }),
+  }).then(res => res.json()).catch(err => console.error(err))
+
+  return emailRes
 }

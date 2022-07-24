@@ -67,6 +67,7 @@ async function getDatoProfile(id) {
               }
               slug
               stripeId
+              stripeStatus
               isBetaUser
           }
         }`,
