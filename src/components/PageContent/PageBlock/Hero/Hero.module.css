@@ -33,6 +33,7 @@
 .index_hero__right-col {
     padding-right: 2rem;
     font-size: calc(.6em + .5vw);
+    @apply leading-tight;
 }
 
 .index_hero .btn {
@@ -75,4 +76,4 @@
         margin-block-start: 3vh;
         font-size: .8em;
     } 
-}
+} 

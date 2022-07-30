@@ -24,6 +24,20 @@ query EventQuery($slug: String!) {
   }
 }`
 
+export const homeNewsQuery = `
+query HomepageNewsQuery {
+  allNews(first: 10,  orderBy: publishDate_DESC) {
+    title
+    externalUrl
+    publishDate
+    featuredImage {
+      url
+    }
+    body
+    slug
+  }
+}`
+
 export const newsPageQuery = `
 query NewsPageQuery {
     industryNews: allNews(filter: { newsType: { eq: "industry" } }) {

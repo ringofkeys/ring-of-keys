@@ -46,6 +46,8 @@ function getComponent(node) {
             return ({ children }) => <p>{children}</p>
         case "emphasis":
             return ({ children }) => <em>{children}</em>
+        case "strong":
+            return ({ children }) => <strong>{ children }</strong>
         case "heading":
             return ({ children, depth = 2 }) => {
                 const Heading = `h${depth}`

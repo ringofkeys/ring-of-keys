@@ -22,13 +22,12 @@ function HomeHero({ description, linkText, linkUrl }) {
                 </span>
                 &nbsp; The Stage
             </h1>
-            <div class={styles["index_hero__right-col"]}>
+            <div className={styles["index_hero__right-col"]}>
                 {description}
                 <Link
                     href={linkUrl}
-                    className={"btn " + styles["btn__learn-more"]}
                 >
-                    <a>{linkText}</a>
+                    <a className={"btn " + styles.btn}>{linkText}</a>
                 </Link>
             </div>
         </div>

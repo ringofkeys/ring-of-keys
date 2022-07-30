@@ -4,6 +4,10 @@
     font-size: 100%;
 }
 
+.base :global(.iconHeadings) {
+    @apply max-w-7xl mx-auto lg:my-12 text-lg px-6 md:px-12 lg:px-0;
+}
+
 .bar__learn-more {
     width: 100%;
     background: var(--rok-slate-blue_hex);

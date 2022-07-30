@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css?family=EB+Garamond|Raleway:400,400i,600,900&display=swap');
 
 :root {
     font-family: 'EB Garamond', serif;
