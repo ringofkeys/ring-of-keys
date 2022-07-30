@@ -26,8 +26,6 @@ export function getPageSpecificQueries(slug) {
 export function getComponentSpecificQueries(pageContent) {
     const queries = []
 
-    console.log({ pageContent})
-
     for (const block of pageContent) {
         switch (block.__typename) {
             case "ShortcodeRecord": 
