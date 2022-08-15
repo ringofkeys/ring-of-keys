@@ -16,9 +16,8 @@
 }
 
 .sidebar .event {
-    display: grid;
+    @apply grid gap-4 my-2 items-center;
     grid-template-columns: 7vmin 1fr;
-    grid-gap: 1em;
 }
 
 .eventTitle {

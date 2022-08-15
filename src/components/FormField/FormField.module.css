@@ -1,4 +1,19 @@
-.input__group.checkbox {
+.field input,
+.field textarea {
+    @apply border rounded border-slate-800;
+    @apply px-2 py-1 w-full;
+}
+
+.field textarea {
+    @apply h-24;
+}
+
+.field input[type="file"] {
+    @apply border-0 px-0;
+    font-family: 'Raleway', sans-serif;
+}
+
+.field.checkbox {
     display: grid;
     grid-template-columns: 1.5em auto;
     grid-gap: .5em;
@@ -7,34 +22,34 @@
     align-self: flex-start;
 }
 
-.input__group.checkbox label {
+.field.checkbox label {
     grid-column: 2 / 3;
     text-transform: capitalize;
     font-size: .8rem;  
     margin: 0;
 }
 
-.input__group [type='checkbox'] {
+.field [type='checkbox'] {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
 }
 
 @media (max-width: 700px) {
-    .input__group.checkbox {
+    .field.checkbox {
         grid-template-columns: 1.5rem 1fr;
         gap: 1rem;
     }
 
-    .input__group.checkbox label {
+    .field.checkbox label {
         font-size: .9rem;
     }
 
-    .input__group.checkbox input {
+    .field.checkbox input {
         width: 1.5rem;
         height: 1.5rem;
     }
 
-    .input__group {
+    .field {
         width: 100%;
         margin: 1rem 0;
     }

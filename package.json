@@ -5,6 +5,8 @@
   "version": "0.1.0",
   "author": "Frank Noirot",
   "dependencies": {
+    "@datocms/cma-client-browser": "^1.0.1",
+    "@datocms/cma-client-node": "^1.0.1",
     "@sendgrid/mail": "^7.4.5",
     "auth0-js": "^9.16.2",
     "aws-sdk": "^2.948.0",

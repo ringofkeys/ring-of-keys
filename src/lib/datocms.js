@@ -1,5 +1,6 @@
 import { GraphQLClient } from "graphql-request"
 import { SiteClient } from "datocms-client"
+import { buildClient } from "@datocms/cma-client-browser"
 import { useSession } from "next-auth/react"
 
 export function request({ query, variables, preview }) {
@@ -53,4 +54,29 @@ export async function requestAll({ query, variables, preview }) {
     }
 
     return results
+}
+
+const uploadClient = buildClient({ apiToken: process.env.NEXT_CONTENT_API_TOKEN })
+
+export function uploadFile(file, options) {
+    const filename = options?.filename || file.name
+    console.log({ filename })
+
+    return uploadClient.uploads.createFromFileOrBlob({
+        fileOrBlob: file,
+        filename,
+        author: options?.author,
+        onProgress: (info) => {
+            console.log({
+                phase: info.type,
+                details: info.payload,
+            })
+        },
+        default_field_metadata: {
+            en: {
+                alt: options?.alt || '',
+                title: options?.title || '',
+            }
+        }
+    })
 }

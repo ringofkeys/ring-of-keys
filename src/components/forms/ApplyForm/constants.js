@@ -45,3 +45,28 @@ export const affiliations = [
     "SDC",
     "USA",
 ]
+
+export const mockData = {
+    name: 'Frank Test',
+    email: 'frank@franknoirot.co',
+    discipline: 'Developer',
+    vocalRange: 'A2-D6',
+    danceExperience: 'Cupid Shuffle',
+    mainLocation: 'NYC',
+    // locations: [
+    //     'Las Vegas',
+    //     'New York City',
+    // ],
+    // affiliations: [
+    //     'AEA',
+    //     'EMC',
+    // ],
+    pronouns: 'He / him',
+    genderIdentity: 'Cis',
+    sexualIdentity: 'queer?',
+    raceEthnicity: 'whyte',
+    website: 'franknoirot.co',
+    resume: 'franknoirot.github.io/resume',
+    whyRok: 'I wanna be the very best',
+    referral: 'Like no one ever was.',
+}

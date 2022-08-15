@@ -18,21 +18,6 @@
     box-sizing: border-box;
 }
 
-.applyForm .basicInfo {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.basicInfo .inputGroup {
-    margin: 1rem;
-    max-width: calc(33% - 2rem);
-}
-
-.applyForm .basicInfo > * {
-    width: 30%;
-    margin-bottom: 1em;
-}
-
 .checkboxGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -71,12 +56,6 @@
 }
 
 @media(max-width: 700px) {
-    .basicInfo .inputGroup {
-        margin: 1rem 0;
-        width: 100%;
-        max-width: 100%;
-    }
-
     .apply .cb-grid_wrapper .checkboxGrid {
         grid-template-columns: 1fr;
     }

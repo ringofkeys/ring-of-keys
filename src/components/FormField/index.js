@@ -20,7 +20,7 @@ export default function FormField({
     return (
         <div
             className={
-                styles["input__group"] +
+                styles.field +
                 (type ? " " + type : "") +
                 (className ? " " + className : "")
             }

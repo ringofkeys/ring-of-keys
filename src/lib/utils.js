@@ -42,3 +42,24 @@ export function slugify(string) {
         .replace(/^-+/, "") // Trim - from start of text
         .replace(/-+$/, "") // Trim - from end of text
 }
+
+/**
+ * Converts a file into an ArrayBuffer by reading it
+ * @param {File} file 
+ * @returns Promise<ArrayBuffer>
+ */
+export function fileToArrayBuffer(file) {
+    const fr = new FileReader()
+
+    return new Promise((resolve, reject) => {
+        fr.onerror = () => {
+            fr.abort()
+            reject(new DOMException("Problem parsing input file."))
+        }
+
+        fr.onload = async () => {
+            resolve(fr.result)
+        }
+        fr.readAsArrayBuffer(file)
+    })
+}

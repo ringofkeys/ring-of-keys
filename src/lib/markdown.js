@@ -54,7 +54,7 @@ function getComponent(node) {
                 return <Heading>{children}</Heading>
             }
         case "link":
-            return ({ children, url }) => <a href={url}>{children} </a>
+            return ({ children, url }) => <a href={url} className="md-link">{children} </a>
         case "text":
             return ({ value }) => <>{value}</>
         case "blockquote":
