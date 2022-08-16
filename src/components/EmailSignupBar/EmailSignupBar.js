@@ -44,7 +44,7 @@ const EmailSignupForm = ({
     return (
         <form
             className={
-                styles.EmailSignupBar + " " + (optIn ? styles.optIn : "")
+                styles.emailSignupBar + " " + (optIn ? styles.optIn : "")
             }
             method="POST"
             onSubmit={handleSignup}
@@ -59,18 +59,22 @@ const EmailSignupForm = ({
                     I agree with the&nbsp;
                     <Link
                         href="/privacy"
-                        target="_blank"
-                        rel="noopener noreferrer"
                     >
-                        <a>Privacy Policy</a>
+                        <a 
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                        >Privacy Policy</a>
                     </Link>{" "}
                     and{" "}
                     <Link
                         href="/terms-e-communications"
-                        target="_blank"
-                        rel="noopener noreferrer"
                     >
-                        <a>Terms of Use</a>
+                        <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                        >Terms of Use</a>
                     </Link>
                     .
                 </span>
