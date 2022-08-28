@@ -63,3 +63,44 @@ export function fileToArrayBuffer(file) {
         fr.readAsArrayBuffer(file)
     })
 }
+
+const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+]
+const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+]
+
+/**
+ * Convert a date to a specific date string
+ * @param {Date} d
+ * @returns {string}
+ */
+export function toDateString(d) {
+    return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
+}
+
+/**
+ * Convert a date to a specific date and time string
+ * @param {Date} d
+ * @returns {string}
+ */
+export function toDateTime(d) {
+    return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} ${d.getHours() % 12}:${d.getMinutes().toString().padStart(2, "0")} ${(d.getHours() < 12) ? 'AM' : 'PM'}`
+}

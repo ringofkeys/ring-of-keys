@@ -4,7 +4,7 @@ import styles from "./Carousel.module.css"
 
 const Carousel = ({
     heading,
-    recordType,
+    entryType,
     entryList,
     classNames = [],
     style,
@@ -62,7 +62,7 @@ const Carousel = ({
                         entryList.map((entry, i) => (
                             <CarouselCard
                                 entry={entry}
-                                entryType={recordType}
+                                entryType={entryType}
                                 key={`carousel-${classNames[0]}-${i}`}
                             />
                         ))
