@@ -2,7 +2,7 @@ import { slugify } from "lib/utils"
 import { RESOURCE_TYPE_QUERY } from "queries/resources"
 import ResourceCard from "components/ResourceCard"
 import Layout from "components/Layout"
-import { request } from "lib/datocms"
+import { request, requestLayoutProps } from "lib/datocms"
 import { resourceThemes } from "lib/constants"
 // import "./resourceType.css"
 
@@ -17,6 +17,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+    const layoutData = await requestLayoutProps()
     const { allResources: resources } = await request({
         query: RESOURCE_TYPE_QUERY,
         variables: {
@@ -26,15 +27,17 @@ export async function getStaticProps({ params }) {
 
     return {
         props: {
+            layoutData,
             resources,
             resourceTheme: resourceThemes[params.type]
         },
     }
 }
 
-const ResourceType = ({ resources, resourceTheme }) => {
+const ResourceType = ({ layoutData, resources, resourceTheme }) => {
     return (
         <Layout
+            layoutData={layoutData}
             title={`Resources - ${resourceTheme.title}`}
             description={`We've compiled a list of ${
                 resources.length

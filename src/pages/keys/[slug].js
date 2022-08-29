@@ -1,5 +1,5 @@
 import { Image } from "react-datocms"
-import { request } from "lib/datocms"
+import { request, requestLayoutProps } from "lib/datocms"
 import Layout from "components/Layout"
 import { KEY_QUERY } from "queries/keys"
 import { KeyBody, KeyHero } from "components/KeyProfile"
@@ -29,7 +29,7 @@ function artistReducer(state, action) {
     }
 }
 
-export default function KeyPage({ artistData }) {
+export default function KeyPage({ layoutData, artistData }) {
     const [isEditable, setEditable] = useState(false)
     const [isEditing, setEditing] = useState(false)
     const { data: session } = useSession()
@@ -59,7 +59,7 @@ export default function KeyPage({ artistData }) {
             isEditing,
             setEditing,
         }}>
-            <Layout className={"fullWidth " + styles['key-profile']}>
+            <Layout layoutData={layoutData} className={"fullWidth " + styles['key-profile']}>
                     <KeyHero
                         setMessageOpen={setMessageOpen}
                         setHeadshotFullOpen={setHeadshotFullOpen}
@@ -101,6 +101,16 @@ export default function KeyPage({ artistData }) {
             </Popup>
         </ProfileContext.Provider>
     </>)
+}
+
+export async function getStaticProps() {
+    const layoutData = await requestLayoutProps()
+
+    return {
+        props: {
+            layoutData,
+        }
+    }
 }
 
 export async function getServerSideProps(context) {

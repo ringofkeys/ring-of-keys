@@ -5,6 +5,7 @@ import { newsPageQuery } from "queries/news"
 // import "./news.css"
 
 export async function getStaticProps() {
+    const layoutData = await requestLayoutProps()
     const seo = {
         title: "News",
         description:
@@ -26,13 +27,14 @@ export async function getStaticProps() {
 
     return {
         props: {
+            layoutData,
             seo,
             data,
         },
     }
 }
 
-export default function News({ data }) {
+export default function News({ layoutData, seo, data }) {
     const {
         industryNews,
         pressReleases,
@@ -41,7 +43,9 @@ export default function News({ data }) {
     } = data
 
     return (
-        <Layout className={"news fullWidth"}>
+        <Layout
+            layoutData={layoutData}
+            className={"news fullWidth"}>
             {/* <div className='view-all_nav' >
             <nav styl={{display: 'none'}}>
                 <a href='/'>All</a>

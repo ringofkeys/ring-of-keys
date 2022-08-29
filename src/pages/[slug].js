@@ -1,7 +1,7 @@
 import Link from "next/link"
 import IconHeadingLabel from "components/IconHeadingLabel"
 import Carousel from "components/Carousel"
-import { request, requestAll } from "lib/datocms"
+import { request, requestAll, requestLayoutProps } from "lib/datocms"
 import styles from "styles/home.module.css"
 import Layout from "components/Layout"
 import { pageQuery } from "queries/page.js"
@@ -30,6 +30,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+    // Global CMS-powered items like the nav
+    const layoutData = await requestLayoutProps()
+
     const data = await request({
         query: pageQuery,
         variables: {
@@ -69,6 +72,7 @@ export async function getStaticProps({ params }) {
 
     return {
         props: {
+            layoutData,
             ...data.page,
             pageSpecificData,
             sidebarData,
@@ -77,13 +81,17 @@ export async function getStaticProps({ params }) {
     }
 }
 
-const Page = ({ sidebarData, ...pageProps }) => {
+const Page = ({ layoutData, sidebarData, ...pageProps }) => {
     // const { keySteps, homepageBody } = data.homepage
     // const { quoteAttribution, quoteTextNode } = homepageBody[0]
 
     return (
         <>
-            <Layout sidebarData={sidebarData} className={pageProps.layout} quote={pageProps.quoteBlock}>
+            <Layout
+                layoutData={layoutData}
+                sidebarData={sidebarData}
+                className={pageProps.layout}
+                quote={pageProps.quoteBlock}>
                 {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
                 <PageContent

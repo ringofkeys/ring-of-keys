@@ -5,12 +5,12 @@ import Sidebar from "./Sidebar"
 import sidebarStyles from "./Sidebar.module.css"
 import QuoteBlock from "components/PageContent/PageBlock/QuoteBlock"
 
-export default function Layout({ children, className, sidebarData, quote }) {
+export default function Layout({ layoutData, children, className, sidebarData, quote }) {
     const router = useRouter()
 
     return (
         <>
-            <Header path={router.asPath} />
+            <Header path={router.asPath} menu={layoutData.menu}/>
             <main
                 className={
                     router.asPath.slice(1).replace("/", "_") +

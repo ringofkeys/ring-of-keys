@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from "next/link"
 import { request } from "lib/datocms"
-import { NAV_QUERY } from "queries/nav"
+import { DASHBOARD_NAV_QUERY } from "queries/nav"
 import styles from "./Header.module.css"
 import tooltipStyles from "styles/tooltip.module.css"
 
@@ -10,7 +10,7 @@ import tooltipStyles from "styles/tooltip.module.css"
 // import { getProfile, isAuthenticated, logout } from "../utils/auth"
 // import { decodeHtmlEntity } from '../utils/htmlEntity.js'
 
-const Header = ({ path }) => {
+const Header = ({ path, menu }) => {
     const [isNavOpen, setNavOpen] = useState(false)
     const { data: session } = useSession()
 
@@ -38,36 +38,11 @@ const Header = ({ path }) => {
                 <div className={styles["nav__mobile-wrap"]}>
                     <SecondaryNav session={session} navOpen={isNavOpen} />
                     <div className={styles["nav__main"]}>
-                        <Link
-                            href="/directory-2"
-                        >
-                            <a className={path === "/directory-2" ? styles.active : ""}>Directory</a>
-                        </Link>
-                        <Link
-                            href="/news"
-                        >
-                            <a className={path === "/news" ? styles.active : ""}>News</a>
-                        </Link>
-                        <Link
-                            href="/consultancy"
-                        >
-                            <a className={path === "/consultancy" ? styles.active : ""}>Consultancy</a>
-                        </Link>
-                        <Link
-                            href="/resources-2"
-                        >
-                            <a className={path === "/resources-2" ? styles.active : ""}>Resources</a>
-                        </Link>
-                        <Link
-                            href="/donate"
-                        >
-                            <a className={path === "/donate" ? styles.active : ""}>Donate</a>
-                        </Link>
-                        <Link
-                            href="/contact"
-                        >
-                            <a className={path === "/contact" ? styles.active : ""}>Contact</a>
-                        </Link>
+                        {menu.children
+                          .sort((a, b) => a.position - b.position)
+                          .map((menu, i) => (
+                            <NavLink path={path} {...menu} key={"navlink-" + i} />
+                          ))}
                         {session && (
                             <Link href="/dashboard">
                                 <a className="has-dropdown">Dashboard</a>
@@ -80,12 +55,54 @@ const Header = ({ path }) => {
     )
 }
 
-function NavLink({ href, children, path }) {
-    return (
-        <Link href={href || ""}>
-            <a className={path === href ? styles.active : ""}>{children}</a>
-        </Link>
-    )
+function NavLink({ path, label, link, children }) {
+  return (
+    <li className="nav__dropdown-wrapper">
+      <Link href={link}>
+          <a className={"has-dropdown " + (path === link ? "active" : "")}>
+            {label}&nbsp;
+            {children.length ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                viewBox="0 0 10 7"
+                fill="none"
+              >
+                <path
+                  d="M4.71471 6.7608L9.42199 0.760803H0.00744629L4.71471 6.7608Z"
+                  fill="currentColor"
+                />
+              </svg>
+            ) : (
+              ""
+            )}
+          </a>
+      </Link>
+      {children.length > 0 && (
+        <div
+          className="nav__dropdown"
+          style={{ "--cols": children.length }}
+        >
+          {children.map((navItem, j) => (
+            <Link href={navItem.link}>
+              <a className="dropdown-item">
+                  <div className="dropdown-item-img-wrap">
+                    <img src={navItem.image.url} alt={navItem.image.alt} />
+                  </div>
+                  <div className="dropdown-item-content">
+                    <p className="dropdown-item-title">{navItem.label}</p>
+                    <p className="dropdown-item-description">
+                      {navItem.description}
+                    </p>
+                    <p className="dropdown-item-cta">{navItem.ctaText}</p>
+                  </div>
+              </a>
+            </Link>
+          ))}
+        </div>
+      )}
+    </li>
+  )
 }
 
 function SecondaryNav({ session, navOpen }) {
@@ -162,3 +179,6 @@ async function getUserData(datoId) {
 }
 
 export default React.memo(Header)
+
+
+

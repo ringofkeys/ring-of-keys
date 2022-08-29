@@ -5,6 +5,17 @@ import SEO from "components/SEO"
 import styles from "styles/contact.module.css"
 import Contactform from "components/ContactForm"
 import { useRouter } from "next/router"
+import { requestLayoutProps } from "lib/datocms"
+
+export async function getStaticProps() {
+  const layoutData = await requestLayoutProps()
+
+  return {
+    props: {
+      layoutData,
+    }
+  }
+}
 
 const SocialIcon = (props) => (
   <a
@@ -17,11 +28,11 @@ const SocialIcon = (props) => (
   </a>
 )
 
-const Contact = () => {
+const Contact = ({ layoutData }) => {
     const { query } = useRouter()
 
     return (
-        <Layout>
+        <Layout menu={layoutData.menu}>
             <SEO
                 seoData={{
                     title: "Contact Us",

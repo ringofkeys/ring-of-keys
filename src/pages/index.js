@@ -1,7 +1,7 @@
 import Link from "next/link"
 import IconHeadingLabel from "components/IconHeadingLabel"
 // import Carousel from "components/Carousel"
-import { request } from "lib/datocms"
+import { request, requestLayoutProps } from "lib/datocms"
 import styles from "styles/home.module.css"
 import Layout from "components/Layout"
 import { pageQuery } from "queries/page.js"
@@ -11,6 +11,7 @@ import { homeNewsQuery } from "queries/news"
 // import SEO from "../components/SEO"
 
 export async function getStaticProps({ params }) {
+    const layoutData = await requestLayoutProps()
     const data = await request({
         query: pageQuery,
         variables: {
@@ -33,6 +34,7 @@ export async function getStaticProps({ params }) {
 
     return {
         props: {
+            layoutData,
             data,
             carouselData,
             quoteBlock,
@@ -40,12 +42,14 @@ export async function getStaticProps({ params }) {
     }
 }
 
-const IndexPage = ({ data, carouselData, quoteBlock }) => {
+const IndexPage = ({ layoutData, data, carouselData, quoteBlock }) => {
     // const { keySteps, homepageBody } = data.homepage
     // const { quoteAttribution, quoteTextNode } = homepageBody[0]
 
     return (
-        <Layout className={styles.base + " fullWidth " + data?.page?.layout} quote={quoteBlock}>
+        <Layout
+            layoutData={layoutData}
+            className={styles.base + " fullWidth " + data?.page?.layout} quote={quoteBlock}>
             {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
             <PageContent content={data?.page?.content} />

@@ -2,6 +2,7 @@ import { GraphQLClient } from "graphql-request"
 import { SiteClient } from "datocms-client"
 import { buildClient } from "@datocms/cma-client-browser"
 import { useSession } from "next-auth/react"
+import { NAV_MENU_QUERY } from "queries/nav"
 
 export function request({ query, variables, preview }) {
     const endpoint = `https://graphql.datocms.com/${preview ? "preview" : ""}`
@@ -22,6 +23,13 @@ export function getDatoWriteClient(artistId, tokenId) {
     return new SiteClient(process.env.NEXT_PUBLIC_DATO_READ_WRITE_TOKEN);
 }
 
+export function requestLayoutProps({ preview } = { preview: false }) {
+    return request({
+        query: NAV_MENU_QUERY,
+        variables: {},
+        preview,
+    })
+}
 
 
 export async function requestAll({ query, variables, preview }) {

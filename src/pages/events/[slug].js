@@ -3,10 +3,10 @@ import { request } from "lib/datocms"
 // import Img from 'gatsby-image'
 import Layout from "components/Layout"
 
-export default function Event({ event }) {
+export default function Event({ layoutData, event }) {
     const { title, featuredImage, description, startTime } = event
     return (
-        <Layout>
+        <Layout layoutData={layoutData}>
             <h1>{title}</h1>
             <h4>{startTime}</h4>
             {featuredImage && (
@@ -35,6 +35,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
+    const layoutData = await requestLayoutProps()
     const data = await request({
         query: eventItemQuery,
         variables: {
@@ -43,6 +44,9 @@ export async function getStaticProps(context) {
     })
 
     return {
-        props: data,
+        props: {
+            layoutData,
+            event: data,
+        },
     }
 }

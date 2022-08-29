@@ -3,9 +3,11 @@ import Layout from "components/Layout"
 import DonorBoxWidget from "components/DonorBoxWidget"
 import { MarkdownRenderer, parseMarkdown } from "lib/markdown"
 import { pageQuery } from "queries/page"
-import { request } from "lib/datocms"
+import { request, requestLayoutProps } from "lib/datocms"
 
 export async function getStaticProps() { 
+    const layoutData = await requestLayoutProps()
+
     const data = await request({
         query: pageQuery,
         variables: {
@@ -14,13 +16,15 @@ export async function getStaticProps() {
     })
 
     return {
-        props: {pageData: data.page}
+        props: {
+            layoutData,
+            pageData: data.page
+        }
     }
 }
 
 
-const Donate = ({ pageData }) => {
-    console.log({pageData})
+const Donate = ({ layoutData, pageData }) => {
     const quote = parseMarkdown(pageData.content?.find((el) => el.area === "quote").content)
     const rightCol = parseMarkdown(pageData.content?.find((el) => el.area === "rightCol").content)
     
@@ -30,6 +34,7 @@ const Donate = ({ pageData }) => {
 
     return (
         <Layout
+            layoutData={layoutData}
             className={styles.donate}
             title="Donate"
             description={`Your tax-deductible donation supports Ring of Key's mission to promote the hiring of self-identifying 

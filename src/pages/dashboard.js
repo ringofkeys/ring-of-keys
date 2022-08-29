@@ -2,14 +2,25 @@ import { useState, useEffect } from "react"
 import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
 import Layout from "components/Layout"
-import { request } from "../lib/datocms"
+import { request, requestLayoutProps } from "../lib/datocms"
 import parse from "html-react-parser"
 import styles from 'styles/dashboard.module.css'
 import MessageBlock from "components/MessageBlock"
 import PageBlock from "components/PageContent/PageBlock"
 import { StripeSubscribed, StripeUnsubscribed } from "components/StripeBlocks"
 
-export default function Dashboard() {
+
+export async function getStaticProps() {
+  const layoutData = await requestLayoutProps()
+
+  return {
+    props: {
+      layoutData,
+    }
+  }
+}
+
+export default function Dashboard({ layoutData }) {
     const [dashboardData, setDashboardData] = useState(false)
     const { data: session } = useSession({
         required: true,
@@ -30,7 +41,7 @@ export default function Dashboard() {
     }, [session])
 
     return (
-        <Layout className={"fullwidth"}>
+        <Layout className={"fullwidth"} layoutData={layoutData}>
             <h1>Dashboard</h1>
             {dashboardData ? (
                 <>
