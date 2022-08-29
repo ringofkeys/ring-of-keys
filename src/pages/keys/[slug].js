@@ -103,17 +103,8 @@ export default function KeyPage({ layoutData, artistData }) {
     </>)
 }
 
-export async function getStaticProps() {
-    const layoutData = await requestLayoutProps()
-
-    return {
-        props: {
-            layoutData,
-        }
-    }
-}
-
 export async function getServerSideProps(context) {
+    const layoutData = await requestLayoutProps()
     const data = await request({
         query: KEY_QUERY,
         variables: {
@@ -123,6 +114,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
+            layoutData,
             artistData: data.key
         },
     }

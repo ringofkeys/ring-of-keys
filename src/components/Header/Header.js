@@ -45,7 +45,7 @@ const Header = ({ path, menu }) => {
                           ))}
                         {session && (
                             <Link href="/dashboard">
-                                <a className="has-dropdown">Dashboard</a>
+                                <a className="hasDropdown">Dashboard</a>
                             </Link>
                         )}
                     </div>
@@ -57,9 +57,9 @@ const Header = ({ path, menu }) => {
 
 function NavLink({ path, label, link, children }) {
   return (
-    <li className="nav__dropdown-wrapper">
+    <li className={styles.dropdownWrapper}>
       <Link href={link}>
-          <a className={"has-dropdown " + (path === link ? "active" : "")}>
+          <a className={styles.hasDropdown + " " + (path === link ? "active" : "")}>
             {label}&nbsp;
             {children.length ? (
               <svg
@@ -80,21 +80,21 @@ function NavLink({ path, label, link, children }) {
       </Link>
       {children.length > 0 && (
         <div
-          className="nav__dropdown"
+          className={styles.dropdown}
           style={{ "--cols": children.length }}
         >
-          {children.map((navItem, j) => (
-            <Link href={navItem.link}>
-              <a className="dropdown-item">
-                  <div className="dropdown-item-img-wrap">
+          {children.map((navItem) => (
+            <Link href={navItem.link} key={navItem.link}>
+              <a className={styles.dropdownItem}>
+                  <div className={styles.dropdownItemImgWrap}>
                     <img src={navItem.image.url} alt={navItem.image.alt} />
                   </div>
-                  <div className="dropdown-item-content">
-                    <p className="dropdown-item-title">{navItem.label}</p>
-                    <p className="dropdown-item-description">
+                  <div className={styles.dropdownItemContent}>
+                    <p className={styles.dropdownItemTitle}>{navItem.label}</p>
+                    <p className={styles.dropdownItemDescription}>
                       {navItem.description}
                     </p>
-                    <p className="dropdown-item-cta">{navItem.ctaText}</p>
+                    <p className={styles.dropdownItemCta}>{navItem.ctaText}</p>
                   </div>
               </a>
             </Link>
@@ -126,7 +126,7 @@ function SecondaryNav({ session, navOpen }) {
                         <a className={navOpen ? "btn btn-link_ghost" : ""}>Apply to be a key</a>
                     </Link>
                     <button
-                        className={styles.login}
+                        className={styles.loginBtn}
                         onClick={() =>
                             signIn("auth0", {
                                 callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://nextjs-profile--ringofkeys.netlify.app/dashboard",

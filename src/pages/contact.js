@@ -32,7 +32,7 @@ const Contact = ({ layoutData }) => {
     const { query } = useRouter()
 
     return (
-        <Layout menu={layoutData.menu}>
+        <Layout layoutData={layoutData}>
             <SEO
                 seoData={{
                     title: "Contact Us",

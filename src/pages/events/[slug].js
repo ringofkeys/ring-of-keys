@@ -1,18 +1,22 @@
 import { eventItemQuery } from "queries/news"
-import { request } from "lib/datocms"
+import { request, requestLayoutProps } from "lib/datocms"
 // import Img from 'gatsby-image'
 import Layout from "components/Layout"
+import { toDateTime } from "lib/utils"
+import { MarkdownRenderer, parseMarkdown } from "lib/markdown"
 
 export default function Event({ layoutData, event }) {
     const { title, featuredImage, description, startTime } = event
+    const ast = parseMarkdown(description)
+
     return (
         <Layout layoutData={layoutData}>
             <h1>{title}</h1>
-            <h4>{startTime}</h4>
+            <h4>{toDateTime(new Date(startTime))}</h4>
             {featuredImage && (
                 <img src={featuredImage.url} alt={featuredImage.alt} />
             )}
-            {description && description}
+            <MarkdownRenderer ast={ast} />
         </Layout>
     )
 }
@@ -36,6 +40,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
     const layoutData = await requestLayoutProps()
+
     const data = await request({
         query: eventItemQuery,
         variables: {
@@ -46,7 +51,7 @@ export async function getStaticProps(context) {
     return {
         props: {
             layoutData,
-            event: data,
+            event: data.event,
         },
     }
 }

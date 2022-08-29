@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 :root {
-    font-family: 'EB Garamond', serif;
+    --serif: 'EB Garamond', serif;
+    font-family: var(--serif);
     letter-spacing: .3px;
 
     --rok-slate-blue_hex: #263e64;

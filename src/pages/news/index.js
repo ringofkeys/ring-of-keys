@@ -1,6 +1,6 @@
 import Layout from "components/Layout"
 import Carousel from "components/Carousel"
-import { request } from "lib/datocms"
+import { request, requestLayoutProps } from "lib/datocms"
 import { newsPageQuery } from "queries/news"
 // import "./news.css"
 

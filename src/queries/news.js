@@ -40,10 +40,14 @@ query HomepageNewsQuery {
 
 export const newsPageQuery = `
 query NewsPageQuery {
-    industryNews: allNews(filter: { newsType: { eq: "industry" } }) {
+    industryNews: allNews(
+      filter: { newsType: { eq: "industry" } }
+      orderBy: publishDate_DESC
+    ) {
         externalUrl
         body
         title
+        publishDate
         featuredImage {
           url
           alt
