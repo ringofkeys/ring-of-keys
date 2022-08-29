@@ -1,12 +1,16 @@
 import React from "react"
 import { unified } from "unified"
 import markdown from "remark-parse"
+import { get } from "lodash"
 
 export const parseMarkdown = (content) =>
     cleanNode(unified().use(markdown).parse(content)
 )
 
-const mdRenderer = (props) => <Node {...props.ast} />
+const mdRenderer = (props) => (!props.plaintext)
+    ? <Node node={props.ast} />
+    : <PlaintextNode node={props.ast} excerptLength={props.excerptLength || 100} />
+
 export const MarkdownRenderer = React.memo(mdRenderer)
 
 function cleanNode(node) {
@@ -23,19 +27,36 @@ function cleanNode(node) {
     return node
 }
 
-function Node(node) {
+function Node({ node }) {
     const Component = getComponent(node)
     const { children } = node
 
     return children ? (
         <Component {...node}>
             {children.map((child, i) => (
-                <Node key={i} {...child} />
+                <Node key={i} node={child} />
             ))}
         </Component>
     ) : (
         <Component {...node} />
     )
+}
+
+function PlaintextNode({ node, excerptLength }) {
+    const textContent = node.children.map(n => getComponentAsPlaintext(n)).join('')
+
+    return (textContent.length <= excerptLength) ? textContent : textContent.substr(0, excerptLength) + '...'
+}
+
+function getComponentAsPlaintext(node) {
+    switch (node.type) {
+        case "text":
+            return node.value
+        case "html":
+            return ''
+        default:
+            return node.children.map(n => getComponentAsPlaintext(n)).join('')
+    }
 }
 
 function getComponent(node) {
@@ -55,6 +76,13 @@ function getComponent(node) {
             }
         case "link":
             return ({ children, url }) => <a href={url} className="md-link">{children} </a>
+        case "list":
+            return ({ children, ordered }) => {
+                const List = (ordered) ? 'ol' : 'ul'
+                return <List>{children}</List>
+            }
+        case "listItem":
+            return  ({ children }) => <li>{ children }</li>
         case "text":
             return ({ value }) => <>{value}</>
         case "blockquote":

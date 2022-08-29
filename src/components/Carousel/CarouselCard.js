@@ -4,6 +4,7 @@ import Link from "next/link"
 import render from "html-react-parser"
 import styles from "./Carousel.module.css"
 import { toDateString, toDateTime } from "lib/utils"
+import { MarkdownRenderer, parseMarkdown } from "lib/markdown"
 
 const TRUNCATE_LENGTH = 120
 
@@ -60,7 +61,10 @@ const CarouselCard = ({entry, entryType, className}) => {
                         <p><em>{entry.startTime ? toDateTime(new Date(entry.startTime)) : toDateString(new Date(entry.publishDate))}</em></p>
                         )}
                         <p>
-                            {(entry.description || entry.body).substr(0, excerptLength) + (((entry.description || entry.body)).length > excerptLength ? "..." : '')}
+                            {(entry.body)
+                                ? (entry.body.substr(0, excerptLength) + (entry.body.length > excerptLength ? "..." : ''))
+                                : <MarkdownRenderer ast={parseMarkdown(entry.description)} plaintext={true} excerptLength={excerptLength} />
+                            }
                         </p>
                     </div>
                     <div className={"btn btn-link_ghost " + styles.button}>Read More</div>
