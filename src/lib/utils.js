@@ -79,6 +79,7 @@ const months = [
     "December"
 ]
 const days = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",

@@ -10,6 +10,11 @@ module.exports = {
             destination: '/directory-2',
             permanent: true,
           },
+          {
+            source: '/resources',
+            destination: '/resources-2',
+            permanent: true,
+          },
         ]
     },
 }

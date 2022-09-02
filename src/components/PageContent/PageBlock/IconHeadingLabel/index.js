@@ -1,4 +1,5 @@
 import { MarkdownRenderer, parseMarkdown } from "lib/markdown"
+import styles from '../../../IconHeadingLabel/IconHeadingLabel.module.css'
 
 export function IconHeadingLabelGroup({ blocks }) {
     console.log({ blocks })
@@ -23,7 +24,8 @@ export function IconHeadingLabelGroup({ blocks }) {
     return (
         <div
             className={
-                "iconHeadingLabel flex flex-col gap-2 md:w-1/2 lg:w-1/3 px-2 lg:px-6 " + (props.centered ? "items-center text-center" : "")
+                "iconHeadingLabel flex flex-col gap-2 md:w-1/2 lg:w-1/3 px-2 lg:px-6 " + (props.centered ? "items-center text-center " : "") + styles.content
+                + " " + (props.centered ? '' : styles.leftAligned)
             }
             alt={props.icon?.alt}
             >

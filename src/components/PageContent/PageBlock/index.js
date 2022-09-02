@@ -5,6 +5,7 @@ import Shortcode from "./Shortcode"
 import Hero from "./Hero"
 import IconHeadingLabel from "components/IconHeadingLabel"
 import { IconHeadingLabelGroup } from "./IconHeadingLabel"
+import { TeammateItemGroup, TeammateItem } from './TeammateItem'
 
 export default function PageBlock(props) {
     if (!props.__typename) return <></>
@@ -22,47 +23,26 @@ export default function PageBlock(props) {
             return <Shortcode {...props} />
         case "HeroRecord":
             return <Hero {...props} />
+        case "TeammateItemRecordGroup":
+            return <TeammateItemGroup {...props} />
+        case "TeammateItemRecord":
+            return <TeammateItem {...props} />
+        case "ImageArrayRecord":
+            return <ImageArray {...props} />
         default:
             console.log("Unsupported page block type in use", props)
             return <></>
     }
 }
 
-function teammateItem(props) {
-  return (
-    <section className="teammate-section">
-      {props.blockGroup.map(
-        (block, i) =>
-          block.name &&
-          block.contentNode && (
-            <article className="teammate-item" key={block.name}>
-              <h4>
-                {block.linkUrl ? (
-                  <a
-                    href={block.linkUrl}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    {block.name}
-                  </a>
-                ) : (
-                  block.name
-                )}
-              </h4>
-              {renderHtmlToReact(block.contentNode.childMarkdownRemark.htmlAst)}
-            </article>
-          )
-      )}
-    </section>
-  )
-}
 
-function imageArray(props) {
+function ImageArray(props) {
   const WrappedImage = ({ image }) => <img src={image.url} alt={image.alt} />
 
   return (
     <section
-      className={`imageArray ${pageBlockStyles.imageArray}`}
-      style={{ "--columns": props.columns }}
+      className="grid gap-4 lg:gap-16 items-center" 
+      style={{ "--columns": props.columns, gridTemplateColumns: "repeat(var(--columns), 1fr)"}}
     >
       {props.images.map(
         (image, i) =>
@@ -71,7 +51,7 @@ function imageArray(props) {
               {image.customData?.linkUrl ? (
                 <a
                   href={image.customData.linkUrl}
-                  className={`imageWrapper ${pageBlockStyles.imageWrapper}`}
+                  className={`imageWrapper`}
                   rel="norefferer"
                   target="_blank"
                   key={"image-wrap-" + i}
@@ -80,7 +60,7 @@ function imageArray(props) {
                 </a>
               ) : (
                 <div
-                  className={`imageWrapper ${pageBlockStyles.imageWrapper}`}
+                  className={`imageWrapper`}
                   key={"image-wrap-" + i}
                 >
                   <WrappedImage image={image} />

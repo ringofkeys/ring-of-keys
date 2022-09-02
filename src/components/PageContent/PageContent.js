@@ -20,7 +20,8 @@ export default function PageContent({ content, pageSpecificData }) {
 
 function groupBlocks(content) {
     const blockTypesToGroup = [
-        "IconHeadingLabelRecord"
+        "IconHeadingLabelRecord",
+        "TeammateItemRecord",
     ]
 
     return content.reduce((prev, curr, i, arr) => {

@@ -79,6 +79,10 @@ h2 {
     @apply text-2xl;
 }
 
+h3 {
+    @apply text-xl;
+}
+
 a {
     font-family: inherit;
     font-weight: 600;

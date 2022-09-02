@@ -1,0 +1,22 @@
+.teammateSection {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1em;
+}
+
+.teammateItem {
+    text-align: center;
+}
+
+.teammateItem h4 {
+    margin-bottom: 1em;
+    color: var(--rok-peach-1_hex);
+    font-family: EB Garamond,serif;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px;) {
+  .teammateSection {
+    display: block;
+  }
+}
