@@ -89,13 +89,13 @@ export default ({ data }) => {
 
   async function handleProfileSave() {
     setSubmitting(true)
+    
     const updateFieldsConfig = [
       data.datoCmsKey.id,
       data.datoCmsKey.name,
       editedFields,
-      data.datoCmsKey.name !== editedFields.name,
+      !!editedFields.name && data.datoCmsKey.name !== editedFields.name,
     ]
-    console.log(updateFieldsConfig)
     const saveRes = await updateFields(...updateFieldsConfig)
     console.log("saveRes", saveRes)
     setSubmitting(false)
