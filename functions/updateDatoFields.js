@@ -1,3 +1,4 @@
+const fetch = require('node-fetch')
 const { SiteClient, buildModularBlock } = require("datocms-client")
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 const fileFields = ["headshot", "featuredImage"]
