@@ -6,12 +6,18 @@ import { affiliations, locations } from "lib/directory"
 import styles from "styles/directory.module.css"
 
 export default function DirectorySearch({
-    appliedFilters = [],
+    appliedFilters,
     setAppliedFilters,
     numResults,
 }) {
     const filterForm = useRef(null)
     const [filtersAreVisible, setFilterVisibility] = useState(false)
+
+    function getFilterWithFallback(filterKey, fallbackValue) {
+        return (appliedFilters.findIndex(f => f[0] == filterKey) >= 0)
+            ? appliedFilters.find(f => f[0] == filterKey)[1]
+            : fallbackValue
+    }
 
     function fieldValueChange(e) {
         e.preventDefault()
@@ -61,6 +67,7 @@ export default function DirectorySearch({
                         name="general"
                         onChange={fieldValueChange}
                         placeholder="Keyword"
+                        defaultValue={getFilterWithFallback("general", "")}
                     />
                 </div>
                 <button
@@ -84,6 +91,7 @@ export default function DirectorySearch({
                     onClick={() => setFilterVisibility(!filtersAreVisible)}
                     className={
                         styles["advanced-btn"] +
+                        ` ${appliedFilters.length}-applied ` +
                         (appliedFilters.length ? " " + styles["active"] : "")
                     }
                     style={{
@@ -142,6 +150,7 @@ export default function DirectorySearch({
                         type="text"
                         onChange={fieldValueChange}
                         placeholder="ie: Actor, Stage Manager, Music Director"
+                        value={getFilterWithFallback("discipline", "")}
                     />
                     <FormField
                         name="vocalRange"
@@ -149,6 +158,7 @@ export default function DirectorySearch({
                         type="text"
                         onChange={fieldValueChange}
                         placeholder="ie: Soprano, Tenor"
+                        value={getFilterWithFallback("vocalRange", "")}
                     />
                     <FormField
                         name="danceExperience"
@@ -156,6 +166,7 @@ export default function DirectorySearch({
                         type="text"
                         onChange={fieldValueChange}
                         placeholder="ie: Ballet, Tap, Jazz"
+                        value={getFilterWithFallback("danceExperience", "")}
                     />
                     <FormField
                         name="pronouns"
@@ -201,9 +212,7 @@ export default function DirectorySearch({
                                     styles["input__group"] +
                                     " " +
                                     styles.checkbox +
-                                    " " +
-                                    fieldStyles["input__group"] +
-                                    " " +
+                                    " checkbox " +
                                     fieldStyles.checkbox
                                 }
                             >
@@ -234,9 +243,7 @@ export default function DirectorySearch({
                                     styles["input__group"] +
                                     " " +
                                     styles.checkbox +
-                                    " " +
-                                    fieldStyles["input__group"] +
-                                    " " +
+                                    " checkbox " +
                                     fieldStyles.checkbox
                                 }
                             >

@@ -12,6 +12,7 @@ import Popup from "components/Popup"
 import HeroHeadshotEditor from "components/KeyProfile/KeyHero/HeroHeadshotEditor"
 import HeroSocialMediaEditor from "components/KeyProfile/KeyHero/HeroSocialMediaEditor"
 import HeroFeaturedImageEditor from "components/KeyProfile/KeyHero/HeroFeaturedImageEditor"
+import EmailPopup from "components/Popup/EmailPopup"
 
 export const ProfileContext = React.createContext({})
 
@@ -34,6 +35,7 @@ export default function KeyPage({ layoutData, artistData }) {
     const [isEditing, setEditing] = useState(false)
     const { data: session } = useSession()
     const [isMessageOpen, setMessageOpen] = useState(false)
+    const [isEmailPopupOpen, setEmailPopupOpen] = useState(false)
     const [isHeadshotFullOpen, setHeadshotFullOpen] = useState(false)
     const [isEditingHeadshot, setEditingHeadshot] = useState(false)
     const [isEditingFeaturedImage, setEditingFeaturedImage] = useState(false)
@@ -99,6 +101,7 @@ export default function KeyPage({ layoutData, artistData }) {
                     loading="lazy"
                 />
             </Popup>
+            <EmailPopup isOpen={isEmailPopupOpen} setOpen={setEmailPopupOpen} />
         </ProfileContext.Provider>
     </>)
 }

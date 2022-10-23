@@ -99,8 +99,10 @@
 }
 
 
+.popup__card input[type="checkbox"],
 .popup__card .checkbox {
     font-weight: normal;
+    width: auto;
 }
 
 .popup__card .btn {

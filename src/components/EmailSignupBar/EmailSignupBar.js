@@ -10,18 +10,22 @@ const EmailSignupForm = ({
     buttonText = "",
 }) => {
     const [submitStatus, setSubmitStatus] = useState("unsent")
+    const submitStatusText = {
+        unsent: buttonText || 'Submit',
+        submitting: 'Submitting',
+        sent: 'Sent',
+        failed: 'Error',
+    }
 
     async function handleSignup(e) {
         e.preventDefault()
         e.persist()
-        setSubmitStatus("sending")
+        setSubmitStatus("submitting")
 
-        const sendRes = !optIn
-            ? await onSubmit(e.target.elements[0].value)
-            : await onSubmit(
-                  e.target.elements[0].value,
-                  e.target.elements[2].checked
-              )
+        const sendRes = await onSubmit(
+            e.target.elements[0].value,
+            optIn && e.target.elements[2].checked
+        )
 
         if (optIn && e.target.elements[2].checked) {
             try {
@@ -91,11 +95,11 @@ const EmailSignupForm = ({
                 </label>
             )}
             <button
-                className={`btn ${submitStatus}`}
+                className={'btn ' + styles[submitStatus]}
                 type="submit"
                 disabled={submitStatus === "sending" || submitStatus === "sent"}
             >
-                {buttonText}
+                {submitStatusText[submitStatus]}
                 <svg viewBox="0 0 5 7" style={{ margin: "0 .5rem" }}>
                     <path
                         stroke="white"

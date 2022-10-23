@@ -32,18 +32,23 @@ export default function DirectorySection(props) {
         [appliedFilters]
     )
 
-    // Set up a listener to remove appliedFilters from localStorage when the tab is closed.
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            window.onbeforeunload = function (e) {
-                localStorage.removeItem("latestFilters")
-                return undefined
-            }
-        }
-        return () => {
-            debouncedFilterHandler.cancel()
+        if (typeof window !== "undefined" && localStorage.getItem("latestFilters") !== null) {
+            setAppliedFilters(JSON.parse(localStorage.getItem("latestFilters")))
         }
     }, [])
+    // Set up a listener to remove appliedFilters from localStorage when the tab is closed.
+    //useEffect(() => {
+        //if (typeof window !== "undefined") {
+         //   window.onbeforeunload = function (e) {
+                //localStorage.removeItem("latestFilters")
+                //return undefined
+            //}
+        //}
+        //return () => {
+            //debouncedFilterHandler.cancel()
+        //}
+    //}, [])
 
     useEffect(() => {
         debouncedFilterHandler()

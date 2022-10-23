@@ -39,6 +39,7 @@
     display: flex;
     align-items: center;
     grid-column: span 2;
+    font-weight: normal;
     @apply gap-2;
 }
 
@@ -61,11 +62,26 @@
     padding: .7em 1.5em;
 }
 
-.emailSignupBar button.sent {
+.submitting {
+    animation: submit-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes submit-pulse {
+    from {
+        background: var(--rok-slate-blue_hex);
+        transform: scale(1);
+    }
+    to {
+        background: var(--rok-pale-green-1_hex);
+        transform: scale(1.05);
+    }
+}
+
+.sent {
     background: lightgreen;
 }
 
-.emailSignupBar button.failed {
+.failed {
     background: hsl(355deg, 40%, 70%);
 }
 
