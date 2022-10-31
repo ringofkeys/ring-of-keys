@@ -2,6 +2,7 @@ import Layout from "components/Layout"
 import Carousel from "components/Carousel"
 import { request, requestLayoutProps } from "lib/datocms"
 import { newsPageQuery } from "queries/news"
+import QuoteBlock from "components/PageContent/PageBlock/QuoteBlock"
 // import "./news.css"
 
 export async function getStaticProps() {
@@ -83,6 +84,12 @@ export default function News({ layoutData, seo, data }) {
                     />
                 </div>
             )}
+            <QuoteBlock
+                backgroundColor="#bf662f"
+                textColor="hsla(0, 0%, 100%, .94)"
+                quoteText="With networks like Ring of Keys, I feel like my queer singing heart has a place and community and I can make work as a queer director."
+                quoteAttribution="Kristin Kelly, Key Member (she/her)"
+            />
         </Layout>
     )
 }

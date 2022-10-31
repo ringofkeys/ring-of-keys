@@ -3,6 +3,7 @@
     grid-template-columns: 1fr auto;
     margin-block-start: 2vh;
     max-width: 375px;
+    @apply gap-y-2;
 }
 
 .emailSignupBar > label.emailInput {
@@ -35,12 +36,11 @@
 }
 
 .privacyConsent {
-    margin-block-start: .75em;
-    display: flex;
-    align-items: center;
-    grid-column: span 2;
-    font-weight: normal;
-    @apply gap-2;
+    @apply gap-2 m-0 col-span-full font-normal flex items-center;
+}
+
+.statusBox {
+    @apply p-2 mt-2 rounded col-span-full;
 }
 
 .optIn .privacyConsent {
@@ -62,7 +62,7 @@
     padding: .7em 1.5em;
 }
 
-.submitting {
+.sending {
     animation: submit-pulse 1s ease-in-out infinite alternate;
 }
 
@@ -77,11 +77,11 @@
     }
 }
 
-.sent {
+.success {
     background: lightgreen;
 }
 
-.failed {
+.error {
     background: hsl(355deg, 40%, 70%);
 }
 
@@ -95,7 +95,7 @@
     transition: all .12s ease-in-out;
 }
 
-.emailSignupBar button.sent path {
+.emailSignupBar button.success path {
     d: path('M 1 4.5 l 1.5 1.5 l 2 -5');
 }
 

@@ -33,22 +33,22 @@ export default function DirectorySection(props) {
     )
 
     useEffect(() => {
-        if (typeof window !== "undefined" && localStorage.getItem("latestFilters") !== null) {
-            setAppliedFilters(JSON.parse(localStorage.getItem("latestFilters")))
+        if (typeof window !== "undefined") {
+            // Set up a listener to remove appliedFilters from localStorage when the tab is closed.
+            window.onbeforeunload = function (e) {
+                    localStorage.removeItem("latestFilters")
+                    return undefined
+                }
+                
+            if (localStorage.getItem("latestFilters") !== null) {
+                setAppliedFilters(JSON.parse(localStorage.getItem("latestFilters")))
+            }
+        }
+
+        return () => {
+            debouncedFilterHandler.cancel()
         }
     }, [])
-    // Set up a listener to remove appliedFilters from localStorage when the tab is closed.
-    //useEffect(() => {
-        //if (typeof window !== "undefined") {
-         //   window.onbeforeunload = function (e) {
-                //localStorage.removeItem("latestFilters")
-                //return undefined
-            //}
-        //}
-        //return () => {
-            //debouncedFilterHandler.cancel()
-        //}
-    //}, [])
 
     useEffect(() => {
         debouncedFilterHandler()
@@ -126,8 +126,6 @@ export default function DirectorySection(props) {
                 )
             })
         }
-
-        console.log({ searchResults })
 
         setSearchResults(results)
     }

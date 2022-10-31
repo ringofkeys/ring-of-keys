@@ -262,7 +262,7 @@ export default function DirectorySearch({
                         ))}
                     </CheckboxGrid>
                 </div>
-                <div style={{ marginTop: "2rem" }}>
+                <div className="mt-4">
                     <button
                         type="reset"
                         className="btn btn-link_ghost btn_filters"
