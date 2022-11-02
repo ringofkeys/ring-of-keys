@@ -10,7 +10,7 @@ export default function Layout({ layoutData, children, className, sidebarData, q
 
     return (
         <>
-            <Header path={router.asPath} menu={layoutData.menu}/>
+            <Header path={router.asPath} menu={layoutData.menu} key={router.asPath} />
             <main
                 className={
                     router.asPath.slice(1).replace("/", "_") +

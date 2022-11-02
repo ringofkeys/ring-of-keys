@@ -3,15 +3,15 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import Popup from "./Popup"
 
-export default function EmailPopup({ isOpen = true, setOpen }) {
+export default function EmailPopup({ isOpen = true, setOpen, isSignedIn = false }) {
   const [isValidated, setValidated] = useState(true)
   
   useEffect(() => {
-    const validated = window?.localStorage.getItem('hasEmailSignup') || false
+    const validated = window?.localStorage.getItem('hasEmailSignup') || isSignedIn || false
     setValidated(validated)
     
     setOpen(!validated)
-  }, [])
+  }, [isSignedIn])
 
   async function submitDatoViewer(email, optedIntoNewsletter) {
     console.log('submitting Viewer')

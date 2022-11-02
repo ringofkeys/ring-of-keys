@@ -83,11 +83,8 @@ export function KeyBody() {
                         {locations.map((val) => (
                             <div
                                 className={
-                                    styles["input__group"] +
                                     " " +
                                     styles.checkbox +
-                                    " " +
-                                    fieldStyles["input__group"] +
                                     " " +
                                     fieldStyles.checkbox
                                 }
@@ -163,21 +160,13 @@ export function KeyBody() {
             <KeyField fieldName="affiliations"
                 heading={<h3>Unions & Affiliations</h3>}
                 editFormFields={<CheckboxGrid
-                    className={styles["affiliations"]}
+                    className={'w-full ' + styles["affiliations"]}
                     label="Unions & Affiliations"
                     helpText="(check as many that apply)"
                 >
                     {affiliations.map((val) => (
                         <div
-                            className={
-                                styles["input__group"] +
-                                " " +
-                                styles.checkbox +
-                                " " +
-                                fieldStyles["input__group"] +
-                                " " +
-                                fieldStyles.checkbox
-                            }
+                            className={'py-2 px-4 ' + fieldStyles.checkbox}
                             key={val}
                         >
                             <label htmlFor={"affiliations-" + val}>

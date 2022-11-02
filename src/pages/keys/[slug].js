@@ -101,7 +101,7 @@ export default function KeyPage({ layoutData, artistData }) {
                     loading="lazy"
                 />
             </Popup>
-            <EmailPopup isOpen={isEmailPopupOpen} setOpen={setEmailPopupOpen} />
+            <EmailPopup isOpen={isEmailPopupOpen} setOpen={setEmailPopupOpen} isSignedIn={session} />
         </ProfileContext.Provider>
     </>)
 }

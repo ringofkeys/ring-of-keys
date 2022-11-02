@@ -56,15 +56,15 @@
 }
 
 .artist_hero .artist_bio {
-    margin-left: 1.5vw;
+    @apply ml-6;
 }
 
 .artist_bio p {
-    color: white;
+    @apply text-white my-2;
 }
 
 .artist_hero .btn_message {
-    padding: .5em 2.5em;
+    @apply py-2 px-8 my-4;
     font-size: .95em;
     margin-inline-end: 2em;
     text-transform: uppercase;
@@ -126,9 +126,8 @@
 }
 
 .toggleRow {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+    @apply w-full flex justify-between;
+    @apply mb-4;
 }
 
 .toggle_group {
@@ -200,7 +199,7 @@
 
 .artist_body {
     box-sizing: border-box;
-    padding: 5vh 15vw;
+    @apply mx-auto max-w-5xl px-4 my-10;
 }
 
 .my_story {
@@ -208,15 +207,13 @@
 }
 
 .artist_body h2 {
-    border-bottom: solid 1px lightgrey;
-    padding-bottom: .25em;
+    @apply border-b border-gray-300;
+    @apply pb-1 mb-3;
 }
 
 .artist_body h3 {
-    text-transform: capitalize;
-    border-bottom: solid 1px lightgrey;
-    padding-bottom: .25em;
-    margin: 1em 0;
+    @apply capitalize border-b border-gray-300;
+    @apply pb-1 mt-6 mb-3;
 }
 
 .btn_resume {
@@ -234,7 +231,6 @@
     border-radius: calc(var(--size) / 2);
     background: rgba(0,0,0,0.5);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
@@ -280,8 +276,7 @@
 }
 
 .profile_field_group {
-    display: flex;
-    justify-content: space-between;
+    @apply flex justify-between gap-2;
 }
 
 .profile_field_group p,
@@ -312,6 +307,7 @@
     margin-inline-start: 1em;
     height: 2.5em;
     width: 2.5em;
+    min-width: 2.5em;
     border-radius: 1.25em;
     padding: .5em;
     background: #6d727877;
