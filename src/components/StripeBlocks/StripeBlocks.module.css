@@ -81,9 +81,13 @@
 
 .stripeStatus button {
     white-space: nowrap;
-    margin-left: 1.2rem;
+    @apply px-6 py-2 max-w-fit rounded;
+    @apply transition-colors bg-transparent;
     color: var(--rok-gold-1_hex);
-    background: none;
     border: none;
     text-transform: uppercase;
+}
+
+.stripeStatus button:hover {
+    background: #fff4d9;
 }

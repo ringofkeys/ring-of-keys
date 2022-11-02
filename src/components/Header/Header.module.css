@@ -85,14 +85,14 @@
     align-items: center;
 }
 
-.top-nav [aria-current]:not([aria-current="false"]) {
+.top-nav.active {
     position: relative;
     font-weight: 600;
 }
 
 .top-nav a:not(.site-logo):hover::after,
 .top-nav a:not(.site-logo):focus::after,
-.top-nav [aria-current]:not([aria-current="false"]):not(.site-logo)::after {
+.top-nav.active:not(.site-logo)::after {
     width: 100%;
 }
 
@@ -235,14 +235,11 @@
 }
 
 .nav__login {
-    display: flex;
-    align-items: center;
+    @apply flex items-center;
 }
 
 .top-nav .login_avatar {
-     display: flex;
-     align-items: center;
-     height: 2.25em;
+     @apply flex items-center h-8 mx-4;
 }
 
 .top-nav .login_avatar img {
@@ -250,6 +247,67 @@
     max-height: 100%;
     border-radius: 50%;
     object-fit: scale-down;
+}
+
+.menuIconWrapper {
+    background: none;
+    border: none;
+    padding: 1vmin;
+
+    --line-width: 8vmin;
+    --line-height: 1vmin;
+    --line-border-radius: .5vmin;
+    --line-bg: var(--rok-slate-blue_hex);
+    --line-spacing: 2vmin;
+
+    height: calc(2 * var(--line-spacing) + 3 * var(--line-height));
+}
+
+.menuIconWrapper:focus {
+    outline: none;
+    --line-bg: var(--rok-pale-green-1_hex);
+}
+
+.menuIcon,
+.menuIcon::before,
+.menuIcon::after {
+    display: block;
+    width: var(--line-width);
+    height: var(--line-height);
+    border-radius: var(--line-border-radius);
+    background: var(--line-bg);
+    transform-origin: 50% 50%;
+    transition: all .2s ease-in-out;
+}
+
+.menuIcon {
+    position: relative;
+}
+
+.menuIcon::before,
+.menuIcon::after {
+    position: absolute;
+    content: '';
+}
+
+.menuIcon::before {
+    bottom: calc(100% + var(--line-spacing));
+}
+
+.menuIcon::after {
+    top: calc(100% + var(--line-spacing));
+}
+
+.open .menuIcon {
+    transform: rotate(135deg);
+}
+
+.open .menuIcon::before {
+    transform: translate(0, calc(var(--line-spacing) + var(--line-height)));
+}
+
+.open .menuIcon::after  {
+    transform: translate(0, calc(-1 * (var(--line-spacing) + var(--line-height)))) rotate(-90deg);
 }
 
 
@@ -315,6 +373,7 @@
         width: 100%;
         display: grid;
         grid-auto-rows: 1fr;
+        @apply ml-8;
         height: 100%;
         justify-content: stretch;
     }

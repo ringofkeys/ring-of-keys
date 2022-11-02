@@ -21,6 +21,22 @@
     box-sizing: border-box;
 }
 
+.block h2 {
+    @apply mb-4;
+}
+
+.block p {
+    @apply my-4;
+}
+
+.block p a:not(:global(.btn)) {
+    text-decoration: underline;
+}
+
+.block p a:not(:global(.btn)):hover {
+    color: var(--rok-gold-1_hex);
+}
+
 .blockIntro {
     display: flex;
     align-items: center;

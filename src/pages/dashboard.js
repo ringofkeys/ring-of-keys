@@ -48,11 +48,11 @@ export default function Dashboard({ layoutData }) {
                     <div className={styles.block +' '+ styles.blockIntro}>
                         <div>
                             <h2>{dashboardData.user.name}</h2>
-                            <p>{ parse(dashboardData.page.content.find(block => block.area === 'intro')?.content)
+                            <p className="my-4">{ parse(dashboardData.page.content.find(block => block.area === 'intro')?.content)
                                 || "Welcome to the Key Member dashboard! Here you can find access to Members Only content like our Proud Member: Ring of Keys badges to use on your website, resumé, or portfolio."
                             }</p>
                             <Link href={"/keys/" + dashboardData.user.slug}>
-                                <a className="btn btn-link_ghost">View / Edit Profile</a>
+                                <a className="my-4 btn btn-link_ghost">View / Edit Profile</a>
                             </Link>
                             {dashboardData.user?.stripeId && <StripeSubscribed stripeId={dashboardData.user.stripeId} />}
                         </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from "next/link"
 import { request } from "lib/datocms"
-import { DASHBOARD_NAV_QUERY } from "queries/nav"
+import { DASHBOARD_NAV_QUERY, NAV_MENU_QUERY } from "queries/nav"
 import styles from "./Header.module.css"
 import tooltipStyles from "styles/tooltip.module.css"
 
@@ -24,7 +24,7 @@ const Header = ({ path, menu }) => {
             </button>
             <nav
                 className={`${styles["top-nav"]} ${
-                    styles[isNavOpen ? " open" : " closed"]
+                    styles[isNavOpen ? "open" : "closed"]
                 }`}
             >
                 <div className={styles["top__inner"]}>
@@ -33,7 +33,9 @@ const Header = ({ path, menu }) => {
                             <img src="/img/rok_logo.png" alt="Ring of Keys" />
                         </a>
                     </Link>
-                    {/* <MenuIcon onClick={() => setNavOpen(!isNavOpen)} className={styles['hamburger']} /> */}
+                    <button className={styles.menuIconWrapper} onClick={() => setNavOpen(!isNavOpen)}>
+                        <span className={styles.menuIcon}></span>
+                    </button>
                 </div>
                 <div className={styles["nav__mobile-wrap"]}>
                     <SecondaryNav session={session} navOpen={isNavOpen} />
@@ -43,11 +45,7 @@ const Header = ({ path, menu }) => {
                           .map((menu, i) => (
                             <NavLink path={path} {...menu} key={"navlink-" + i} />
                           ))}
-                        {session && (
-                            <Link href="/dashboard">
-                                <a className="hasDropdown">Dashboard</a>
-                            </Link>
-                        )}
+                        {session && (<NavLink path={path} label={"Dashboard"} link={"/dashboard"} />)}
                     </div>
                 </div>
             </nav>
@@ -55,11 +53,11 @@ const Header = ({ path, menu }) => {
     )
 }
 
-function NavLink({ path, label, link, children }) {
+function NavLink({ path, label, link, children = [] }) {
   return (
     <li className={styles.dropdownWrapper}>
       <Link href={link}>
-          <a className={styles.hasDropdown + " " + (path === link ? "active" : "")}>
+          <a className={styles.hasDropdown + " " + (path === link ? styles.active : "")}>
             {label}&nbsp;
             {children.length ? (
               <svg
@@ -110,9 +108,10 @@ function SecondaryNav({ session, navOpen }) {
 
     useEffect(() => {
         if (session) {
-            getUserData(session.token.datoId).then(({ user: userData }) =>
+            getUserData(session.token.datoId).then(({ user: userData }) => {
+                console.log({session,userData})
                 setUser(userData)
-            )
+            })
         }
     }, [session])
 
@@ -173,7 +172,7 @@ function SecondaryNav({ session, navOpen }) {
 
 async function getUserData(datoId) {
     return await request({
-        query: NAV_QUERY,
+        query: DASHBOARD_NAV_QUERY,
         variables: { id: datoId },
     })
 }
