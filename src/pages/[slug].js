@@ -19,6 +19,8 @@ export async function getStaticPaths() {
         query: "query AllPageQuery { allPages { slug }}",
     })
 
+    console.log('query result', slugs.allPages)
+
     return {
         paths: slugs.allPages
             .filter(({ slug }) => slug && unincludedPages.indexOf(slug) < 0) // filters out the home page, which has an empty slug.
@@ -30,6 +32,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+    console.log({params})
     // Global CMS-powered items like the nav
     const layoutData = await requestLayoutProps()
 
@@ -47,8 +50,6 @@ export async function getStaticProps({ params }) {
         quoteBlock = data.page.content.find(block => block.__typename === 'QuoteRecord')
         data.page.content = [...data.page.content.slice(0, quoteBlockIndex), ...data.page.content.slice(quoteBlockIndex + 1, 0)]
     }
-
-    console.log({quoteBlock, content: data.page.content })
 
     const pageSpecificQueries = [getPageSpecificQueries(params.slug), ...getComponentSpecificQueries(data.page.content)]
         .filter((query => query && query !== null))

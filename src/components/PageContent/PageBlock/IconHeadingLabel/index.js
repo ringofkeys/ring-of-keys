@@ -2,7 +2,6 @@ import { MarkdownRenderer, parseMarkdown } from "lib/markdown"
 import styles from '../../../IconHeadingLabel/IconHeadingLabel.module.css'
 
 export function IconHeadingLabelGroup({ blocks }) {
-    console.log({ blocks })
     return (
       <section className="flex flex-wrap justify-center my-6 iconHeadings gap-y-12">
         {blocks.map(

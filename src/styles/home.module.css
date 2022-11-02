@@ -4,13 +4,10 @@
     font-size: 100%;
 }
 
-<<<<<<<< HEAD:src/styles/home.module.css
 .base :global(.iconHeadings) {
     @apply max-w-7xl mx-auto lg:my-12 text-lg px-6 md:px-12 lg:px-0;
 }
 
-========
->>>>>>>> main:src/components/Layouts/home.css
 .bar__learn-more {
     width: 100%;
     background: var(--rok-slate-blue_hex);
@@ -28,8 +25,6 @@
     margin-right: 15vw;
 }
 
-<<<<<<<< HEAD:src/styles/home.module.css
-========
 .btn__learn-more {
     display: block;
     padding: .6em 1.5em;
@@ -81,7 +76,6 @@
     padding: 1em 3em;
 }
 
->>>>>>>> main:src/components/Layouts/home.css
 .section_icon-heading-labels {
     display: flex;
         justify-content: center;
@@ -139,8 +133,6 @@
 
 /* Mobile styling */
 @media (max-width: 700px) {
-<<<<<<<< HEAD:src/styles/home.module.css
-========
     .index_hero {
         display: block;
         width: 100%;
@@ -173,7 +165,6 @@
         font-size: .8em;
     }
 
->>>>>>>> main:src/components/Layouts/home.css
     .section_icon-heading-labels {
         flex-direction: column;
         margin: 5vh auto;
