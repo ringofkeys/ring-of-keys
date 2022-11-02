@@ -4,14 +4,14 @@ import { RESOURCES_QUERY } from "./resources"
 
 export function getPageSpecificQueries(slug) {
     switch (slug) {
-        case "directory-2":
+        case "directory":
             return {
                 name: 'allKeys',
                 query: KEYS_DIRECTORY_QUERY,
                 variables: { limit: 50 },
                 isRepeating: true,
             }
-        case "resources-2":
+        case "resources":
             return {
                 name: 'allResources',
                 query: RESOURCES_QUERY,
