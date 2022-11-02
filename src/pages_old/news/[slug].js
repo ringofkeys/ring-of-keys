@@ -19,18 +19,17 @@ export default ({ data }) => {
 }
 
 export const query = graphql`
-    query NewsPieceQuery($slug: String!) {
-        datoCmsNews(slug: { eq: $slug }) {
-            title
-            featuredImage {
-                url
-                alt
-            }
-            bodyNode {
-                childMarkdownRemark {
-                    htmlAst
-                }
-            }
+  query NewsPieceQuery($slug: String!) {
+    datoCmsNews(slug: { eq: $slug }) {
+      title
+      featuredImage {
+        url
+        alt
+      }
+      bodyNode {
+        childMarkdownRemark {
+          htmlAst
         }
+      }
     }
 `

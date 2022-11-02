@@ -10,9 +10,9 @@ export default function useForm(initial = {}) {
         })
     }
 
-    function resetForm() {
-        updateInputs(initial)
-    }
+  function resetForm() {
+    updateInputs(initial)
+  }
 
     return {
         inputs,
@@ -20,8 +20,8 @@ export default function useForm(initial = {}) {
         resetForm,
     }
 
-    function getValue(input) {
-        if (input.files) return input.files[0]
+  function getValue(input) {
+    if (input.files) return input.files[0]
 
         if (input.type === "checkbox") return input.checked
 

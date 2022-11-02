@@ -4,8 +4,8 @@ require("dotenv").config({
 const SiteClient = require("datocms-client").SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
-exports.handler = async (event) => {
-    const data = JSON.parse(event.body)
+exports.handler = async event => {
+  const data = JSON.parse(event.body)
 
     console.log("data = ", data)
     data.itemType = "185201"
