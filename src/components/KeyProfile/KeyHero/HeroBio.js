@@ -37,7 +37,10 @@ export default function HeroBio({ setMessageOpen }) {
             )}
             <button
                 className={"btn " + styles["btn_message"]}
-                onClick={() => setMessageOpen(true)}
+                onClick={() => {
+                    console.log('click', {setMessageOpen})
+                    setMessageOpen(true)
+                }}
             >
                 Message
             </button>

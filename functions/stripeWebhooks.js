@@ -79,7 +79,7 @@ exports.handler = async (event, context, callback) => {
                     break
             }
 
-            await fetch(`${URL}/.netlify/functions/sendAdminEmail`, {
+            await fetch(`${URL}/api/sendAdminEmail`, {
                 headers: {
                     "Content-Type": "application/json",
                 },

@@ -84,13 +84,13 @@ export default function KeyPage({ layoutData, artistData }) {
                     isOpen={isEditingSocialMedia}
                     onClose={() => setEditingSocialMedia(false)}
                 />
-                <MessagePopup
-                    isOpen={isMessageOpen}
-                    artistId={artist?.id}
-                    artistName={artist?.name}
-                    onClose={() => setMessageOpen(false)}
-                />
             </>}
+            <MessagePopup
+                isOpen={isMessageOpen}
+                artistId={artist?.id}
+                artistName={artist?.name}
+                onClose={() => setMessageOpen(false)}
+            />
             <Popup
                 isOpen={isHeadshotFullOpen}
                 onClose={() => setHeadshotFullOpen(false)}

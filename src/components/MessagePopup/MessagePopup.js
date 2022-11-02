@@ -19,9 +19,11 @@ const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
         e.persist()
         setMessageStatus("sending")
 
+        console.log({artistId})
+
         const formVals = [].slice.call(e.target.elements)
         const values = {
-            toArtist: artistId.match(/-(\d+)-/)[1],
+            toArtist: artistId,
         }
 
         formVals
@@ -101,20 +103,16 @@ const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
 export default MessagePopup
 
 async function sendMessage(data) {
-    console.log("about to fetch!", data)
-
     let messageRes = "no message returned"
 
     try {
-        messageRes = await fetch("/.netlify/functions/createDatoMessage", {
+        messageRes = await fetch("/api/createDatoMessage", {
             method: "POST",
             body: JSON.stringify(data),
         })
     } catch (err) {
         console.error("fetching error, ", err)
     }
-
-    console.log("messageRes = ", messageRes)
 
     return messageRes
 }
