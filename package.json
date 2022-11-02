@@ -22,7 +22,7 @@
     "hast-to-hyperscript": "^10.0.0",
     "html-react-parser": "^1.2.7",
     "lodash.debounce": "^4.0.8",
-    "next": "^12.2.3",
+    "next": "^12.2.4",
     "next-auth": "^4.2.1",
     "query-string": "^7.0.1",
     "react": "^18.2.0",
