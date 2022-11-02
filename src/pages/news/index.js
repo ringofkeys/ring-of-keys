@@ -13,15 +13,6 @@ export async function getStaticProps() {
             "Get the latest news from around the Ring of Keys theatre world.",
     }
 
-    // TODO: Add footer quote
-    // footerQuoteAttribution="Kristin Kelly, Key Member (she/her)"
-    //   footerQuoteText={
-    //     <blockquote>
-    //       With networks like Ring of Keys, I feel like my queer singing heart has
-    //       a place and community and I can make work as a queer director.
-    //     </blockquote>
-    //   }
-
     const data = await request({
         query: newsPageQuery,
     })

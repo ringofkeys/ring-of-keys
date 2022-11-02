@@ -1,7 +1,7 @@
 import EmailSignupBar from "components/EmailSignupBar"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import Popup from "./popup"
+import Popup from "./Popup"
 
 export default function EmailPopup({ isOpen = true, setOpen }) {
   const [isValidated, setValidated] = useState(true)
