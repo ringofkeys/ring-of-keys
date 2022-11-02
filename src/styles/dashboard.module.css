@@ -97,7 +97,8 @@
     }
 
     .dashboard_container {
-    display: flex;
+        display: flex;
+    }
 }
 
 .dashboard_container > img {
