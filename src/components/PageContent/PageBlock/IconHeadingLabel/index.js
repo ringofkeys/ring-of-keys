@@ -18,8 +18,6 @@ export function IconHeadingLabelGroup({ blocks }) {
     const headingAst = parseMarkdown(props.heading)
     const labelAst = parseMarkdown(props.label)
 
-    console.log(props)
-
     return (
         <div
             className={

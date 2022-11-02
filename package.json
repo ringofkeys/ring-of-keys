@@ -7,7 +7,7 @@
   "dependencies": {
     "@datocms/cma-client-browser": "^1.0.1",
     "@datocms/cma-client-node": "^1.0.1",
-    "@sendgrid/mail": "^7.4.5",
+    "@sendgrid/mail": "^7.7.0",
     "auth0-js": "^9.16.2",
     "aws-sdk": "^2.948.0",
     "buffer": "^6.0.3",
@@ -30,6 +30,7 @@
     "react-dom": "^18.2.0",
     "react-mailchimp-subscribe": "^2.1.3",
     "remark-parse": "^10.0.1",
+    "request-promise": "^4.2.6",
     "stripe": "^8.163.0",
     "twilio": "^3.66.0",
     "unified": "^10.1.1"
