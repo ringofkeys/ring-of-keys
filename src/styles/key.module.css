@@ -1,0 +1,475 @@
+.artist_hero {
+    --grad-rot: 0deg;
+    --grad-col-1: var(--rok-peach-1_hex);
+    --grad-col-2: var(--rok-slate-blue_hex);
+    height: 60vh;
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 3vh 15vw;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(var(--grad-rot), var(--grad-col-1), var(--grad-col-2));
+    z-index: 0;
+}
+
+.artist_hero::after {
+    content: '';
+    position: absolute;
+    background: rgba(0,0,0,0.6);
+    mix-blend-mode: multiply;
+    background-image: linear-gradient(to top, var(--black), #2a2a2a 15%);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.artist_hero .featured_image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+}
+
+.artist_hero .avatar {
+    border-radius: 50%;
+    border: solid 3px white;
+    width: 180px;
+    height: 180px;
+    max-width: 35vw;
+    max-height: 35vw;
+}
+
+.artist_hero .avatar .headshot {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.artist_hero .artist_bio {
+    @apply ml-6;
+}
+
+.artist_bio p {
+    @apply text-white my-2;
+}
+
+.artist_hero .btn_message {
+    @apply py-2 px-8 my-4;
+    font-size: .95em;
+    margin-inline-end: 2em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.artist_hero h1 {
+    font-size: calc(.6rem + 2.5vw);
+    margin: 1rem 0;
+    font-weight: 600;
+    text-transform: none;
+}
+
+.artist_social-icons {
+    position: absolute;
+    bottom: 5vh;
+    right: 5vw;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.artist_social-icons .social-icon img {
+    height: 3vmin;
+}
+
+.artist_social-icons .social-icon .inactive {
+    opacity: .3;
+}
+
+.social-icon {
+    display: block;
+    transition: transform .12s ease-in-out;
+    margin: 0 1vw;
+}
+
+.social-icon:first-child {
+    margin-right: 0;
+}
+.social-icon:last-child {
+    margin-left: 0;
+}
+
+.social-icon:hover {
+    transform: scale(1.09);
+}
+
+#edit-social-media .icon-field {
+    display: flex;
+    text-transform: capitalize;
+    margin: 1em 0;
+}
+
+#edit-social-media .icon-field img {
+    height: 5vh;
+    width: 5vh;
+    margin-inline-end: 1vw;
+    display: none;
+}
+
+.toggleRow {
+    @apply w-full flex justify-between;
+    @apply mb-4;
+}
+
+.toggle_group {
+    display: flex;
+    align-items: center;
+}
+
+.toggle_group .toggle {
+    display: inline-block;
+    width: 3em;
+    height: 1.5em;
+    margin-inline-end: 1em;
+    border-radius: .75em;
+    background: #e7e7e7;
+    position: relative;
+}
+
+.toggle_group:focus-within {
+    outline: solid var(--rok-gold-1_hex) 1px;
+    outline-offset: 3px;
+}
+
+.toggle_group .toggle::after {
+    content: '';
+    position: absolute;
+    top: .075em;
+    left: .075em;
+    height: 1.35em;
+    width: 1.35em;
+    border-radius: 50%;
+    background: gray;
+    transition: all .12s ease-in-out;
+}
+
+.toggle_group input:checked + .toggle::after {
+    transform: translate(calc(100% + .1em));
+    background: var(--rok-gold-1_hex);
+}
+
+.artist_hero .back_link {
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.artist_hero .back_link > span {
+    display: inline-block;
+    transform: translateX(-10%);
+    opacity: 0;
+    transition: all .12s ease-in-out;
+}
+
+.artist_hero .back_link::before {
+    position: absolute;
+    content: '<';
+    font-size: 3em;
+    right: calc(100% + 1rem);
+    top: 30%;
+    transform: translateY(-50%);
+}
+
+.artist_hero .back_link:hover > span,
+.artist_hero .back_link:focus > span {
+    transform: translate(0);
+    opacity: 1;
+}
+
+.artist_body {
+    box-sizing: border-box;
+    @apply mx-auto max-w-5xl px-4 my-10;
+}
+
+.my_story {
+    margin-bottom: 4em;
+}
+
+.artist_body h2 {
+    @apply border-b border-gray-300;
+    @apply pb-1 mb-3;
+}
+
+.artist_body h3 {
+    @apply capitalize border-b border-gray-300;
+    @apply pb-1 mt-6 mb-3;
+}
+
+.btn_resume {
+    padding: .75em 2.5em;
+    font-weight: normal;   
+}
+
+
+/* PROFILE EDIT UI */
+.btn_edit {
+    --size: calc(.8rem + 5vmin);
+    border: solid white calc(var(--size) * .03);
+    width: var(--size);
+    height: var(--size);
+    border-radius: calc(var(--size) / 2);
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: calc(var(--size) * .2);
+}
+
+.icon_edit {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.edit_featuredImage {
+    position: absolute;
+    top: 8vh;
+    right: 6vw;
+}
+
+.headshot_group {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.headshot_group .edit_headshot {
+    position: absolute;
+    top: revert;
+    bottom: 1em;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.message_group {
+    display: flex;
+    align-items: center;
+}
+
+.edit_contactMethod {
+    position: relative;
+    width: 3em;
+    height: 3em;
+    padding: .6em;
+}
+
+.profile_field_group {
+    @apply flex justify-between gap-2;
+}
+
+.profile_field_group p,
+.profile_field_group a {
+    width: 100%;
+    max-width: revert;
+}
+
+.profile_field_group form {
+    width: 100%;
+}
+
+.profile_field_group input {
+    min-width: 50%;
+}
+
+.profile_field_group textarea {
+    width: 100%;
+    height: 6em;
+}
+
+.profile_field_group button[type='submit'] {
+    margin-block-start: 1em;
+}
+
+.profile_field_group .btn_edit {
+    position: relative;
+    margin-inline-start: 1em;
+    height: 2.5em;
+    width: 2.5em;
+    min-width: 2.5em;
+    border-radius: 1.25em;
+    padding: .5em;
+    background: #6d727877;
+}
+
+.profile_field_group .btn_resume {
+    width: initial;
+}
+
+.unfilled-field {
+    color: var(--rok-copper-1_hex);
+}
+
+.key-profile input[type='text'],
+.key-profile input[type='email'],
+.key-profile textarea {
+    font-size: 1.1rem;
+    font-family: 'Raleway', Arial, sans-serif;
+}
+
+.key-profile textarea {
+    box-sizing: border-box;
+    padding: .5em 1em;
+}
+
+.profile_field_group .btn_submit {
+    padding: .75em 3em;
+    margin-block-start: 1em;
+}
+
+.preview-message {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: 1.2em;
+}
+
+.preview-message .wrapper {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2vh 3vw;
+    background: var(--rok-pale-green-1_hex);
+    animation: appear .4s ease-in-out forwards;
+}
+
+.preview-message .btn_close path {
+    stroke: white;
+}
+
+.preview-message.closed {
+    animation: disappear .4s ease-in-out forwards;
+}
+
+
+.preview-message p {
+    color: white;
+    max-width: 100%;
+}
+
+@keyframes appear {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes disappear {
+    from { transform: translateY(0); }
+    to {
+        transform: translateY(100%);
+        display: none;
+    }
+}
+
+.profile_field_group .cb-grid_wrapper > label {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    text-transform: capitalize;
+    border-bottom: solid 1px lightgrey;
+    padding-bottom: .25em;
+    margin: 1em 0;
+    width: 100%;
+}
+
+
+@media (max-width: 700px) {
+    .artist_hero {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .artist_bio {
+        text-align: center;
+        align-items: center;
+    }
+
+    .artist_bio .btn {
+        margin: auto;
+    }
+
+    .btn_edit.edit_headshot {
+        left: 0;
+        top: 50%;
+        transform: translate(-60%, -50%);
+    }
+
+    .artist_hero .back_link {
+        top: 3vh;
+        left: 12vw;
+        font-size: .8rem;
+    }
+
+    .artist_hero .back_link > span {
+        transform: translate(0);
+        opacity: 1;
+    }
+
+    .artist_social-icons {
+        bottom: 3vh;
+    }
+
+    .artist_social-icons .social-icon img {
+        height: 5vmin;
+        margin-inline-start: 2.5vw;
+    }
+
+    .toggle_group {
+        margin-inline-start: 0;
+    }
+
+    .profile_field_group {
+        margin: 1em 0;
+    }
+
+    .profile_field_group .checkbox__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile_field_group .cb-grid_wrapper > label {
+        width: 100%;
+        display: grid;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: .8rem;
+        padding: 1em 1em;
+    }
+
+    .profile_field_group.text,
+    .profile_field_group.checkbox,
+    .profile_field_group.file {
+        display: block;
+    }
+
+    .profile_field_group .btn_edit {
+        margin-left: auto;
+    }
+}

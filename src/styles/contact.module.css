@@ -1,0 +1,79 @@
+.contactPage {
+    width: fit-content;
+    min-width: 27vw;
+    margin: auto;
+}
+
+.contactHeader {
+    text-align: center;
+    padding-block-end: .25em;
+    border-bottom: solid 1px #6d7278;
+    margin-block-end: 2em;
+}
+
+.contactHeader h1 {
+    font-size: 2.5em;
+    margin: 1vh 0;
+}
+
+.contactHeader p {
+    margin-block-start: 0;
+}
+
+.contactForm input,
+.contactForm select,
+.contactForm textarea {
+    width: 100%;
+}
+
+.contactForm .input__group {
+    margin: 1.5em 0;
+}
+
+.contactForm select {
+    padding: .25em 0;
+}
+
+.contactForm button {
+    padding: .75em 2.5em;
+    width: 100%;
+}
+
+.contactForm button.success {
+    background: lightgreen;
+    content: 'Sent';
+}
+
+.contactForm button.failure {
+    background: lightpink;
+    content: 'Try Again';
+}
+
+.contactForm textarea {
+    min-height: 15vh;
+}
+
+.contactPage h2 {
+    text-align: center;
+    margin-block-start: 5vh;
+}
+
+.field {
+    @apply p-2 px-4 border border-black rounded-sm font-sans;
+}
+
+/* Social Icons */
+.socialRow {
+    display: flex;
+    width: 100%;
+    max-width: 250px;
+    align-items: center;
+    margin: auto;
+    justify-content: space-between;
+}
+
+.socialRow img {
+    box-sizing: border-box;
+    height: calc(150px / 5);
+    padding: 3px;
+}

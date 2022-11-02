@@ -1,0 +1,33 @@
+.resource-card {
+    background: #f7f7f7;
+    color: var(--rok-slate-blue_hex);
+    min-width: 50ch;
+    padding: 1.5em;
+    box-sizing: border-box;
+    border-top: solid 10px var(--theme-color);
+    min-height: 40vh;
+    margin: 0 0.5rem;
+    @apply grid gap-2;
+    grid-template-rows: auto 1fr auto;
+}
+
+.carousel.resource-carousel .carousel_inner > .resource-card:last-child {
+    margin-inline-end: 2rem;
+}
+
+.resource-grid .resource-card {
+    max-width: 100%;
+    width: calc(50% - 1rem);
+    margin: 2rem .5rem;
+}
+
+@media(max-width: 700px) {
+    .resource-card {
+        max-width: 85vw;
+        min-width: initial;
+    }
+
+    .resource-grid .resource-card {
+        width: 100%;
+    }
+}

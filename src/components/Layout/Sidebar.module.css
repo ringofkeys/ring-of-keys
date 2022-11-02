@@ -1,0 +1,92 @@
+.hasSidebar {
+    display: grid;
+    grid-template-columns: 1fr 20vw;
+    grid-gap: 3em;
+    width: 80vw;
+    margin-right: 5vw;
+}
+
+.sidebar {
+    padding-left: 2em;
+    border-left: solid lightgrey 1px;
+}
+
+.sidebar h3:not(:first-of-type) {
+    margin-top: 4rem;
+}
+
+.sidebar .event {
+    @apply grid gap-4 my-2 items-center;
+    grid-template-columns: 7vmin 1fr;
+}
+
+.eventTitle {
+    color: var(--rok-peach-1_hex);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+}
+
+.sidebar a {
+    text-decoration: none;
+    transition: all .12s ease-in-out;
+    position: relative;
+    font-weight: inherit;
+    display: block;
+}
+
+.sidebar a::before {
+    content: '';
+    position: absolute;
+    height: calc(100% + .5em);
+    top: 50%;
+    width: 0;
+    left: -2em;
+    background: #f7f7f7;
+    transform: translateY(-50%);
+    z-index: -1;
+    transition: all .12s ease-in-out;
+}
+
+.sidebar a:hover::before,
+.sidebar a:focus::before {
+    width: 150%;
+}
+
+.sidebar .date {
+    font-family: Arial, sans-serif;
+    background: var(--rok-peach-1_hex);
+    color: white;
+    font-weight: 400;
+    text-transform: uppercase;
+    border-radius: 3.5vmin;
+    width: 7vmin;
+    height: 7vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1em;
+    align-self: center;
+}   
+
+.sidebar .date .month {
+    font-size: .8em;
+}
+
+.teammate, .ambassador {
+    text-decoration: none;
+    display: block;
+    margin: .5em 0;
+    padding: .5em 0;
+}
+
+@media (max-width: 700px) {
+    .hasSidebar {
+        display: block;
+        width: 75vw;
+        margin: 10vh auto;
+    }
+    .sidebar {
+        display: none;
+    }
+}

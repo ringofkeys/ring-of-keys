@@ -1,0 +1,20 @@
+:global(.fullWidth) .basicBlock {
+    max-width: 1220px;
+    margin: 2em auto;
+    box-sizing: border-box;
+    padding: 0 1rem;
+}
+
+:global(.fullWidth) .basicBlock:first-child {
+    margin-top: 10vh;
+}
+
+.basicBlock :global(p) {
+    margin: 1rem 0;
+}
+
+.basicBlock :global(h4) {
+    color: var(--rok-peach-1_hex);
+    font-family: EB Garamond,serif;
+    font-size: 1rem;
+}

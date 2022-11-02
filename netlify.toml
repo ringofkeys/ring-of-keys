@@ -1,8 +1,10 @@
 [build]
-  publish = "public"
-  functions = "functions"
+  publish = ".next"
+  command = "npm run build"
 
 [[plugins]]
-  package = "netlify-plugin-gatsby-cache"
+  # Installs the Lighthouse Build Plugin for all deploy contexts
+  package = "@netlify/plugin-lighthouse"
 
-[dev]
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

@@ -1,0 +1,108 @@
+.btn_consultant {
+    padding: .75em 3em;
+}
+
+
+.section_consultant-bios {
+    display: 'grid';
+    grid-template-columns: '50% 50%';
+}
+
+.consultant_bio-group {
+    margin: 2em 1em;   
+}
+
+.consultant_bio-group .avatar_placeholder {
+    align-self: center;
+    margin: 1em 0;
+}
+
+.consultant_bio-img,
+.consultant_bio-heading h2 {
+    transition: all .12s ease-in-out;
+}
+
+.consultant_bio-img:hover,
+.consultant_bio-heading h2:hover {
+    transform: scale(1.03);
+} 
+
+.consultant_bio-heading h2 {
+    margin-bottom: 0;
+}
+
+.consultant_bio-heading {
+    display: grid;
+    grid-template-columns: 100px auto;
+    gap: 1em;
+}
+
+.consultant_bio-img {
+    max-width: 100%;
+    object-fit: scale-down;
+}
+
+a.h2_conversational {
+    text-decoration: none;
+}
+
+a.h2_conversational h2 {
+    text-transform: capitalize;
+}
+
+.consultant_bio-heading p {
+    margin: .5em 0;
+    font-weight: 300;
+}
+
+.gender-consultant_explain {
+    margin: 1em 0;
+}
+
+.gender-consultant_explain .icon-heading-label {
+    --margin-inline: 1vw;
+    margin: 3vh 0;
+    width: calc(33% - 2 * var(--margin-inline));
+}
+
+#consultancy-form .text-inputs {
+    display: grid; 
+    grid-template-columns: 50% 50%;
+    gap: 2em 2em;
+    margin-block-end: 2em;
+}
+
+#consultancy-form input[type='text'],
+#consultancy-form input[type='email'] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    padding: .5em 1em;
+}
+
+#consultancy-form textarea {
+    width: 100%;
+    min-height: 15vh;
+    margin-block-end: 1em;
+}
+
+#consultancy-form .btn-container {
+    margin-block-start: 1em;
+    display: flex;
+}
+
+#consultancy-form .btn {
+    padding: .75em 3em;
+}
+
+@media (max-width: 700px) {
+    .gender-consultant_explain .icon-heading-label {
+        width: 100%;
+    }
+
+    .section_consultant-bios {
+        display: block;
+    }
+}
