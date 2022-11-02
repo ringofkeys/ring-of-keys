@@ -1,5 +1,7 @@
 # Ring of Keys
 
+**Note:** This `archive` branch of the site is from when it ran on GatsbyJS.
+
 A website directory and resource center for theatremakers.
 
 This site was created using [Gatsby.js](https://gatsbyjs.com). It pulls content from [DatoCMS](https://datocms.com), is hosted on [Netlify](https://netlify.com), and does some clever stuff with [Auth0](https://auth0.com) to make editable user profiles possible on a JAMstack site!
