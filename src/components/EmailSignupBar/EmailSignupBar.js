@@ -49,8 +49,6 @@ const EmailSignupForm = ({
     return (<MailchimpSubscribe
         url={process.env.NEXT_PUBLIC_MAILCHIMP_URL}
         render={(mailchimpProps) => {
-            console.log({mailchimpProps})
-
             const submitStatusText = {
                 sending: <div className={styles.statusBox + " text-blue-600 bg-blue-100"}>Subscribing...</div>,
                 success: <div className={styles.statusBox + " text-green-800 bg-green-100"}>You're subscribed! 🎉</div>,

@@ -27,7 +27,7 @@ export default function EmailPopup({ isOpen = true, setOpen, isSignedIn = false 
       }).catch(err => console.error(err))
 
       setValidated(true)
-      // window.localStorage.setItem('hasEmailSignup', true)
+      window.localStorage.setItem('hasEmailSignup', true)
       setOpen(false)
 
       return res
