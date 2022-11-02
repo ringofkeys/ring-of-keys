@@ -85,14 +85,14 @@
     align-items: center;
 }
 
-.top-nav.active {
+.top-nav .active {
     position: relative;
     font-weight: 600;
 }
 
 .top-nav a:not(.site-logo):hover::after,
 .top-nav a:not(.site-logo):focus::after,
-.top-nav.active:not(.site-logo)::after {
+.top-nav .active:not(.site-logo):not(.login_avatar)::after {
     width: 100%;
 }
 
@@ -250,6 +250,7 @@
 }
 
 .menuIconWrapper {
+    display: none;
     background: none;
     border: none;
     padding: 1vmin;
@@ -317,6 +318,10 @@
         position: sticky;
         z-index: 10;
         top: 0px;
+    }
+
+    .menuIconWrapper {
+        display: block;
     }
 
     .top-nav {
