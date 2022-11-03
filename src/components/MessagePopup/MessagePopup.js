@@ -74,14 +74,14 @@ const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
                     required={true}
                 />
                 <label
-                    className="input__group checkbox is-required"
+                    className="input__group checkbox is-required flex"
                     style={{ margin: "1rem 0" }}
                 >
-                    <input type="checkbox" required />
+                    <input type="checkbox" className="mr-4" required />
                     <span>
                         I have read and accepted the{" "}
                         <Link href="/privacy">
-                            <a>
+                            <a target='_blank'>
                                 Terms and Conditions and Privacy Policy.
                             </a>
                         </Link>

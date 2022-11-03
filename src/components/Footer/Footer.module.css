@@ -83,8 +83,7 @@
 
 @media (max-width: 700px) {
     .footer {
-        padding-inline-start: 10vw;
-        padding-inline-end: 10vw;
+        @apply px-6;
     }
 
     .footer > nav,
@@ -94,8 +93,8 @@
         align-items: center;
     }
 
-    .footer > nav a:not(.visible_mobile),
-    .footer > nav p:not(.visible_mobile) {
+    .footer > nav a:not(.visibleMobile),
+    .footer > nav p:not(.visibleMobile) {
         display: none;
     }
 

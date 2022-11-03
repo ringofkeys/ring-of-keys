@@ -15,30 +15,27 @@ const Footer = ({
         <footer id="footer" className={styles.footer}>
             <nav>
                 <div>
-                    <p className="visible_mobile">Menu</p>
-                    <Link href="/directory" className="visible_mobile">
-                        <a>Directory</a>
+                    <p className={styles.visibleMobile}>Menu</p>
+                    <Link href="/directory">
+                        <a className={styles.visibleMobile}>Directory</a>
                     </Link>
                     <Link href="/news">
-                        <a>News</a>
+                        <a className={styles.visibleMobile}>News</a>
                     </Link>
                     <Link href="/consultancy">
-                        <a>Consultancy</a>
+                        <a className={styles.visibleMobile}>Consultancy</a>
                     </Link>
                     <Link href="/resources">
-                        <a>Resources</a>
+                        <a className={styles.visibleMobile}>Resources</a>
                     </Link>
                     <Link href="/donate">
-                        <a>Donate</a>
+                        <a className={styles.visibleMobile}>Donate</a>
                     </Link>
                 </div>
                 <div>
                     <p>About Us</p>
-                    <Link
-                        className="visible_mobile invisible_desktop"
-                        href="/about"
-                    >
-                        <a>About Us</a>
+                    <Link href="/about">
+                        <a className={styles.visibleMobile}>About Us</a>
                     </Link>
                     <Link href="/about">
                         <a>Our Story</a>
@@ -52,11 +49,8 @@ const Footer = ({
                 </div>
                 <div>
                     <p>Contact Us</p>
-                    <Link
-                        className="visible_mobile invisible_desktop"
-                        href="/contact"
-                    >
-                        <a>Contact Us</a>
+                    <Link href="/contact">
+                        <a className={styles.visibleMobile}>Contact Us</a>
                     </Link>
                     <Link href="/contact/?subject=general">
                         <a>General</a>
@@ -76,33 +70,28 @@ const Footer = ({
                 </div>
                 <div className="account_nav">
                     <p>Log In</p>
-                    <Link
-                        className="visible_mobile invisible_desktop"
-                        href="/dashboard"
-                    >
-                        <a>Account</a>
+                    <Link href="/dashboard">
+                        <a className={styles.visibleMobile}>Account</a>
                     </Link>
                     <Link href="/dashboard">
                         <a>Sign In</a>
                     </Link>
-                    <Link className="visible_mobile" href="/apply">
+                    <Link className={styles.visibleMobile} href="/apply">
                         <a>Apply to be a Key</a>
                     </Link>
                     <a
-                        className="visible_mobile"
+                        className={styles.visibleMobile}
                         href="https://docs.google.com/forms/d/e/1FAIpQLSdddSOlVOFaJf-4no9U0yZLnq4rYf_SppxPmvYct3tbvLmySg/viewform?fbclid=IwAR3kIoqje7TuxztVPP2XlldpKPzHSX9CKmpm1VBBcYLZwvnENFWgEW4Ic7I"
                     >
                         Help
                     </a>
                 </div>
-                <div className="visible_mobile">
-                    <p className="visible_mobile">Follow Us</p>
-                    <div className={styles.socialLinks + " visible_mobile"}>
+                <div className={styles.visibleMobile}>
+                    <p className={styles.visibleMobile}>Follow Us</p>
+                    <div className={styles.socialLinks +' '+ styles.visibleMobile}>
                         {socialLinkData.map((link, i) => (
                             <a
-                                className={
-                                    styles.socialLink + " visible_mobile"
-                                }
+                                className={styles.socialLink +' '+ styles.visibleMobile}
                                 href={link.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -120,7 +109,7 @@ const Footer = ({
             <div className={styles.footerEnd}>
                 <EmailSignupBar />
                 <span>
-                    © 2021 Ring of Keys Coalition, Inc. |{" "}
+                    © 2022 Ring of Keys Coalition, Inc. |{" "}
                     <Link href="/privacy">
                         <a>Privacy Policy</a>
                     </Link>{" "}

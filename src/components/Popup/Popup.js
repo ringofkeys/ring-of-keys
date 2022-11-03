@@ -2,7 +2,7 @@ import styles from "./Popup.module.css"
 
 const Popup = ({ isOpen, onClose = () => {}, children, canClose = true }) => {
     return (
-        <div className={styles.popup + " " + (isOpen ? styles.open : "")}>
+        <div className={styles.popup + " " + (isOpen ? styles.open : "")} onClick={e => canClose && onClose(e)}>
             <div className={styles["popup__card"]}>
                 {children}
                 {canClose && (

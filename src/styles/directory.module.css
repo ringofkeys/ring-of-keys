@@ -1,11 +1,7 @@
 .section_search {
-    margin: 2em auto;
-    margin-block-end: 0;
-    margin-block-end: 0;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
     max-width: 1220px;
+    @apply px-4 my-6 mx-auto;
+    @apply flex items-center flex-wrap;
 }
 
 .section_search .input__group {
@@ -14,7 +10,7 @@
 }
 
 span.results {
-    margin: 0 .5em;
+    margin: 0 .5rem;
     padding: .4em .5em;
     color: var(--rok-pale-green-1_hex);
     border: solid 1px var(--rok-pale-green-1_hex);
@@ -352,10 +348,7 @@ span.card__matches {
     }
 
     .advanced-btn {
-        display: inline-block;
-        font-size: .6em;
-        padding: 1em;
-        margin-block-end: 1em;
+        @apply inline-block text-sm px-2;
     }
 
     .key__card {
