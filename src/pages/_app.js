@@ -1,4 +1,5 @@
 import { SessionProvider, signIn, useSession } from "next-auth/react"
+import Script from 'next/script'
 import SEO from "components/SEO"
 import "../styles/global.css"
 
@@ -12,6 +13,19 @@ export default function MyApp({
 
     return getLayout(
         <>
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-G84MVGVJWR"
+                strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){window.dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-G84MVGVJWR');
+                `}
+            </Script>
             <SEO seoData={seo} />
             <SessionProvider session={session}>
                 <Component {...pageProps} />
