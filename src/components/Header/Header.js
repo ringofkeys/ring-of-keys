@@ -128,7 +128,7 @@ function SecondaryNav({ session, navOpen }) {
                         className={styles.loginBtn}
                         onClick={() =>
                             signIn("auth0", {
-                                callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://nextjs-profile--ringofkeys.netlify.app/dashboard",
+                                callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://ringofkeys.org/dashboard",
                             })
                         }
                     >
