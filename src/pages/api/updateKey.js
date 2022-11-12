@@ -1,5 +1,6 @@
 const { SiteClient, buildModularBlock } = require("datocms-client")
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const NETLIFY_TRIGGER_ID = "8003"
 
 async function handler(req, res) {
     const { id, ...fields } = JSON.parse(req.body)
@@ -30,6 +31,10 @@ async function handler(req, res) {
 
     await client.items.update(id, fields)
     const item = await client.item.publish(id)
+
+    if (Object.keys(fields).includes('isGenderConsultant')) {
+        await triggerDatoBuildHook(NETLIFY_TRIGGER_ID)
+    }
 
     res.status(200).json(item)
 }
@@ -91,4 +96,15 @@ async function updateAuth0Name(auth, id, name) {
     )
         .then((res) => res.json())
         .catch((err) => console.error(err))
+}
+
+async function triggerDatoBuildHook(buildTriggerId) {
+    client.buildTriggers
+        .trigger(buildTriggerId)
+        .then(() => {
+            console.log(`Done triggering build hook ${buildTriggerId}!`)
+        })
+        .catch((error) => {
+            console.error(error)
+        })
 }

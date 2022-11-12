@@ -65,6 +65,7 @@ query KeyQuery($slug: String!) {
       memberSince
       socialMedia { socialMediaLink }
       genderIdentity
+      isGenderConsultant
       sexualIdentity
       raceEthnicity
       mainLocation

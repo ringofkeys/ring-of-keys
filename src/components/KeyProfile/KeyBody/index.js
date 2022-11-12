@@ -7,6 +7,7 @@ import { useContext } from "react"
 import styles from "styles/key.module.css"
 import KeyField from "../KeyField"
 import fieldStyles from "components/FormField/FormField.module.css"
+import Link from "next/link"
 
 /**
  * React component of all Key profile fields below the Hero
@@ -150,6 +151,38 @@ export function KeyBody() {
             </KeyField>
             <KeyField fieldName="discipline" heading={<h3>Discipline</h3>}>
                 <p>{ artist?.discipline }</p>
+            </KeyField>
+            <KeyField fieldName="isGenderConsultant"
+                heading={<h3>Available for Gender Consulting</h3>}
+                    editFormFields={<div className={styles.toggleRow}>
+                    <label
+                        className={styles["toggle_group"]}
+                        htmlFor="isGenderConsultant"
+                    >
+                        <input
+                            id="isGenderConsultant"
+                            type="checkbox"
+                            className="visually-hidden"
+                            defaultChecked={artist?.isGenderConsultant}
+                        />
+                        <span className={styles.toggle}></span>
+                        <span className={styles["toggle_label"]}>
+                            Show me as available for Gender Consulting
+                        </span>
+                        <p>Checking this box will display you on <Link href="/consultancy"><a>the Gender Consultancy page</a></Link> and may result in you receiving solicitation for consulting work. Please only opt in if you are comfortable with Ring of Keys sharing these solicitations with you.</p>
+                    </label>
+                </div>}
+                processDataCallback={(_, formSubmitEvent) => {
+                    const isGenderConsultant = formSubmitEvent.currentTarget.elements["isGenderConsultant"].checked
+                    console.log({isGenderConsultant, formElements: formSubmitEvent.currentTarget.elements   })
+                    return {
+                        isGenderConsultant
+                    }
+                }}
+            >
+                <p>{ artist?.isGenderConsultant 
+                    && (<span>Yes, I'm available to provide paid gender consulting services for productions. Learn more about <Link href="/consultancy"><a>Ring of Keys gender consultants here.</a></Link></span>)
+                }</p>
             </KeyField>
             <KeyField fieldName="vocalRange" heading={<h3>Vocal Range</h3>}>
                 <p>{ artist?.vocalRange }</p>
