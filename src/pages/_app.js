@@ -2,6 +2,7 @@ import { SessionProvider, signIn, useSession } from "next-auth/react"
 import Script from 'next/script'
 import SEO from "components/SEO"
 import "../styles/global.css"
+import SiteBanner from "components/SiteBanner"
 
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({
@@ -28,6 +29,7 @@ export default function MyApp({
             </Script>
             <SEO seoData={seo} />
             <SessionProvider session={session}>
+                <SiteBanner />
                 <Component {...pageProps} />
             </SessionProvider>
         </>
