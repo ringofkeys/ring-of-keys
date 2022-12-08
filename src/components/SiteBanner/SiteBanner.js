@@ -10,7 +10,7 @@ const SITE_BANNER_UPDATE_KEY = 'rok-site-banner-last-updated'
 const SITE_BANNER_LAST_UPDATED = 1693053473046
 
 export default function SiteBanner({
-    textContent = "Ring of Keys runs on public and member donations. Donate this holiday season to empower and connect queer theatremakers around the world.",
+    textContent = "Ring of Keys runs on public and member donations. Make a tax-deductible donation this holiday season to empower and connect queer theatremakers around the world.",
     ctaUrl = "/donate",
     ctaText = "Donate",
     dismissUntil = 30 // days
