@@ -3,8 +3,4 @@
   command = "npm run build"
 
 [[plugins]]
-  # Installs the Lighthouse Build Plugin for all deploy contexts
-  package = "@netlify/plugin-lighthouse"
-
-[[plugins]]
   package = "@netlify/plugin-nextjs"
