@@ -326,19 +326,16 @@ export default function ApplyForm() {
                         <input type="checkbox" required />
                         <span>
                             I agree to the&nbsp;
-                            <Link href="/privacy">
-                                <a rel="noopener noreferrer"
-                                    target="_blank"
-                                    className="underline"
-                                >Privacy Policy</a>
+                            <Link href="/privacy" rel="noopener noreferrer"
+                                target="_blank"
+                                className="underline">
+                                Privacy Policy
                             </Link>{" "}
                             and{" "}
-                            <Link href="/terms">
-                                <a
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="underline"
-                                >Terms of Use.</a>
+                            <Link href="/terms" target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline">
+                                Terms of Use.
                             </Link>
                         </span>
                     </label>

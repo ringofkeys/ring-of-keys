@@ -51,8 +51,7 @@ const CarouselCard = ({entry, entryType, className}) => {
         <li
             className={`${styles["carousel_card"]} ${styles["hover_scale"]} ${className}`}
         >
-            <Link href={entry.externalUrl || `/${entryType}/${entry.slug}`}>
-                <a {...((entry.externalUrl) ? {rel: 'nofollower noreferrer', target: '_blank'} : '')}>
+            <Link href={entry.externalUrl || `/${entryType}/${entry.slug}`} {...((entry.externalUrl) ? {rel: 'nofollower noreferrer', target: '_blank'} : '')}>
                     <ImageOrFallback src={entry.featuredImage?.url} alt={entry.featuredImage?.alt} />
                     {entry.title && (
                     <h3>{entry.title.substr(0, 70) + (entry.title.length > 70 ? "..." : '')}</h3>)}
@@ -68,7 +67,6 @@ const CarouselCard = ({entry, entryType, className}) => {
                         </p>
                     </div>
                     <div className={"btn btn-link_ghost " + styles.button}>Read More</div>
-                </a>
             </Link>
         </li>
     )

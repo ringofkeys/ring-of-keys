@@ -35,33 +35,29 @@ const Sidebar = ({ data }) => {
             <h2 className="visually-hidden">Sidebar</h2>
             <h3>Upcoming Events</h3>
             {data.events.map((event) => (
-                <Link href={`/events/${event.slug}`} key={event.slug}>
-                    <a className={styles.event}>
-                        <div className={styles.date}>
-                            <span className={styles.month}>
-                                {getMonth(event.startTime)}
-                            </span>
-                            <span className={styles.day}>
-                                {getDate(event.startTime)}
-                            </span>
-                        </div>
-                        <h4 className={styles.eventTitle}>{event.title}</h4>
-                    </a>
+                <Link href={`/events/${event.slug}`} key={event.slug} className={styles.event}>
+                    <div className={styles.date}>
+                        <span className={styles.month}>
+                            {getMonth(event.startTime)}
+                        </span>
+                        <span className={styles.day}>
+                            {getDate(event.startTime)}
+                        </span>
+                    </div>
+                    <h4 className={styles.eventTitle}>{event.title}</h4>
                 </Link>
             ))}
             <h3>Key Volunteer Team</h3>
             {data.team
                 .sort((a, b) => a.keyTeamOrder - b.keyTeamOrder)
                 .map((teammate) => (
-                    <Link href={`/keys/${teammate.slug}`} key={teammate.slug}>
-                        <a className={styles.teammate}>
-                            <strong>{teammate.name}</strong>{" "}
-                            <em>({teammate.pronouns})</em>
-                            <br />
-                            <em style={{ color: "#6d7278" }}>
-                                {teammate.keyTeamPosition}
-                            </em>
-                        </a>
+                    <Link href={`/keys/${teammate.slug}`} key={teammate.slug} className={styles.teammate}>
+                        <strong>{teammate.name}</strong>{" "}
+                        <em>({teammate.pronouns})</em>
+                        <br />
+                        <em style={{ color: "#6d7278" }}>
+                            {teammate.keyTeamPosition}
+                        </em>
                     </Link>
                 ))}
             <h3>Meetup Ambassadors</h3>
@@ -73,14 +69,12 @@ const Sidebar = ({ data }) => {
                     <Link
                         href={`/keys/${ambassador.slug}`}
                         key={ambassador.slug}
-                    >
-                        <a className={styles.ambassador}>
+                        className={styles.ambassador}>
                             <strong>{ambassador.name}</strong> (
                             {ambassador.pronouns.toLowerCase()}) <br />
                             <em style={{ color: "#6d7278" }}>
                                 {getBestLocationVal(ambassador)}
                             </em>
-                        </a>
                     </Link>
                 ))}
         </aside>

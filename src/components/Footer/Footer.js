@@ -16,68 +16,52 @@ const Footer = ({
             <nav>
                 <div>
                     <p className={styles.visibleMobile}>Menu</p>
-                    <Link href="/directory">
-                        <a className={styles.visibleMobile}>Directory</a>
-                    </Link>
-                    <Link href="/news">
-                        <a className={styles.visibleMobile}>News</a>
-                    </Link>
-                    <Link href="/consultancy">
-                        <a className={styles.visibleMobile}>Consultancy</a>
-                    </Link>
-                    <Link href="/resources">
-                        <a className={styles.visibleMobile}>Resources</a>
-                    </Link>
-                    <Link href="/donate">
-                        <a className={styles.visibleMobile}>Donate</a>
-                    </Link>
+                    <Link href="/directory" className={styles.visibleMobile}>Directory</Link>
+                    <Link href="/news" className={styles.visibleMobile}>News</Link>
+                    <Link href="/consultancy" className={styles.visibleMobile}>Consultancy</Link>
+                    <Link href="/resources" className={styles.visibleMobile}>Resources</Link>
+                    <Link href="/donate" className={styles.visibleMobile}>Donate</Link>
                 </div>
                 <div>
                     <p>About Us</p>
+                    <Link href="/about" className={styles.visibleMobile}>About Us</Link>
                     <Link href="/about">
-                        <a className={styles.visibleMobile}>About Us</a>
-                    </Link>
-                    <Link href="/about">
-                        <a>Our Story</a>
+                        Our Story
                     </Link>
                     <Link href="/about#who-are-we">
-                        <a>Who We Are</a>
+                        Who We Are
                     </Link>
                     <Link href="/about#what-we-do">
-                        <a>What We Do</a>
+                        What We Do
                     </Link>
                 </div>
                 <div>
                     <p>Contact Us</p>
-                    <Link href="/contact">
-                        <a className={styles.visibleMobile}>Contact Us</a>
-                    </Link>
+                    <Link href="/contact" className={styles.visibleMobile}>Contact Us</Link>
                     <Link href="/contact/?subject=general">
-                        <a>General</a>
+                        General
                     </Link>
                     <Link href="/contact/?subject=job-submission">
-                        <a>Job Submissions</a>
+                        Job Submissions
                     </Link>
                     <Link href="/contact/?subject=hiring">
-                        <a>Hiring</a>
+                        Hiring
                     </Link>
                     <Link href="/contact/?subject=volunteer">
-                        <a>Volunteer</a>
+                        Volunteer
                     </Link>
                     <Link href="/contact/?subject=technical">
-                        <a>Technical Issues</a>
+                        Technical Issues
                     </Link>
                 </div>
                 <div className="account_nav">
                     <p>Log In</p>
+                    <Link href="/dashboard" className={styles.visibleMobile}>Account</Link>
                     <Link href="/dashboard">
-                        <a className={styles.visibleMobile}>Account</a>
-                    </Link>
-                    <Link href="/dashboard">
-                        <a>Sign In</a>
+                        Sign In
                     </Link>
                     <Link className={styles.visibleMobile} href="/apply">
-                        <a>Apply to be a Key</a>
+                        Apply to be a Key
                     </Link>
                     <a
                         className={styles.visibleMobile}
@@ -111,7 +95,7 @@ const Footer = ({
                 <span>
                     © 2022 Ring of Keys Coalition, Inc. |{" "}
                     <Link href="/privacy">
-                        <a>Privacy Policy</a>
+                        Privacy Policy
                     </Link>{" "}
                     | Designed by{" "}
                     <a
