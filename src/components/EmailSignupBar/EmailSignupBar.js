@@ -74,22 +74,18 @@ const EmailSignupForm = ({
                         I agree with the&nbsp;
                         <Link
                             href="/privacy"
-                        >
-                            <a 
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="underline"
-                            >Privacy Policy</a>
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                        >Privacy Policy
                         </Link>{" "}
                         and{" "}
                         <Link
                             href="/terms-e-communications"
-                        >
-                            <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="underline"
-                            >Terms of Use</a>
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                        >Terms of Use
                         </Link>
                         .
                     </span>

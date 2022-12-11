@@ -169,7 +169,7 @@ export function KeyBody() {
                         <span className={styles["toggle_label"]}>
                             Show me as available for Gender Consulting
                         </span>
-                        <p>Checking this box will display you on <Link href="/consultancy"><a>the Gender Consultancy page</a></Link> and may result in you receiving solicitation for consulting work. Please only opt in if you are comfortable with Ring of Keys sharing these solicitations with you.</p>
+                        <p>Checking this box will display you on <Link href="/consultancy">the Gender Consultancy page</Link> and may result in you receiving solicitation for consulting work. Please only opt in if you are comfortable with Ring of Keys sharing these solicitations with you.</p>
                     </label>
                 </div>}
                 processDataCallback={(_, formSubmitEvent) => {
@@ -181,7 +181,7 @@ export function KeyBody() {
                 }}
             >
                 <p>{ artist?.isGenderConsultant 
-                    && (<span>Yes, I'm available to provide paid gender consulting services for productions. Learn more about <Link href="/consultancy"><a>Ring of Keys gender consultants here.</a></Link></span>)
+                    && (<span>Yes, I'm available to provide paid gender consulting services for productions. Learn more about <Link href="/consultancy">Ring of Keys gender consultants here.</Link></span>)
                 }</p>
             </KeyField>
             <KeyField fieldName="vocalRange" heading={<h3>Vocal Range</h3>}>

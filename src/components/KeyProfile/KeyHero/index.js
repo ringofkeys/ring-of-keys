@@ -54,10 +54,9 @@ export function KeyHero({
                     </span>
                 </button>
             )}
-            <Link href="/directory">
-                <a className={styles["back_link"]}>
+            <Link href="/directory"
+                className={styles["back_link"]}>
                     <span>Back to Directory</span>
-                </a>
             </Link>
         </section>
     )

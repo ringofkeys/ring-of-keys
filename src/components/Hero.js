@@ -24,7 +24,7 @@ function HomeHero({ description, linkText, linkUrl }) {
       </h1>
       <div class="index_hero__right-col">
         {description}
-        <Link to={linkUrl} className="btn btn__learn-more">
+        <Link href={linkUrl} className="btn btn__learn-more">
           {linkText}
         </Link>
       </div>

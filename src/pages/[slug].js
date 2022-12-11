@@ -19,8 +19,6 @@ export async function getStaticPaths() {
         query: "query AllPageQuery { allPages { slug }}",
     })
 
-    console.log('query result', slugs.allPages)
-
     return {
         paths: slugs.allPages
             .filter(({ slug }) => slug && unincludedPages.indexOf(slug) < 0) // filters out the home page, which has an empty slug.
