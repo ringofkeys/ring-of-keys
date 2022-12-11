@@ -24,10 +24,8 @@ function HomeHero({ description, linkText, linkUrl }) {
             </h1>
             <div className={styles["index_hero__right-col"]}>
                 {description}
-                <Link
-                    href={linkUrl}
-                >
-                    <a className={"btn " + styles.btn}>{linkText}</a>
+                <Link href={linkUrl} className={"btn " + styles.btn}>
+                    {linkText}
                 </Link>
             </div>
         </div>

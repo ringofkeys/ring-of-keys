@@ -28,10 +28,8 @@ const Header = ({ path, menu }) => {
                 }`}
             >
                 <div className={styles["top__inner"]}>
-                    <Link href="/">
-                        <a className={styles["site-logo"]}>
+                    <Link href="/" className={styles["site-logo"]}>
                             <img src="/img/rok_logo.png" alt="Ring of Keys" />
-                        </a>
                     </Link>
                     <button className={styles.menuIconWrapper} onClick={() => setNavOpen(!isNavOpen)}>
                         <span className={styles.menuIcon}></span>
@@ -56,8 +54,7 @@ const Header = ({ path, menu }) => {
 function NavLink({ path, label, link, children = [] }) {
   return (
     <li className={styles.dropdownWrapper}>
-      <Link href={link}>
-          <a className={styles.hasDropdown + " " + (path === link ? styles.active : "")}>
+      <Link href={link} className={styles.hasDropdown + " " + (path === link ? styles.active : "")}>
             {label}&nbsp;
             {children.length ? (
               <svg
@@ -74,7 +71,6 @@ function NavLink({ path, label, link, children = [] }) {
             ) : (
               ""
             )}
-          </a>
       </Link>
       {children.length > 0 && (
         <div
@@ -82,8 +78,7 @@ function NavLink({ path, label, link, children = [] }) {
           style={{ "--cols": children.length }}
         >
           {children.map((navItem) => (
-            <Link href={navItem.link} key={navItem.link}>
-              <a className={styles.dropdownItem}>
+            <Link href={navItem.link} key={navItem.link} className={styles.dropdownItem}>
                   <div className={styles.dropdownItemImgWrap}>
                     <img src={navItem.image.url} alt={navItem.image.alt} />
                   </div>
@@ -94,7 +89,6 @@ function NavLink({ path, label, link, children = [] }) {
                     </p>
                     <p className={styles.dropdownItemCta}>{navItem.ctaText}</p>
                   </div>
-              </a>
             </Link>
           ))}
         </div>
@@ -119,26 +113,26 @@ function SecondaryNav({ session, navOpen }) {
         <div className={styles["nav__login"]}>
             {!session ? (
                 <>
-                    <Link
-                        href="/apply"
-                    >
-                        <a className={navOpen ? "btn btn-link_ghost" : ""}>Apply to be a key</a>
+                    <Link href="/apply" className={navOpen ? "btn btn-link_ghost" : ""}>
+                        Apply to be a key
                     </Link>
                     <button
                         className={styles.loginBtn}
-                        onClick={() =>
-                            signIn("auth0", {
-                                callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://ringofkeys.org/dashboard",
-                            })
-                        }
+                        onClick={() => {
+                            const callbackUrl = (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://ringofkeys.org/dashboard"
+                            console.log("about to sign in!", signIn, callbackUrl)
+                            signIn()
+                            // signIn("auth0", {
+                            //     callbackUrl,
+                            // })
+                        }}
                     >
                         Log In
                     </button>
                 </>
             ) : (
                 <div className={styles["login_wrap"]}>
-                    <Link href="/dashboard">
-                        <a className={styles["login_avatar"]}>
+                    <Link href="/dashboard" className={styles["login_avatar"]}>
                             {user && (
                                 <>
                                     <img
@@ -154,12 +148,11 @@ function SecondaryNav({ session, navOpen }) {
                             <span className={tooltipStyles.tooltip}>
                                 My Account
                             </span>
-                        </a>
                     </Link>
                     <button
                         className={styles.logout}
                         onClick={() =>
-                            signOut({ callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/" : "https://nextjs-profile--ringofkeys.netlify.app/" })
+                            signOut({ callbackUrl: (process.env.NODE_ENV == "development") ? "http://localhost:3000/" : "https://ringofkeys.org/" })
                         }
                     >
                         Log Out

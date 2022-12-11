@@ -47,8 +47,8 @@ export default function SiteBanner({
     return (showBanner ?
         <div className={styles.bannerWrapper + " " + (dismissed ? 'hidden' : '')}>
             <p className={styles.bannerTextContent}>{textContent}</p>
-            <Link href={ctaUrl}>
-                <a className={"btn " + styles.bannerCta} onClick={closeButtonClick}>{ctaText}</a>
+            <Link href={ctaUrl} className={"btn " + styles.bannerCta} onClick={closeButtonClick}>
+                {ctaText}
             </Link>
             <button onClick={closeButtonClick} className={styles.closeBtn}>
                 <svg width="16" height="16" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">

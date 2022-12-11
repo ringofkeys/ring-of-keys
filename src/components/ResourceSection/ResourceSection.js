@@ -31,10 +31,8 @@ function ResourceSection({ pageSpecificData: data }) {
                     }}
                 >
                     <h2>{title}</h2>
-                    <Link href={`/resources/${slug}`}>
-                        <a className={styles.categoryLink}>
-                            Explore Category
-                        </a>
+                    <Link href={`/resources/${slug}`} className={styles.categoryLink}>
+                        Explore Category
                     </Link>
                     <p className="text-sm text-white normal-case">
                         {resourceList.length} Resources

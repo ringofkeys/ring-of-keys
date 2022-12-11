@@ -52,7 +52,7 @@ export default function EmailPopup({ isOpen = true, setOpen, isSignedIn = false 
         optIn={true}
       />
       <p style={{ marginBlockStart: "3vh" }}>
-        Are you a Key? <Link href="/dashboard"><a>Sign in now.</a></Link>
+        Are you a Key? <Link href="/dashboard">Sign in now.</Link>
       </p>
     </Popup>
   )
