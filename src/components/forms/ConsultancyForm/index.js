@@ -110,7 +110,7 @@ async function sendAdminEmail(data) {
         body: JSON.stringify({
             subject: `New Consultancy Submission from ${data.email}`,
             text: "A new Consultancy form submission through Ring of Keys",
-            to: "frank.ringofkeys@gmail.org",
+            to: "info@ringofkeys.org",
             from: "website@ringofkeys.org",
             data,
         }),

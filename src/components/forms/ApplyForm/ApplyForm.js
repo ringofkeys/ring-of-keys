@@ -146,7 +146,7 @@ export default function ApplyForm() {
                 body: JSON.stringify({
                     subject: 'New Ring of Keys Application - ' + submission.name,
                     text: 'Automated admin notification from ringofkeys.org',
-                    to: ['frankjohnson1993@gmail.com', 'frank.ringofkeys@gmail.com'],
+                    to: ['info@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
                     from: 'website@ringofkeys.org',
                     html: newApplicationSubmission({ id: submission.id, ...applyFormObj}),
                 })
