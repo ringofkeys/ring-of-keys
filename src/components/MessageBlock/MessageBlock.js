@@ -35,7 +35,7 @@ const MessageBlock = ({ messages = [] }) => {
                         <div className={styles.messageLabels}>
                             <h3>{message.fromName}</h3>
                             <p>
-                                <em>{ dateFormat('mm/dd/yy', new Date(message._firstPublishedAt)) }</em>
+                                <em>{ dateFormat('MM/dd/yyyy', new Date(message._firstPublishedAt)) }</em>
                             </p>
                         </div>
                         <p>
@@ -67,7 +67,7 @@ const MessageBlock = ({ messages = [] }) => {
                     >
                         {messages[popupIndex].fromEmail}
                     </a>
-                    <p>Sent {dateFormat('mm/dd/yy', new Date(messages[popupIndex]._firstPublishedAt))}</p>
+                    <p>Sent {dateFormat('MM/dd/yyyy', new Date(messages[popupIndex]._firstPublishedAt))}</p>
                     <p class={styles.messageBody}>{messages[popupIndex].message}</p>
                     <a
                         className="btn bg_slate"
