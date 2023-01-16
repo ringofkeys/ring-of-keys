@@ -6,6 +6,7 @@ import { uploadFile } from 'lib/datocms.js'
 import { fileToArrayBuffer, slugify } from 'lib/utils.js'
 import styles from "./ApplyForm.module.css"
 import CheckboxGrid from "components/CheckboxGrid"
+import newApplicationSubmission from "components/Emails/newApplicationSubmission"
 
 export default function ApplyForm() {
     const [formStatus, setFormStatus] = useState("unsent")
@@ -84,58 +85,89 @@ export default function ApplyForm() {
             files.resumeFile = (applyFormObj.resumeFile)
         }
 
-        const uploadUrls = await fetch('/api/createUploadUrls', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/json',
-            },
-            body: JSON.stringify(fileNames),
-        }).then(res => res.json())
+        try {
+            const uploadUrls = await fetch('/api/createUploadUrls', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/json',
+                },
+                body: JSON.stringify(fileNames),
+            }).then(res => res.json())
 
-        console.log({ uploadUrls })
+            console.log({ uploadUrls })
 
-        const uploads = uploadUrls.map(async ([fieldName, uploadObj]) => fetch(uploadObj.url, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": files[fieldName].type,
-            },
-            body: await fileToArrayBuffer(files[fieldName]),
-        }).then(res => {
-            console.log(res)
-            return res.text()
-        }))
+            const uploads = uploadUrls.map(async ([fieldName, uploadObj]) => fetch(uploadObj.url, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": files[fieldName].type,
+                },
+                body: await fileToArrayBuffer(files[fieldName]),
+            }).then(res => {
+                console.log(res)
+                return res.text()
+            }))
 
-        uploadUrls.forEach(([fieldName, uploadObj]) => {
-            applyFormObj[fieldName] = {
-                path: uploadObj.id,
-                author: applyFormObj.name,
-                defaultFieldMetadata: {
-                    en: {
-                        alt: applyFormObj.name + " " + fieldName,
-                        title: applyFormObj.name + " " + fieldName + " " + Date.now().toLocaleString(),
-                        customData: {
-                            watermark: false,
+            uploadUrls.forEach(([fieldName, uploadObj]) => {
+                applyFormObj[fieldName] = {
+                    path: uploadObj.id,
+                    author: applyFormObj.name,
+                    defaultFieldMetadata: {
+                        en: {
+                            alt: applyFormObj.name + " " + fieldName,
+                            title: applyFormObj.name + " " + fieldName + " " + Date.now().toLocaleString(),
+                            customData: {
+                                watermark: false,
+                            },
                         },
                     },
+                }
+            })
+
+            const uploadData = await Promise.all(uploads)
+
+            console.log({uploadData})
+
+            const submission = await fetch('/api/submitKeyshipApplication', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'text/json',
                 },
-            }
-        })
+                body: JSON.stringify(applyFormObj)
+            }).then(res => res.json())
 
-        const uploadData = await Promise.all(uploads)
+            console.log({ submission })
 
-        console.log({uploadData})
+            setFormStatus('success')
+            fetch('/api/sendAdminEmail', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'text/json',
+                },
+                body: JSON.stringify({
+                    subject: 'New Ring of Keys Application - ' + submission.name,
+                    text: 'Automated admin notification from ringofkeys.org',
+                    to: ['frankjohnson1993@gmail.com', 'frank.ringofkeys@gmail.com'],
+                    from: 'website@ringofkeys.org',
+                    html: newApplicationSubmission({ id: submission.id, ...applyFormObj}),
+                })
+            })
+        } catch(e) {
+            setFormStatus('failure')
 
-        const submission = await fetch('/api/submitKeyshipApplication', {
-            method: 'POST',
-            headers: {
-                "Content-Type": 'text/json',
-            },
-            body: JSON.stringify(applyFormObj)
-        }).then(res => res.json())
-
-        console.log({ submission })
-
-        setFormStatus('success')
+            fetch('/api/sendAdminEmail', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'text/json',
+                },
+                body: JSON.stringify({
+                    subject: 'Ring of Keys Application Error',
+                    text: 'Automated admin error notification from ringofkeys.org',
+                    to: 'frank.ringofkeys@gmail.com',
+                    from: 'website@ringofkeys.org',
+                    html: `<pre>${ JSON.stringify(e, false, 2) }</pre>`,
+                })
+            })
+        }
     }
 
     function fillForm() {
@@ -283,6 +315,7 @@ export default function ApplyForm() {
                         type="file"
                         name="headshot"
                         label="Upload your headshot or picture (max 4Mb)"
+                        accept=".jpg, .png, .jpeg, .webp"
                         required={true}
                         onChange={validateFileSize}
                     />
