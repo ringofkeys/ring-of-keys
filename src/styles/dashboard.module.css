@@ -21,6 +21,82 @@
     box-sizing: border-box;
 }
 
+.dashboardGrid {
+    --open-sans: 'Open Sans', sans-serif;
+    font-family: var(--open-sans);
+    max-width: 1240px;
+    width: 100%;
+    @apply min-h-full grid;
+    color: #10151D;
+    grid-template-columns: 1fr 2fr;
+}
+
+.dashboardGrid > section {
+    border: solid 1px var(--rok-peach-1_hex);
+    @apply py-4 px-6;
+}
+
+.dashboardButton {
+    @apply relative inline-flex items-center gap-2 px-4 py-1 rounded;
+    background: #EFF5FF;
+    border: solid 1px #C7DAF9;
+    color: var(--rok-slate-blue_hex);
+    transition: .11s ease-out background;
+}
+
+.dashboardButton:hover {
+    background: #E0EAFB;
+}
+
+.dashboardButton::after {
+    content: '';
+    background-image: url('/img/dashboard-arrow.svg');
+    width: 16px;
+    height: 7px;
+    transform: translateX(0px);
+    transition: .11s ease-out transform;
+}
+
+.dashboardButton:hover::after {
+    transform: translateX(3px);
+}
+
+.dashboardGrid .personalInfo {
+    @apply flex gap-4 items-center;
+    border-top-width: 0px;
+    border-left: 0px;
+}
+
+.avatarWrapper {
+    width: fit-content;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 80px;
+    object-fit: scale-down;
+}
+
+.infoContent {
+    @apply flex flex-col justify-center;
+}
+
+.dashboardGrid h1,
+.dashboardGrid h2 {
+    font-family: var(--open-sans);
+    font-weight: 500;
+    text-transform: none;
+    font-size: 22px;
+    @apply my-0 text-xl;
+}
+
+.dashboardGrid h2 {
+    font-weight: 600;
+}
+
+.dashboardGrid .workshops {
+    border-top-width: 0px;
+    border-right-width: 0px;
+}
+
 .block h2 {
     @apply mb-4;
 }

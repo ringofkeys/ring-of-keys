@@ -8,6 +8,7 @@ import styles from 'styles/dashboard.module.css'
 import MessageBlock from "components/MessageBlock"
 import PageBlock from "components/PageContent/PageBlock"
 import { StripeSubscribed, StripeUnsubscribed } from "components/StripeBlocks"
+import Head from "next/head"
 
 
 export async function getStaticProps() {
@@ -40,12 +41,33 @@ export default function Dashboard({ layoutData }) {
         }
     }, [session])
 
-    return (
+    return (<>
+        <Head>
+            <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+        </Head>
         <Layout className={"fullwidth"} layoutData={layoutData}>
-            <h1>Dashboard</h1>
             {dashboardData ? (
-                <>
-                    <div className={styles.block +' '+ styles.blockIntro}>
+                <div className={styles.dashboardGrid}>
+                    <section className={styles.personalInfo}>
+                        <div className={styles.avatarWrapper}>
+                            <img
+                                src={`${dashboardData.user.headshot.url}?fit=facearea&faceindex=1&facepad=5&w=140&h=140&`}
+                                alt={dashboardData.user.headshot.title}
+                                className="avatar"
+                            />
+                        </div>
+                        <div className={styles.infoContent}>
+                            <h1>{dashboardData.user.name}</h1>
+                            <p className="text-xs">{dashboardData.user.pronouns} · Member since {dashboardData.user.memberSince}</p>
+                            <Link href={"/keys/" + dashboardData.user.slug} className={`mt-4 ${styles.dashboardButton}`}>
+                                Edit Public Profile
+                            </Link>
+                        </div>
+                    </section>
+                    <section className={styles.workshops}>
+                        <h2>Workshops</h2>
+                    </section>
+                    {/* <div className={styles.block +' '+ styles.blockIntro}>
                         <div>
                             <h2>{dashboardData.user.name}</h2>
                             <p className="my-4">{ parse(dashboardData.page.content.find(block => block.area === 'intro')?.content)
@@ -91,13 +113,13 @@ export default function Dashboard({ layoutData }) {
                                 )}
                             </section>
                         )
-                    })}
-                </>
+                    })} */}
+                </div>
             ) : (
                 <Loading />
             )}
         </Layout>
-    )
+    </>)
 }
 
 function Redirecting() {
@@ -114,6 +136,8 @@ async function getDashboardContent(datoId) {
             user: key(filter: { id: { eq: $id}}) {
                 id
                 name
+                pronouns
+                memberSince
                 slug
                 headshot {
                     url
