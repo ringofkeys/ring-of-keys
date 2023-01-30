@@ -121,5 +121,18 @@ export default function Icon({ type, className, fill = "white" }) {
                     </g>
                 </svg>
             )
+        case "news":
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" className={className} fill={fill} stroke={fill} stroke-width="0" viewBox="0 0 24 24">
+                    <path stroke="none" d="M19.875 3H4.125C2.953 3 2 3.897 2 5v14c0 1.103.953 2 2.125 2h15.75C21.047 21 22 20.103 22 19V5c0-1.103-.953-2-2.125-2zm0 16H4.125c-.057 0-.096-.016-.113-.016-.007 0-.011.002-.012.008L3.988 5.046c.007-.01.052-.046.137-.046h15.75c.079.001.122.028.125.008l.012 13.946c-.007.01-.052.046-.137.046z"/>
+                    <path stroke="none" d="M6 7h6v6H6zm7 8H6v2h12v-2h-4zm1-4h4v2h-4zm0-4h4v2h-4z"/>
+                </svg>
+            )
+        case "workshop":
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" className={className} fill={fill} stroke={fill} stroke-width="0" viewBox="0 0 24 24">
+                        <path fill="none" stroke-width="2" d="M19 7s-5 7-12.5 7c-2 0-5.5 1-5.5 5v4h11v-4c0-2.5 3-1 7-8l-1.5-1.5M3 5V2h20v14h-3M11 1h4v2h-4V1ZM6.5 14a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/>
+                </svg>
+            )
     }
 }

@@ -14,25 +14,31 @@
     width: 65vw;
 }
 
-.block {
+/* .block {
     border: solid 1px #6d727840;
     margin: 4vh 1vw;
     padding: 4vh 4vw;
     box-sizing: border-box;
-}
+} */
 
 .dashboardGrid {
     --open-sans: 'Open Sans', sans-serif;
     font-family: var(--open-sans);
-    max-width: 1240px;
+    max-width: 1366px;
     width: 100%;
     @apply min-h-full grid;
-    color: #10151D;
     grid-template-columns: 1fr 2fr;
+    gap: 1px;
+}
+
+.dashboardGrid,
+.dashboardGrid p {
+    color: #10151D;
 }
 
 .dashboardGrid > section {
-    border: solid 1px var(--rok-peach-1_hex);
+    --shadow-offset: 0px 0px 0px 1px;
+    box-shadow: var(--shadow-offset) var(--rok-peach-1_hex);
     @apply py-4 px-6;
 }
 
@@ -61,10 +67,9 @@
     transform: translateX(3px);
 }
 
-.dashboardGrid .personalInfo {
+.dashboardGrid .infoSection {
     @apply flex gap-4 items-center;
-    border-top-width: 0px;
-    border-left: 0px;
+    --shadow-offset: 1px 1px 0px 0px;
 }
 
 .avatarWrapper {
@@ -92,10 +97,67 @@
     font-weight: 600;
 }
 
-.dashboardGrid .workshops {
-    border-top-width: 0px;
-    border-right-width: 0px;
+.dashboardGrid .workshopsSection {
+    @apply grid gap-4;
+    grid-template-columns: 1fr 2fr;
+    --shadow-offset: -1px 1px 0px 0px;
+    min-height: 33vh;
+    grid-row: span 2;
+    max-height: 300px;
 }
+
+.workshopsSection .contentBar {
+    @apply flex flex-col justify-between;
+}   
+
+.workshopList,
+.newsList {
+    overflow-y: auto;
+}
+
+.workshopItem,
+.newsItem {
+    background: #F9FAFD;
+    border-left: solid 1px var(--rok-slate-blue_hex);
+    @apply block py-2 px-2 my-2 rounded;
+}
+
+.workshopItem:hover {
+    background: #E9F1FF;
+}
+
+.dashboardGrid h3 {
+    font-family: var(--open-sans);
+    text-transform: none;
+    @apply text-lg;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.workshopItem .subtitle {
+    display: block;
+    color: #888888;
+    font-weight: 400;
+}
+
+.workshopItem p {
+    @apply mt-4 mb-0 font-normal;
+}
+
+.dashboardGrid .newsSection {
+    --shadow-offset: 1px -1px 0px 0px;
+}
+
+.newsList {
+    @apply mt-2;
+    max-height: 480px;
+}
+
+.newsItem {
+    background: #F7F9F7;
+    border-color: var(--rok-pale-green-1_hex);
+}
+
 
 .block h2 {
     @apply mb-4;

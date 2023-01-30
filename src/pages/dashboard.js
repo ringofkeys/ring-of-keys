@@ -9,6 +9,7 @@ import MessageBlock from "components/MessageBlock"
 import PageBlock from "components/PageContent/PageBlock"
 import { StripeSubscribed, StripeUnsubscribed } from "components/StripeBlocks"
 import Head from "next/head"
+import Icon from "components/Icon"
 
 
 export async function getStaticProps() {
@@ -35,9 +36,13 @@ export default function Dashboard({ layoutData }) {
         console.log({ session })
 
         if (session) {
-            getDashboardContent(session.token.datoId).then((data) =>
-                setDashboardData(data)
-            )
+            getDashboardContent(session.token.datoId).then((data) => {
+                const workshops = getWorkshops();
+                setDashboardData({
+                    workshops,
+                    ...data
+                })
+            })
         }
     }, [session])
 
@@ -48,7 +53,7 @@ export default function Dashboard({ layoutData }) {
         <Layout className={"fullwidth"} layoutData={layoutData}>
             {dashboardData ? (
                 <div className={styles.dashboardGrid}>
-                    <section className={styles.personalInfo}>
+                    <section className={styles.infoSection}>
                         <div className={styles.avatarWrapper}>
                             <img
                                 src={`${dashboardData.user.headshot.url}?fit=facearea&faceindex=1&facepad=5&w=140&h=140&`}
@@ -64,8 +69,49 @@ export default function Dashboard({ layoutData }) {
                             </Link>
                         </div>
                     </section>
-                    <section className={styles.workshops}>
-                        <h2>Workshops</h2>
+                    <section className={styles.workshopsSection}>
+                        <div className={styles.contentBar}>
+                            <div>
+                            <div className="flex items-center gap-2">
+                                <Icon type="workshop" className="w-4" fill="var(--rok-slate-blue_hex)" />
+                                <h2>News</h2>
+                            </div>
+                                <p className="text-xs">Exclusive professional development events for Keys.</p>
+                            </div>
+                            <div>
+                                <p className="text-xs">You have 3 more free slots for workshops this year as a part of your Multiplicity Keyship.</p>
+                                <Link href={"/keys/" + dashboardData.user.slug}
+                                    className={`mt-4 ${styles.dashboardButton}`}
+                                >
+                                    Manage Keyship
+                                </Link>
+                            </div>
+                        </div>
+                        <div className={styles.workshopList}>
+                            {dashboardData.workshops?.length
+                                ? dashboardData.workshops.map(workshop => (
+                                    <a className={styles.workshopItem}>
+                                        <h3>{workshop.title}{workshop.subtitle 
+                                            ? (<>:<br/><span className={styles.subtitle}>{workshop.subtitle}</span></>)
+                                            : ''}
+                                        </h3>
+                                        <p>{workshop.eventStart}</p>
+                                    </a>
+                                ))
+                                : <p>No Workshops</p>}
+                        </div>
+                    </section>
+                    <section className={styles.newsSection} >
+                        <div className="flex items-center gap-2">
+                            <Icon type="news" className="w-4" fill="var(--rok-pale-green-1_hex)" />
+                            <h2>News</h2>
+                        </div>
+                        <div className={styles.newsList}>
+                            {dashboardData?.page?.content.filter(block => block.area !== "intro").map((block, i) => (<div className={styles.newsItem}>
+                                <h3>{block.blockTitle}</h3>
+                                {parse(block.content)}
+                            </div>))}
+                        </div>
                     </section>
                     {/* <div className={styles.block +' '+ styles.blockIntro}>
                         <div>
@@ -186,4 +232,27 @@ async function getDashboardContent(datoId) {
         query: DASHBOARD_QUERY,
         variables: { id: datoId },
     })
+}
+
+function getWorkshops() {
+    return [
+        {
+            title: 'An Artist’s Financial Rebound',
+            subtitle: 'Aligning Finances With Goals',
+            location: 'Virtual',
+            eventStart: 'Monday, March 8, 2021 3:30 PM ET',
+        },
+        {
+            title: 'Antiracism and the American Theatre',
+            subtitle: 'with Lindsay Roberts',
+            location: `Joe's Pub`,
+            eventStart: 'Monday, February 22, 2021 3:30 PM',
+        },
+        {
+            title: 'The Art of the Pivot',
+            subtitle: "with Multify's Caitlin Donohue",
+            location: 'Virtual',
+            eventStart: `Friday, February 12, 2021 8:00 AM`,
+        },
+    ]
 }
