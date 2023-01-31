@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
 import Layout from "components/Layout"
+import { StructuredText } from 'react-datocms';
 import { request, requestLayoutProps } from "../lib/datocms"
 import parse from "html-react-parser"
 import styles from 'styles/dashboard.module.css'
@@ -50,7 +51,7 @@ export default function Dashboard({ layoutData }) {
         <Head>
             <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
         </Head>
-        <Layout className={"fullwidth"} layoutData={layoutData}>
+        <Layout className={"fullwidth " + styles.layout} layoutData={layoutData}>
             {dashboardData ? (
                 <div className={styles.dashboardGrid}>
                     <section className={styles.infoSection}>
@@ -72,9 +73,9 @@ export default function Dashboard({ layoutData }) {
                     <section className={styles.workshopsSection}>
                         <div className={styles.contentBar}>
                             <div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 mb-2">
                                 <Icon type="workshop" className="w-4" fill="var(--rok-slate-blue_hex)" />
-                                <h2>News</h2>
+                                <h2>Workshops</h2>
                             </div>
                                 <p className="text-xs">Exclusive professional development events for Keys.</p>
                             </div>
@@ -106,11 +107,69 @@ export default function Dashboard({ layoutData }) {
                             <Icon type="news" className="w-4" fill="var(--rok-pale-green-1_hex)" />
                             <h2>News</h2>
                         </div>
-                        <div className={styles.newsList}>
-                            {dashboardData?.page?.content.filter(block => block.area !== "intro").map((block, i) => (<div className={styles.newsItem}>
-                                <h3>{block.blockTitle}</h3>
-                                {parse(block.content)}
+                        <div className="mt-2 overflow-y-auto">
+                            {dashboardData?.page?.newsfeed.map((block, i) => (<div className={styles.newsItem}>
+                                {block.image && <img src={block.image.url} alt={block.image.altText} className="max-w-[120px]" /> }
+                                <h3 className="mt-4">{block.blockTitle}</h3>
+                                <StructuredText data={block.description} />
+                                <div className="flex gap-2">
+                                {block.primaryLinkUrl &&
+                                    <a href={block.primaryLinkUrl} rel="noopener noreferrer" target="_blank" className={styles.newsLink}>{block.primaryLinkText || "Get Started"}</a>}
+                                {block.secondaryLinkUrl &&
+                                    <a href={block.secondaryLinkUrl} rel="noopener noreferrer" target="_blank" className={styles.newsLink +' '+ styles.newsLinkSecondary}>{block.secondaryLinkText || "Get Started"}</a>}
+                                </div>
                             </div>))}
+                        </div>
+                    </section>
+                    {dashboardData.page.communitySpotlight && 
+                    <section className={styles.communitySpotlight}>
+                        <div className="flex items-center gap-2 mb-2">
+                            <Icon type="lightbulb" className="w-4" fill="var(--rok-peach-1_hex)" />
+                            <h2>Community Spotlight</h2>
+                        </div>
+                        <a href={`/keys/${dashboardData.page.communitySpotlight.slug}`} className={styles.memberCard}>
+                            <div className="object-scale-down overflow-hidden rounded w-fit">
+                                <img src={dashboardData.page.communitySpotlight.headshot.url + '?fit=facearea&faceindex=1&facepad=5&w=140&h=140&'} alt={`member's portrait`}/>
+                            </div>
+                            <div>
+                                <h3>{dashboardData.page.communitySpotlight.name}</h3>
+                                <p className={styles.disciplineAndLocation}>{dashboardData.page.communitySpotlight.discipline} in {dashboardData.page.communitySpotlight.mainLocation}</p>
+                                <p className="font-normal">{dashboardData.page.communitySpotlight.communitySpotlightMessage}</p>
+                            </div>
+                        </a>
+                    </section>
+                    }
+                    <section className={styles.messagesSection}>
+                        <div className={styles.contentBar}>
+                            <div>
+                            <div className="flex items-center gap-2 mb-2">
+                                <Icon type="message" className="w-4" fill="#494949" />
+                                <h2>Messages</h2>
+                            </div>
+                                <p className="text-xs">Outreach from industry professionals through your public profile.</p>
+                            </div>
+                            <div>
+                                <p className="text-xs">Our team screens your messages for harassment. We can see initial outreach, but not your response via email.</p>
+                                {/* <label className="flex items-center gap-2 my-2 font-normal">
+                                    <input type="checkbox" name="screenMessages" />
+                                    Screen messages for harassment
+                                </label>
+                                <label className="flex items-center gap-2 my-2 font-normal">
+                                    <input type="checkbox" name="hideMessageButton" />
+                                    Hide message button on profile
+                                </label> */}
+                            </div>
+                        </div>
+                        <div className="overflow-y-auto">
+                            {dashboardData.messages?.length
+                                ? dashboardData.messages.map(message => (
+                                    <a className="block mb-4">
+                                        <h3>{message.fromName}</h3>
+                                        <p className="text-xs" style={{color: "#888888"}}>{message._firstPublishedAt}</p>
+                                        <p className={styles.messageBlock}>{message.message}</p>
+                                    </a>
+                                ))
+                                : <p>No Messages</p>}
                         </div>
                     </section>
                     {/* <div className={styles.block +' '+ styles.blockIntro}>
@@ -202,27 +261,32 @@ async function getDashboardContent(datoId) {
                 _firstPublishedAt
             }
 
-            page(filter: { id: { eq: "65961427" } }) {
-                content {
-                    ... on BasicBlockRecord {
-                        __typename
-                        area
-                        content
-                        id
+            page: dashboard {
+                communitySpotlight {
+                    name
+                    id
+                    slug
+                    discipline
+                    mainLocation
+                    headshot {
+                        url
                     }
-                    
-                    ... on DashboardBlockRecord {
-                        __typename
+                    communitySpotlightMessage
+                }
+                newsfeed {
+                    ...on DashboardBlockRecord {
                         blockTitle
-                        content
-                        area
-                        id
-                    }
-                    
-                    ... on ShortcodeRecord {
-                        __typename
-                        id
-                        name
+                        description { 
+                            value
+                        }
+                        image {
+                            alt
+                            url
+                        }
+                        primaryLinkText
+                        primaryLinkUrl
+                        secondaryLinkText
+                        secondaryLinkUrl
                     }
                 }
             }
@@ -247,6 +311,12 @@ function getWorkshops() {
             subtitle: 'with Lindsay Roberts',
             location: `Joe's Pub`,
             eventStart: 'Monday, February 22, 2021 3:30 PM',
+        },
+        {
+            title: 'The Art of the Pivot',
+            subtitle: "with Multify's Caitlin Donohue",
+            location: 'Virtual',
+            eventStart: `Friday, February 12, 2021 8:00 AM`,
         },
         {
             title: 'The Art of the Pivot',
