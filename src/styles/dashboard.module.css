@@ -28,9 +28,8 @@
 .dashboardGrid {
     --open-sans: 'Open Sans', sans-serif;
     font-family: var(--open-sans);
-    max-width: 1366px;
-    width: 100%;
-    @apply min-h-full grid;
+    max-width: 1440px;
+    @apply min-h-full grid mx-auto;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: repeat(5, minmax(120px, 20vh));
     gap: 1px;
@@ -164,6 +163,10 @@
     grid-template-rows: auto 1fr;
 }
 
+.newsList {
+    @apply mt-2 overflow-y-auto;
+}
+
 .newsItem {
     background: #F7F9F7;
     border-color: var(--rok-pale-green-1_hex);
@@ -203,15 +206,28 @@
 /* Community Spotlight */
 .communitySpotlight {
     grid-column-start: 2;
-    background: #FEF4F1;
+    background: #FFF9F4;
 }
 
 .memberCard {
-    @apply flex items-center gap-4 p-2 transition-colors;
+    @apply grid items-center gap-4 p-2 transition-colors rounded;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "img ."
+                         "img message";
 }
 
 .memberCard:hover {
-    background: #FFE0D7;
+    background: #FFEFE3;
+}
+
+.memberCard div:first-child {
+    transform: rotate(0deg);
+    transform-origin: center center;
+    transition: .11s ease-out transform;
+}
+
+.memberCard:hover div:first-child {
+    transform: rotate(-3deg);
 }
 
 .memberCard img {
@@ -221,16 +237,28 @@
 .memberCard .disciplineAndLocation {
     color: #A3624E;
     font-weight: normal;
-    @apply mb-1;
+    @apply mb-1 text-xs;
 }
 
 /* Message Section */
 .messageBlock {
     background: #F2F2F2;
-    max-height: 120px;
-    truncate: '...';
-    @apply ml-4 mt-1 py-2 px-4 rounded-2xl font-normal;
+    @apply block text-left ml-2 md:ml-4 mt-1 py-1 px-3 rounded-2xl font-normal;
     border-top-left-radius: 0px;
+    font-family: inherit;
+    width: calc(100% - 1rem);
+}
+
+.messageBlock:hover {
+    background: #E9E9E9;
+}
+
+.messageBlock p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; 
+    overflow: hidden !important;
+    @apply p-0 m-0;
 }
 
 .block h2 {
@@ -288,6 +316,55 @@
 }
 
 @media (max-width: 700px) {
+    .layout {
+        width: auto;
+    }
+
+    .dashboardGrid {
+        @apply flex flex-col;
+    }
+
+    .dashboardGrid section {
+        box-shadow: none;
+    }
+
+    .dashboardGrid .workshopsSection,
+    .dashboardGrid .messagesSection {
+        @apply flex flex-col;
+    }
+
+    .contentBar p {
+        @apply mb-4;
+    }
+    
+    .dashboardGrid .newsSection {
+        overflow-x: hidden;
+    }
+
+    .newsList {
+        @apply flex flex-row overflow-x-auto gap-2;
+    }
+
+    .newsItem {
+        min-width: 75vw;
+        border-width: 1px;
+        border-left-width: 3px;
+        @apply flex flex-col;
+    }
+    
+    .memberCard {
+        grid-template-areas: "img ."
+                             "message message";
+    }
+
+    .memberCard img {
+        width: 100px;
+    }
+
+    .dashboardGrid section:not(:first-of-type) {
+        border-top: solid 1px var(--rok-peach-1_hex);
+    }
+
     .dashboard {
         flex-direction: column-reverse;
     }

@@ -65,8 +65,10 @@
 }
 
 .popup__card p {
-    margin: 0;
-    margin-bottom: .25em;
+    @apply my-2 whitespace-pre-line;
+    max-height: 30vh;
+    max-width: 100%;
+    overflow-y: auto;
 }
 
 .popup__card .input__group {

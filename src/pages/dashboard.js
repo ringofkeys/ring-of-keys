@@ -11,6 +11,8 @@ import PageBlock from "components/PageContent/PageBlock"
 import { StripeSubscribed, StripeUnsubscribed } from "components/StripeBlocks"
 import Head from "next/head"
 import Icon from "components/Icon"
+import Popup from "components/Popup";
+import { accountNeedsReview, createPortalSession, getCurrentSubscription, getCustomer, getLastPayment, stripeProducts } from "lib/stripe";
 
 
 export async function getStaticProps() {
@@ -24,7 +26,16 @@ export async function getStaticProps() {
 }
 
 export default function Dashboard({ layoutData }) {
-    const [dashboardData, setDashboardData] = useState(false)
+    const [user, setUser] = useState(false)
+    const [workshops, setWorkshops] = useState(false)
+    const [spotlight, setSpotlight] = useState(false)
+    const [newsfeed, setNewsfeed] = useState(false)
+    const [messages, setMessages] = useState(false)
+    const [stripeData, setStripeData] = useState(false)
+    const [popupMessage, setPopupMessage] = useState(false)
+
+    const validTier = (stripeData) => stripeData?.tier >= 0 && stripeData?.tier !== null;
+
     const { data: session } = useSession({
         required: true,
         onUnauthenticated() {
@@ -37,12 +48,25 @@ export default function Dashboard({ layoutData }) {
         console.log({ session })
 
         if (session) {
-            getDashboardContent(session.token.datoId).then((data) => {
+            getDashboardContent(session.token.datoId).then(async (data) => {
                 const workshops = getWorkshops();
-                setDashboardData({
-                    workshops,
-                    ...data
-                })
+                
+                setUser(data.user)
+                setWorkshops(workshops)
+                setNewsfeed(data.page.newsfeed)
+                setSpotlight(data.page.communitySpotlight)
+                setMessages(data.messages)
+
+                console.log(data)
+
+                if (data.user.stripeId) {
+                    const customer = await getCustomer(data.user.stripeId)
+                    const tier = getCurrentSubscription(customer)
+                    const lastPayment = getLastPayment(customer)
+
+                    console.log({ customer, tier, lastPayment })
+                    setStripeData({ customer, tier, lastPayment })
+                }
             })
         }
     }, [session])
@@ -52,20 +76,20 @@ export default function Dashboard({ layoutData }) {
             <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
         </Head>
         <Layout className={"fullwidth " + styles.layout} layoutData={layoutData}>
-            {dashboardData ? (
+            {(user && newsfeed) ? (<>
                 <div className={styles.dashboardGrid}>
                     <section className={styles.infoSection}>
                         <div className={styles.avatarWrapper}>
                             <img
-                                src={`${dashboardData.user.headshot.url}?fit=facearea&faceindex=1&facepad=5&w=140&h=140&`}
-                                alt={dashboardData.user.headshot.title}
+                                src={`${user.headshot.url}?fit=facearea&faceindex=1&facepad=5&w=140&h=140&`}
+                                alt={user.headshot.title}
                                 className="avatar"
                             />
                         </div>
                         <div className={styles.infoContent}>
-                            <h1>{dashboardData.user.name}</h1>
-                            <p className="text-xs">{dashboardData.user.pronouns} · Member since {dashboardData.user.memberSince}</p>
-                            <Link href={"/keys/" + dashboardData.user.slug} className={`mt-4 ${styles.dashboardButton}`}>
+                            <h1>{user.name}</h1>
+                            <p className="text-xs">{user.pronouns} · Member since {user.memberSince}</p>
+                            <Link href={"/keys/" + user.slug} className={`mt-4 ${styles.dashboardButton}`}>
                                 Edit Public Profile
                             </Link>
                         </div>
@@ -80,17 +104,21 @@ export default function Dashboard({ layoutData }) {
                                 <p className="text-xs">Exclusive professional development events for Keys.</p>
                             </div>
                             <div>
-                                <p className="text-xs">You have 3 more free slots for workshops this year as a part of your Multiplicity Keyship.</p>
-                                <Link href={"/keys/" + dashboardData.user.slug}
-                                    className={`mt-4 ${styles.dashboardButton}`}
+                                <p className="text-xs">You have <strong>3</strong> more free slots for workshops this year as a part of your <strong>{validTier(stripeData) ? stripeProducts[stripeData.tier]?.label : 'Basic'}</strong> Keyship.</p>
+                                {user.stripeId && <button href={"/keys/" + user.slug}
+                                    className={`block mt-4 ${styles.dashboardButton}`}
+                                    onClick={() => createPortalSession(user.stripeId)}
                                 >
                                     Manage Keyship
-                                </Link>
+                                </button>}
+                                {user.stripeId && stripeData && accountNeedsReview(stripeData.customer) && 
+                                    <p className="p-2 mt-4 text-xs text-red-700 rounded bg-red-50">❗️ Something appears to be wrong with your billing, please review by clicking above.</p>
+                                }
                             </div>
                         </div>
                         <div className={styles.workshopList}>
-                            {dashboardData.workshops?.length
-                                ? dashboardData.workshops.map(workshop => (
+                            {workshops?.length
+                                ? workshops.map(workshop => (
                                     <a className={styles.workshopItem}>
                                         <h3>{workshop.title}{workshop.subtitle 
                                             ? (<>:<br/><span className={styles.subtitle}>{workshop.subtitle}</span></>)
@@ -107,12 +135,12 @@ export default function Dashboard({ layoutData }) {
                             <Icon type="news" className="w-4" fill="var(--rok-pale-green-1_hex)" />
                             <h2>News</h2>
                         </div>
-                        <div className="mt-2 overflow-y-auto">
-                            {dashboardData?.page?.newsfeed.map((block, i) => (<div className={styles.newsItem}>
+                        <div className={styles.newsList}>
+                            {newsfeed?.length && newsfeed.map((block, i) => (<div className={styles.newsItem}>
                                 {block.image && <img src={block.image.url} alt={block.image.altText} className="max-w-[120px]" /> }
                                 <h3 className="mt-4">{block.blockTitle}</h3>
                                 <StructuredText data={block.description} />
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 mt-auto">
                                 {block.primaryLinkUrl &&
                                     <a href={block.primaryLinkUrl} rel="noopener noreferrer" target="_blank" className={styles.newsLink}>{block.primaryLinkText || "Get Started"}</a>}
                                 {block.secondaryLinkUrl &&
@@ -121,21 +149,22 @@ export default function Dashboard({ layoutData }) {
                             </div>))}
                         </div>
                     </section>
-                    {dashboardData.page.communitySpotlight && 
+                    {spotlight && 
                     <section className={styles.communitySpotlight}>
                         <div className="flex items-center gap-2 mb-2">
                             <Icon type="lightbulb" className="w-4" fill="var(--rok-peach-1_hex)" />
                             <h2>Community Spotlight</h2>
                         </div>
-                        <a href={`/keys/${dashboardData.page.communitySpotlight.slug}`} className={styles.memberCard}>
-                            <div className="object-scale-down overflow-hidden rounded w-fit">
-                                <img src={dashboardData.page.communitySpotlight.headshot.url + '?fit=facearea&faceindex=1&facepad=5&w=140&h=140&'} alt={`member's portrait`}/>
+                        <a href={`/keys/${spotlight.slug}`} className={styles.memberCard}>
+                            <div className="object-scale-down overflow-hidden rounded w-fit" style={{gridArea: 'img'}}>
+                                <img src={spotlight.headshot.url + '?fit=facearea&faceindex=1&facepad=5&w=140&h=140&'} alt={`member's portrait`}/>
                             </div>
                             <div>
-                                <h3>{dashboardData.page.communitySpotlight.name}</h3>
-                                <p className={styles.disciplineAndLocation}>{dashboardData.page.communitySpotlight.discipline} in {dashboardData.page.communitySpotlight.mainLocation}</p>
-                                <p className="font-normal">{dashboardData.page.communitySpotlight.communitySpotlightMessage}</p>
+                                <h3>{spotlight.name}</h3>
+                                <p className={styles.disciplineAndLocation}>
+                                    {spotlight.pronouns} · {spotlight.discipline} in {spotlight.mainLocation}</p>
                             </div>
+                            <p className="font-normal" style={{gridArea: 'message'}}>{spotlight.communitySpotlightMessage}</p>
                         </a>
                     </section>
                     }
@@ -161,13 +190,20 @@ export default function Dashboard({ layoutData }) {
                             </div>
                         </div>
                         <div className="overflow-y-auto">
-                            {dashboardData.messages?.length
-                                ? dashboardData.messages.map(message => (
-                                    <a className="block mb-4">
+                            {messages?.length
+                                ? messages.map(message => (
+                                    <div className="max-w-full mb-4">
                                         <h3>{message.fromName}</h3>
-                                        <p className="text-xs" style={{color: "#888888"}}>{message._firstPublishedAt}</p>
-                                        <p className={styles.messageBlock}>{message.message}</p>
-                                    </a>
+                                        <p className="text-xs" style={{color: "#888888"}}>
+                                            {new Date(message._firstPublishedAt).toLocaleString('en-us')}
+                                        </p>
+                                        <button className={styles.messageBlock}
+                                            onClick={() => setPopupMessage(message)}>
+                                            <p className="p-0 m-0">
+                                                {message.message}
+                                            </p>
+                                        </button>
+                                    </div>
                                 ))
                                 : <p>No Messages</p>}
                         </div>
@@ -220,7 +256,25 @@ export default function Dashboard({ layoutData }) {
                         )
                     })} */}
                 </div>
-            ) : (
+                {messages?.length && <Popup isOpen={!!popupMessage} onClose={() => setPopupMessage(false)}>
+                    <h2>{popupMessage.fromName}</h2>
+                    <a
+                        href={`mailto:${popupMessage.fromEmail}`}
+                        style={{ marginBlockEnd: "1em" }}
+                    >
+                        {popupMessage.fromEmail}
+                    </a>
+                    <p>Sent {new Date(popupMessage._firstPublishedAt).toLocaleString('en-us')}</p>
+                    <p class={styles.messageBody}>{popupMessage.message}</p>
+                    <a
+                        className="btn bg_slate"
+                        href={"mailto:" + popupMessage.fromEmail}
+                        rel="noopener noreferrer"
+                    >
+                        Reply
+                    </a>
+                </Popup>}
+            </>) : (
                 <Loading />
             )}
         </Layout>
@@ -266,6 +320,7 @@ async function getDashboardContent(datoId) {
                     name
                     id
                     slug
+                    pronouns
                     discipline
                     mainLocation
                     headshot {
