@@ -71,6 +71,26 @@ export default function Dashboard({ layoutData }) {
         }
     }, [session])
 
+    async function updateKey(data) {
+        const newData = await fetch('/api/updateKey', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: user.id,
+                ...data,
+            }),
+            Headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(res => res.json())
+        .catch(e => {
+            console.error(e)
+            return e
+        })
+
+        setUser({...Object.assign(user, newData)})
+    }
+
+
     return (<>
         <Head>
             <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -81,8 +101,8 @@ export default function Dashboard({ layoutData }) {
                     <section className={styles.infoSection}>
                         <div className={styles.avatarWrapper}>
                             <img
-                                src={`${user.headshot.url}?fit=facearea&faceindex=1&facepad=5&w=140&h=140&`}
-                                alt={user.headshot.title}
+                                src={`${user?.headshot?.url}?fit=facearea&faceindex=1&facepad=5&w=140&h=140&`}
+                                alt={user?.headshot?.title}
                                 className="avatar"
                             />
                         </div>
@@ -179,14 +199,18 @@ export default function Dashboard({ layoutData }) {
                             </div>
                             <div>
                                 <p className="text-xs">Our team screens your messages for harassment. We can see initial outreach, but not your response via email.</p>
-                                {/* <label className="flex items-center gap-2 my-2 font-normal">
-                                    <input type="checkbox" name="screenMessages" />
+                                <label className="flex items-center gap-2 my-2 font-normal">
+                                    <input type="checkbox" name="moderateMessages"
+                                        checked={user?.moderateMessages}
+                                        onChange={() => updateKey({moderateMessages: !user.moderateMessages })} />
                                     Screen messages for harassment
                                 </label>
                                 <label className="flex items-center gap-2 my-2 font-normal">
-                                    <input type="checkbox" name="hideMessageButton" />
+                                    <input type="checkbox" name="hideMessageButton"
+                                        checked={user?.hideMessageButton}
+                                        onChange={() => updateKey({hideMessageButton: !user.hideMessageButton })} />
                                     Hide message button on profile
-                                </label> */}
+                                </label>
                             </div>
                         </div>
                         <div className="overflow-y-auto">
@@ -298,6 +322,8 @@ async function getDashboardContent(datoId) {
                 pronouns
                 memberSince
                 slug
+                hideMessageButton
+                moderateMessages
                 headshot {
                     url
                     title

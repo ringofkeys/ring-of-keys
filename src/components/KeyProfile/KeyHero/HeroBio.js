@@ -10,6 +10,7 @@ export default function HeroBio({ setMessageOpen }) {
             pronouns,
             memberSince,
             id,
+            hideMessageButton,
         },
         isEditable
     } = useContext(ProfileContext)
@@ -35,7 +36,7 @@ export default function HeroBio({ setMessageOpen }) {
                     {(!id.includes('-')) ? id : id.match(/.*-(\d+)-.*/)[1]}
                 </p>
             )}
-            <button
+            {!hideMessageButton && <button
                 className={"btn " + styles["btn_message"]}
                 onClick={() => {
                     console.log('click', {setMessageOpen})
@@ -43,7 +44,7 @@ export default function HeroBio({ setMessageOpen }) {
                 }}
             >
                 Message
-            </button>
+            </button>}
         </div>
     )
 }

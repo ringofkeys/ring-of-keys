@@ -31,7 +31,7 @@
     max-width: 1440px;
     @apply min-h-full grid mx-auto;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: repeat(5, minmax(120px, 20vh));
+    grid-template-rows: repeat(5, minmax(120px, 22vh));
     gap: 1px;
 }
 
@@ -43,7 +43,7 @@
 .dashboardGrid > section {
     --shadow-offset: 0px 0px 0px 1px;
     box-shadow: var(--shadow-offset) var(--rok-peach-1_hex);
-    @apply py-4 px-6;
+    @apply p-6;
 }
 
 .dashboardButton {
