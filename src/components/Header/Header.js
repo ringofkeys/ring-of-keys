@@ -119,7 +119,7 @@ function SecondaryNav({ session, navOpen }) {
                     <button
                         className={styles.loginBtn}
                         onClick={() => {
-                            const callbackUrl = (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : "https://ringofkeys.org/dashboard"
+                            const callbackUrl = (process.env.NODE_ENV == "development") ? "http://localhost:3000/dashboard" : (location.origin + "/dashboard")
                             console.log("about to sign in!", signIn, callbackUrl)
                             signIn()
                             // signIn("auth0", {
