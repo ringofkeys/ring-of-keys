@@ -315,6 +315,16 @@
     display: inline-block;
 }
 
+@media (max-width: 1024px) {
+    .layout {
+        @apply w-full;
+    }
+
+    .dashboardGrid {
+        grid-template-rows: repeat(5, minmax(120px, 50vh));
+    }
+}
+
 @media (max-width: 700px) {
     .layout {
         width: auto;

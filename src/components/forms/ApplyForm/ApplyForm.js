@@ -127,13 +127,34 @@ export default function ApplyForm() {
 
             console.log({uploadData})
 
-            const submission = await fetch('/api/submitKeyshipApplication', {
+            const submissionRes = await fetch('/api/submitKeyshipApplication', {
                 method: 'POST',
                 headers: {
                     "Content-Type": 'text/json',
                 },
                 body: JSON.stringify(applyFormObj)
-            }).then(res => res.json())
+            })
+
+            if (submissionRes.status.toString().startsWith('4')) {
+                fetch('/api/sendAdminEmail', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": 'text/json',
+                    },
+                    body: JSON.stringify({
+                        subject: 'Error in Ring of Keys Application for ' + submission.name,
+                        text: 'Automated admin notification from ringofkeys.org',
+                        to: ['info@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
+                        from: 'website@ringofkeys.org',
+                        html: `<p>
+                            Error while submitting application for <a href="mailto:${applyFormObj.email}">${applyFormObj.name}</a>.
+                            Uploads were successful, but not publication. Please check logs and reach out to them promptly.
+                        </p>`,
+                    })
+                })
+            }
+            
+            const submissionData = await submissionRes.json()
 
             console.log({ submission })
 
