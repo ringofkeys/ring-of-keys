@@ -21,7 +21,6 @@ export async function getStaticProps() {
 
 export default function Dashboard({ layoutData }) {
     const [dashboardData, setDashboardData] = useState(false)
-    const [events, setEvents] = useState(false)
     const { data: session } = useSession({
         required: true,
         onUnauthenticated() {
@@ -37,13 +36,6 @@ export default function Dashboard({ layoutData }) {
             getDashboardContent(session.token.datoId).then((data) =>
                 setDashboardData(data)
             )
-
-            fetch('/api/getEvents').then(async (res) => {
-                console.log({res})
-                const data = await res.json()
-                console.log({eventData: data})
-                setEvents(data)
-            })
         }
     }, [session])
 
