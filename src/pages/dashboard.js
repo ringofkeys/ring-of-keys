@@ -14,7 +14,6 @@ import Icon from "components/Icon"
 import Popup from "components/Popup";
 import { accountNeedsReview, createPortalSession, getCurrentSubscription, getCustomer, getLastPayment, stripeProducts } from "lib/stripe";
 
-
 export async function getStaticProps() {
   const layoutData = await requestLayoutProps()
 
@@ -67,6 +66,13 @@ export default function Dashboard({ layoutData }) {
                     console.log({ customer, tier, lastPayment })
                     setStripeData({ customer, tier, lastPayment })
                 }
+            })
+
+            fetch('/api/getEvents').then(async (res) => {
+                console.log({res})
+                const data = await res.json()
+                console.log({eventData: data})
+                setEvents(data)
             })
         }
     }, [session])
