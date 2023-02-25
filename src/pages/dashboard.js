@@ -9,7 +9,6 @@ import MessageBlock from "components/MessageBlock"
 import PageBlock from "components/PageContent/PageBlock"
 import { StripeSubscribed, StripeUnsubscribed } from "components/StripeBlocks"
 
-
 export async function getStaticProps() {
   const layoutData = await requestLayoutProps()
 
@@ -22,6 +21,7 @@ export async function getStaticProps() {
 
 export default function Dashboard({ layoutData }) {
     const [dashboardData, setDashboardData] = useState(false)
+    const [events, setEvents] = useState(false)
     const { data: session } = useSession({
         required: true,
         onUnauthenticated() {
@@ -37,6 +37,13 @@ export default function Dashboard({ layoutData }) {
             getDashboardContent(session.token.datoId).then((data) =>
                 setDashboardData(data)
             )
+
+            fetch('/api/getEvents').then(async (res) => {
+                console.log({res})
+                const data = await res.json()
+                console.log({eventData: data})
+                setEvents(data)
+            })
         }
     }, [session])
 
