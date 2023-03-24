@@ -152,7 +152,7 @@
 }
 
 .workshopItem p {
-    @apply mt-4 mb-0 font-normal;
+    @apply my-2 font-normal text-sm;
 }
 
 .dashboardGrid .newsSection {

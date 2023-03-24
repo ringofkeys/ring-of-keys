@@ -69,10 +69,12 @@ export default function Dashboard({ layoutData }) {
             })
 
             fetch('/api/getEvents').then(async (res) => {
-                console.log({res})
-                const data = await res.json()
-                console.log({eventData: data})
-                setEvents(data)
+                const eventData = await res.json()
+                console.log(eventData)
+                const events = eventData.events
+                    .filter(e => new Date(e.start.utc).getTime() > Date.now())
+                    .sort((a, b) => new Date(a.start.utc).getTime() - new Date(b.start.utc).getTime())
+                setWorkshops(events)
             })
         }
     }, [session])
@@ -145,12 +147,10 @@ export default function Dashboard({ layoutData }) {
                         <div className={styles.workshopList}>
                             {workshops?.length
                                 ? workshops.map(workshop => (
-                                    <a className={styles.workshopItem}>
-                                        <h3>{workshop.title}{workshop.subtitle 
-                                            ? (<>:<br/><span className={styles.subtitle}>{workshop.subtitle}</span></>)
-                                            : ''}
-                                        </h3>
-                                        <p>{workshop.eventStart}</p>
+                                    <a className={styles.workshopItem} href={workshop?.url} target="_blank" rel="nofollower">
+                                        <h3>{workshop?.name?.text}</h3>
+                                        <p className={styles.subtitle}>{workshop?.summary}</p>
+                                        <p>{new Date(workshop?.start?.local).toLocaleString()}</p>
                                     </a>
                                 ))
                                 : <p>No Workshops</p>}
@@ -388,28 +388,22 @@ async function getDashboardContent(datoId) {
 function getWorkshops() {
     return [
         {
-            title: 'An Artist’s Financial Rebound',
-            subtitle: 'Aligning Finances With Goals',
-            location: 'Virtual',
-            eventStart: 'Monday, March 8, 2021 3:30 PM ET',
-        },
-        {
-            title: 'Antiracism and the American Theatre',
-            subtitle: 'with Lindsay Roberts',
+            name: { text: 'Build an ADHD-Friendly Creative Practice' },
+            summary: 'In this 2-hour workshop, you’ll learn tricks and tips for building a creative practice that works for YOU.',
             location: `Joe's Pub`,
-            eventStart: 'Monday, February 22, 2021 3:30 PM',
+            start: { utc: '2023-02-21T00:00:00Z' }
         },
         {
-            title: 'The Art of the Pivot',
-            subtitle: "with Multify's Caitlin Donohue",
+            name: { text: 'Meet the Queer Literary Agents!' },
+            summary: "Are you a musical theater writer, composer, director, or designer interested in learning more about what agents do? Join us for this panel!",
             location: 'Virtual',
-            eventStart: `Friday, February 12, 2021 8:00 AM`,
+            start: { utc: `2022-08-24T23:00:00Z` },
         },
         {
-            title: 'The Art of the Pivot',
-            subtitle: "with Multify's Caitlin Donohue",
+            name: { text: 'The Resilient Audition' },
+            summary: "In this experiential brain training workshop, you will learn a series of mental practices to rewire your relationship with auditions.",
             location: 'Virtual',
-            eventStart: `Friday, February 12, 2021 8:00 AM`,
+            start: { utc: `2022-07-18T23:00:00Z` },
         },
     ]
 }
