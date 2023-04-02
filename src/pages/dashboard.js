@@ -9,7 +9,6 @@ import MessageBlock from "components/MessageBlock"
 import PageBlock from "components/PageContent/PageBlock"
 import { StripeSubscribed, StripeUnsubscribed } from "components/StripeBlocks"
 
-
 export async function getStaticProps() {
   const layoutData = await requestLayoutProps()
 

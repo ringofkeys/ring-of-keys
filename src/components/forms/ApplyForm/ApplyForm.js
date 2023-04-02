@@ -148,7 +148,7 @@ export default function ApplyForm() {
                     text: 'Automated admin notification from ringofkeys.org',
                     to: ['info@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
                     from: 'website@ringofkeys.org',
-                    html: newApplicationSubmission({ id: submission.id, ...applyFormObj}),
+                    html: newApplicationSubmission({ id: submission.id, ...applyFormObj, ...emailFields }),
                 })
             })
         } catch(e) {
