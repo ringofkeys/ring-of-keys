@@ -9,7 +9,7 @@
     "@datocms/cma-client-node": "^1.1.12",
     "@sendgrid/mail": "^7.7.0",
     "auth0-js": "^9.19.2",
-    "aws-sdk": "^2.1272.0",
+    "aws-sdk": "^2.1354.0",
     "buffer": "^6.0.3",
     "cuid": "^2.1.8",
     "date-format": "^4.0.14",
