@@ -11,7 +11,7 @@ const messageStatusText = {
     failure: "Something Went Wrong",
 }
 
-const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
+const MessagePopup = ({ isOpen, artistId, artistName, moderateMessages, onClose }) => {
     const [messageStatus, setMessageStatus] = useState("unsent")
 
     async function handleSubmit(e) {
@@ -26,6 +26,7 @@ const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
             toArtist: artistId,
         }
 
+        // put all named values in form into the values to send.
         formVals
             .filter((el) => el.value && el.name)
             .forEach((el) => {
@@ -34,7 +35,7 @@ const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
 
         console.log("values = ", values)
 
-        const sendRes = await sendMessage(values)
+        const sendRes = await sendMessage(values, moderateMessages)
 
         console.log("sendRes", sendRes)
 
@@ -100,13 +101,16 @@ const MessagePopup = ({ isOpen, artistId, artistName, onClose }) => {
 }
 export default MessagePopup
 
-async function sendMessage(data) {
+async function sendMessage(data, moderateMessages) {
     let messageRes = "no message returned"
 
     try {
         messageRes = await fetch("/api/createDatoMessage", {
             method: "POST",
-            body: JSON.stringify(data),
+            body: JSON.stringify({
+                data,
+                moderateMessages,
+            }),
         })
     } catch (err) {
         console.error("fetching error, ", err)

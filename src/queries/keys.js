@@ -63,6 +63,8 @@ query KeyQuery($slug: String!) {
       email
       website
       memberSince
+      hideMessageButton
+      moderateMessages
       socialMedia { socialMediaLink }
       genderIdentity
       isGenderConsultant

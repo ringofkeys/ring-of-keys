@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useEffect } from "react"
 import stripeProducts, {
     flattenedStripeProducts,
-} from "lib/stripeProducts"
+} from "lib/stripe"
 import styles from "./StripeBlocks.module.css"
 import dashboardStyles from 'styles/dashboard.module.css'
 import Head from 'next/head'
