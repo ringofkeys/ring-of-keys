@@ -6,9 +6,7 @@ import { socialIcons } from 'lib/constants'
 
 export default function HeroSocialMedia({ setEditingSocialMedia }) {
     const {
-        artist: {
-            socialMedia,
-        },
+        artist,
         isEditing
     } = useContext(ProfileContext)
 
@@ -17,9 +15,9 @@ export default function HeroSocialMedia({ setEditingSocialMedia }) {
     return (
         <div className={styles["artist_social-icons"]}>
             {!isEditing ? (
-                socialMedia && (
+                artist?.socialMedia && (
                     <>
-                        {socialMedia.map(
+                        {artist.socialMedia.map(
                             (socialObj) => {
                                 const mediaPlatform = Object.keys(
                                     socialIcons

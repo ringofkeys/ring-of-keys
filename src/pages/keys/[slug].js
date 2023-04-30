@@ -85,7 +85,7 @@ export default function KeyPage({ layoutData, artistData }) {
                     onClose={() => setEditingSocialMedia(false)}
                 />
             </>}
-            {!artistData.hideMessageButton && <MessagePopup
+            {!artistData?.hideMessageButton && <MessagePopup
                 isOpen={isMessageOpen}
                 artistId={artist?.id}
                 artistName={artist?.name}
