@@ -13,6 +13,7 @@ import HeroHeadshotEditor from "components/KeyProfile/KeyHero/HeroHeadshotEditor
 import HeroSocialMediaEditor from "components/KeyProfile/KeyHero/HeroSocialMediaEditor"
 import HeroFeaturedImageEditor from "components/KeyProfile/KeyHero/HeroFeaturedImageEditor"
 import EmailPopup from "components/Popup/EmailPopup"
+import { useRouter } from "next/router"
 
 export const ProfileContext = React.createContext({})
 
@@ -41,6 +42,10 @@ export default function KeyPage({ layoutData, artistData }) {
     const [isEditingFeaturedImage, setEditingFeaturedImage] = useState(false)
     const [isEditingSocialMedia, setEditingSocialMedia] = useState(false)
     const [artist, artistDispatch] = useReducer(artistReducer, artistData)
+    
+    // Check if we are loading the page with a "no-popup" query parameter
+    const router = useRouter()
+    const noPopup = Object.keys(router.query).includes('no-popup')
 
     useEffect(() => {
         if (session && session.token.datoId == artistData?.id) {
@@ -102,7 +107,7 @@ export default function KeyPage({ layoutData, artistData }) {
                     loading="lazy"
                 />
             </Popup>
-            <EmailPopup isOpen={isEmailPopupOpen} setOpen={setEmailPopupOpen} isSignedIn={session} />
+            <EmailPopup isOpen={isEmailPopupOpen} setOpen={setEmailPopupOpen} isSignedIn={noPopup || session} />
         </ProfileContext.Provider>
     </>)
 }

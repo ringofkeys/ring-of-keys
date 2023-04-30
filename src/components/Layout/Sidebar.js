@@ -51,7 +51,7 @@ const Sidebar = ({ data }) => {
             {data.team
                 .sort((a, b) => a.keyTeamOrder - b.keyTeamOrder)
                 .map((teammate) => (
-                    <Link href={`/keys/${teammate.slug}`} key={teammate.slug} className={styles.teammate}>
+                    <Link href={`/keys/${teammate.slug}?no-popup`} key={teammate.slug} className={styles.teammate}>
                         <strong>{teammate.name}</strong>{" "}
                         <em>({teammate.pronouns})</em>
                         <br />
