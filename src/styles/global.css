@@ -40,6 +40,10 @@ main.fullWidth {
     margin: 0;
 }
 
+*:has(div[class*="Popup_open"]) {
+    overflow: hidden;
+}
+
 h1 {
     @apply text-3xl mb-2;
 }

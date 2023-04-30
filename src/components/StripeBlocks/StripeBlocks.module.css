@@ -1,26 +1,24 @@
-.blockStripe {
-    color: var(--rok-gold-1_hex);
-    background: #FFF1D1;
-    border-color: var(--rok-gold-1_hex);
-}
-
 .blockStripe p,
 .blockStripe label {
-    color: var(--rok-gold-1_hex);
     font-family: 'EB Garamond', serif;
     letter-spacing: .3px;
     font-size: 1rem;
     line-height: 1.24rem;
 }
 
-.blockStripe label {
-    display: inline-block;
-    width: fit-content;
-    margin:.75rem 1rem;
+.durationSection {
+    display: flex;
+    gap: 10px;
 }
 
-.blockStripe label:first-of-type {
-    margin-left: 0;
+.durationSection label {
+    padding: 5px 10px;
+    border: solid 1px var(--rok-gold-1_hex);
+}
+
+.blockStripe label {
+    display: block;
+    margin: .75rem 1rem;
 }
 
 /* pretty radio */
