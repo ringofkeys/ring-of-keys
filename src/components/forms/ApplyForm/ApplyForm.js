@@ -142,7 +142,7 @@ export default function ApplyForm() {
                         "Content-Type": 'text/json',
                     },
                     body: JSON.stringify({
-                        subject: 'Error in Ring of Keys Application for ' + submission.name,
+                        subject: 'Error in Ring of Keys Application for ' + applyFormObj.name,
                         text: 'Automated admin notification from ringofkeys.org',
                         to: ['info@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
                         from: 'website@ringofkeys.org',
@@ -156,7 +156,7 @@ export default function ApplyForm() {
             
             const submissionData = await submissionRes.json()
 
-            console.log({ submission })
+            console.log({ submissionData })
 
             setFormStatus('success')
             fetch('/api/sendAdminEmail', {
@@ -165,11 +165,11 @@ export default function ApplyForm() {
                     "Content-Type": 'text/json',
                 },
                 body: JSON.stringify({
-                    subject: 'New Ring of Keys Application - ' + submission.name,
+                    subject: 'New Ring of Keys Application - ' + applyFormObj.name,
                     text: 'Automated admin notification from ringofkeys.org',
-                    to: ['info@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
+                    to: ['info@ringofkeys.org', 'taylorpoer@gmail.com', 'frank.ringofkeys@gmail.com'],
                     from: 'website@ringofkeys.org',
-                    html: newApplicationSubmission({ id: submission.id, ...applyFormObj}),
+                    html: newApplicationSubmission({ id: submissionData.id, ...applyFormObj, emailFields}),
                 })
             })
         } catch(e) {

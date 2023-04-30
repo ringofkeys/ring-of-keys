@@ -54,7 +54,7 @@ export default function Dashboard({ layoutData }) {
                 setWorkshops(workshops)
                 setNewsfeed(data.page.newsfeed)
                 setSpotlight(data.page.communitySpotlight)
-                setMessages(data.messages)
+                setMessages([])
 
                 console.log(data)
 
@@ -70,10 +70,11 @@ export default function Dashboard({ layoutData }) {
 
             fetch('/api/getEvents').then(async (res) => {
                 const eventData = await res.json()
-                console.log(eventData)
-                const events = eventData.events
-                    .filter(e => new Date(e.start.utc).getTime() > Date.now())
-                    .sort((a, b) => new Date(a.start.utc).getTime() - new Date(b.start.utc).getTime())
+                const events = (eventData && eventData.events)
+                    ? eventData.events
+                        .filter(e => new Date(e.start.utc).getTime() > Date.now())
+                        .sort((a, b) => new Date(a.start.utc).getTime() - new Date(b.start.utc).getTime())
+                    : []
                 setWorkshops(events)
             })
         }
@@ -153,7 +154,10 @@ export default function Dashboard({ layoutData }) {
                                         <p>{new Date(workshop?.start?.local).toLocaleString()}</p>
                                     </a>
                                 ))
-                                : <p>No Workshops</p>}
+                                : <p className="text-center my-4 bg-blue-50 px-5 py-4 text-sm">
+                                    No Workshops scheduled right now! If you'd like to run your own, we'll help you set one up. Just fill out <a href="https://docs.google.com/forms/d/e/1FAIpQLSd_cPfNXpX8SIHGlnB_Cc38RnfNMsQwrpZir3-xjvh21Wge5w/viewform?usp=sf_link" target="_blank" rel="noopener noreferrer" className="text-blue-800 hover:text-blue-700">this Google Form.</a>
+                                </p>
+                            }
                         </div>
                     </section>
                     <section className={styles.newsSection} >
@@ -235,7 +239,10 @@ export default function Dashboard({ layoutData }) {
                                         </button>
                                     </div>
                                 ))
-                                : <p>No Messages</p>}
+                                : <p className="text-center my-4 bg-blue-50 px-5 py-4 text-sm">
+                                    No messages just yet! Messages will be sent through the form on <Link href={"/keys/" + user.slug} className="text-blue-800 hover:text-blue-700">your profile</Link>.
+                                </p>
+                            }
                         </div>
                     </section>
                     {/* <div className={styles.block +' '+ styles.blockIntro}>
@@ -286,7 +293,7 @@ export default function Dashboard({ layoutData }) {
                         )
                     })} */}
                 </div>
-                {messages?.length && <Popup isOpen={!!popupMessage} onClose={() => setPopupMessage(false)}>
+                {messages?.length > 0 && <Popup isOpen={!!popupMessage} onClose={() => setPopupMessage(false)}>
                     <h2>{popupMessage.fromName}</h2>
                     <a
                         href={`mailto:${popupMessage.fromEmail}`}
