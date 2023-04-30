@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useEffect } from "react"
-import stripeProducts, {
+import {
     flattenedStripeProducts,
+    stripeProducts,
 } from "lib/stripe"
 import styles from "./StripeBlocks.module.css"
 import dashboardStyles from 'styles/dashboard.module.css'
@@ -83,13 +84,15 @@ const KeyshipForm = ({ userId }) => {
         //     dispatch({ type: 'FAILURE' })        }
     }
 
+    console.log('stripeProducts', stripeProducts)
+
     return (
         <>
             <Head>
                 <script src="https://js.stripe.com/v3"></script>
             </Head>
             <form onSubmit={handleSubmit}>
-                <section>
+                <section className={styles.durationSection}>
                     <label>
                         <input
                             type="radio"
@@ -119,7 +122,7 @@ const KeyshipForm = ({ userId }) => {
                         <span>Monthly</span>
                     </label>
                 </section>
-                <fieldset id="keyship-options">
+                <fieldset className={styles.options} id="keyship-options">
                     {stripeProducts &&
                         stripeProducts.length &&
                         stripeProducts.map((product, i) => (
@@ -147,7 +150,7 @@ const KeyshipForm = ({ userId }) => {
                     <span>I'd like to sponsor another Key too</span>
                 </label>
                 {state.showSponsorship && (
-                    <fieldset id="sponsorship-options">
+                    <fieldset id="sponsorship-options" className={styles.options}>
                         {stripeProducts &&
                             stripeProducts.length &&
                             stripeProducts.map((product, i) => (
@@ -244,7 +247,7 @@ export const StripeSubscribed = ({ stripeId }) => {
 
 export const StripeUnsubscribed = ({ userId }) => {
     return (
-        <section className={dashboardStyles.block +' '+ styles.blockStripe}>
+        <section className={styles.blockStripe}>
             <h2>Keyship</h2>
             <p>
                 To help us keep the lights on and ceilings shattered, please

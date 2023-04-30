@@ -32,6 +32,7 @@ export default function Dashboard({ layoutData }) {
     const [messages, setMessages] = useState(false)
     const [stripeData, setStripeData] = useState(false)
     const [popupMessage, setPopupMessage] = useState(false)
+    const [keyshipPopupOpen, setKeyshipPopupOpen] = useState(false)
 
     const validTier = (stripeData) => stripeData?.tier >= 0 && stripeData?.tier !== null;
 
@@ -133,13 +134,24 @@ export default function Dashboard({ layoutData }) {
                                 <p className="text-xs">Exclusive professional development events for Keys.</p>
                             </div>
                             <div>
-                                <p className="text-xs">You have <strong>3</strong> more free slots for workshops this year as a part of your <strong>{validTier(stripeData) ? stripeProducts[stripeData.tier]?.label : 'Basic'}</strong> Keyship.</p>
-                                {user.stripeId && <button href={"/keys/" + user.slug}
-                                    className={`block mt-4 ${styles.dashboardButton}`}
-                                    onClick={() => createPortalSession(user.stripeId)}
-                                >
-                                    Manage Keyship
-                                </button>}
+                                {user?.stripeId ? (
+                                <>
+                                    <p className="text-xs">Thank you for donating to support our programming! You can manage your donations here.</p>
+                                    <button
+                                        className={`block mt-4 ${styles.dashboardButton}`}
+                                        onClick={() => createPortalSession(user.stripeId)}
+                                    >
+                                        Manage Keyship
+                                    </button>
+                                </>
+                                    ) : (
+                                <>
+                                    <p className="text-xs">Ring of Keys is a 501c3 non-profit that runs on member donations. Please consider donating if you are able!</p>
+                                    <button onClick={() => setKeyshipPopupOpen(true)} className={`block mt-4 ${styles.dashboardButton}`}>
+                                        Donate Now
+                                    </button>
+                                </>
+                                )}
                                 {user.stripeId && stripeData && accountNeedsReview(stripeData.customer) && 
                                     <p className="p-2 mt-4 text-xs text-red-700 rounded bg-red-50">❗️ Something appears to be wrong with your billing, please review by clicking above.</p>
                                 }
@@ -245,53 +257,6 @@ export default function Dashboard({ layoutData }) {
                             }
                         </div>
                     </section>
-                    {/* <div className={styles.block +' '+ styles.blockIntro}>
-                        <div>
-                            <h2>{dashboardData.user.name}</h2>
-                            <p className="my-4">{ parse(dashboardData.page.content.find(block => block.area === 'intro')?.content)
-                                || "Welcome to the Key Member dashboard! Here you can find access to Members Only content like our Proud Member: Ring of Keys badges to use on your website, resumé, or portfolio."
-                            }</p>
-                            <Link href={"/keys/" + dashboardData.user.slug} className="my-4 btn btn-link_ghost">
-                                View / Edit Profile
-                            </Link>
-                            {dashboardData.user?.stripeId && <StripeSubscribed stripeId={dashboardData.user.stripeId} />}
-                        </div>
-                        {dashboardData.user.headshot && (
-                            <img
-                                src={
-                                    dashboardData.user.headshot.url +
-                                    "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=140&h=140&"
-                                }
-                                alt={dashboardData.user.headshot.title}
-                                className="avatar"
-                            />
-                        )}
-                    </div>
-                    {!dashboardData.user?.stripeId && <StripeUnsubscribed userId={dashboardData.user?.id} />}
-                    <section className={styles.block}>
-                        <MessageBlock messages={dashboardData.messages} />
-                    </section>
-                    {dashboardData.page.content.filter(block => block.area !== "intro").map((block, i) => {
-                        return (
-                            <section
-                                className={
-                                    styles.block +
-                                    (block.area ? " " + styles[`block_${block.area}`] : "")
-                                }
-                                key={"block" + i}
-                            >
-                                {block.__typename ===
-                                "DashboardBlockRecord" ? (
-                                    <>
-                                        <h2>{block.blockTitle}</h2>
-                                        {parse(block.content)}
-                                    </>
-                                ) : (
-                                    <PageBlock {...block} />
-                                )}
-                            </section>
-                        )
-                    })} */}
                 </div>
                 {messages?.length > 0 && <Popup isOpen={!!popupMessage} onClose={() => setPopupMessage(false)}>
                     <h2>{popupMessage.fromName}</h2>
@@ -311,6 +276,11 @@ export default function Dashboard({ layoutData }) {
                         Reply
                     </a>
                 </Popup>}
+                {!user.stripeId && (
+                    <Popup isOpen={keyshipPopupOpen} onClose={() => setKeyshipPopupOpen(false)}>
+                        <StripeUnsubscribed userId={user.id} />
+                    </Popup>
+                )}
             </>) : (
                 <Loading />
             )}
