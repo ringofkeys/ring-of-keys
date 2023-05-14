@@ -49,10 +49,7 @@ export default function Dashboard({ layoutData }) {
 
         if (session) {
             getDashboardContent(session.token.datoId).then(async (data) => {
-                const workshops = getWorkshops();
-                
                 setUser(data.user)
-                setWorkshops(workshops)
                 setNewsfeed(data.page.newsfeed)
                 setSpotlight(data.page.communitySpotlight)
                 setMessages([])
@@ -362,7 +359,7 @@ async function getDashboardContent(datoId) {
     })
 }
 
-function getWorkshops() {
+function getFakeWorkshops() {
     return [
         {
             name: { text: 'Build an ADHD-Friendly Creative Practice' },
