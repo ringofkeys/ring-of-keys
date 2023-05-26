@@ -54,7 +54,7 @@ export default function HeroSocialMedia({ setEditingSocialMedia }) {
                 <>
                     {Object.keys(socialIcons).map((key) => {
                         const hasLink =
-                            socialMedia.find(
+                            artist?.socialMedia.find(
                                 (socialObj) =>
                                     socialObj.socialMediaLink.includes(
                                         key
