@@ -15,7 +15,7 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
     } = useContext(ProfileContext)
     const [isEditingField, setEditingField] = useState(false)
     const [isSubmitting, setSubmitting] = useState(false)
-    const fieldValue = artist[fieldName]
+    const fieldValue = (artist && artist !== null) ? artist[fieldName] : undefined
     const EmptyState = () => (
         <p>
             {(['resume', 'website'].findIndex(f => f === fieldName) >= 0)
