@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react"
 import Link from 'next/link'
+import * as Sentry from '@sentry/nextjs'
 import FormField from "components/FormField"
 import { affiliations, locations, mockData } from "./constants"
 import { uploadFile } from 'lib/datocms.js'
@@ -167,13 +168,14 @@ export default function ApplyForm() {
                 body: JSON.stringify({
                     subject: 'New Ring of Keys Application - ' + applyFormObj.name,
                     text: 'Automated admin notification from ringofkeys.org',
-                    to: ['info@ringofkeys.org', 'taylorpoer@gmail.com', 'frank.ringofkeys@gmail.com'],
+                    to: ['info@ringofkeys.org', 'taylorjo@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
                     from: 'website@ringofkeys.org',
                     html: newApplicationSubmission({ id: submissionData.id, ...applyFormObj, ...emailFields}),
                 })
             })
         } catch(e) {
             setFormStatus('failure')
+            Sentry.captureException(e)
 
             fetch('/api/sendAdminEmail', {
                 method: 'POST',
@@ -185,7 +187,10 @@ export default function ApplyForm() {
                     text: 'Automated admin error notification from ringofkeys.org',
                     to: 'frank.ringofkeys@gmail.com',
                     from: 'website@ringofkeys.org',
-                    html: `<pre>${ JSON.stringify(e, false, 2) }</pre>`,
+                    html: `
+                        <p>Error: <pre>${ JSON.stringify(e, false, 2) }</pre></p>
+                        <p>Form data: <pre>${ JSON.stringify(applyFormObj, false, 2) }</pre></p>
+                    `,
                 })
             })
         }
