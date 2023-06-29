@@ -7,10 +7,10 @@ const SITE_BANNER_DISMISSED_KEY = 'rok-site-banner-dismissed'
 const SITE_BANNER_UPDATE_KEY = 'rok-site-banner-last-updated'
 
 // Timestamp of last update to banner
-const SITE_BANNER_LAST_UPDATED = 1673064305120
+const SITE_BANNER_LAST_UPDATED = 1688051553846
 
 export default function SiteBanner({
-    textContent = "Ring of Keys runs on public and member donations. Make a tax-deductible donation this holiday season to empower and connect queer theatremakers around the world.",
+    textContent = "Ring of Keys turned 5 years old in 2023! Keep the celebration going by making a tax-deductible donation to continue to queer the stage and support Keys all over the world.",
     ctaUrl = "/donate",
     ctaText = "Donate",
     dismissUntil = 30 // days
