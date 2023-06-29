@@ -73,3 +73,6 @@ yarn-error.log
 
 # Next (only relevant during migration)
 .next/
+
+# Sentry config file
+.sentryclirc

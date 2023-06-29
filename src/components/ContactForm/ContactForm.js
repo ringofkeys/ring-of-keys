@@ -89,7 +89,7 @@ async function sendAdminEmail(data) {
             ? {
                   subject: `New Contact Submission from ${data.email}`,
                   text: "A new Contact form submission through Ring of Keys",
-                  to: "taylorpoer@gmail.com",
+                  to: "taylorjo@ringofkeys.org",
                   from: data.email,
                   data,
               }

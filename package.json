@@ -8,6 +8,7 @@
     "@datocms/cma-client-browser": "^1.1.12",
     "@datocms/cma-client-node": "^1.1.12",
     "@sendgrid/mail": "^7.7.0",
+    "@sentry/nextjs": "^7.54.0",
     "auth0-js": "^9.19.2",
     "aws-sdk": "^2.1272.0",
     "buffer": "^6.0.3",
