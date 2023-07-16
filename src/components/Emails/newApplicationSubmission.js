@@ -7,8 +7,14 @@ const newApplicationSubmission = (submission) => `
             ${Object.keys(submission).map(
                 (key) => `
                 <tr style="padding: .4rem 1rem;">
-                    <th style="border: solid 1px #ddd; padding: .3rem .75rem; text-align: left; text-transform: capitalize">${key}</th>
-                    <td style="border: solid 1px #ddd; padding: .3rem .75rem">${submission[key]}</td>
+                    <th style="border: solid 1px #ddd; padding: .3rem .75rem; text-align: left; text-transform: capitalize">${
+                        key
+                    }</th>
+                    <td style="border: solid 1px #ddd; padding: .3rem .75rem">${
+                        (submission[key] instanceof Object) 
+                            ? JSON.stringify(submission[key], null, 2) 
+                            : submission[key]
+                    }</td>
                 </tr>`
             ).join('')}
         </tbody>

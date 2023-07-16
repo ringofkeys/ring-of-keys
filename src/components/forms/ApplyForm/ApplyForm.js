@@ -158,8 +158,17 @@ export default function ApplyForm() {
             const submissionData = await submissionRes.json()
 
             console.log({ submissionData })
-
+            
             setFormStatus('success')
+
+            if (!submissionData.id) {
+                Sentry.captureException('No submission ID returned from DatoCMS', {
+                    applyFormObj,
+                    submissionRes,
+                    submissionData,
+                })
+            }
+
             fetch('/api/sendAdminEmail', {
                 method: 'POST',
                 headers: {
