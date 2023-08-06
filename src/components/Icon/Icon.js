@@ -5,8 +5,8 @@ export default function Icon({ type, className, fill = "white" }) {
         case "close":
             return (
                 <svg viewBox='0 0 5 5' fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-                    <path d='M 1 1 l 3 3' stroke={fill} stroke-linecap='round'/>
-                    <path d='M 1 4 l 3 -3' stroke={fill} stroke-linecap='round'/>
+                    <path d='M 1 1 l 3 3' stroke={fill} strokeLinecap='round'/>
+                    <path d='M 1 4 l 3 -3' stroke={fill} strokeLinecap='round'/>
                 </svg>
             )
         case "camera":
