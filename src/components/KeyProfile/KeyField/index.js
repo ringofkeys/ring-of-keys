@@ -13,7 +13,7 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
         artistDispatch,
         isEditing: isEditingProfile,
     } = useContext(ProfileContext)
-    const [isEditingField, setEditingField] = useState(false)
+    const [fieldStatus, setFieldStatus] = useState('viewing')
     const [isSubmitting, setSubmitting] = useState(false)
     const fieldValue = (artist && artist !== null) ? artist[fieldName] : undefined
     const EmptyState = () => (
@@ -25,9 +25,9 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
     )
 
     function handleSubmit(e) {
-        e.persist()
         e.preventDefault()
         setSubmitting(true)
+        setFieldStatus('loading')
 
         fetch('/api/updateKey', {
             method: 'POST',
@@ -47,9 +47,12 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
                     payload: { [fieldName]: data[fieldName]
                 }})
                 setSubmitting(false)
+                setFieldStatus('viewing')
+            }).catch(err => {
+                console.error('error updating key', err)
+                setSubmitting(false)
+                setFieldStatus('viewing')
             })
-
-        setEditingField(false)
     }
 
     // Public view of field: hide fields without data
@@ -65,7 +68,7 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
     }
 
     // Edit Mode view: show empty states, show edit toggle
-    if (!isEditingField) {
+    if (fieldStatus === 'viewing') {
         return <>
             {heading}
             <div className={styles["profile_field_group"]}>
@@ -74,7 +77,8 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
                 </div>
                 <button
                     className={styles["btn_edit"] +' '+ styles["edit_field"]}
-                    onClick={() => setEditingField(true)}
+                    onClick={() => setFieldStatus(true)}
+                    disabled={isSubmitting || fieldStatus === 'loading'}
                 >
                     <Icon type="pencil" className={styles["icon_edit"]} fill="white" />
                     <span className={iconStyles["tooltip"]}>Change {camelCaseToLabel(fieldName)}</span>
@@ -96,7 +100,7 @@ export default function KeyField({ heading, fieldName, editFormFields, processDa
                 }
                 <button
                     className={styles["btn_edit"] +' '+ styles["edit_field"]}
-                    onClick={() => setEditingField(false)}
+                    onClick={() => setFieldStatus('viewing')}
                 >
                     <Icon type="close" className={styles["icon_edit"]} fill="white" />
                     <span className={iconStyles["tooltip"]}>Cancel Edit</span>

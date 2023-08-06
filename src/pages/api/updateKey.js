@@ -20,23 +20,33 @@ async function handler(req, res) {
         )
     }
 
-    if (fields.socialMedia) {
-        fields.socialMedia = fields.socialMedia.map(({ socialMediaLink }) =>
-            buildModularBlock({
-                socialMediaLink,
-                itemType: "181488",
-            })
-        )
+    try {
+        if (fields.socialMedia) {
+            fields.socialMedia = fields.socialMedia.map(({ socialMediaLink }) =>
+                buildModularBlock({
+                    socialMediaLink,
+                    itemType: "181488",
+                })
+            )
+        }
+
+        await client.items.update(id, fields)
+        const item = await client.item.publish(id, {
+            content_in_locales: [
+                ''
+            ],
+            non_localized_content: true
+        })
+    
+        if (Object.keys(fields).includes('isGenderConsultant')) {
+            await triggerDatoBuildHook(NETLIFY_TRIGGER_ID)
+        }
+    
+        res.status(200).json(item)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json(error)
     }
-
-    await client.items.update(id, fields)
-    const item = await client.item.publish(id)
-
-    if (Object.keys(fields).includes('isGenderConsultant')) {
-        await triggerDatoBuildHook(NETLIFY_TRIGGER_ID)
-    }
-
-    res.status(200).json(item)
 }
 
 export default handler
