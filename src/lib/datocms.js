@@ -64,7 +64,7 @@ export async function requestAll({ query, variables, preview }) {
     return results
 }
 
-const uploadClient = buildClient({ apiToken: process.env.NEXT_CONTENT_API_TOKEN })
+const uploadClient = buildClient({ apiToken: process.env.NEXT_PUBLIC_DATO_READ_WRITE_TOKEN })
 
 export function uploadFile(file, options) {
     const filename = options?.filename || file.name
@@ -75,10 +75,14 @@ export function uploadFile(file, options) {
         filename,
         author: options?.author,
         onProgress: (info) => {
-            console.log({
-                phase: info.type,
-                details: info.payload,
-            })
+            if (options?.onProgress) {
+                options.onProgress(info)
+            } else {
+                console.log({
+                    phase: info.type,
+                    details: info.payload,
+                })
+            }
         },
         default_field_metadata: {
             en: {
