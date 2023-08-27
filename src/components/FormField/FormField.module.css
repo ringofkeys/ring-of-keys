@@ -29,6 +29,21 @@
     grid-column: 2 / 3;
 }
 
+.progress,
+.progress::-webkit-progress-bar {
+    @apply block w-full;
+    -webkit-appearance: none;
+    @apply bg-green-50;
+    @apply accent-green-800;
+    @apply rounded-full h-1;
+}
+
+.progress::-webkit-progress-value,
+.progress::-moz-progress-bar {
+    @apply rounded-full h-1;
+    @apply bg-green-800;
+}
+
 
 @media (max-width: 700px) {
     .checkbox {

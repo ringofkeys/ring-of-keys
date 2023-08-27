@@ -1,6 +1,7 @@
 import React from "react"
 import InfoIcon from "./InfoIcon"
 import styles from "./FormField.module.css"
+export { default as UploadField } from "./UploadField"
 
 export default function FormField({
     name,

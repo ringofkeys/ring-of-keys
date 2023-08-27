@@ -1,10 +1,9 @@
 import React, { useState, useRef } from "react"
 import Link from 'next/link'
 import * as Sentry from '@sentry/nextjs'
-import FormField from "components/FormField"
+import FormField, { UploadField } from "components/FormField"
 import { affiliations, locations, mockData } from "./constants"
-import { uploadFile } from 'lib/datocms.js'
-import { fileToArrayBuffer, slugify } from 'lib/utils.js'
+import { slugify } from 'lib/utils.js'
 import styles from "./ApplyForm.module.css"
 import CheckboxGrid from "components/CheckboxGrid"
 import newApplicationSubmission from "components/Emails/newApplicationSubmission"
@@ -12,7 +11,9 @@ import newApplicationSubmission from "components/Emails/newApplicationSubmission
 export default function ApplyForm() {
     const [formStatus, setFormStatus] = useState("unsent")
     const [resumeType, setResumeType] = useState("URL")
+    const [nameValue, setNameValue] = useState("")
     const formRef = useRef(null)
+    const [uploads, setUploads] = useState({})
 
     const formLabels = {
         submitting: "Loading...",
@@ -21,26 +22,31 @@ export default function ApplyForm() {
         failure: "Please Try Again Later",
     }
 
-    function validateFileSize(e) {
-        if (e.target.files[0]) {
-            const file = e.target.files[0]
-
-            // Error if file is larger than 4Mb
-            if (file.size > 4000000) {
-                e.target.required = true
-                const errMessage = `This file is ${(file.size / 1_000_000).toFixed(1)}Mb, please upload one smaller than 4Mb.`
-                e.target.setCustomValidity(errMessage)
-            } else {
-                e.target.setCustomValidity('')
-            }
-        }
+    const onUploadComplete = (fieldName, data) => {
+        setUploads((previous) => ({
+            ...previous,
+            [fieldName]: data
+        }))
     }
 
     async function handleSubmit(e) {
         e.preventDefault()
         setFormStatus("submitting")
         const applyFormData = new FormData(e.target)
-        const applyFormObj = Object.fromEntries(applyFormData)
+
+        const transformedUploads = Object.fromEntries(Object.entries(uploads)
+            .map(([fieldName, fieldValue]) => ([
+                fieldName,
+                {
+                    uploadId: fieldValue.id
+                }
+            ])))
+
+        const applyFormObj = Object.assign(
+            Object.fromEntries(applyFormData),
+            transformedUploads,
+        )
+
         delete applyFormObj.resumeType
         applyFormObj.slug = slugify(applyFormObj.name)
 
@@ -69,65 +75,7 @@ export default function ApplyForm() {
             applyFormObj.website = validateUrl(applyFormObj.website)
         }
 
-        console.log({ applyFormData, applyFormObj, locationData })
-
-        // Upload files
-        const fileNames = []
-        const files = {}
-        const buildFileName = (fieldName) => `${ slugify(applyFormObj.name) }-${fieldName}.${applyFormObj[fieldName]?.type.slice(applyFormObj[fieldName]?.type.indexOf('/') + 1)}`
-
-        const headshotFileName = buildFileName('headshot')
-        fileNames.push(['headshot', headshotFileName])
-        files.headshot = (applyFormObj.headshot)
-        
-        const resumeFileName = buildFileName('resumeFile')
-        if (applyFormObj.resumeFile) {
-            fileNames.push(['resumeFile', resumeFileName])
-            files.resumeFile = (applyFormObj.resumeFile)
-        }
-
         try {
-            const uploadUrls = await fetch('/api/createUploadUrls', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/json',
-                },
-                body: JSON.stringify(fileNames),
-            }).then(res => res.json())
-
-            console.log({ uploadUrls })
-
-            const uploads = uploadUrls.map(async ([fieldName, uploadObj]) => fetch(uploadObj.url, {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": files[fieldName].type,
-                },
-                body: await fileToArrayBuffer(files[fieldName]),
-            }).then(res => {
-                console.log(res)
-                return res.text()
-            }))
-
-            uploadUrls.forEach(([fieldName, uploadObj]) => {
-                applyFormObj[fieldName] = {
-                    path: uploadObj.id,
-                    author: applyFormObj.name,
-                    defaultFieldMetadata: {
-                        en: {
-                            alt: applyFormObj.name + " " + fieldName,
-                            title: applyFormObj.name + " " + fieldName + " " + Date.now().toLocaleString(),
-                            customData: {
-                                watermark: false,
-                            },
-                        },
-                    },
-                }
-            })
-
-            const uploadData = await Promise.all(uploads)
-
-            console.log({uploadData})
-
             const submissionRes = await fetch('/api/submitKeyshipApplication', {
                 method: 'POST',
                 headers: {
@@ -136,7 +84,7 @@ export default function ApplyForm() {
                 body: JSON.stringify(applyFormObj)
             })
 
-            if (submissionRes.status.toString().startsWith('4')) {
+            if (submissionRes.status.toString().startsWith('5')) {
                 fetch('/api/sendAdminEmail', {
                     method: 'POST',
                     headers: {
@@ -157,8 +105,6 @@ export default function ApplyForm() {
             
             const submissionData = await submissionRes.json()
 
-            console.log({ submissionData })
-            
             setFormStatus('success')
 
             if (!submissionData.id) {
@@ -223,6 +169,8 @@ export default function ApplyForm() {
                         label="Full Name"
                         required={true}
                         placeholder="First Last"
+                        value={nameValue}
+                        onChange={(e) => setNameValue(e.target.value)}
                     />
                     <FormField
                         type="email"
@@ -346,13 +294,13 @@ export default function ApplyForm() {
                         label="Website URL"
                         required={false}
                     />
-                    <FormField
-                        type="file"
+                    <UploadField
                         name="headshot"
                         label="Upload your headshot or picture (max 4Mb)"
                         accept=".jpg, .png, .jpeg, .webp"
                         required={true}
-                        onChange={validateFileSize}
+                        onUploadComplete={onUploadComplete} 
+                        author={nameValue || 'unknown author'}
                     />
                     <div className="flex gap-4">
                         <label className="flex items-center gap-2">
@@ -371,11 +319,11 @@ export default function ApplyForm() {
                             name="resume"
                             label="Resumé URL"
                         />
-                        : <FormField
-                            type="file"
+                        : <UploadField
                             name="resumeFile"
                             label="Resumé File"
-                            onChange={validateFileSize}
+                            onUploadComplete={onUploadComplete}
+                            author={nameValue || 'unknown author'}
                         />}
                     </div>
                     <FormField
