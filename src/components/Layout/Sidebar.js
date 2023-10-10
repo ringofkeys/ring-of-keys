@@ -60,23 +60,26 @@ const Sidebar = ({ data }) => {
                         </em>
                     </Link>
                 ))}
-            <h3>Meetup Ambassadors</h3>
-            {data.ambassadors
-                .sort(
-                    (a, b) => a.meetupAmbassadorOrder - b.meetupAmbassadorOrder
-                )
-                .map((ambassador) => (
-                    <Link
-                        href={`/keys/${ambassador.slug}`}
-                        key={ambassador.slug}
-                        className={styles.ambassador}>
-                            <strong>{ambassador.name}</strong> (
-                            {ambassador.pronouns.toLowerCase()}) <br />
-                            <em style={{ color: "#6d7278" }}>
-                                {getBestLocationVal(ambassador)}
-                            </em>
-                    </Link>
-                ))}
+            {data.ambassadors.length > 0 && (<>
+                <h3>Meetup Ambassadors</h3>
+                {data.ambassadors
+                    .sort(
+                        (a, b) => a.meetupAmbassadorOrder - b.meetupAmbassadorOrder
+                    )
+                    .map((ambassador) => (
+                        <Link
+                            href={`/keys/${ambassador.slug}`}
+                            key={ambassador.slug}
+                            className={styles.ambassador}>
+                                <strong>{ambassador.name}</strong> (
+                                {ambassador.pronouns.toLowerCase()}) <br />
+                                <em style={{ color: "#6d7278" }}>
+                                    {getBestLocationVal(ambassador)}
+                                </em>
+                        </Link>
+                    ))
+                }
+            </>)}
         </aside>
     )
 }

@@ -94,7 +94,7 @@ const EmailSignupForm = ({
                     <label
                         className={styles.privacyConsent + " input__group checkbox"}
                     >
-                        <input name="optedIn" type="checkbox" />
+                        <input name="optedIn" type="checkbox" defaultChecked />
                         <span>
                             I would like to receive news and updates from Ring of
                             Keys.
