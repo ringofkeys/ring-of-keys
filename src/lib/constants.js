@@ -41,3 +41,21 @@ export const resourceThemes = {
         color: "#494949",
     }
 }
+
+export const DEMOGRAPHIC_FIELDS = [
+    'pronouns',
+    'gender_identity',
+    'sexual_identity',
+    'race_ethnicity',
+    'discipline',
+    'main_location',
+]
+
+export const DEMOGRAPHIC_COLUMN_NAMES = [
+    'Pronouns',
+    'Gender Identity',
+    'Sexual Identity',
+    'Race / Ethnicity',
+    'Discipline',
+    'Main Location',
+]

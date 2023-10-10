@@ -7,7 +7,7 @@
   "dependencies": {
     "@datocms/cma-client": "^2.0.0",
     "@datocms/cma-client-browser": "^2.0.0",
-    "@datocms/cma-client-node": "^2.0.0",
+    "@datocms/cma-client-node": "^2.2.2",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -26,6 +26,7 @@
     "graphql-request": "^5.0.0",
     "hast-to-hyperscript": "^10.0.1",
     "html-react-parser": "^3.0.4",
+    "json-to-csv-export": "^2.1.1",
     "lodash.debounce": "^4.0.8",
     "next": "^13.0.6",
     "next-auth": "^4.18.5",

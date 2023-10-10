@@ -3,6 +3,8 @@ import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
 import Layout from "components/Layout"
 import { StructuredText } from 'react-datocms';
+import csvDownload from 'json-to-csv-export'
+import { DEMOGRAPHIC_COLUMN_NAMES } from "lib/constants";
 import { request, requestLayoutProps } from "../lib/datocms"
 import parse from "html-react-parser"
 import styles from 'styles/dashboard.module.css'
@@ -97,6 +99,19 @@ export default function Dashboard({ layoutData }) {
         setUser({...Object.assign(user, newData)})
     }
 
+    async function downloadDemographicData() {
+        const keyData = await fetch('/api/getKeyReportData').then(res => res.json())
+
+        const csvConvertConfig = {
+            data: keyData,
+            filename: `rok-key-report-${new Date().toISOString()}`,
+            delimiter: ',',
+            headers: DEMOGRAPHIC_COLUMN_NAMES,
+        }
+
+        csvDownload(csvConvertConfig)
+    }
+
 
     return (<>
         <Head>
@@ -116,9 +131,14 @@ export default function Dashboard({ layoutData }) {
                         <div className={styles.infoContent}>
                             <h1>{user.name}</h1>
                             <p className="text-xs">{user.pronouns} · Member since {user.memberSince}</p>
-                            <Link href={"/keys/" + user.slug} className={`mt-4 ${styles.dashboardButton}`}>
+                            <Link href={"/keys/" + user.slug} className={`my-4 ${styles.dashboardButton}`}>
                                 Edit Public Profile
                             </Link>
+                            {user.keyTeamMember && (
+                                <button className={styles.dashboardButton} onClick={downloadDemographicData}>
+                                    Get Report Data
+                                </button>
+                            )}
                         </div>
                     </section>
                     <section className={styles.workshopsSection}>
@@ -309,6 +329,7 @@ async function getDashboardContent(datoId) {
                     title
                 }
                 stripeId
+                keyTeamMember
             }
 
             messages: allMessages(filter: { toArtist: { eq: $id }}, orderBy: _firstPublishedAt_DESC) {
