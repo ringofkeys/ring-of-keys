@@ -30,8 +30,6 @@ const Sidebar = ({ data }) => {
         return dateObj.getDate()
     }
 
-    console.log({ data})
-
     return (
         <aside className={styles.sidebar}>
             <h2 className="visually-hidden">Sidebar</h2>
