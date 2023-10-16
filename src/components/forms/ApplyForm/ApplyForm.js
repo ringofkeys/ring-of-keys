@@ -266,7 +266,7 @@ export default function ApplyForm() {
                         label="Gender Identity"
                         required={true}
                         placeholder="ie: Non-Binary, Cis, Gender Fluid"
-                        helpText="When a person shares their pronouns, they are naming the pronouns that they want to be referred to by in the singular third person (when referring to that person while talking to someone else)."
+                        helpText={`One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.`}
                     />
                     <FormField
                         type="text"
@@ -274,7 +274,7 @@ export default function ApplyForm() {
                         label="Sexual Orientation"
                         required={false}
                         placeholder="ie: Bisexual, Queer, Lesbian"
-                        helpText="When a person shares their pronouns, they are naming the pronouns that they want to be referred to by in the singular third person (when referring to that person while talking to someone else)."
+                        helpText={`Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person.`}
                     />
                     <FormField
                         type="text"

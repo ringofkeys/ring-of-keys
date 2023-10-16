@@ -6,6 +6,7 @@ import Popup from "./popup"
 import sendTxtMsg from "../utils/twilioFns"
 import slugify from "../utils/slugify"
 import { uploadFile } from "../utils/datoUploads"
+import { PROFILE_INFO_COPY } from "lib/constants"
 let locations = [
     "New York City",
     "Chicago",
@@ -237,7 +238,7 @@ const ApplyForm = () => {
                         label="Pronouns"
                         required={true}
                         placeholder="ie: They / Them or She / Her"
-                        helpText={`When a person shares their pronouns, they are naming the pronouns that they want to be referred to by in the singular third person (when referring to that person while talking to someone else).`}
+                        helpText={PROFILE_INFO_COPY.pronouns}
                     />
                     <Field
                         type="text"
@@ -245,7 +246,7 @@ const ApplyForm = () => {
                         label="Gender Identity"
                         required={true}
                         placeholder="ie: Non-Binary, Cis, Gender Fluid"
-                        helpText={`One’s internal, deeply held sense of gender. Some people identify completely with the gender they were assigned at birth (usually male or female), while others may identify with only a part of that gender, or not at all. Some people identify with another gender entirely. Unlike gender expression, gender identity is not visible to others.`}
+                        helpText={PROFILE_INFO_COPY.genderIdentity}
                     />
                     <Field
                         type="text"
@@ -253,14 +254,14 @@ const ApplyForm = () => {
                         label="Sexual Orientation"
                         required={true}
                         placeholder="ie: Bisexual, Queer, Lesbian"
-                        helpText={`Sexual orientation describes a person's enduring physical, romantic, and/or emotional attraction to another person.`}
+                        helpText={PROFILE_INFO_COPY.sexualOrientation}
                     />
                     <Field
                         type="text"
                         name="raceEthnicity"
                         label="Race/Ethnicity [optional]"
                         placeholder="ie: Black, Indigenous, Latinx, etc."
-                        helpText={`Racial identity is the qualitative meaning one ascribes to one’s racial group, whereas ethnic identity is a concept that refers to one’s sense of self as a member of an ethnic group. At their core, both constructs reflect an individual’s sense of self as a member of a group; however, racial identity integrates the impact of race and related factors, while ethnic identity is focused on ethnic and cultural factors. We celebrate our Keys’ intersectionality and understand that creating one’s racial/ethnic identity is a fluid and nonlinear process that varies for every person. Many folks will identify with more than one background while others will identify with a single group more broadly.`}
+                        helpText={PROFILE_INFO_COPY.raceEthnicity}
                     />
                 </div>
                 <div className="divider"></div>
