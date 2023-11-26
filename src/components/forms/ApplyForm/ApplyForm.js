@@ -7,6 +7,7 @@ import { slugify } from 'lib/utils.js'
 import styles from "./ApplyForm.module.css"
 import CheckboxGrid from "components/CheckboxGrid"
 import newApplicationSubmission from "components/Emails/newApplicationSubmission"
+import applicationUnderReview from "components/Emails/applicationUnderReview"
 
 export default function ApplyForm() {
     const [formStatus, setFormStatus] = useState("unsent")
@@ -115,6 +116,7 @@ export default function ApplyForm() {
                 })
             }
 
+            // Notify admin team
             fetch('/api/sendAdminEmail', {
                 method: 'POST',
                 headers: {
@@ -126,6 +128,21 @@ export default function ApplyForm() {
                     to: ['info@ringofkeys.org', 'taylorjo@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
                     from: 'website@ringofkeys.org',
                     html: newApplicationSubmission({ id: submissionData.id, ...applyFormObj, ...emailFields}),
+                })
+            })
+
+            // Notify applicant
+            fetch('/api/sendAdminEmail', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'text/json',
+                },
+                body: JSON.stringify({
+                    subject: 'Ring of Keys - Application awaiting review',
+                    text: 'Thank you for applying to join Ring of Keys!',
+                    to: applyFormObj.email,
+                    from: 'info@ringofkeys.org',
+                    html: applicationUnderReview({ id: submissionData.id, ...applyFormObj, ...emailFields}),
                 })
             })
         } catch(e) {
