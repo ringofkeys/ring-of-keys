@@ -7,6 +7,8 @@ import ApplyForm from "components/forms/ApplyForm"
 import DirectorySection from "components/Directory/DirectorySection"
 import ResourceSection from "components/ResourceSection"
 import ConsultantGrid from "components/ConsultantGrid"
+import GiveButterForm from "components/GiveButterWidget"
+import DonorBoxGalaEmbed from "components/DonorBoxGalaEmbed"
 
 const shortcodes = {
     "directory-section": DirectorySection,
@@ -17,6 +19,8 @@ const shortcodes = {
     // "keyship-button": <KeyshipButton />,
     donorbox: DonorBoxWidget,
     // vimeo: VimeoEmbed,
+    "donorbox-gala": <DonorBoxGalaEmbed />,
+    "give-butter-form": <GiveButterForm />,
 }
 
 export default function Shortcode(props) {

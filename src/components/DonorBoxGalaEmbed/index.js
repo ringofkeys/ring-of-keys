@@ -1,6 +1,6 @@
 import Head from "next/head"
 
-const DonorBoxWidget = () => (
+const DonorBoxGalaEmbed = () => (
     <>
         <Head>
             <script
@@ -9,21 +9,21 @@ const DonorBoxWidget = () => (
             ></script>
         </Head>
         <iframe
-            allowPaymentRequest=""
-            frameBorder="0"
-            height="900px"
+            src="https://donorbox.org/embed/queering-the-gala-sponsorships"
             name="donorbox"
-            scrolling="no"
+            allowpaymentrequest="allowpaymentrequest"
             seamless="seamless"
-            src="https://donorbox.org/embed/ringofkeysorg"
+            frameborder="0"
+            scrolling="no"
+            height="900px"
+            width="100%"
             style={{
                 maxWidth: "500px",
                 minWidth: "250px",
                 maxHeight: "none!important",
             }}
-            width="100%"
         ></iframe>
     </>
 )
 
-export default DonorBoxWidget
+export default DonorBoxGalaEmbed
