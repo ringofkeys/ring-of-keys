@@ -4,13 +4,24 @@ import Footer from "components/Footer"
 import Sidebar from "./Sidebar"
 import sidebarStyles from "./Sidebar.module.css"
 import QuoteBlock from "components/PageContent/PageBlock/QuoteBlock"
+import GalaPopup from "components/Popup/GalaPopup"
 
-export default function Layout({ layoutData, children, className, sidebarData, quote }) {
+export default function Layout({
+    layoutData,
+    children,
+    className,
+    sidebarData,
+    quote,
+}) {
     const router = useRouter()
 
     return (
         <>
-            <Header path={router.asPath} menu={layoutData.menu} key={router.asPath} />
+            <Header
+                path={router.asPath}
+                menu={layoutData.menu}
+                key={router.asPath}
+            />
             <main
                 className={
                     router.asPath.slice(1).replace("/", "_") +
@@ -23,8 +34,9 @@ export default function Layout({ layoutData, children, className, sidebarData, q
                 <div>{children}</div>
                 {sidebarData && <Sidebar data={sidebarData} />}
             </main>
-            {quote && <QuoteBlock {...quote}/>}
+            {quote && <QuoteBlock {...quote} />}
             <Footer />
+            <GalaPopup />
         </>
     )
 }

@@ -1,6 +1,6 @@
 import Head from "next/head"
 
-const DonorBoxWidget = () => ( 
+const DonorBoxWidget = () => (
     <>
         <Head>
             <script
