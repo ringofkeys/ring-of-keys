@@ -51,6 +51,7 @@ export default function News({ layoutData, seo, data }) {
                     <Carousel
                         heading="Ring of Keys Newsletter"
                         entryList={newsletters}
+                        entryType="news"
                         classNames={["carousel__gray"]}
                     />
                 </div>
@@ -70,7 +71,7 @@ export default function News({ layoutData, seo, data }) {
                     <Carousel
                         heading="Press Releases"
                         entryList={pressReleases}
-                        entryType="pressRelease"
+                        entryType="news"
                         classNames={["carousel__gray"]}
                     />
                 </div>

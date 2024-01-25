@@ -54,7 +54,7 @@ const IndexPage = ({ layoutData, data, carouselData, quoteBlock }) => {
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
             <PageContent content={data?.page?.content} />
             <div className="section_news">
-                <Carousel heading="News" entryList={carouselData?.allNews} recordType="news" />
+                <Carousel heading="News" entryList={carouselData?.allNews} entryType="news" />
             </div>
             {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         </Layout>
