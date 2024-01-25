@@ -2,6 +2,7 @@ schema:
   - https://graphql.datocms.com:
       headers:
         Authorization: "8659675496697de204bc49751ca198"
+        X-Exclude-Invalid: true
 documents: './src/**/*.graphql'
 generates:
   src/lib/generatedGraphQLTypes.ts:
@@ -21,3 +22,6 @@ generates:
             MetaTagAttributes: Record<string, string>
             UploadId: string
       - typed-document-node
+    config:
+      enumsAsTypes: true
+      futureProofEnums: true

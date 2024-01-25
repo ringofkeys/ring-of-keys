@@ -1,20 +1,11 @@
 <script lang="ts">
-	export let cmsData: Record<string, any>;
-	let open = false;
+	import type { NavQuery } from '$lib/generatedGraphQLTypes';
+	import NavLink from '$lib/components/NavLink.svelte';
 
-	export let menu: {
-		children: {
-			label: string;
-			position: number;
-			link: string;
-			image: {
-				url: string;
-				alt: string;
-			};
-			description: string;
-			ctaText: string;
-		}[];
-	};
+	export let menu: NavQuery['menu'];
+	let sortedChildren = menu?.children?.sort((a, b) => (a?.position || 0) - (b?.position || 0))!;
+
+	let open = false;
 </script>
 
 <header class="header">
@@ -35,9 +26,11 @@
 		<div class="nav__mobile-wrap">
 			<!-- <SecondaryNav session={session} navOpen={isNavOpen} /> -->
 			<div class="nav__main">
-				{#each menu.children.sort((a, b) => a.position - b.position) as item (item.link)}
-					<!-- <NavLink {path} {...menu} key={'navlink-' + i} />
-					{#if session}
+				{#each sortedChildren as item}
+					{#if item}
+						<NavLink {item} />
+					{/if}
+					<!-- {#if session}
 						<NavLink {path} label={'Dashboard'} link={'/dashboard'} />
 					{/if} -->
 				{/each}
@@ -48,7 +41,6 @@
 
 <style lang="postcss">
 	.top-nav {
-		--nav-bg: white;
 		font-family: 'Raleway', sans-serif;
 		font-weight: normal;
 		background: var(--nav-bg);

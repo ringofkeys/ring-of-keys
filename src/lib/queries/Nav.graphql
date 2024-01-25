@@ -1,0 +1,23 @@
+query NAV {
+	menu: menu(filter: { label: { eq: "Top Nav" } }) {
+		id
+		children {
+			id
+			label
+			link
+			position
+			children {
+				id
+				label
+				link
+				position
+				image {
+					url
+					alt
+				}
+				description
+				ctaText
+			}
+		}
+	}
+}

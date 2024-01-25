@@ -25,6 +25,85 @@ export type Scalars = {
   UploadId: { input: any; output: any; }
 };
 
+export type AltFileField = FileFieldInterface & {
+  __typename?: 'AltFileField';
+  _createdAt: Scalars['DateTime']['output'];
+  /** The DatoCMS URL where you can edit this entity. To use this field, you need to set a X-Base-Editing-Url header in the request */
+  _editingUrl?: Maybe<Scalars['String']['output']>;
+  _updatedAt: Scalars['DateTime']['output'];
+  alt: Scalars['String']['output'];
+  author?: Maybe<Scalars['String']['output']>;
+  basename: Scalars['String']['output'];
+  blurUpThumb?: Maybe<Scalars['String']['output']>;
+  blurhash?: Maybe<Scalars['String']['output']>;
+  colors: Array<ColorField>;
+  copyright?: Maybe<Scalars['String']['output']>;
+  customData: Scalars['CustomData']['output'];
+  exifInfo: Scalars['CustomData']['output'];
+  filename: Scalars['String']['output'];
+  focalPoint?: Maybe<FocalPoint>;
+  format: Scalars['String']['output'];
+  height?: Maybe<Scalars['IntType']['output']>;
+  id: Scalars['UploadId']['output'];
+  md5: Scalars['String']['output'];
+  mimeType: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  responsiveImage?: Maybe<ResponsiveImage>;
+  size: Scalars['IntType']['output'];
+  smartTags: Array<Scalars['String']['output']>;
+  tags: Array<Scalars['String']['output']>;
+  thumbhash?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url: Scalars['String']['output'];
+  video?: Maybe<UploadVideoField>;
+  width?: Maybe<Scalars['IntType']['output']>;
+};
+
+
+export type AltFileFieldAltArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type AltFileFieldBlurUpThumbArgs = {
+  imgixParams?: InputMaybe<ImgixParams>;
+  punch?: Scalars['Float']['input'];
+  quality?: Scalars['Int']['input'];
+  size?: Scalars['Int']['input'];
+};
+
+
+export type AltFileFieldCustomDataArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type AltFileFieldFocalPointArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type AltFileFieldResponsiveImageArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  imgixParams?: InputMaybe<ImgixParams>;
+  locale?: InputMaybe<SiteLocale>;
+  sizes?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type AltFileFieldTitleArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type AltFileFieldUrlArgs = {
+  imgixParams?: InputMaybe<ImgixParams>;
+};
+
 /** Block of type Basic Block (basic_block) */
 export type BasicBlockRecord = RecordInterface & {
   __typename?: 'BasicBlockRecord';
@@ -89,7 +168,7 @@ export type ButtonRecord = RecordInterface & {
   solid?: Maybe<Scalars['BooleanType']['output']>;
   text?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
-  url?: Maybe<Scalars['String']['output']>;
+  url: Scalars['String']['output'];
 };
 
 
@@ -136,20 +215,20 @@ export type CollectionMetadata = {
   count: Scalars['IntType']['output'];
 };
 
-export enum ColorBucketType {
-  Black = 'black',
-  Blue = 'blue',
-  Brown = 'brown',
-  Cyan = 'cyan',
-  Green = 'green',
-  Grey = 'grey',
-  Orange = 'orange',
-  Pink = 'pink',
-  Purple = 'purple',
-  Red = 'red',
-  White = 'white',
-  Yellow = 'yellow'
-}
+export type ColorBucketType =
+  | 'black'
+  | 'blue'
+  | 'brown'
+  | 'cyan'
+  | 'green'
+  | 'grey'
+  | 'orange'
+  | 'pink'
+  | 'purple'
+  | 'red'
+  | 'white'
+  | 'yellow'
+  | '%future added value';
 
 export type ColorField = {
   __typename?: 'ColorField';
@@ -208,7 +287,7 @@ export type DashboardBlockRecord = RecordInterface & {
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<DashboardBlockModelDescriptionField>;
   id: Scalars['ItemId']['output'];
-  image?: Maybe<FileField>;
+  image?: Maybe<ImageAltFileField>;
   primaryLinkText?: Maybe<Scalars['String']['output']>;
   primaryLinkUrl?: Maybe<Scalars['String']['output']>;
   secondaryLinkText?: Maybe<Scalars['String']['output']>;
@@ -316,38 +395,38 @@ export type EventModelFilter = {
   updatedAt?: InputMaybe<UpdatedAtFilter>;
 };
 
-export enum EventModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  EndTimeAsc = 'endTime_ASC',
-  EndTimeDesc = 'endTime_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  IncludeInCarouselsAsc = 'includeInCarousels_ASC',
-  IncludeInCarouselsDesc = 'includeInCarousels_DESC',
-  StartTimeAsc = 'startTime_ASC',
-  StartTimeDesc = 'startTime_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
-}
+export type EventModelOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_firstPublishedAt_ASC'
+  | '_firstPublishedAt_DESC'
+  | '_isValid_ASC'
+  | '_isValid_DESC'
+  | '_publicationScheduledAt_ASC'
+  | '_publicationScheduledAt_DESC'
+  | '_publishedAt_ASC'
+  | '_publishedAt_DESC'
+  | '_status_ASC'
+  | '_status_DESC'
+  | '_unpublishingScheduledAt_ASC'
+  | '_unpublishingScheduledAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'endTime_ASC'
+  | 'endTime_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'includeInCarousels_ASC'
+  | 'includeInCarousels_DESC'
+  | 'startTime_ASC'
+  | 'startTime_DESC'
+  | 'title_ASC'
+  | 'title_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | '%future added value';
 
 /** Record of type Event (event) */
 export type EventRecord = RecordInterface & {
@@ -366,14 +445,14 @@ export type EventRecord = RecordInterface & {
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
   createdAt: Scalars['DateTime']['output'];
-  description?: Maybe<Scalars['String']['output']>;
+  description: Scalars['String']['output'];
   endTime?: Maybe<Scalars['DateTime']['output']>;
   featuredImage?: Maybe<FileField>;
   id: Scalars['ItemId']['output'];
   includeInCarousels?: Maybe<Scalars['BooleanType']['output']>;
-  slug?: Maybe<Scalars['String']['output']>;
-  startTime?: Maybe<Scalars['DateTime']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+  startTime: Scalars['DateTime']['output'];
+  title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -389,11 +468,11 @@ export type EventRecordDescriptionArgs = {
   markdown?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export enum FaviconType {
-  AppleTouchIcon = 'appleTouchIcon',
-  Icon = 'icon',
-  MsApplication = 'msApplication'
-}
+export type FaviconType =
+  | 'appleTouchIcon'
+  | 'icon'
+  | 'msApplication'
+  | '%future added value';
 
 export type FileField = FileFieldInterface & {
   __typename?: 'FileField';
@@ -594,7 +673,7 @@ export type HeroRecord = RecordInterface & {
   area?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  heroType?: Maybe<Scalars['String']['output']>;
+  heroType: Scalars['String']['output'];
   id: Scalars['ItemId']['output'];
   linkText?: Maybe<Scalars['String']['output']>;
   linkUrl?: Maybe<Scalars['String']['output']>;
@@ -641,10 +720,10 @@ export type IconHeadingLabelRecord = RecordInterface & {
   columns?: Maybe<Scalars['IntType']['output']>;
   contentRich?: Maybe<IconHeadingLabelModelContentRichField>;
   createdAt: Scalars['DateTime']['output'];
-  heading?: Maybe<Scalars['String']['output']>;
-  icon?: Maybe<FileField>;
+  heading: Scalars['String']['output'];
+  icon: FileField;
   id: Scalars['ItemId']['output'];
-  label?: Maybe<Scalars['String']['output']>;
+  label: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -666,6 +745,85 @@ export type IconHeadingLabelRecordLabelArgs = {
   markdown?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type ImageAltFileField = FileFieldInterface & {
+  __typename?: 'ImageAltFileField';
+  _createdAt: Scalars['DateTime']['output'];
+  /** The DatoCMS URL where you can edit this entity. To use this field, you need to set a X-Base-Editing-Url header in the request */
+  _editingUrl?: Maybe<Scalars['String']['output']>;
+  _updatedAt: Scalars['DateTime']['output'];
+  alt: Scalars['String']['output'];
+  author?: Maybe<Scalars['String']['output']>;
+  basename: Scalars['String']['output'];
+  blurUpThumb?: Maybe<Scalars['String']['output']>;
+  blurhash?: Maybe<Scalars['String']['output']>;
+  colors: Array<ColorField>;
+  copyright?: Maybe<Scalars['String']['output']>;
+  customData: Scalars['CustomData']['output'];
+  exifInfo: Scalars['CustomData']['output'];
+  filename: Scalars['String']['output'];
+  focalPoint: FocalPoint;
+  format: Scalars['String']['output'];
+  height: Scalars['IntType']['output'];
+  id: Scalars['UploadId']['output'];
+  md5: Scalars['String']['output'];
+  mimeType: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  responsiveImage: ResponsiveImage;
+  size: Scalars['IntType']['output'];
+  smartTags: Array<Scalars['String']['output']>;
+  tags: Array<Scalars['String']['output']>;
+  thumbhash?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url: Scalars['String']['output'];
+  video?: Maybe<UploadVideoField>;
+  width: Scalars['IntType']['output'];
+};
+
+
+export type ImageAltFileFieldAltArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type ImageAltFileFieldBlurUpThumbArgs = {
+  imgixParams?: InputMaybe<ImgixParams>;
+  punch?: Scalars['Float']['input'];
+  quality?: Scalars['Int']['input'];
+  size?: Scalars['Int']['input'];
+};
+
+
+export type ImageAltFileFieldCustomDataArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type ImageAltFileFieldFocalPointArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type ImageAltFileFieldResponsiveImageArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  imgixParams?: InputMaybe<ImgixParams>;
+  locale?: InputMaybe<SiteLocale>;
+  sizes?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type ImageAltFileFieldTitleArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type ImageAltFileFieldUrlArgs = {
+  imgixParams?: InputMaybe<ImgixParams>;
+};
+
 /** Block of type Image Array (image_array) */
 export type ImageArrayRecord = RecordInterface & {
   __typename?: 'ImageArrayRecord';
@@ -682,10 +840,10 @@ export type ImageArrayRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
-  columns?: Maybe<Scalars['IntType']['output']>;
+  columns: Scalars['IntType']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ItemId']['output'];
-  images: Array<FileField>;
+  images: Array<AltFileField>;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -1930,184 +2088,184 @@ export type ImgixParams = {
   w?: InputMaybe<Scalars['FloatType']['input']>;
 };
 
-export enum ImgixParamsAuto {
-  Compress = 'compress',
-  Enhance = 'enhance',
-  Format = 'format',
-  Redeye = 'redeye'
-}
+export type ImgixParamsAuto =
+  | 'compress'
+  | 'enhance'
+  | 'format'
+  | 'redeye'
+  | '%future added value';
 
-export enum ImgixParamsBlendAlign {
-  Bottom = 'bottom',
-  Center = 'center',
-  Left = 'left',
-  Middle = 'middle',
-  Right = 'right',
-  Top = 'top'
-}
+export type ImgixParamsBlendAlign =
+  | 'bottom'
+  | 'center'
+  | 'left'
+  | 'middle'
+  | 'right'
+  | 'top'
+  | '%future added value';
 
-export enum ImgixParamsBlendCrop {
-  Bottom = 'bottom',
-  Faces = 'faces',
-  Left = 'left',
-  Right = 'right',
-  Top = 'top'
-}
+export type ImgixParamsBlendCrop =
+  | 'bottom'
+  | 'faces'
+  | 'left'
+  | 'right'
+  | 'top'
+  | '%future added value';
 
-export enum ImgixParamsBlendFit {
-  Clamp = 'clamp',
-  Clip = 'clip',
-  Crop = 'crop',
-  Max = 'max',
-  Scale = 'scale'
-}
+export type ImgixParamsBlendFit =
+  | 'clamp'
+  | 'clip'
+  | 'crop'
+  | 'max'
+  | 'scale'
+  | '%future added value';
 
-export enum ImgixParamsBlendMode {
-  Burn = 'burn',
-  Color = 'color',
-  Darken = 'darken',
-  Difference = 'difference',
-  Dodge = 'dodge',
-  Exclusion = 'exclusion',
-  Hardlight = 'hardlight',
-  Hue = 'hue',
-  Lighten = 'lighten',
-  Luminosity = 'luminosity',
-  Multiply = 'multiply',
-  Normal = 'normal',
-  Overlay = 'overlay',
-  Saturation = 'saturation',
-  Screen = 'screen',
-  Softlight = 'softlight'
-}
+export type ImgixParamsBlendMode =
+  | 'burn'
+  | 'color'
+  | 'darken'
+  | 'difference'
+  | 'dodge'
+  | 'exclusion'
+  | 'hardlight'
+  | 'hue'
+  | 'lighten'
+  | 'luminosity'
+  | 'multiply'
+  | 'normal'
+  | 'overlay'
+  | 'saturation'
+  | 'screen'
+  | 'softlight'
+  | '%future added value';
 
-export enum ImgixParamsBlendSize {
-  Inherit = 'inherit'
-}
+export type ImgixParamsBlendSize =
+  | 'inherit'
+  | '%future added value';
 
-export enum ImgixParamsCh {
-  Dpr = 'dpr',
-  SaveData = 'saveData',
-  Width = 'width'
-}
+export type ImgixParamsCh =
+  | 'dpr'
+  | 'saveData'
+  | 'width'
+  | '%future added value';
 
-export enum ImgixParamsCrop {
-  Bottom = 'bottom',
-  Edges = 'edges',
-  Entropy = 'entropy',
-  Faces = 'faces',
-  Focalpoint = 'focalpoint',
-  Left = 'left',
-  Right = 'right',
-  Top = 'top'
-}
+export type ImgixParamsCrop =
+  | 'bottom'
+  | 'edges'
+  | 'entropy'
+  | 'faces'
+  | 'focalpoint'
+  | 'left'
+  | 'right'
+  | 'top'
+  | '%future added value';
 
-export enum ImgixParamsCs {
-  Adobergb1998 = 'adobergb1998',
-  Srgb = 'srgb',
-  Strip = 'strip',
-  Tinysrgb = 'tinysrgb'
-}
+export type ImgixParamsCs =
+  | 'adobergb1998'
+  | 'srgb'
+  | 'strip'
+  | 'tinysrgb'
+  | '%future added value';
 
-export enum ImgixParamsFill {
-  Blur = 'blur',
-  Solid = 'solid'
-}
+export type ImgixParamsFill =
+  | 'blur'
+  | 'solid'
+  | '%future added value';
 
-export enum ImgixParamsFit {
-  Clamp = 'clamp',
-  Clip = 'clip',
-  Crop = 'crop',
-  Facearea = 'facearea',
-  Fill = 'fill',
-  Fillmax = 'fillmax',
-  Max = 'max',
-  Min = 'min',
-  Scale = 'scale'
-}
+export type ImgixParamsFit =
+  | 'clamp'
+  | 'clip'
+  | 'crop'
+  | 'facearea'
+  | 'fill'
+  | 'fillmax'
+  | 'max'
+  | 'min'
+  | 'scale'
+  | '%future added value';
 
-export enum ImgixParamsFlip {
-  H = 'h',
-  Hv = 'hv',
-  V = 'v'
-}
+export type ImgixParamsFlip =
+  | 'h'
+  | 'hv'
+  | 'v'
+  | '%future added value';
 
-export enum ImgixParamsFm {
-  Avif = 'avif',
-  Blurhash = 'blurhash',
-  Gif = 'gif',
-  Jp2 = 'jp2',
-  Jpg = 'jpg',
-  Json = 'json',
-  Jxr = 'jxr',
-  Mp4 = 'mp4',
-  Pjpg = 'pjpg',
-  Png = 'png',
-  Png8 = 'png8',
-  Png32 = 'png32',
-  Webm = 'webm',
-  Webp = 'webp'
-}
+export type ImgixParamsFm =
+  | 'avif'
+  | 'blurhash'
+  | 'gif'
+  | 'jp2'
+  | 'jpg'
+  | 'json'
+  | 'jxr'
+  | 'mp4'
+  | 'pjpg'
+  | 'png'
+  | 'png8'
+  | 'png32'
+  | 'webm'
+  | 'webp'
+  | '%future added value';
 
-export enum ImgixParamsIptc {
-  Allow = 'allow',
-  Block = 'block'
-}
+export type ImgixParamsIptc =
+  | 'allow'
+  | 'block'
+  | '%future added value';
 
-export enum ImgixParamsMarkAlign {
-  Bottom = 'bottom',
-  Center = 'center',
-  Left = 'left',
-  Middle = 'middle',
-  Right = 'right',
-  Top = 'top'
-}
+export type ImgixParamsMarkAlign =
+  | 'bottom'
+  | 'center'
+  | 'left'
+  | 'middle'
+  | 'right'
+  | 'top'
+  | '%future added value';
 
-export enum ImgixParamsMarkFit {
-  Clip = 'clip',
-  Crop = 'crop',
-  Fill = 'fill',
-  Max = 'max',
-  Scale = 'scale'
-}
+export type ImgixParamsMarkFit =
+  | 'clip'
+  | 'crop'
+  | 'fill'
+  | 'max'
+  | 'scale'
+  | '%future added value';
 
-export enum ImgixParamsMarkTile {
-  Grid = 'grid'
-}
+export type ImgixParamsMarkTile =
+  | 'grid'
+  | '%future added value';
 
-export enum ImgixParamsPalette {
-  Css = 'css',
-  Json = 'json'
-}
+export type ImgixParamsPalette =
+  | 'css'
+  | 'json'
+  | '%future added value';
 
-export enum ImgixParamsTransparency {
-  Grid = 'grid'
-}
+export type ImgixParamsTransparency =
+  | 'grid'
+  | '%future added value';
 
-export enum ImgixParamsTrim {
-  Auto = 'auto',
-  Color = 'color'
-}
+export type ImgixParamsTrim =
+  | 'auto'
+  | 'color'
+  | '%future added value';
 
-export enum ImgixParamsTxtAlign {
-  Bottom = 'bottom',
-  Center = 'center',
-  Left = 'left',
-  Middle = 'middle',
-  Right = 'right',
-  Top = 'top'
-}
+export type ImgixParamsTxtAlign =
+  | 'bottom'
+  | 'center'
+  | 'left'
+  | 'middle'
+  | 'right'
+  | 'top'
+  | '%future added value';
 
-export enum ImgixParamsTxtClip {
-  Ellipsis = 'ellipsis',
-  End = 'end',
-  Middle = 'middle',
-  Start = 'start'
-}
+export type ImgixParamsTxtClip =
+  | 'ellipsis'
+  | 'end'
+  | 'middle'
+  | 'start'
+  | '%future added value';
 
-export enum ImgixParamsTxtFit {
-  Max = 'max'
-}
+export type ImgixParamsTxtFit =
+  | 'max'
+  | '%future added value';
 
 /** Specifies how to filter by usage */
 export type InUseFilter = {
@@ -2145,11 +2303,11 @@ export type ItemIdFilter = {
   notIn?: InputMaybe<Array<InputMaybe<Scalars['ItemId']['input']>>>;
 };
 
-export enum ItemStatus {
-  Draft = 'draft',
-  Published = 'published',
-  Updated = 'updated'
-}
+export type ItemStatus =
+  | 'draft'
+  | 'published'
+  | 'updated'
+  | '%future added value';
 
 export type KeyModelFilter = {
   AND?: InputMaybe<Array<InputMaybe<KeyModelFilter>>>;
@@ -2206,94 +2364,94 @@ export type KeyModelFilter = {
   website?: InputMaybe<StringFilter>;
 };
 
-export enum KeyModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  AffiliationsAsc = 'affiliations_ASC',
-  AffiliationsDesc = 'affiliations_DESC',
-  CommunitySpotlightMessageAsc = 'communitySpotlightMessage_ASC',
-  CommunitySpotlightMessageDesc = 'communitySpotlightMessage_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  DanceExperienceAsc = 'danceExperience_ASC',
-  DanceExperienceDesc = 'danceExperience_DESC',
-  DisciplineAsc = 'discipline_ASC',
-  DisciplineDesc = 'discipline_DESC',
-  EmailAsc = 'email_ASC',
-  EmailDesc = 'email_DESC',
-  FreeWorkshopsRemainingAsc = 'freeWorkshopsRemaining_ASC',
-  FreeWorkshopsRemainingDesc = 'freeWorkshopsRemaining_DESC',
-  GenderConsultantOrderAsc = 'genderConsultantOrder_ASC',
-  GenderConsultantOrderDesc = 'genderConsultantOrder_DESC',
-  GenderIdentityAsc = 'genderIdentity_ASC',
-  GenderIdentityDesc = 'genderIdentity_DESC',
-  HasLoginAccessAsc = 'hasLoginAccess_ASC',
-  HasLoginAccessDesc = 'hasLoginAccess_DESC',
-  HideMessageButtonAsc = 'hideMessageButton_ASC',
-  HideMessageButtonDesc = 'hideMessageButton_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  IsBetaUserAsc = 'isBetaUser_ASC',
-  IsBetaUserDesc = 'isBetaUser_DESC',
-  IsGenderConsultantAsc = 'isGenderConsultant_ASC',
-  IsGenderConsultantDesc = 'isGenderConsultant_DESC',
-  IsMeetupAmbassadorAsc = 'isMeetupAmbassador_ASC',
-  IsMeetupAmbassadorDesc = 'isMeetupAmbassador_DESC',
-  KeyTeamMemberAsc = 'keyTeamMember_ASC',
-  KeyTeamMemberDesc = 'keyTeamMember_DESC',
-  KeyTeamOrderAsc = 'keyTeamOrder_ASC',
-  KeyTeamOrderDesc = 'keyTeamOrder_DESC',
-  KeyTeamPositionAsc = 'keyTeamPosition_ASC',
-  KeyTeamPositionDesc = 'keyTeamPosition_DESC',
-  LocationsAsc = 'locations_ASC',
-  LocationsDesc = 'locations_DESC',
-  MainLocationAsc = 'mainLocation_ASC',
-  MainLocationDesc = 'mainLocation_DESC',
-  MeetupAmbassadorOrderAsc = 'meetupAmbassadorOrder_ASC',
-  MeetupAmbassadorOrderDesc = 'meetupAmbassadorOrder_DESC',
-  MemberSinceAsc = 'memberSince_ASC',
-  MemberSinceDesc = 'memberSince_DESC',
-  ModerateMessagesAsc = 'moderateMessages_ASC',
-  ModerateMessagesDesc = 'moderateMessages_DESC',
-  NameAsc = 'name_ASC',
-  NameDesc = 'name_DESC',
-  PositionAsc = 'position_ASC',
-  PositionDesc = 'position_DESC',
-  PronounsAsc = 'pronouns_ASC',
-  PronounsDesc = 'pronouns_DESC',
-  RaceEthnicityAsc = 'raceEthnicity_ASC',
-  RaceEthnicityDesc = 'raceEthnicity_DESC',
-  ResumeAsc = 'resume_ASC',
-  ResumeDesc = 'resume_DESC',
-  SexualIdentityAsc = 'sexualIdentity_ASC',
-  SexualIdentityDesc = 'sexualIdentity_DESC',
-  ShowInDirectoryAsc = 'showInDirectory_ASC',
-  ShowInDirectoryDesc = 'showInDirectory_DESC',
-  StripeIdAsc = 'stripeId_ASC',
-  StripeIdDesc = 'stripeId_DESC',
-  StripeStatusAsc = 'stripeStatus_ASC',
-  StripeStatusDesc = 'stripeStatus_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC',
-  VocalRangeAsc = 'vocalRange_ASC',
-  VocalRangeDesc = 'vocalRange_DESC',
-  WebsiteAsc = 'website_ASC',
-  WebsiteDesc = 'website_DESC'
-}
+export type KeyModelOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_firstPublishedAt_ASC'
+  | '_firstPublishedAt_DESC'
+  | '_isValid_ASC'
+  | '_isValid_DESC'
+  | '_publicationScheduledAt_ASC'
+  | '_publicationScheduledAt_DESC'
+  | '_publishedAt_ASC'
+  | '_publishedAt_DESC'
+  | '_status_ASC'
+  | '_status_DESC'
+  | '_unpublishingScheduledAt_ASC'
+  | '_unpublishingScheduledAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'affiliations_ASC'
+  | 'affiliations_DESC'
+  | 'communitySpotlightMessage_ASC'
+  | 'communitySpotlightMessage_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'danceExperience_ASC'
+  | 'danceExperience_DESC'
+  | 'discipline_ASC'
+  | 'discipline_DESC'
+  | 'email_ASC'
+  | 'email_DESC'
+  | 'freeWorkshopsRemaining_ASC'
+  | 'freeWorkshopsRemaining_DESC'
+  | 'genderConsultantOrder_ASC'
+  | 'genderConsultantOrder_DESC'
+  | 'genderIdentity_ASC'
+  | 'genderIdentity_DESC'
+  | 'hasLoginAccess_ASC'
+  | 'hasLoginAccess_DESC'
+  | 'hideMessageButton_ASC'
+  | 'hideMessageButton_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'isBetaUser_ASC'
+  | 'isBetaUser_DESC'
+  | 'isGenderConsultant_ASC'
+  | 'isGenderConsultant_DESC'
+  | 'isMeetupAmbassador_ASC'
+  | 'isMeetupAmbassador_DESC'
+  | 'keyTeamMember_ASC'
+  | 'keyTeamMember_DESC'
+  | 'keyTeamOrder_ASC'
+  | 'keyTeamOrder_DESC'
+  | 'keyTeamPosition_ASC'
+  | 'keyTeamPosition_DESC'
+  | 'locations_ASC'
+  | 'locations_DESC'
+  | 'mainLocation_ASC'
+  | 'mainLocation_DESC'
+  | 'meetupAmbassadorOrder_ASC'
+  | 'meetupAmbassadorOrder_DESC'
+  | 'memberSince_ASC'
+  | 'memberSince_DESC'
+  | 'moderateMessages_ASC'
+  | 'moderateMessages_DESC'
+  | 'name_ASC'
+  | 'name_DESC'
+  | 'position_ASC'
+  | 'position_DESC'
+  | 'pronouns_ASC'
+  | 'pronouns_DESC'
+  | 'raceEthnicity_ASC'
+  | 'raceEthnicity_DESC'
+  | 'resume_ASC'
+  | 'resume_DESC'
+  | 'sexualIdentity_ASC'
+  | 'sexualIdentity_DESC'
+  | 'showInDirectory_ASC'
+  | 'showInDirectory_DESC'
+  | 'stripeId_ASC'
+  | 'stripeId_DESC'
+  | 'stripeStatus_ASC'
+  | 'stripeStatus_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | 'vocalRange_ASC'
+  | 'vocalRange_DESC'
+  | 'website_ASC'
+  | 'website_DESC'
+  | '%future added value';
 
 /** Record of type Keys (key) */
 export type KeyRecord = RecordInterface & {
@@ -2317,14 +2475,14 @@ export type KeyRecord = RecordInterface & {
   createdAt: Scalars['DateTime']['output'];
   danceExperience?: Maybe<Scalars['String']['output']>;
   discipline?: Maybe<Scalars['String']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  featuredImage?: Maybe<FileField>;
+  email: Scalars['String']['output'];
+  featuredImage?: Maybe<AltFileField>;
   freeWorkshopsRemaining?: Maybe<Scalars['IntType']['output']>;
   genderConsultantOrder?: Maybe<Scalars['IntType']['output']>;
   genderIdentity?: Maybe<Scalars['String']['output']>;
   genderconsultantbio?: Maybe<Scalars['String']['output']>;
   hasLoginAccess?: Maybe<Scalars['BooleanType']['output']>;
-  headshot?: Maybe<FileField>;
+  headshot: FileField;
   hideMessageButton?: Maybe<Scalars['BooleanType']['output']>;
   id: Scalars['ItemId']['output'];
   isBetaUser?: Maybe<Scalars['BooleanType']['output']>;
@@ -2338,7 +2496,7 @@ export type KeyRecord = RecordInterface & {
   meetupAmbassadorOrder?: Maybe<Scalars['IntType']['output']>;
   memberSince?: Maybe<Scalars['String']['output']>;
   moderateMessages?: Maybe<Scalars['BooleanType']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   position?: Maybe<Scalars['IntType']['output']>;
   pronouns?: Maybe<Scalars['String']['output']>;
   quickBio?: Maybe<Scalars['String']['output']>;
@@ -2347,7 +2505,7 @@ export type KeyRecord = RecordInterface & {
   resumeFile?: Maybe<FileField>;
   sexualIdentity?: Maybe<Scalars['String']['output']>;
   showInDirectory?: Maybe<Scalars['BooleanType']['output']>;
-  slug?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
   socialMedia: Array<SocialMediaLinkRecord>;
   stripeId?: Maybe<Scalars['String']['output']>;
   stripeStatus?: Maybe<Scalars['String']['output']>;
@@ -2431,40 +2589,40 @@ export type MenuModelFilter = {
   updatedAt?: InputMaybe<UpdatedAtFilter>;
 };
 
-export enum MenuModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  CtaTextAsc = 'ctaText_ASC',
-  CtaTextDesc = 'ctaText_DESC',
-  DescriptionAsc = 'description_ASC',
-  DescriptionDesc = 'description_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  LabelAsc = 'label_ASC',
-  LabelDesc = 'label_DESC',
-  LinkAsc = 'link_ASC',
-  LinkDesc = 'link_DESC',
-  PositionAsc = 'position_ASC',
-  PositionDesc = 'position_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
-}
+export type MenuModelOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_firstPublishedAt_ASC'
+  | '_firstPublishedAt_DESC'
+  | '_isValid_ASC'
+  | '_isValid_DESC'
+  | '_publicationScheduledAt_ASC'
+  | '_publicationScheduledAt_DESC'
+  | '_publishedAt_ASC'
+  | '_publishedAt_DESC'
+  | '_status_ASC'
+  | '_status_DESC'
+  | '_unpublishingScheduledAt_ASC'
+  | '_unpublishingScheduledAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'ctaText_ASC'
+  | 'ctaText_DESC'
+  | 'description_ASC'
+  | 'description_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'label_ASC'
+  | 'label_DESC'
+  | 'link_ASC'
+  | 'link_DESC'
+  | 'position_ASC'
+  | 'position_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | '%future added value';
 
 /** Record of type Menu (menu) */
 export type MenuRecord = RecordInterface & {
@@ -2488,7 +2646,7 @@ export type MenuRecord = RecordInterface & {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ItemId']['output'];
   image?: Maybe<FileField>;
-  label?: Maybe<Scalars['String']['output']>;
+  label: Scalars['String']['output'];
   link?: Maybe<Scalars['String']['output']>;
   parent?: Maybe<MenuRecord>;
   position?: Maybe<Scalars['IntType']['output']>;
@@ -2521,34 +2679,34 @@ export type MessageModelFilter = {
   updatedAt?: InputMaybe<UpdatedAtFilter>;
 };
 
-export enum MessageModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  FromEmailAsc = 'fromEmail_ASC',
-  FromEmailDesc = 'fromEmail_DESC',
-  FromNameAsc = 'fromName_ASC',
-  FromNameDesc = 'fromName_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
-}
+export type MessageModelOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_firstPublishedAt_ASC'
+  | '_firstPublishedAt_DESC'
+  | '_isValid_ASC'
+  | '_isValid_DESC'
+  | '_publicationScheduledAt_ASC'
+  | '_publicationScheduledAt_DESC'
+  | '_publishedAt_ASC'
+  | '_publishedAt_DESC'
+  | '_status_ASC'
+  | '_status_DESC'
+  | '_unpublishingScheduledAt_ASC'
+  | '_unpublishingScheduledAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'fromEmail_ASC'
+  | 'fromEmail_DESC'
+  | 'fromName_ASC'
+  | 'fromName_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | '%future added value';
 
 /** Record of type Message (message) */
 export type MessageRecord = RecordInterface & {
@@ -2567,11 +2725,11 @@ export type MessageRecord = RecordInterface & {
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
   createdAt: Scalars['DateTime']['output'];
-  fromEmail?: Maybe<Scalars['String']['output']>;
-  fromName?: Maybe<Scalars['String']['output']>;
+  fromEmail: Scalars['String']['output'];
+  fromName: Scalars['String']['output'];
   id: Scalars['ItemId']['output'];
-  message?: Maybe<Scalars['String']['output']>;
-  toArtist?: Maybe<KeyRecord>;
+  message: Scalars['String']['output'];
+  toArtist: KeyRecord;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -2587,11 +2745,11 @@ export type MessageRecordMessageArgs = {
   markdown?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export enum MuxThumbnailFormatType {
-  Gif = 'gif',
-  Jpg = 'jpg',
-  Png = 'png'
-}
+export type MuxThumbnailFormatType =
+  | 'gif'
+  | 'jpg'
+  | 'png'
+  | '%future added value';
 
 export type NewsModelFilter = {
   AND?: InputMaybe<Array<InputMaybe<NewsModelFilter>>>;
@@ -2618,40 +2776,40 @@ export type NewsModelFilter = {
   updatedAt?: InputMaybe<UpdatedAtFilter>;
 };
 
-export enum NewsModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  ExternalUrlAsc = 'externalUrl_ASC',
-  ExternalUrlDesc = 'externalUrl_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  NewsTypeAsc = 'newsType_ASC',
-  NewsTypeDesc = 'newsType_DESC',
-  PositionAsc = 'position_ASC',
-  PositionDesc = 'position_DESC',
-  PublishDateAsc = 'publishDate_ASC',
-  PublishDateDesc = 'publishDate_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
-}
+export type NewsModelOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_firstPublishedAt_ASC'
+  | '_firstPublishedAt_DESC'
+  | '_isValid_ASC'
+  | '_isValid_DESC'
+  | '_publicationScheduledAt_ASC'
+  | '_publicationScheduledAt_DESC'
+  | '_publishedAt_ASC'
+  | '_publishedAt_DESC'
+  | '_status_ASC'
+  | '_status_DESC'
+  | '_unpublishingScheduledAt_ASC'
+  | '_unpublishingScheduledAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'externalUrl_ASC'
+  | 'externalUrl_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'newsType_ASC'
+  | 'newsType_DESC'
+  | 'position_ASC'
+  | 'position_DESC'
+  | 'publishDate_ASC'
+  | 'publishDate_DESC'
+  | 'title_ASC'
+  | 'title_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | '%future added value';
 
 /** Record of type News (news) */
 export type NewsRecord = RecordInterface & {
@@ -2670,7 +2828,7 @@ export type NewsRecord = RecordInterface & {
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
   author: Array<KeyRecord>;
-  body?: Maybe<Scalars['String']['output']>;
+  body: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   externalUrl?: Maybe<Scalars['String']['output']>;
   featuredImage?: Maybe<FileField>;
@@ -2679,7 +2837,7 @@ export type NewsRecord = RecordInterface & {
   position?: Maybe<Scalars['IntType']['output']>;
   publishDate?: Maybe<Scalars['Date']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -2730,42 +2888,42 @@ export type PageModelFilter = {
   usesQueries?: InputMaybe<BooleanFilter>;
 };
 
-export enum PageModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  HasSidebarAsc = 'hasSidebar_ASC',
-  HasSidebarDesc = 'hasSidebar_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  LayoutAsc = 'layout_ASC',
-  LayoutDesc = 'layout_DESC',
-  NoindexNofollowAsc = 'noindexNofollow_ASC',
-  NoindexNofollowDesc = 'noindexNofollow_DESC',
-  PositionAsc = 'position_ASC',
-  PositionDesc = 'position_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC',
-  UsesQueriesAsc = 'usesQueries_ASC',
-  UsesQueriesDesc = 'usesQueries_DESC'
-}
+export type PageModelOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_firstPublishedAt_ASC'
+  | '_firstPublishedAt_DESC'
+  | '_isValid_ASC'
+  | '_isValid_DESC'
+  | '_publicationScheduledAt_ASC'
+  | '_publicationScheduledAt_DESC'
+  | '_publishedAt_ASC'
+  | '_publishedAt_DESC'
+  | '_status_ASC'
+  | '_status_DESC'
+  | '_unpublishingScheduledAt_ASC'
+  | '_unpublishingScheduledAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'hasSidebar_ASC'
+  | 'hasSidebar_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'layout_ASC'
+  | 'layout_DESC'
+  | 'noindexNofollow_ASC'
+  | 'noindexNofollow_DESC'
+  | 'position_ASC'
+  | 'position_DESC'
+  | 'title_ASC'
+  | 'title_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | 'usesQueries_ASC'
+  | 'usesQueries_DESC'
+  | '%future added value';
 
 /** Record of type Page (page) */
 export type PageRecord = RecordInterface & {
@@ -2794,7 +2952,7 @@ export type PageRecord = RecordInterface & {
   position?: Maybe<Scalars['IntType']['output']>;
   seo?: Maybe<SeoField>;
   slug?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
   usesQueries?: Maybe<Scalars['BooleanType']['output']>;
 };
@@ -3194,8 +3352,8 @@ export type QuoteRecord = RecordInterface & {
   backgroundColor?: Maybe<ColorField>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ItemId']['output'];
-  quoteAttribution?: Maybe<Scalars['String']['output']>;
-  quoteText?: Maybe<Scalars['String']['output']>;
+  quoteAttribution: Scalars['String']['output'];
+  quoteText: Scalars['String']['output'];
   textColor?: Maybe<ColorField>;
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -3246,12 +3404,12 @@ export type ResolutionFilter = {
   notIn?: InputMaybe<Array<InputMaybe<ResolutionType>>>;
 };
 
-export enum ResolutionType {
-  Icon = 'icon',
-  Large = 'large',
-  Medium = 'medium',
-  Small = 'small'
-}
+export type ResolutionType =
+  | 'icon'
+  | 'large'
+  | 'medium'
+  | 'small'
+  | '%future added value';
 
 export type ResourceModelFilter = {
   AND?: InputMaybe<Array<InputMaybe<ResourceModelFilter>>>;
@@ -3273,38 +3431,38 @@ export type ResourceModelFilter = {
   updatedAt?: InputMaybe<UpdatedAtFilter>;
 };
 
-export enum ResourceModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  DescriptionAsc = 'description_ASC',
-  DescriptionDesc = 'description_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  LinkAsc = 'link_ASC',
-  LinkDesc = 'link_DESC',
-  ResourceTypeAsc = 'resourceType_ASC',
-  ResourceTypeDesc = 'resourceType_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
-}
+export type ResourceModelOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_firstPublishedAt_ASC'
+  | '_firstPublishedAt_DESC'
+  | '_isValid_ASC'
+  | '_isValid_DESC'
+  | '_publicationScheduledAt_ASC'
+  | '_publicationScheduledAt_DESC'
+  | '_publishedAt_ASC'
+  | '_publishedAt_DESC'
+  | '_status_ASC'
+  | '_status_DESC'
+  | '_unpublishingScheduledAt_ASC'
+  | '_unpublishingScheduledAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'description_ASC'
+  | 'description_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'link_ASC'
+  | 'link_DESC'
+  | 'resourceType_ASC'
+  | 'resourceType_DESC'
+  | 'title_ASC'
+  | 'title_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | '%future added value';
 
 /** Record of type Resource (resource) */
 export type ResourceRecord = RecordInterface & {
@@ -3386,7 +3544,7 @@ export type ShortcodeRecord = RecordInterface & {
   area?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ItemId']['output'];
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -3416,9 +3574,9 @@ export type SiteGlobalSeoArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
-export enum SiteLocale {
-  En = 'en'
-}
+export type SiteLocale =
+  | 'en'
+  | '%future added value';
 
 /** Specifies how to filter Slug fields */
 export type SlugFilter = {
@@ -3523,11 +3681,11 @@ export type TeammateItemRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
-  content?: Maybe<Scalars['String']['output']>;
+  content: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ItemId']['output'];
   linkUrl?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -3777,32 +3935,32 @@ export type UploadNotesFilter = {
   notMatches?: InputMaybe<StringMatchesFilter>;
 };
 
-export enum UploadOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  BasenameAsc = 'basename_ASC',
-  BasenameDesc = 'basename_DESC',
-  FilenameAsc = 'filename_ASC',
-  FilenameDesc = 'filename_DESC',
-  FormatAsc = 'format_ASC',
-  FormatDesc = 'format_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  MimeTypeAsc = 'mimeType_ASC',
-  MimeTypeDesc = 'mimeType_DESC',
-  ResolutionAsc = 'resolution_ASC',
-  ResolutionDesc = 'resolution_DESC',
-  SizeAsc = 'size_ASC',
-  SizeDesc = 'size_DESC'
-}
+export type UploadOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'basename_ASC'
+  | 'basename_DESC'
+  | 'filename_ASC'
+  | 'filename_DESC'
+  | 'format_ASC'
+  | 'format_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'mimeType_ASC'
+  | 'mimeType_DESC'
+  | 'resolution_ASC'
+  | 'resolution_DESC'
+  | 'size_ASC'
+  | 'size_DESC'
+  | '%future added value';
 
-export enum UploadOrientation {
-  Landscape = 'landscape',
-  Portrait = 'portrait',
-  Square = 'square'
-}
+export type UploadOrientation =
+  | 'landscape'
+  | 'portrait'
+  | 'square'
+  | '%future added value';
 
 /** Specifies how to filter by size */
 export type UploadSizeFilter = {
@@ -3852,16 +4010,16 @@ export type UploadTitleFilter = {
   notMatches?: InputMaybe<StringMatchesFilter>;
 };
 
-export enum UploadType {
-  Archive = 'archive',
-  Audio = 'audio',
-  Image = 'image',
-  Pdfdocument = 'pdfdocument',
-  Presentation = 'presentation',
-  Richtext = 'richtext',
-  Spreadsheet = 'spreadsheet',
-  Video = 'video'
-}
+export type UploadType =
+  | 'archive'
+  | 'audio'
+  | 'image'
+  | 'pdfdocument'
+  | 'presentation'
+  | 'richtext'
+  | 'spreadsheet'
+  | 'video'
+  | '%future added value';
 
 /** Specifies how to filter by update datetime */
 export type UploadUpdatedAtFilter = {
@@ -3917,11 +4075,11 @@ export type UploadWidthFilter = {
   neq?: InputMaybe<Scalars['IntType']['input']>;
 };
 
-export enum VideoMp4Res {
-  High = 'high',
-  Low = 'low',
-  Medium = 'medium'
-}
+export type VideoMp4Res =
+  | 'high'
+  | 'low'
+  | 'medium'
+  | '%future added value';
 
 export type ViewerModelFilter = {
   AND?: InputMaybe<Array<InputMaybe<ViewerModelFilter>>>;
@@ -3941,34 +4099,34 @@ export type ViewerModelFilter = {
   updatedAt?: InputMaybe<UpdatedAtFilter>;
 };
 
-export enum ViewerModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  EmailAsc = 'email_ASC',
-  EmailDesc = 'email_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  OptedIntoNewsletterAsc = 'optedIntoNewsletter_ASC',
-  OptedIntoNewsletterDesc = 'optedIntoNewsletter_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
-}
+export type ViewerModelOrderBy =
+  | '_createdAt_ASC'
+  | '_createdAt_DESC'
+  | '_firstPublishedAt_ASC'
+  | '_firstPublishedAt_DESC'
+  | '_isValid_ASC'
+  | '_isValid_DESC'
+  | '_publicationScheduledAt_ASC'
+  | '_publicationScheduledAt_DESC'
+  | '_publishedAt_ASC'
+  | '_publishedAt_DESC'
+  | '_status_ASC'
+  | '_status_DESC'
+  | '_unpublishingScheduledAt_ASC'
+  | '_unpublishingScheduledAt_DESC'
+  | '_updatedAt_ASC'
+  | '_updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'email_ASC'
+  | 'email_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'optedIntoNewsletter_ASC'
+  | 'optedIntoNewsletter_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | '%future added value';
 
 /** Record of type Viewer (viewer) */
 export type ViewerRecord = RecordInterface & {
@@ -3987,7 +4145,7 @@ export type ViewerRecord = RecordInterface & {
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
   createdAt: Scalars['DateTime']['output'];
-  email?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
   id: Scalars['ItemId']['output'];
   optedIntoNewsletter?: Maybe<Scalars['BooleanType']['output']>;
   updatedAt: Scalars['DateTime']['output'];
@@ -4011,7 +4169,13 @@ export type AllKeysQueryQueryVariables = Exact<{
 }>;
 
 
-export type AllKeysQueryQuery = { __typename?: 'Query', allKeys: Array<{ __typename?: 'KeyRecord', slug?: string | null, name?: string | null, mainLocation?: string | null, locations?: string | null, pronouns?: string | null, genderIdentity?: string | null, sexualIdentity?: string | null, raceEthnicity?: string | null, discipline?: string | null, vocalRange?: string | null, danceExperience?: string | null, affiliations?: string | null, showInDirectory?: boolean | null, headshot?: { __typename?: 'FileField', url: string } | null }> };
+export type AllKeysQueryQuery = { __typename?: 'Query', allKeys: Array<{ __typename?: 'KeyRecord', slug: string, name: string, mainLocation?: string | null, locations?: string | null, pronouns?: string | null, genderIdentity?: string | null, sexualIdentity?: string | null, raceEthnicity?: string | null, discipline?: string | null, vocalRange?: string | null, danceExperience?: string | null, affiliations?: string | null, showInDirectory?: boolean | null, headshot: { __typename?: 'FileField', url: string } }> };
+
+export type NavQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NavQuery = { __typename?: 'Query', menu?: { __typename?: 'MenuRecord', id: string, children?: Array<{ __typename?: 'MenuRecord', id: string, label: string, link?: string | null, position?: number | null, children?: Array<{ __typename?: 'MenuRecord', id: string, label: string, link?: string | null, position?: number | null, description?: string | null, ctaText?: string | null, image?: { __typename?: 'FileField', url: string, alt?: string | null } | null } | null> | null } | null> | null } | null };
 
 
 export const AllKeysQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AllKeysQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"IntType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"IntType"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allKeys"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"showInDirectory"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"BooleanValue","value":true}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"name_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"headshot"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mainLocation"}},{"kind":"Field","name":{"kind":"Name","value":"locations"}},{"kind":"Field","name":{"kind":"Name","value":"pronouns"}},{"kind":"Field","name":{"kind":"Name","value":"genderIdentity"}},{"kind":"Field","name":{"kind":"Name","value":"sexualIdentity"}},{"kind":"Field","name":{"kind":"Name","value":"raceEthnicity"}},{"kind":"Field","name":{"kind":"Name","value":"discipline"}},{"kind":"Field","name":{"kind":"Name","value":"vocalRange"}},{"kind":"Field","name":{"kind":"Name","value":"danceExperience"}},{"kind":"Field","name":{"kind":"Name","value":"affiliations"}},{"kind":"Field","name":{"kind":"Name","value":"showInDirectory"}}]}}]}}]} as unknown as DocumentNode<AllKeysQueryQuery, AllKeysQueryQueryVariables>;
+export const NavDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NAV"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"menu"},"name":{"kind":"Name","value":"menu"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"label"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"StringValue","value":"Top Nav","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"children"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"position"}},{"kind":"Field","name":{"kind":"Name","value":"children"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"position"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"ctaText"}}]}}]}}]}}]}}]} as unknown as DocumentNode<NavQuery, NavQueryVariables>;
