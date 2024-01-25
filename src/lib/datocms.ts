@@ -1,41 +1,39 @@
 import { GraphQLClient } from "graphql-request"
-import { SiteClient } from "datocms-client"
 import { buildClient } from "@datocms/cma-client-browser"
-import { useSession } from "next-auth/react"
-import { NAV_MENU_QUERY } from "queries/nav"
+import type { CreateUploadFromFileOrBlobSchema } from "@datocms/cma-client-browser/dist/types/resources/Upload"
 
-export function request({ query, variables, preview }) {
+interface RequestProps {
+    query: string
+    variables: Record<string, unknown>
+    preview?: boolean
+}
+
+export const datoClient = buildClient({ apiToken: import.meta.env.VITE_DATO_READ_WRITE_TOKEN || null })
+
+export function request({ query, variables, preview }: RequestProps) {
     const endpoint = `https://graphql.datocms.com/${preview ? "preview" : ""}`
     const gqlClient = new GraphQLClient(endpoint, {
         headers: {
-            authorization: `Bearer ${process.env.NEXT_PUBLIC_DATO_READ_ONLY_TOKEN}`,
+            authorization: `Bearer ${import.meta.env.VITE_DATO_READ_ONLY_TOKEN}`,
         },
     })
     
     return gqlClient.request(query, variables)
 }
 
-export function getDatoWriteClient(artistId, tokenId) {
-    if (!artistId == tokenId) {
+export function getDatoWriteClient(artistId: string, tokenId: string) {
+    if (artistId !== tokenId) {
         throw new Error('You are not authorized to make this request!')
     }
 
-    return new SiteClient(process.env.NEXT_PUBLIC_DATO_READ_WRITE_TOKEN);
-}
-
-export function requestLayoutProps({ preview } = { preview: false }) {
-    return request({
-        query: NAV_MENU_QUERY,
-        variables: {},
-        preview,
-    })
+    return datoClient
 }
 
 
-export async function requestAll({ query, variables, preview }) {
+export async function requestAll({ query, variables, preview }: RequestProps) {
     let skip = 0
     let keepQuerying = true
-    let results = []
+    let results: Record<string, unknown>[] = []
 
     while (keepQuerying) {
         const data = await request({
@@ -47,16 +45,18 @@ export async function requestAll({ query, variables, preview }) {
             preview,
         })
 
+        if (!(data instanceof Object)) return results
+
         const resultsSubArray = Object.values(data)[0]
         results = results.concat(resultsSubArray)
 
-        skip += variables.limit || 20
+        skip = skip + (typeof variables.limit === 'number' ? variables.limit : 20)
         // keepQuerying = false  // for dev purposes, remove in PROD
 
         if (resultsSubArray.length < (variables.limit || 20)) {
             keepQuerying = false
         } else if (skip > 2000) {
-            keepsQuerying = false
+            keepQuerying = false
             console.error("Too many loops")
         }
     }
@@ -64,13 +64,10 @@ export async function requestAll({ query, variables, preview }) {
     return results
 }
 
-const uploadClient = buildClient({ apiToken: process.env.NEXT_PUBLIC_DATO_READ_WRITE_TOKEN })
+export function uploadFile(file: File | Blob, options: Omit<CreateUploadFromFileOrBlobSchema, 'file'> & { alt?: string, title?: string }) {
+    const filename = options?.filename || ('name' in file ? file.name : ('upload ' + Date.now()))
 
-export function uploadFile(file, options) {
-    const filename = options?.filename || file.name
-    console.log({ filename })
-
-    return uploadClient.uploads.createFromFileOrBlob({
+    return datoClient.uploads.createFromFileOrBlob({
         fileOrBlob: file,
         filename,
         author: options?.author,
@@ -80,7 +77,6 @@ export function uploadFile(file, options) {
             } else {
                 console.log({
                     phase: info.type,
-                    details: info.payload,
                 })
             }
         },
