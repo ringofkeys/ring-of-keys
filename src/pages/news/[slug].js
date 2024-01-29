@@ -5,8 +5,8 @@ import Layout from "components/Layout"
 import { MarkdownRenderer, parseMarkdown } from "lib/markdown"
 
 export default function News({ layoutData, news }) {
-    const { title, featuredImage, description } = news
-    const ast = parseMarkdown(description)
+    const { title, featuredImage, body } = news
+    const ast = parseMarkdown(body)
 
     return (
         <Layout layoutData={layoutData}>
