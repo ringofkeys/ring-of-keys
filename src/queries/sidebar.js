@@ -14,6 +14,9 @@ export const sidebarQuery = `query SidebarQuery {
                 keyTeamPosition
                 keyTeamOrder
                 pronouns
+                headshot {
+                    url
+                }
     }
     ambassadors: allKeys(
         first: 8
