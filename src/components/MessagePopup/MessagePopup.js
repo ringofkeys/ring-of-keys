@@ -1,3 +1,4 @@
+import newMessage from "components/Emails/newMessage"
 import FormField from "components/FormField"
 import Popup from "components/Popup"
 import Link from "next/link"
@@ -35,7 +36,7 @@ const MessagePopup = ({ isOpen, artistId, artistName, moderateMessages, onClose 
 
         console.log("values = ", values)
 
-        const sendRes = await sendMessage(values, moderateMessages)
+        const sendRes = await sendMessage(values, artistName, moderateMessages)
 
         console.log("sendRes", sendRes)
 
@@ -101,7 +102,7 @@ const MessagePopup = ({ isOpen, artistId, artistName, moderateMessages, onClose 
 }
 export default MessagePopup
 
-async function sendMessage(data, moderateMessages) {
+async function sendMessage(data, artistName, moderateMessages) {
     let messageRes = "no message returned"
 
     try {
@@ -112,6 +113,33 @@ async function sendMessage(data, moderateMessages) {
                 moderateMessages,
             }),
         })
+
+        if (messageRes.status.toString().startsWith('5')) {
+            throw new Error("Server error")
+        }
+
+        const submissionData = await messageRes.json()
+
+        if (moderateMessages) {
+            const payload = {
+                subject: 'Ring of Keys message awaiting review, intended for ' + artistName,
+                text: 'Automated admin notification from ringofkeys.org',
+                to: ['info@ringofkeys.org', 'taylorjo@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
+                from: 'website@ringofkeys.org',
+                html: newMessage({ id: submissionData.id, ...data}, artistName),
+            }
+
+            console.log("payload = ", payload)
+
+            // Notify admin team
+            await fetch('/api/sendAdminEmail', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'text/json',
+                },
+                body: JSON.stringify(payload)
+            })
+        }
     } catch (err) {
         console.error("fetching error, ", err)
     }
