@@ -26,7 +26,8 @@
     font-size: 1rem;
 }
 
-.sidebar a {
+.sidebar a,
+.teammate {
     text-decoration: none;
     transition: all .12s ease-in-out;
     position: relative;
@@ -34,7 +35,8 @@
     display: block;
 }
 
-.sidebar a::before {
+.sidebar a::before,
+.sidebar .teammate::before {
     content: '';
     position: absolute;
     height: calc(100% + .5em);
@@ -48,7 +50,9 @@
 }
 
 .sidebar a:hover::before,
-.sidebar a:focus::before {
+.sidebar a:focus::before,
+.sidebar .teammate:hover::before,
+.sidebar .teammate:focus::before {
     width: 150%;
 }
 

@@ -35,7 +35,11 @@ const Sidebar = ({ data }) => {
             <h2 className="visually-hidden">Sidebar</h2>
             <h3>Upcoming Events</h3>
             {data.events.map((event) => (
-                <Link href={`/events/${event.slug}`} key={event.slug} className={styles.event}>
+                <Link
+                    href={`/events/${event.slug}`}
+                    key={event.slug}
+                    className={styles.event}
+                >
                     <div className={styles.date}>
                         <span className={styles.month}>
                             {getMonth(event.startTime)}
@@ -47,11 +51,42 @@ const Sidebar = ({ data }) => {
                     <h4 className={styles.eventTitle}>{event.title}</h4>
                 </Link>
             ))}
+            <h3>Executive Director</h3>
+            {data.team
+                .filter((t) => t.name === "Delaney Piggins")
+                .map((teammate) => (
+                    <div
+                        className={styles.teammate + " !flex items-center gap-2"}
+                        key={teammate.name}
+                    >
+                        <img
+                            src={
+                                teammate.headshot.url +
+                                "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=120&h=120&fm=jpg"
+                            }
+                            alt={teammate.name}
+                            className="block rounded-full object-cover w-12 h-12"
+                        />
+                        <Link
+                            href={`/keys/${teammate.slug}?no-popup`}
+                            key={teammate.slug}
+                            className="block"
+                        >
+                            <strong>{teammate.name}</strong>{" "}
+                            <em>({teammate.pronouns})</em>
+                        </Link>
+                    </div>
+                ))}
             <h3>Key Volunteer Team</h3>
             {data.team
+                .filter((t) => t.name !== "Delaney Piggins")
                 .sort((a, b) => a.keyTeamOrder - b.keyTeamOrder)
                 .map((teammate) => (
-                    <Link href={`/keys/${teammate.slug}?no-popup`} key={teammate.slug} className={styles.teammate}>
+                    <Link
+                        href={`/keys/${teammate.slug}?no-popup`}
+                        key={teammate.slug}
+                        className={styles.teammate}
+                    >
                         <strong>{teammate.name}</strong>{" "}
                         <em>({teammate.pronouns})</em>
                         <br />
@@ -60,26 +95,30 @@ const Sidebar = ({ data }) => {
                         </em>
                     </Link>
                 ))}
-            {data.ambassadors.length > 0 && (<>
-                <h3>Meetup Ambassadors</h3>
-                {data.ambassadors
-                    .sort(
-                        (a, b) => a.meetupAmbassadorOrder - b.meetupAmbassadorOrder
-                    )
-                    .map((ambassador) => (
-                        <Link
-                            href={`/keys/${ambassador.slug}`}
-                            key={ambassador.slug}
-                            className={styles.ambassador}>
+            {data.ambassadors.length > 0 && (
+                <>
+                    <h3>Meetup Ambassadors</h3>
+                    {data.ambassadors
+                        .sort(
+                            (a, b) =>
+                                a.meetupAmbassadorOrder -
+                                b.meetupAmbassadorOrder
+                        )
+                        .map((ambassador) => (
+                            <Link
+                                href={`/keys/${ambassador.slug}`}
+                                key={ambassador.slug}
+                                className={styles.ambassador}
+                            >
                                 <strong>{ambassador.name}</strong> (
                                 {ambassador.pronouns.toLowerCase()}) <br />
                                 <em style={{ color: "#6d7278" }}>
                                     {getBestLocationVal(ambassador)}
                                 </em>
-                        </Link>
-                    ))
-                }
-            </>)}
+                            </Link>
+                        ))}
+                </>
+            )}
         </aside>
     )
 }
