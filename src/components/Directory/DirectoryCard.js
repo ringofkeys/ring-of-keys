@@ -13,7 +13,8 @@ export default function DirectoryCard({ obj }) {
     const cardColorDegrees = useRef(randomDegreesFromString(artist.name))
 
     return (
-        <Link href={`/keys/${artist.slug}`}
+        <Link
+            href={`/keys/${artist.slug}`}
             className={styles["key__card"]}
             style={{ "--grad-rotate": cardColorDegrees.current + "deg" }}
         >
@@ -21,8 +22,10 @@ export default function DirectoryCard({ obj }) {
                 <div className={styles["card__img"]}>
                     <img
                         src={
-                            artist.headshot.url +
-                            "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=120&h=120&fm=jpg"
+                            artist.headshot
+                                ? artist.headshot.url +
+                                  "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=120&h=120&fm=jpg"
+                                : "/img/blank_user_headshot.png"
                         }
                         alt={artist.name + " headshot"}
                         loading="lazy"
@@ -34,19 +37,16 @@ export default function DirectoryCard({ obj }) {
                         <span className={styles["card__pronouns"]}>
                             {artist.pronouns.indexOf(",") >= 0
                                 ? artist.pronouns.slice(
-                                        0,
-                                        artist.pronouns.indexOf(",")
-                                    )
+                                      0,
+                                      artist.pronouns.indexOf(",")
+                                  )
                                 : artist.pronouns}
                         </span>
                         <span className={styles["card__location"]}>
                             {locationToShow}
                         </span>
                     </div>
-                    <p
-                        className="btn btn-link_ghost bg_copper"
-                        tabIndex="-1"
-                    >
+                    <p className="btn btn-link_ghost bg_copper" tabIndex="-1">
                         View Profile
                     </p>
                     {obj.matches && obj.matches.length && (
@@ -54,9 +54,7 @@ export default function DirectoryCard({ obj }) {
                             <span className={styles["card__matches"]}>
                                 Matches on:{" "}
                                 {obj.matches
-                                    .map((match) =>
-                                        camelCaseToLabel(match.key)
-                                    )
+                                    .map((match) => camelCaseToLabel(match.key))
                                     .join(", ")}
                             </span>
                         </p>
