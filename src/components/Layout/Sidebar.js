@@ -18,6 +18,10 @@ const months = [
 ]
 
 const Sidebar = ({ data }) => {
+    const upcomingEvents = data.events.filter(
+        (event) => Date.now() - Date.parse(event.startTime) < 0
+    )
+
     if (!data) return ""
 
     function getMonth(dateString) {
@@ -34,29 +38,35 @@ const Sidebar = ({ data }) => {
         <aside className={styles.sidebar}>
             <h2 className="visually-hidden">Sidebar</h2>
             <h3>Upcoming Events</h3>
-            {data.events.map((event) => (
-                <Link
-                    href={`/events/${event.slug}`}
-                    key={event.slug}
-                    className={styles.event}
-                >
-                    <div className={styles.date}>
-                        <span className={styles.month}>
-                            {getMonth(event.startTime)}
-                        </span>
-                        <span className={styles.day}>
-                            {getDate(event.startTime)}
-                        </span>
-                    </div>
-                    <h4 className={styles.eventTitle}>{event.title}</h4>
-                </Link>
-            ))}
+            {upcomingEvents.length > 0 ? (
+                upcomingEvents.map((event) => (
+                    <Link
+                        href={`/events/${event.slug}`}
+                        key={event.slug}
+                        className={styles.event}
+                    >
+                        <div className={styles.date}>
+                            <span className={styles.month}>
+                                {getMonth(event.startTime)}
+                            </span>
+                            <span className={styles.day}>
+                                {getDate(event.startTime)}
+                            </span>
+                        </div>
+                        <h4 className={styles.eventTitle}>{event.title}</h4>
+                    </Link>
+                ))
+            ) : (
+                <p className="mt-6">No upcoming events currently posted</p>
+            )}
             <h3>Executive Director</h3>
             {data.team
                 .filter((t) => t.name === "Delaney Piggins")
                 .map((teammate) => (
                     <div
-                        className={styles.teammate + " !flex items-center gap-2"}
+                        className={
+                            styles.teammate + " !flex items-center gap-2"
+                        }
                         key={teammate.name}
                     >
                         <img

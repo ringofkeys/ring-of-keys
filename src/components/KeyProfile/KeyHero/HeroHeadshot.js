@@ -4,16 +4,23 @@ import styles from "styles/key.module.css"
 import Icon from "components/Icon"
 import tooltipStyles from "styles/tooltip.module.css"
 
-export default function HeroHeadShot({ setHeadshotFullOpen, setEditingHeadshot }) {
-    const {
-        artist,
-        isEditing
-    } = useContext(ProfileContext)
+export default function HeroHeadShot({
+    setHeadshotFullOpen,
+    setEditingHeadshot,
+}) {
+    const { artist, isEditing } = useContext(ProfileContext)
 
     const HeadShot = () => (
         <img
-            src={artist?.headshot.responsiveImage.src}
-            alt={artist?.headshot.responsiveImage.title}
+            src={
+                artist?.headshot?.responsiveImage.src ||
+                "/img/blank_user_headshot.png"
+            }
+            alt={
+                artist?.headshot?.responsiveImage.title ||
+                artist?.name ||
+                "User Headshot"
+            }
             className={styles["headshot"]}
             onClick={() => setHeadshotFullOpen(true)}
         />
@@ -27,9 +34,11 @@ export default function HeroHeadShot({ setHeadshotFullOpen, setEditingHeadshot }
                 <div className={styles["headshot_group"]}>
                     <HeadShot />
                     <button
-                        className={styles["btn_edit"] +' '+ styles["edit_headshot"]}
+                        className={
+                            styles["btn_edit"] + " " + styles["edit_headshot"]
+                        }
                         onClick={() => {
-                            console.log('editing!')
+                            console.log("editing!")
                             setEditingHeadshot(true)
                         }}
                     >

@@ -1,7 +1,6 @@
 import { useState } from "react"
 import styles from "styles/contact.module.css"
 
-
 const ContactForm = ({ subject }) => {
     const [formStatus, setFormStatus] = useState("unsent")
     const formLabels = {
@@ -41,11 +40,17 @@ const ContactForm = ({ subject }) => {
             onSubmit={handleFormSubmit}
             method="POST"
         >
-            <div className={"input__group email " + styles['input__group'] }>
+            <div className={"input__group email " + styles["input__group"]}>
                 <label htmlFor="email">Email</label>
-                <input id="field-email" name="email" type="email" required className={styles.field}/>
+                <input
+                    id="field-email"
+                    name="email"
+                    type="email"
+                    required
+                    className={styles.field}
+                />
             </div>
-            <div className={"input__group select " + styles['input__group'] }>
+            <div className={"input__group select " + styles["input__group"]}>
                 <label htmlFor="subject">Subject</label>
                 <select
                     id="field-subject"
@@ -65,9 +70,14 @@ const ContactForm = ({ subject }) => {
                     <option value="technical">Technical issues</option>
                 </select>
             </div>
-            <div className={"input__group email " + styles['input__group'] }>
+            <div className={"input__group email " + styles["input__group"]}>
                 <label htmlFor="message">Message</label>
-                <textarea className={styles.field} id="field-message" name="message" required />
+                <textarea
+                    className={styles.field}
+                    id="field-message"
+                    name="message"
+                    required
+                />
             </div>
             <button
                 type="submit"
@@ -82,21 +92,20 @@ const ContactForm = ({ subject }) => {
 
 export default ContactForm
 
-
 async function sendAdminEmail(data) {
     const config =
         data.subject !== "technical"
             ? {
                   subject: `New Contact Submission from ${data.email}`,
                   text: "A new Contact form submission through Ring of Keys",
-                  to: "taylorjo@ringofkeys.org",
+                  to: ["info@ringofkeys.org", "taylorjo@ringofkeys.org"],
                   from: data.email,
                   data,
               }
             : {
                   subject: `New Technical Issue submission from ${data.email}`,
                   text: `A new technical issue submission through Ring of Keys`,
-                  to: `frank.ringofkeys@gmail.com`,
+                  to: ["info@ringofkeys.org", "frank.ringofkeys@gmail.com"],
                   from: data.email,
                   data,
               }
