@@ -5,7 +5,9 @@ import DonorBoxWidget from "components/DonorBoxWidget"
 // import VimeoEmbed from "./VimeoEmbed"
 import ApplyForm from "components/forms/ApplyForm"
 import DirectorySection from "components/Directory/DirectorySection"
-import ResourceSection from "components/ResourceSection"
+import ResourceSection, {
+    CuratedResourceSection,
+} from "components/ResourceSection"
 import ConsultantGrid from "components/ConsultantGrid"
 import GiveButterForm from "components/GiveButterWidget"
 import DonorBoxGalaEmbed from "components/DonorBoxGalaEmbed"
@@ -13,6 +15,7 @@ import DonorBoxGalaEmbed from "components/DonorBoxGalaEmbed"
 const shortcodes = {
     "directory-section": DirectorySection,
     "apply-form": ApplyForm,
+    "curated-resources-section": CuratedResourceSection,
     "resources-section": ResourceSection,
     "consultancy-form": ConsultancyForm,
     "consultant-bios": ConsultantGrid,
