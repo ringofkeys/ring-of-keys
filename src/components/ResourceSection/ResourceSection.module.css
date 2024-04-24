@@ -40,7 +40,7 @@
     font-weight: 200;
     text-transform: none;
     text-decoration: none;
-    @apply block my-4;
+    @apply block mb-4;
 }
 
 .categoryLink::after {

@@ -42,6 +42,16 @@ export const resourceThemes = {
     }
 }
 
+export const resourceColorsByTitle = {
+    "Advocacy & Access": "var(--rok-gold-1_hex)",
+    Reading: "var(--rok-pale-green-1_hex)",
+    Podcasts: "var(--rok-slate-blue_hex)",
+    Videos: "var(--rok-peach-1_hex)",
+    "Tools & Directories": "var(--rok-copper-1_hex)",
+    Organizations: "#494949",
+
+}
+
 export const DEMOGRAPHIC_FIELDS = [
     'pronouns',
     'gender_identity',

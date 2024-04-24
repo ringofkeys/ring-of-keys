@@ -25,3 +25,25 @@ query ResourcesByTypeQuery($type: String!) {
         link
     }
 }`
+
+export const CURATED_RESOURCES_QUERY = `
+query AllCuratedResourcesQuery {
+    allCuratedResourceSets {
+        id
+        curator {
+            headshot {
+                url
+            }
+            name
+            id
+            slug
+        }
+        resources {
+            title
+            description
+            link
+            id
+            resourceType
+        }
+    }
+}`
