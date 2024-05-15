@@ -31,17 +31,20 @@ async function handler(req, res) {
         }
 
         await client.items.update(id, fields)
-        const item = await client.item.publish(id, {
-            content_in_locales: [
-                ''
-            ],
-            non_localized_content: true
-        })
-    
-        if (Object.keys(fields).includes('isGenderConsultant')) {
+        const item = await client.item.publish(
+            id,
+            {
+                content_in_locales: [""],
+                non_localized_content: true,
+            },
+            {},
+            { serializeRequest: false }
+        )
+
+        if (Object.keys(fields).includes("isGenderConsultant")) {
             await triggerDatoBuildHook(NETLIFY_TRIGGER_ID)
         }
-    
+
         res.status(200).json(item)
     } catch (error) {
         console.error(error)
@@ -64,10 +67,7 @@ async function getAuth0Token() {
         }),
     }
 
-    return await fetch(
-        `${process.env.AUTH0_NEXT_ISSUER}/oauth/token`,
-        options
-    )
+    return await fetch(`${process.env.AUTH0_NEXT_ISSUER}/oauth/token`, options)
         .then((res) => res.json())
         .catch((err) => console.error(err))
 }
