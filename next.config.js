@@ -1,11 +1,12 @@
-const { withSentryConfig } = require("@sentry/nextjs");
+const { withSentryConfig } = require("@sentry/nextjs")
 
 const sentryPluginOptions = {
-    org: 'ring-of-keys',
-    project: 'ringofkeys-site',
+    org: "ring-of-keys",
+    project: "ringofkeys-site",
     silent: true,
 }
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
     swcMinify: true,
     compiler: {
@@ -14,6 +15,11 @@ const nextConfig = {
     sentry: {
         hideSourceMaps: true,
     },
+    i18n: {
+        defaultLocale: "en",
+        locales: ["en"],
+    },
+    reactStrictMode: true,
     async redirects() {
         return []
     },
