@@ -1,1 +1,1 @@
-export { default } from './FileDrop'
+export { default } from "./FileDrop"

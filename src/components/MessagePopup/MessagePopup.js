@@ -12,7 +12,13 @@ const messageStatusText = {
     failure: "Something Went Wrong",
 }
 
-const MessagePopup = ({ isOpen, artistId, artistName, moderateMessages, onClose }) => {
+const MessagePopup = ({
+    isOpen,
+    artistId,
+    artistName,
+    moderateMessages,
+    onClose,
+}) => {
     const [messageStatus, setMessageStatus] = useState("unsent")
 
     async function handleSubmit(e) {
@@ -20,7 +26,7 @@ const MessagePopup = ({ isOpen, artistId, artistName, moderateMessages, onClose 
         e.persist()
         setMessageStatus("sending")
 
-        console.log({artistId})
+        console.log({ artistId })
 
         const formVals = [].slice.call(e.target.elements)
         const values = {
@@ -82,7 +88,7 @@ const MessagePopup = ({ isOpen, artistId, artistName, moderateMessages, onClose 
                     <input type="checkbox" className="mr-4" required />
                     <span>
                         I have read and accepted the{" "}
-                        <Link href="/privacy" target='_blank'>
+                        <Link href="/privacy" target="_blank">
                             Terms and Conditions and Privacy Policy.
                         </Link>
                     </span>
@@ -114,7 +120,7 @@ async function sendMessage(data, artistName, moderateMessages) {
             }),
         })
 
-        if (messageRes.status.toString().startsWith('5')) {
+        if (messageRes.status.toString().startsWith("5")) {
             throw new Error("Server error")
         }
 
@@ -122,22 +128,31 @@ async function sendMessage(data, artistName, moderateMessages) {
 
         if (moderateMessages) {
             const payload = {
-                subject: 'Ring of Keys message awaiting review, intended for ' + artistName,
-                text: 'Automated admin notification from ringofkeys.org',
-                to: ['info@ringofkeys.org', 'taylorjo@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
-                from: 'website@ringofkeys.org',
-                html: newMessage({ id: submissionData.id, ...data}, artistName),
+                subject:
+                    "Ring of Keys message awaiting review, intended for " +
+                    artistName,
+                text: "Automated admin notification from ringofkeys.org",
+                to: [
+                    "info@ringofkeys.org",
+                    "taylorjo@ringofkeys.org",
+                    "frank.ringofkeys@gmail.com",
+                ],
+                from: "website@ringofkeys.org",
+                html: newMessage(
+                    { id: submissionData.id, ...data },
+                    artistName
+                ),
             }
 
             console.log("payload = ", payload)
 
             // Notify admin team
-            await fetch('/api/sendAdminEmail', {
-                method: 'POST',
+            await fetch("/api/sendAdminEmail", {
+                method: "POST",
                 headers: {
-                    "Content-Type": 'text/json',
+                    "Content-Type": "text/json",
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             })
         }
     } catch (err) {

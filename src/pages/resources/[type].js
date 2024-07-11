@@ -7,8 +7,9 @@ import { resourceThemes } from "lib/constants"
 // import "./resourceType.css"
 
 export async function getStaticPaths() {
-    const slugs = Object.keys(resourceThemes)
-        .map(key => ({ params: { type: slugify(key) }}))
+    const slugs = Object.keys(resourceThemes).map((key) => ({
+        params: { type: slugify(key) },
+    }))
 
     return {
         paths: slugs,
@@ -29,7 +30,7 @@ export async function getStaticProps({ params }) {
         props: {
             layoutData,
             resources,
-            resourceTheme: resourceThemes[params.type]
+            resourceTheme: resourceThemes[params.type],
         },
     }
 }
@@ -43,7 +44,9 @@ const ResourceType = ({ layoutData, resources, resourceTheme }) => {
                 resources.length
             } ${resourceTheme.title.toLowerCase()} resources for LGBT+ theatremakers to access.`}
         >
-            {resourceTheme.title && <h1 className="text-2xl md:text-4xl">{resourceTheme.title}</h1>}
+            {resourceTheme.title && (
+                <h1 className="text-2xl md:text-4xl">{resourceTheme.title}</h1>
+            )}
             <div class="grid md:grid-cols-2 gap-x-4 gap-y-8 my-8">
                 {resources.length &&
                     resources.map((resource) => (

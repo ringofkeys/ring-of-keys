@@ -1,6 +1,6 @@
 import { SiteClient } from "datocms-client"
 
-const client = new SiteClient(process.env.NEXT_DATO_API_TOKEN);
+const client = new SiteClient(process.env.NEXT_DATO_API_TOKEN)
 
 async function handler(req, res) {
     const filenames = JSON.parse(req.body)
@@ -10,7 +10,10 @@ async function handler(req, res) {
         client.uploadRequest.create({ filename })
     )
 
-    const data = (await Promise.all(responses)).map((d, i) => ([filenames[i][0], d]))
+    const data = (await Promise.all(responses)).map((d, i) => [
+        filenames[i][0],
+        d,
+    ])
 
     res.status(200).json(data)
 }

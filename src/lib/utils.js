@@ -12,14 +12,14 @@ export function camelCaseToLabel(camelCase) {
 /**
  * Converts camelCase, Sentence case, or PascalCase to kebab-case
  * from GeeksForGeeks: https://www.geeksforgeeks.org/how-to-convert-a-string-into-kebab-case-using-javascript/
- * @param {string} str 
+ * @param {string} str
  * @returns {string}
  */
 export function toKebabCase(str) {
     return str
         .replace(/([a-z])([A-Z])/g, "$1-$2")
-        .replace(/[\s_]+/g, '-')
-        .toLowerCase();
+        .replace(/[\s_]+/g, "-")
+        .toLowerCase()
 }
 
 // From Matthias Hagemann's "The Ultimate Way to Slugify a URL String in Javascript"
@@ -45,7 +45,7 @@ export function slugify(string) {
 
 /**
  * Converts a file into an ArrayBuffer by reading it
- * @param {File} file 
+ * @param {File} file
  * @returns Promise<ArrayBuffer>
  */
 export function fileToArrayBuffer(file) {
@@ -76,7 +76,7 @@ const months = [
     "September",
     "October",
     "November",
-    "December"
+    "December",
 ]
 const days = [
     "Sunday",
@@ -85,7 +85,7 @@ const days = [
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
 ]
 
 /**
@@ -94,7 +94,9 @@ const days = [
  * @returns {string}
  */
 export function toDateString(d) {
-    return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
+    return `${days[d.getDay()]}, ${
+        months[d.getMonth()]
+    } ${d.getDate()}, ${d.getFullYear()}`
 }
 
 /**
@@ -103,5 +105,10 @@ export function toDateString(d) {
  * @returns {string}
  */
 export function toDateTime(d) {
-    return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} ${d.getHours() % 12}:${d.getMinutes().toString().padStart(2, "0")} ${(d.getHours() < 12) ? 'AM' : 'PM'}`
+    return `${days[d.getDay()]}, ${
+        months[d.getMonth()]
+    } ${d.getDate()}, ${d.getFullYear()} ${d.getHours() % 12}:${d
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")} ${d.getHours() < 12 ? "AM" : "PM"}`
 }

@@ -1,1 +1,1 @@
-export { default } from './ResourceCard.js'
+export { default } from "./ResourceCard.js"

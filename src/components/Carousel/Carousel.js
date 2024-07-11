@@ -65,8 +65,7 @@ const Carousel = ({
                                 entryType={entryType}
                                 key={`carousel-${classNames[0]}-${i}`}
                             />
-                        ))
-                    }
+                        ))}
                     {children && children}
                 </ul>
             </div>

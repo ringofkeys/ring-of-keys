@@ -10,9 +10,9 @@ If you are interested in developing this site or using it to build your own feel
 
 ### 0. Needed software
 
-- Node V17 (using NVM is recommended)
-- NPM
-- [Netlify CLI](https://docs.netlify.com/cli/get-started/) (for testing serverless functions)
+-   Node V17 (using NVM is recommended)
+-   NPM
+-   [Netlify CLI](https://docs.netlify.com/cli/get-started/) (for testing serverless functions)
 
 ### 1. Clone or fork the repository
 

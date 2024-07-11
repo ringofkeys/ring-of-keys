@@ -2,10 +2,12 @@ import React, { useState } from "react"
 import Popup from "components/Popup"
 import styles from "components/MessageBlock/MessageBlock.module.css"
 import { DAY_IN_MS } from "lib/constants"
-import dateFormat from 'date-format'
+import dateFormat from "date-format"
 
 function daysSince(referenceTime) {
-    return parseInt((new Date().getTime() - new Date(referenceTime).getTime()) / DAY_IN_MS)
+    return parseInt(
+        (new Date().getTime() - new Date(referenceTime).getTime()) / DAY_IN_MS
+    )
 }
 
 const MessageBlock = ({ messages = [] }) => {
@@ -21,33 +23,43 @@ const MessageBlock = ({ messages = [] }) => {
                     <div
                         ariaRole="button"
                         className={
-                            styles.message +' '+
+                            styles.message +
+                            " " +
                             (daysSince(message._firstPublishedAt) < 5
                                 ? styles.recent
-                                : '')
+                                : "")
                         }
                         onClick={() => {
                             setPopupIndex(i)
                             setPopupOpen(true)
                         }}
-                        style={{ "--time-string": dateFormat('mm/dd/yy', new Date(message._firstPublishedAt)) }}
+                        style={{
+                            "--time-string": dateFormat(
+                                "mm/dd/yy",
+                                new Date(message._firstPublishedAt)
+                            ),
+                        }}
                     >
                         <div className={styles.messageLabels}>
                             <h3>{message.fromName}</h3>
                             <p>
-                                <em>{ dateFormat('MM/dd/yyyy', new Date(message._firstPublishedAt)) }</em>
+                                <em>
+                                    {dateFormat(
+                                        "MM/dd/yyyy",
+                                        new Date(message._firstPublishedAt)
+                                    )}
+                                </em>
                             </p>
                         </div>
                         <p>
                             {message.message.length > messagePreviewLength
                                 ? message.message.substr(
-                                        0,
-                                        messagePreviewLength
-                                    ) +
-                                    (message.message[messagePreviewLength] ===
-                                    "."
-                                        ? ""
-                                        : "...")
+                                      0,
+                                      messagePreviewLength
+                                  ) +
+                                  (message.message[messagePreviewLength] === "."
+                                      ? ""
+                                      : "...")
                                 : message.message}
                         </p>
                         <button className="btn btn-link_ghost has-arrow">
@@ -67,8 +79,16 @@ const MessageBlock = ({ messages = [] }) => {
                     >
                         {messages[popupIndex].fromEmail}
                     </a>
-                    <p>Sent {dateFormat('MM/dd/yyyy', new Date(messages[popupIndex]._firstPublishedAt))}</p>
-                    <p class={styles.messageBody}>{messages[popupIndex].message}</p>
+                    <p>
+                        Sent{" "}
+                        {dateFormat(
+                            "MM/dd/yyyy",
+                            new Date(messages[popupIndex]._firstPublishedAt)
+                        )}
+                    </p>
+                    <p class={styles.messageBody}>
+                        {messages[popupIndex].message}
+                    </p>
                     <a
                         className="btn bg_slate"
                         href={"mailto:" + messages[popupIndex].fromEmail}

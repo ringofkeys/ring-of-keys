@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react"
-import Link from 'next/link'
-import * as Sentry from '@sentry/nextjs'
+import Link from "next/link"
+import * as Sentry from "@sentry/nextjs"
 import FormField, { UploadField } from "components/FormField"
 import { affiliations, locations, mockData } from "./constants"
-import { slugify } from 'lib/utils.js'
+import { slugify } from "lib/utils.js"
 import styles from "./ApplyForm.module.css"
 import CheckboxGrid from "components/CheckboxGrid"
 import newApplicationSubmission from "components/Emails/newApplicationSubmission"
@@ -26,7 +26,7 @@ export default function ApplyForm() {
     const onUploadComplete = (fieldName, data) => {
         setUploads((previous) => ({
             ...previous,
-            [fieldName]: data
+            [fieldName]: data,
         }))
     }
 
@@ -35,17 +35,18 @@ export default function ApplyForm() {
         setFormStatus("submitting")
         const applyFormData = new FormData(e.target)
 
-        const transformedUploads = Object.fromEntries(Object.entries(uploads)
-            .map(([fieldName, fieldValue]) => ([
+        const transformedUploads = Object.fromEntries(
+            Object.entries(uploads).map(([fieldName, fieldValue]) => [
                 fieldName,
                 {
-                    uploadId: fieldValue.id
-                }
-            ])))
+                    uploadId: fieldValue.id,
+                },
+            ])
+        )
 
         const applyFormObj = Object.assign(
             Object.fromEntries(applyFormData),
-            transformedUploads,
+            transformedUploads
         )
 
         delete applyFormObj.resumeType
@@ -53,22 +54,23 @@ export default function ApplyForm() {
 
         // Gather up array fields
         const locationData = applyFormData.getAll("locations[]")
-        applyFormObj.locations = locationData.join('| ')
-        delete applyFormObj['locations[]']
+        applyFormObj.locations = locationData.join("| ")
+        delete applyFormObj["locations[]"]
         const unionData = applyFormData.getAll("affiliations[]")
-        applyFormObj.affiliations = unionData.join('| ')
-        delete applyFormObj['affiliations[]']
+        applyFormObj.affiliations = unionData.join("| ")
+        delete applyFormObj["affiliations[]"]
 
         // Move fields only needed for email to admin
         const emailFields = {
             whyRok: applyFormObj.whyRok,
             referral: applyFormObj.referral,
         }
-        delete applyFormObj.whyRok;
-        delete applyFormObj.referral;
+        delete applyFormObj.whyRok
+        delete applyFormObj.referral
 
         // Validate URL fields
-        const validateUrl = (url) => (url.startsWith('http')) ? url : 'http://' + url
+        const validateUrl = (url) =>
+            url.startsWith("http") ? url : "http://" + url
         if (applyFormObj.resume) {
             applyFormObj.resume = validateUrl(applyFormObj.resume)
         }
@@ -77,107 +79,140 @@ export default function ApplyForm() {
         }
 
         try {
-            const submissionRes = await fetch('/api/submitKeyshipApplication', {
-                method: 'POST',
+            const submissionRes = await fetch("/api/submitKeyshipApplication", {
+                method: "POST",
                 headers: {
-                    "Content-Type": 'text/json',
+                    "Content-Type": "text/json",
                 },
-                body: JSON.stringify(applyFormObj)
+                body: JSON.stringify(applyFormObj),
             })
 
-            if (submissionRes.status.toString().startsWith('5')) {
-                fetch('/api/sendAdminEmail', {
-                    method: 'POST',
+            if (submissionRes.status.toString().startsWith("5")) {
+                fetch("/api/sendAdminEmail", {
+                    method: "POST",
                     headers: {
-                        "Content-Type": 'text/json',
+                        "Content-Type": "text/json",
                     },
                     body: JSON.stringify({
-                        subject: 'Error in Ring of Keys Application for ' + applyFormObj.name,
-                        text: 'Automated admin notification from ringofkeys.org',
-                        to: ['info@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
-                        from: 'website@ringofkeys.org',
+                        subject:
+                            "Error in Ring of Keys Application for " +
+                            applyFormObj.name,
+                        text: "Automated admin notification from ringofkeys.org",
+                        to: [
+                            "info@ringofkeys.org",
+                            "frank.ringofkeys@gmail.com",
+                        ],
+                        from: "website@ringofkeys.org",
                         html: `<p>
                             Error while submitting application for <a href="mailto:${applyFormObj.email}">${applyFormObj.name}</a>.
                             Uploads were successful, but not publication. Please check logs and reach out to them promptly.
                         </p>`,
-                    })
+                    }),
                 })
             }
-            
+
             const submissionData = await submissionRes.json()
 
-            setFormStatus('success')
+            setFormStatus("success")
 
             if (!submissionData.id) {
-                Sentry.captureException('No submission ID returned from DatoCMS', {
-                    applyFormObj,
-                    submissionRes,
-                    submissionData,
-                })
+                Sentry.captureException(
+                    "No submission ID returned from DatoCMS",
+                    {
+                        applyFormObj,
+                        submissionRes,
+                        submissionData,
+                    }
+                )
             }
 
             // Notify admin team
-            fetch('/api/sendAdminEmail', {
-                method: 'POST',
+            fetch("/api/sendAdminEmail", {
+                method: "POST",
                 headers: {
-                    "Content-Type": 'text/json',
+                    "Content-Type": "text/json",
                 },
                 body: JSON.stringify({
-                    subject: 'New Ring of Keys Application - ' + applyFormObj.name,
-                    text: 'Automated admin notification from ringofkeys.org',
-                    to: ['info@ringofkeys.org', 'taylorjo@ringofkeys.org', 'frank.ringofkeys@gmail.com'],
-                    from: 'website@ringofkeys.org',
-                    html: newApplicationSubmission({ id: submissionData.id, ...applyFormObj, ...emailFields}),
-                })
+                    subject:
+                        "New Ring of Keys Application - " + applyFormObj.name,
+                    text: "Automated admin notification from ringofkeys.org",
+                    to: [
+                        "info@ringofkeys.org",
+                        "taylorjo@ringofkeys.org",
+                        "frank.ringofkeys@gmail.com",
+                    ],
+                    from: "website@ringofkeys.org",
+                    html: newApplicationSubmission({
+                        id: submissionData.id,
+                        ...applyFormObj,
+                        ...emailFields,
+                    }),
+                }),
             })
 
             // Notify applicant
-            fetch('/api/sendAdminEmail', {
-                method: 'POST',
+            fetch("/api/sendAdminEmail", {
+                method: "POST",
                 headers: {
-                    "Content-Type": 'text/json',
+                    "Content-Type": "text/json",
                 },
                 body: JSON.stringify({
-                    subject: 'Ring of Keys - Application awaiting review',
-                    text: 'Thank you for applying to join Ring of Keys!',
+                    subject: "Ring of Keys - Application awaiting review",
+                    text: "Thank you for applying to join Ring of Keys!",
                     to: applyFormObj.email,
-                    from: 'info@ringofkeys.org',
-                    html: applicationUnderReview({ id: submissionData.id, ...applyFormObj, ...emailFields}),
-                })
+                    from: "info@ringofkeys.org",
+                    html: applicationUnderReview({
+                        id: submissionData.id,
+                        ...applyFormObj,
+                        ...emailFields,
+                    }),
+                }),
             })
-        } catch(e) {
-            setFormStatus('failure')
+        } catch (e) {
+            setFormStatus("failure")
             Sentry.captureException(e)
 
-            fetch('/api/sendAdminEmail', {
-                method: 'POST',
+            fetch("/api/sendAdminEmail", {
+                method: "POST",
                 headers: {
-                    "Content-Type": 'text/json',
+                    "Content-Type": "text/json",
                 },
                 body: JSON.stringify({
-                    subject: 'Ring of Keys Application Error',
-                    text: 'Automated admin error notification from ringofkeys.org',
-                    to: 'frank.ringofkeys@gmail.com',
-                    from: 'website@ringofkeys.org',
+                    subject: "Ring of Keys Application Error",
+                    text: "Automated admin error notification from ringofkeys.org",
+                    to: "frank.ringofkeys@gmail.com",
+                    from: "website@ringofkeys.org",
                     html: `
-                        <p>Error: <pre>${ JSON.stringify(e, false, 2) }</pre></p>
-                        <p>Form data: <pre>${ JSON.stringify(applyFormObj, false, 2) }</pre></p>
+                        <p>Error: <pre>${JSON.stringify(e, false, 2)}</pre></p>
+                        <p>Form data: <pre>${JSON.stringify(
+                            applyFormObj,
+                            false,
+                            2
+                        )}</pre></p>
                     `,
-                })
+                }),
             })
         }
     }
 
     function fillForm() {
-        Object.entries(mockData).map(([key, value]) =>
-            formRef.current.elements[key].value = value
+        Object.entries(mockData).map(
+            ([key, value]) => (formRef.current.elements[key].value = value)
         )
     }
 
     return (
         <>
-            {(process.env.NODE_ENV == "development") && <button className="btn" onClick={fillForm}>Auto-fill form</button>}
-            <form ref={formRef} onSubmit={handleSubmit} className={styles.applyForm}>
+            {process.env.NODE_ENV == "development" && (
+                <button className="btn" onClick={fillForm}>
+                    Auto-fill form
+                </button>
+            )}
+            <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                className={styles.applyForm}
+            >
                 <h2>Tell us about yourself</h2>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-y-10">
                     <FormField
@@ -233,9 +268,7 @@ export default function ApplyForm() {
                 >
                     {locations.map((val) => (
                         <div className="checkbox" key={val}>
-                            <label htmlFor={"locations-" + val}>
-                                {val}
-                            </label>
+                            <label htmlFor={"locations-" + val}>{val}</label>
                             <input
                                 id={"locations-" + val}
                                 key={"locations-" + val}
@@ -253,9 +286,7 @@ export default function ApplyForm() {
                 >
                     {affiliations.map((val) => (
                         <div className="checkbox" key={val}>
-                            <label htmlFor={"affiliations-" + val}>
-                                {val}
-                            </label>
+                            <label htmlFor={"affiliations-" + val}>{val}</label>
                             <input
                                 id={"affiliations-" + val}
                                 key={"affiliations-" + val}
@@ -266,7 +297,7 @@ export default function ApplyForm() {
                         </div>
                     ))}
                 </CheckboxGrid>
-                <hr className="h-0.5 my-6 lg:my-10 bg-slate-50"/>
+                <hr className="h-0.5 my-6 lg:my-10 bg-slate-50" />
                 <h2>How do you identify?</h2>
                 <div className="grid gap-6 lg:grid-cols-2 lg:gap-y-10">
                     <FormField
@@ -302,7 +333,7 @@ export default function ApplyForm() {
                         helpText="Racial identity is the qualitative meaning one ascribes to one’s racial group, whereas ethnic identity is a concept that refers to one’s sense of self as a member of an ethnic group. At their core, both constructs reflect an individual’s sense of self as a member of a group; however, racial identity integrates the impact of race and related factors, while ethnic identity is focused on ethnic and cultural factors. We celebrate our Keys’ intersectionality and understand that creating one’s racial/ethnic identity is a fluid and nonlinear process that varies for every person. Many folks will identify with more than one background while others will identify with a single group more broadly."
                     />
                 </div>
-                <hr className="h-0.5 my-6 lg:my-10 bg-slate-50"/>
+                <hr className="h-0.5 my-6 lg:my-10 bg-slate-50" />
                 <h2>Just a little bit more...</h2>
                 <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-y-10">
                     <FormField
@@ -316,32 +347,45 @@ export default function ApplyForm() {
                         label="Upload your headshot or picture (max 4Mb)"
                         accept=".jpg, .png, .jpeg, .webp"
                         required={true}
-                        onUploadComplete={onUploadComplete} 
-                        author={nameValue || 'unknown author'}
+                        onUploadComplete={onUploadComplete}
+                        author={nameValue || "unknown author"}
                     />
                     <div className="flex gap-4">
                         <label className="flex items-center gap-2">
-                            <input defaultChecked={true} type="radio" name="resumeType" value="URL" onChange={() => setResumeType("URL")} />
+                            <input
+                                defaultChecked={true}
+                                type="radio"
+                                name="resumeType"
+                                value="URL"
+                                onChange={() => setResumeType("URL")}
+                            />
                             Resumé by URL
                         </label>
                         <label className="flex items-center gap-2">
-                            <input type="radio" name="resumeType" value="File" onChange={() => setResumeType("File")} />
+                            <input
+                                type="radio"
+                                name="resumeType"
+                                value="File"
+                                onChange={() => setResumeType("File")}
+                            />
                             Resumé by File
                         </label>
                     </div>
                     <div>
-                        {(resumeType === "URL")
-                        ? <FormField
-                            type="text"
-                            name="resume"
-                            label="Resumé URL"
-                        />
-                        : <UploadField
-                            name="resumeFile"
-                            label="Resumé File"
-                            onUploadComplete={onUploadComplete}
-                            author={nameValue || 'unknown author'}
-                        />}
+                        {resumeType === "URL" ? (
+                            <FormField
+                                type="text"
+                                name="resume"
+                                label="Resumé URL"
+                            />
+                        ) : (
+                            <UploadField
+                                name="resumeFile"
+                                label="Resumé File"
+                                onUploadComplete={onUploadComplete}
+                                author={nameValue || "unknown author"}
+                            />
+                        )}
                     </div>
                     <FormField
                         type="textarea"
@@ -359,15 +403,21 @@ export default function ApplyForm() {
                         <input type="checkbox" required />
                         <span>
                             I agree to the&nbsp;
-                            <Link href="/privacy" rel="noopener noreferrer"
+                            <Link
+                                href="/privacy"
+                                rel="noopener noreferrer"
                                 target="_blank"
-                                className="underline">
+                                className="underline"
+                            >
                                 Privacy Policy
                             </Link>{" "}
                             and{" "}
-                            <Link href="/terms" target="_blank"
+                            <Link
+                                href="/terms"
+                                target="_blank"
                                 rel="noopener noreferrer"
-                                className="underline">
+                                className="underline"
+                            >
                                 Terms of Use.
                             </Link>
                         </span>

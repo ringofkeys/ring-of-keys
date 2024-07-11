@@ -36,12 +36,14 @@ export default function DirectorySection(props) {
         if (typeof window !== "undefined") {
             // Set up a listener to remove appliedFilters from localStorage when the tab is closed.
             window.onbeforeunload = function (e) {
-                    localStorage.removeItem("latestFilters")
-                    return undefined
-                }
-                
+                localStorage.removeItem("latestFilters")
+                return undefined
+            }
+
             if (localStorage.getItem("latestFilters") !== null) {
-                setAppliedFilters(JSON.parse(localStorage.getItem("latestFilters")))
+                setAppliedFilters(
+                    JSON.parse(localStorage.getItem("latestFilters"))
+                )
             }
         }
 

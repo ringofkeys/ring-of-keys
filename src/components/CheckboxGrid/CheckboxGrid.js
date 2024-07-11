@@ -6,7 +6,8 @@ const CheckboxGrid = ({ className, label, helpText, children }) => {
     return (
         <div
             className={
-                styles.gridWrapper +' '+
+                styles.gridWrapper +
+                " " +
                 directoryStyles["cb-grid_wrapper"] +
                 " my-2 lg:my-4 " +
                 (className ? " " + className : "")

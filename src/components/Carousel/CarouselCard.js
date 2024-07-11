@@ -15,17 +15,19 @@ function cssModularize(cssClassString) {
         .join(" ")
 }
 
-function ImageOrFallback({ src, className = '', ...props }) {
+function ImageOrFallback({ src, className = "", ...props }) {
     const rotation = useRef(Math.random() * 360)
-    return (src) 
-        ? (<div className={styles['img_wrapper']}>
+    return src ? (
+        <div className={styles["img_wrapper"]}>
             <img src={src} className={className} {...props} />
-        </div>)
-        : (<div
-            className={styles['img_replacement'] + " fullwidth " + className}
+        </div>
+    ) : (
+        <div
+            className={styles["img_replacement"] + " fullwidth " + className}
             style={{ "--grad-rotate": rotation.current + "deg" }}
             {...props}
-        ></div>)
+        ></div>
+    )
 }
 
 function truncateDescription(descriptionHTML) {
@@ -44,29 +46,55 @@ function truncateDescription(descriptionHTML) {
     )
 }
 
-const CarouselCard = ({entry, entryType, className}) => {
+const CarouselCard = ({ entry, entryType, className }) => {
     const excerptLength = 128
 
     return (
         <li
             className={`${styles["carousel_card"]} ${styles["hover_scale"]} ${className}`}
         >
-            <Link href={entry.externalUrl || `/${entryType}/${entry.slug}`} {...((entry.externalUrl) ? {rel: 'nofollower noreferrer', target: '_blank'} : '')}>
-                    <ImageOrFallback src={entry.featuredImage?.url} alt={entry.featuredImage?.alt} />
-                    {entry.title && (
-                    <h3>{entry.title.substr(0, 70) + (entry.title.length > 70 ? "..." : '')}</h3>)}
-                    <div className={styles.cardDetails}>
-                        {(entry.startTime || entry.publishDate) && (
-                        <p><em>{entry.startTime ? toDateTime(new Date(entry.startTime)) : toDateString(new Date(entry.publishDate))}</em></p>
-                        )}
+            <Link
+                href={entry.externalUrl || `/${entryType}/${entry.slug}`}
+                {...(entry.externalUrl
+                    ? { rel: "nofollower noreferrer", target: "_blank" }
+                    : "")}
+            >
+                <ImageOrFallback
+                    src={entry.featuredImage?.url}
+                    alt={entry.featuredImage?.alt}
+                />
+                {entry.title && (
+                    <h3>
+                        {entry.title.substr(0, 70) +
+                            (entry.title.length > 70 ? "..." : "")}
+                    </h3>
+                )}
+                <div className={styles.cardDetails}>
+                    {(entry.startTime || entry.publishDate) && (
                         <p>
-                            {(entry.body)
-                                ? (entry.body.substr(0, excerptLength) + (entry.body.length > excerptLength ? "..." : ''))
-                                : <MarkdownRenderer ast={parseMarkdown(entry.description)} plaintext={true} excerptLength={excerptLength} />
-                            }
+                            <em>
+                                {entry.startTime
+                                    ? toDateTime(new Date(entry.startTime))
+                                    : toDateString(new Date(entry.publishDate))}
+                            </em>
                         </p>
-                    </div>
-                    <div className={"btn btn-link_ghost " + styles.button}>Read More</div>
+                    )}
+                    <p>
+                        {entry.body ? (
+                            entry.body.substr(0, excerptLength) +
+                            (entry.body.length > excerptLength ? "..." : "")
+                        ) : (
+                            <MarkdownRenderer
+                                ast={parseMarkdown(entry.description)}
+                                plaintext={true}
+                                excerptLength={excerptLength}
+                            />
+                        )}
+                    </p>
+                </div>
+                <div className={"btn btn-link_ghost " + styles.button}>
+                    Read More
+                </div>
             </Link>
         </li>
     )
