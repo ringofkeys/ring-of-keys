@@ -1,5 +1,5 @@
 import { SessionProvider, signIn, useSession } from "next-auth/react"
-import Script from 'next/script'
+import Script from "next/script"
 import SEO from "components/SEO"
 import "../styles/global.css"
 import SiteBanner from "components/SiteBanner"

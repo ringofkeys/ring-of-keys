@@ -1,2 +1,2 @@
-export { default } from './ResourceSection'
-export { default as CuratedResourceSection } from './CuratedResourceSection'
+export { default } from "./ResourceSection"
+export { default as CuratedResourceSection } from "./CuratedResourceSection"

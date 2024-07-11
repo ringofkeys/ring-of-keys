@@ -3,19 +3,13 @@ import { useContext } from "react"
 import styles from "styles/key.module.css"
 
 export default function HeroBio({ setMessageOpen }) {
-    const {
-        artist,
-        isEditable
-    } = useContext(ProfileContext)
-    
+    const { artist, isEditable } = useContext(ProfileContext)
+
     return (
         <div className={styles["artist_bio"]}>
-            <h1>{ artist?.name }</h1>
+            <h1>{artist?.name}</h1>
             {artist?.mainLocation && (
-                <p>
-                    Based in{" "}
-                    {artist.mainLocation.replace(", ", " • ")}
-                </p>
+                <p>Based in {artist.mainLocation.replace(", ", " • ")}</p>
             )}
             <p>
                 {artist?.pronouns}
@@ -26,17 +20,21 @@ export default function HeroBio({ setMessageOpen }) {
             {isEditable && (
                 <p>
                     RoK ID:{" "}
-                    {(!artist?.id || !artist.id.includes('-')) ? artist.id : artist.id?.match(/.*-(\d+)-.*/)[1]}
+                    {!artist?.id || !artist.id.includes("-")
+                        ? artist.id
+                        : artist.id?.match(/.*-(\d+)-.*/)[1]}
                 </p>
             )}
-            {!artist?.hideMessageButton && <button
-                className={"btn " + styles["btn_message"]}
-                onClick={() => {
-                    setMessageOpen(true)
-                }}
-            >
-                Message
-            </button>}
+            {!artist?.hideMessageButton && (
+                <button
+                    className={"btn " + styles["btn_message"]}
+                    onClick={() => {
+                        setMessageOpen(true)
+                    }}
+                >
+                    Message
+                </button>
+            )}
         </div>
     )
 }

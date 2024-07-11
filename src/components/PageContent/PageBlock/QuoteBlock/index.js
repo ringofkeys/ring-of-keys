@@ -1,4 +1,4 @@
-import styles from './QuoteBlock.module.css'
+import styles from "./QuoteBlock.module.css"
 
 export default function QuoteBlock(props) {
     return (

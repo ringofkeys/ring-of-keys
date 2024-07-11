@@ -14,8 +14,8 @@ export default function DirectorySearch({
     const [filtersAreVisible, setFilterVisibility] = useState(false)
 
     function getFilterWithFallback(filterKey, fallbackValue) {
-        return (appliedFilters.findIndex(f => f[0] == filterKey) >= 0)
-            ? appliedFilters.find(f => f[0] == filterKey)[1]
+        return appliedFilters.findIndex((f) => f[0] == filterKey) >= 0
+            ? appliedFilters.find((f) => f[0] == filterKey)[1]
             : fallbackValue
     }
 

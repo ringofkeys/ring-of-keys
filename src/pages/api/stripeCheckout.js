@@ -1,4 +1,8 @@
-const acceptedOrigins = ["https://ringofkeys.org", "http://localhost:8888", "http://localhost:3000"]
+const acceptedOrigins = [
+    "https://ringofkeys.org",
+    "http://localhost:8888",
+    "http://localhost:3000",
+]
 const stripe = require("stripe")(process.env.GATSBY_STRIPE_SECRET_KEY)
 
 async function handler(req, res) {

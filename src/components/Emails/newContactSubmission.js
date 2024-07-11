@@ -3,13 +3,15 @@ const newContactSubmission = (data) => `
     <p>The following submission was just placed in the <a href="https://ringofkeys.org/contact">RoK Contact Form</a>:</p>
     <table style="border-collapse: collapse;">
         <tbody>
-            ${Object.keys(data).map(
-                (key) => `
+            ${Object.keys(data)
+                .map(
+                    (key) => `
                 <tr style="padding: .4rem 1rem;">
                     <th style="border: solid 1px #ddd; padding: .3rem .75rem; text-align: left; text-transform: capitalize">${key}</th>
                     <td style="border: solid 1px #ddd; padding: .3rem .75rem">${data[key]}</td>
                 </tr>`
-            ).join('')}
+                )
+                .join("")}
         </tbody>
     </table>`
 

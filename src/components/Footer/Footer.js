@@ -16,60 +16,70 @@ const Footer = ({
             <nav>
                 <div>
                     <p className={styles.visibleMobile}>Menu</p>
-                    <Link href="/directory" className={styles.visibleMobile}>Directory</Link>
-                    <Link href="/news" className={styles.visibleMobile}>News</Link>
-                    <Link href="/consultancy" className={styles.visibleMobile}>Consultancy</Link>
-                    <Link href="/resources" className={styles.visibleMobile}>Resources</Link>
-                    <Link href="/donate" className={styles.visibleMobile}>Donate</Link>
+                    <Link href="/directory" className={styles.visibleMobile}>
+                        Directory
+                    </Link>
+                    <Link href="/news" className={styles.visibleMobile}>
+                        News
+                    </Link>
+                    <Link href="/consultancy" className={styles.visibleMobile}>
+                        Consultancy
+                    </Link>
+                    <Link href="/resources" className={styles.visibleMobile}>
+                        Resources
+                    </Link>
+                    <Link href="/donate" className={styles.visibleMobile}>
+                        Donate
+                    </Link>
                 </div>
                 <div>
                     <p>About Us</p>
-                    <Link href="/about" className={styles.visibleMobile}>About Us</Link>
-                    <Link href="/about">
-                        Our Story
+                    <Link href="/about" className={styles.visibleMobile}>
+                        About Us
                     </Link>
-                    <Link href="/about#who-are-we">
-                        Who We Are
-                    </Link>
-                    <Link href="/about#what-we-do">
-                        What We Do
-                    </Link>
+                    <Link href="/about">Our Story</Link>
+                    <Link href="/about#who-are-we">Who We Are</Link>
+                    <Link href="/about#what-we-do">What We Do</Link>
                 </div>
                 <div>
                     <p>Contact Us</p>
-                    <Link href="/contact" className={styles.visibleMobile}>Contact Us</Link>
-                    <Link href="/contact/?subject=general">
-                        General
+                    <Link href="/contact" className={styles.visibleMobile}>
+                        Contact Us
                     </Link>
+                    <Link href="/contact/?subject=general">General</Link>
                     <Link href="/contact/?subject=job-submission">
                         Job Submissions
                     </Link>
-                    <Link href="/contact/?subject=hiring">
-                        Hiring
-                    </Link>
-                    <Link href="/contact/?subject=volunteer">
-                        Volunteer
-                    </Link>
+                    <Link href="/contact/?subject=hiring">Hiring</Link>
+                    <Link href="/contact/?subject=volunteer">Volunteer</Link>
                     <Link href="/contact/?subject=technical">
                         Technical Issues
                     </Link>
                 </div>
                 <div className="account_nav">
                     <p>Log In</p>
-                    <Link href="/dashboard" className={styles.visibleMobile}>Account</Link>
-                    <Link href="/dashboard">
-                        Sign In
+                    <Link href="/dashboard" className={styles.visibleMobile}>
+                        Account
                     </Link>
+                    <Link href="/dashboard">Sign In</Link>
                     <Link className={styles.visibleMobile} href="/apply">
                         Apply to be a Key
                     </Link>
                 </div>
                 <div className={styles.visibleMobile}>
                     <p className={styles.visibleMobile}>Follow Us</p>
-                    <div className={styles.socialLinks +' '+ styles.visibleMobile}>
+                    <div
+                        className={
+                            styles.socialLinks + " " + styles.visibleMobile
+                        }
+                    >
                         {socialLinkData.map((link, i) => (
                             <a
-                                className={styles.socialLink +' '+ styles.visibleMobile}
+                                className={
+                                    styles.socialLink +
+                                    " " +
+                                    styles.visibleMobile
+                                }
                                 href={link.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -88,10 +98,7 @@ const Footer = ({
                 <EmailSignupBar />
                 <span>
                     © 2022 Ring of Keys Coalition, Inc. |{" "}
-                    <Link href="/privacy">
-                        Privacy Policy
-                    </Link>{" "}
-                    | Designed by{" "}
+                    <Link href="/privacy">Privacy Policy</Link> | Designed by{" "}
                     <a
                         href="https://megelliott.design"
                         target="_blank"

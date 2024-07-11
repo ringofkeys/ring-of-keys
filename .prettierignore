@@ -1,3 +1,5 @@
+.next
+.netlify
 .cache
 package.json
 package-lock.json

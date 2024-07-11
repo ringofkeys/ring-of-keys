@@ -25,11 +25,18 @@ export async function getStaticProps({ params }) {
     })
 
     // Find and filter out the QuoteBlock if it's present
-    const quoteBlockIndex = data.page.content.findIndex(block => block.__typename === 'QuoteRecord')
+    const quoteBlockIndex = data.page.content.findIndex(
+        (block) => block.__typename === "QuoteRecord"
+    )
     let quoteBlock = false
     if (quoteBlockIndex >= 0) {
-        quoteBlock = data.page.content.find(block => block.__typename === 'QuoteRecord')
-        data.page.content = [...data.page.content.slice(0, quoteBlockIndex), ...data.page.content.slice(quoteBlockIndex + 1, 0)]
+        quoteBlock = data.page.content.find(
+            (block) => block.__typename === "QuoteRecord"
+        )
+        data.page.content = [
+            ...data.page.content.slice(0, quoteBlockIndex),
+            ...data.page.content.slice(quoteBlockIndex + 1, 0),
+        ]
     }
 
     return {
@@ -49,12 +56,18 @@ const IndexPage = ({ layoutData, data, carouselData, quoteBlock }) => {
     return (
         <Layout
             layoutData={layoutData}
-            className={styles.base + " fullWidth " + data?.page?.layout} quote={quoteBlock}>
+            className={styles.base + " fullWidth " + data?.page?.layout}
+            quote={quoteBlock}
+        >
             {/* <Layout classNames={['fullwidth']} footerQuoteText={ renderHtmlToReact(quoteTextNode.childMarkdownRemark.htmlAst) }
          footerQuoteAttribution={ quoteAttribution } footerQuoteBgColor='var(--rok-copper-1_hex)' footerQuoteTextColor='white'> */}
             <PageContent content={data?.page?.content} />
             <div className="section_news">
-                <Carousel heading="News" entryList={carouselData?.allNews} entryType="news" />
+                <Carousel
+                    heading="News"
+                    entryList={carouselData?.allNews}
+                    entryType="news"
+                />
             </div>
             {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         </Layout>

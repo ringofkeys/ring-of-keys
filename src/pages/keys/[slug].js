@@ -19,15 +19,15 @@ export const ProfileContext = React.createContext({})
 
 function artistReducer(state, action) {
     switch (action.type) {
-        case 'UPDATE_FIELD':
+        case "UPDATE_FIELD":
             return {
                 ...state,
                 ...action.payload,
             }
-        case 'UPDATE_ARTIST':
+        case "UPDATE_ARTIST":
             return action.payload
         default:
-            throw new Error('Unsupported artistReducer action: ' + action.type)
+            throw new Error("Unsupported artistReducer action: " + action.type)
     }
 }
 
@@ -42,10 +42,10 @@ export default function KeyPage({ layoutData, artistData }) {
     const [isEditingFeaturedImage, setEditingFeaturedImage] = useState(false)
     const [isEditingSocialMedia, setEditingSocialMedia] = useState(false)
     const [artist, artistDispatch] = useReducer(artistReducer, artistData)
-    
+
     // Check if we are loading the page with a "no-popup" query parameter
     const router = useRouter()
-    const noPopup = Object.keys(router.query).includes('no-popup')
+    const noPopup = Object.keys(router.query).includes("no-popup")
 
     useEffect(() => {
         if (session && session.token.datoId == artistData?.id) {
@@ -53,20 +53,28 @@ export default function KeyPage({ layoutData, artistData }) {
         }
     }, [session])
 
-    return (<>
-        <SEO seoData={{
-            title: artist?.name,
-            description: `${ artist?.name } (${ artist?.pronouns}) is a ${ artist?.discipline }, and a member of Ring of Keys.`,
-            image: artist?.headshot?.src,
-        }} />
-        <ProfileContext.Provider value={{
-            artist,
-            artistDispatch,
-            isEditable,
-            isEditing,
-            setEditing,
-        }}>
-            <Layout layoutData={layoutData} className={"fullWidth " + styles['key-profile']}>
+    return (
+        <>
+            <SEO
+                seoData={{
+                    title: artist?.name,
+                    description: `${artist?.name} (${artist?.pronouns}) is a ${artist?.discipline}, and a member of Ring of Keys.`,
+                    image: artist?.headshot?.src,
+                }}
+            />
+            <ProfileContext.Provider
+                value={{
+                    artist,
+                    artistDispatch,
+                    isEditable,
+                    isEditing,
+                    setEditing,
+                }}
+            >
+                <Layout
+                    layoutData={layoutData}
+                    className={"fullWidth " + styles["key-profile"]}
+                >
                     <KeyHero
                         setMessageOpen={setMessageOpen}
                         setHeadshotFullOpen={setHeadshotFullOpen}
@@ -75,41 +83,50 @@ export default function KeyPage({ layoutData, artistData }) {
                         setEditingFeaturedImage={setEditingFeaturedImage}
                     />
                     <KeyBody />
-            </Layout>
-            {isEditable && <>
-                <HeroFeaturedImageEditor
-                    isOpen={isEditingFeaturedImage}
-                    onClose={() => setEditingFeaturedImage(false)}
+                </Layout>
+                {isEditable && (
+                    <>
+                        <HeroFeaturedImageEditor
+                            isOpen={isEditingFeaturedImage}
+                            onClose={() => setEditingFeaturedImage(false)}
+                        />
+                        <HeroHeadshotEditor
+                            isOpen={isEditingHeadshot}
+                            onClose={() => setEditingHeadshot(false)}
+                        />
+                        <HeroSocialMediaEditor
+                            isOpen={isEditingSocialMedia}
+                            onClose={() => setEditingSocialMedia(false)}
+                        />
+                    </>
+                )}
+                {!artistData?.hideMessageButton && (
+                    <MessagePopup
+                        isOpen={isMessageOpen}
+                        artistId={artist?.id}
+                        artistName={artist?.name}
+                        moderateMessages={artist?.moderateMessages}
+                        onClose={() => setMessageOpen(false)}
+                    />
+                )}
+                <Popup
+                    isOpen={isHeadshotFullOpen}
+                    onClose={() => setHeadshotFullOpen(false)}
+                >
+                    <img
+                        src={artist?.headshot?.fullRes.src}
+                        alt={`${artist?.name} headshot`}
+                        loading="lazy"
+                    />
+                </Popup>
+                <EmailPopup
+                    isOpen={isEmailPopupOpen}
+                    setOpen={setEmailPopupOpen}
+                    isSignedIn={noPopup || session}
                 />
-                <HeroHeadshotEditor
-                    isOpen={isEditingHeadshot}
-                    onClose={() => setEditingHeadshot(false)}
-                />
-                <HeroSocialMediaEditor
-                    isOpen={isEditingSocialMedia}
-                    onClose={() => setEditingSocialMedia(false)}
-                />
-            </>}
-            {!artistData?.hideMessageButton && <MessagePopup
-                isOpen={isMessageOpen}
-                artistId={artist?.id}
-                artistName={artist?.name}
-                moderateMessages={artist?.moderateMessages}
-                onClose={() => setMessageOpen(false)}
-            />}
-            <Popup
-                isOpen={isHeadshotFullOpen}
-                onClose={() => setHeadshotFullOpen(false)}
-            >
-                <img
-                    src={artist?.headshot?.fullRes.src}
-                    alt={`${artist?.name} headshot`}
-                    loading="lazy"
-                />
-            </Popup>
-            <EmailPopup isOpen={isEmailPopupOpen} setOpen={setEmailPopupOpen} isSignedIn={noPopup || session} />
-        </ProfileContext.Provider>
-    </>)
+            </ProfileContext.Provider>
+        </>
+    )
 }
 
 export async function getServerSideProps(context) {
@@ -124,7 +141,7 @@ export async function getServerSideProps(context) {
     return {
         props: {
             layoutData,
-            artistData: data.key
+            artistData: data.key,
         },
     }
 }

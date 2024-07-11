@@ -1,4 +1,4 @@
-const { getEvents } = require("lib/eventbrite");
+const { getEvents } = require("lib/eventbrite")
 
 async function handler(req, res) {
     try {
@@ -6,7 +6,7 @@ async function handler(req, res) {
         const events = await eventResponse.json()
 
         res.status(200).json(events)
-    } catch(err) {
+    } catch (err) {
         console.error(err)
         res.status(500).json(err)
     }

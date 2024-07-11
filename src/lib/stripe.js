@@ -100,7 +100,11 @@ export async function getCustomer(customerId) {
 }
 
 export function accountNeedsReview(customerData) {
-    return customerData.delinquent || !customerData.subscriptions || customerData.subscriptions.total_count === 0
+    return (
+        customerData.delinquent ||
+        !customerData.subscriptions ||
+        customerData.subscriptions.total_count === 0
+    )
 }
 
 export function getCurrentSubscription(customerData) {
@@ -108,10 +112,12 @@ export function getCurrentSubscription(customerData) {
         return null
     }
 
-    return flattenedStripeProducts.findIndex((p) => p.some((el) =>
-                    el === customerData.subscriptions.data[0].items.data[0].plan.id
-                )
-            )
+    return flattenedStripeProducts.findIndex((p) =>
+        p.some(
+            (el) =>
+                el === customerData.subscriptions.data[0].items.data[0].plan.id
+        )
+    )
 }
 
 export function getLastPayment(customerData) {
@@ -119,5 +125,7 @@ export function getLastPayment(customerData) {
         return null
     }
 
-    return new Date(customerData.subscriptions.data[0].current_period_start * 1000)
+    return new Date(
+        customerData.subscriptions.data[0].current_period_start * 1000
+    )
 }

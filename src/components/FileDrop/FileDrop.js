@@ -22,7 +22,9 @@ export default function FileDrop({ helpText }) {
                         <span className={styles["help-text"]}>or</span>
                         <span className="btn bg_slate">Browse Files</span>
                         {helpText && (
-                            <span className={styles["help-text"]}>{helpText}</span>
+                            <span className={styles["help-text"]}>
+                                {helpText}
+                            </span>
                         )}
                     </>
                 ) : (

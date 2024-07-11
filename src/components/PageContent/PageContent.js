@@ -17,21 +17,25 @@ export default function PageContent({ content, pageSpecificData }) {
     )
 }
 
-
 function groupBlocks(content) {
-    const blockTypesToGroup = [
-        "IconHeadingLabelRecord",
-        "TeammateItemRecord",
-    ]
+    const blockTypesToGroup = ["IconHeadingLabelRecord", "TeammateItemRecord"]
 
     return content.reduce((prev, curr, i, arr) => {
         const last = prev && prev[prev.length - 1]
-        if (last && last.blocks?.length && last.__typename === curr.__typename + "Group") {
+        if (
+            last &&
+            last.blocks?.length &&
+            last.__typename === curr.__typename + "Group"
+        ) {
             prev[prev.length - 1].blocks.push(curr)
-        } else if (i < arr.length - 1 && blockTypesToGroup.indexOf(curr.__typename) >= 0 && arr[i + 1].__typename === curr.__typename) {
-            prev.push({ __typename: curr.__typename + 'Group', blocks: [curr] })
+        } else if (
+            i < arr.length - 1 &&
+            blockTypesToGroup.indexOf(curr.__typename) >= 0 &&
+            arr[i + 1].__typename === curr.__typename
+        ) {
+            prev.push({ __typename: curr.__typename + "Group", blocks: [curr] })
         } else {
-            prev.push(curr)   
+            prev.push(curr)
         }
         return prev
     }, [])

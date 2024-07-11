@@ -1,11 +1,8 @@
 import React, { useState, useReducer, useEffect } from "react"
-import {
-    flattenedStripeProducts,
-    stripeProducts,
-} from "lib/stripe"
+import { flattenedStripeProducts, stripeProducts } from "lib/stripe"
 import styles from "./StripeBlocks.module.css"
-import dashboardStyles from 'styles/dashboard.module.css'
-import Head from 'next/head'
+import dashboardStyles from "styles/dashboard.module.css"
+import Head from "next/head"
 
 const keyshipReducer = (state, action) => {
     switch (action.type) {
@@ -72,7 +69,9 @@ const KeyshipForm = ({ userId }) => {
             : [formData.keyship, formData.sponsorship]
 
         createCheckoutSession(userId, prices).then(({ sessionId }) => {
-            const stripe = window.Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+            const stripe = window.Stripe(
+                process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
+            )
             console.log("clicking!", { userId, prices, sessionId, stripe })
             stripe.redirectToCheckout({ sessionId })
         })
@@ -84,7 +83,7 @@ const KeyshipForm = ({ userId }) => {
         //     dispatch({ type: 'FAILURE' })        }
     }
 
-    console.log('stripeProducts', stripeProducts)
+    console.log("stripeProducts", stripeProducts)
 
     return (
         <>
@@ -150,7 +149,10 @@ const KeyshipForm = ({ userId }) => {
                     <span>I'd like to sponsor another Key too</span>
                 </label>
                 {state.showSponsorship && (
-                    <fieldset id="sponsorship-options" className={styles.options}>
+                    <fieldset
+                        id="sponsorship-options"
+                        className={styles.options}
+                    >
                         {stripeProducts &&
                             stripeProducts.length &&
                             stripeProducts.map((product, i) => (

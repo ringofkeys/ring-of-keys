@@ -34,7 +34,10 @@ export default function ConsultancyForm() {
     }
 
     return (
-        <form id="consultancy-form" onSubmit={handleFormSubmit} method="POST"
+        <form
+            id="consultancy-form"
+            onSubmit={handleFormSubmit}
+            method="POST"
             className="my-6"
         >
             <div className="text-inputs">

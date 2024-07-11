@@ -27,17 +27,10 @@ export async function getStaticProps() {
 }
 
 export default function News({ layoutData, seo, data }) {
-    const {
-        industryNews,
-        pressReleases,
-        newsletters,
-        events,
-    } = data
+    const { industryNews, pressReleases, newsletters, events } = data
 
     return (
-        <Layout
-            layoutData={layoutData}
-            className={"news fullWidth"}>
+        <Layout layoutData={layoutData} className={"news fullWidth"}>
             {/* <div className='view-all_nav' >
             <nav styl={{display: 'none'}}>
                 <a href='/'>All</a>

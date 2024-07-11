@@ -14,11 +14,9 @@ async function handler(req, res) {
 
         console.log("session", session)
 
-        res.status(200)
-            .json(session)
+        res.status(200).json(session)
     } catch (err) {
-        res.status(500)
-            .json(err)
+        res.status(500).json(err)
     }
 }
 
