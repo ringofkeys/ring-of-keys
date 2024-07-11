@@ -123,7 +123,10 @@ export default function Dashboard({ layoutData }) {
                     <section className={styles.infoSection}>
                         <div className={styles.avatarWrapper}>
                             <img
-                                src={`${user?.headshot?.url}?fit=facearea&faceindex=1&facepad=5&w=140&h=140&`}
+                                src={user.headshot?.url
+                                    ? user.headshot?.url +
+                                      "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&"
+                                    : "/img/blank_user_headshot.png"}
                                 alt={user?.headshot?.title}
                                 className="avatar"
                             />
