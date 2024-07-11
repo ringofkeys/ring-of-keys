@@ -138,8 +138,10 @@ function SecondaryNav({ session, navOpen }) {
                                 <>
                                     <img
                                         src={
-                                            user.headshot.url +
-                                            "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&"
+                                            user.headshot?.url
+                                            ? user.headshot?.url +
+                                              "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=100&h=100&"
+                                            : "/img/blank_user_headshot.png"
                                         }
                                         alt={user.name + " headshot"}
                                     />
