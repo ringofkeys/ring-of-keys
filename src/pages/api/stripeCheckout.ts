@@ -1,37 +1,41 @@
+import { NextApiRequest, NextApiResponse } from "next"
+
 const acceptedOrigins = [
     "https://ringofkeys.org",
     "http://localhost:8888",
     "http://localhost:3000",
 ]
-const stripe = require("stripe")(process.env.GATSBY_STRIPE_SECRET_KEY)
+import Stripe from "stripe"
+const stripe = new Stripe(process.env.GATSBY_STRIPE_SECRET_KEY || '', {
+    apiVersion: "2022-11-15",
+})
 
-async function handler(req, res) {
+interface CheckoutSessionAPIRequest extends NextApiRequest {
+    body: {
+        user: string
+        priceId: string[]
+    }
+}
+
+const handler = async (
+    req: CheckoutSessionAPIRequest,
+    res: NextApiResponse
+) => {
     console.log(process.env.GATSBY_STRIPE_SECRET_KEY)
     // console.log("before all the things", req)
-    if (req.httpMethod === "OPTIONS") {
+    if (req.method === "OPTIONS") {
         console.log("options", req.body)
-        if (acceptedOrigins.some((origin) => origin === req.headers.origin)) {
-            callback(null, {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Origin": req.headers.origin,
-                    "Access-Control-Allow-Headers": ["Content-Type"],
-                },
-            })
+        if (
+            req.headers.origin &&
+            acceptedOrigins.some((origin) => origin === req.headers.origin)
+        ) {
+            res.status(200)
+                .setHeader("Access-Control-Allow-Origin", req.headers.origin)
+                .setHeader("Access-Control-Allow-Headers", ["Content-Type"])
         } else {
-            callback(
-                new Error(
-                    "Unauthorized origin: called from ",
-                    event.headers.origin
-                ),
-                {
-                    statusCode: 403,
-                    headers: {
-                        "Access-Control-Allow-Origin": acceptedOrigins[0],
-                        "Access-Control-Allow-Headers": ["Content-Type"],
-                    },
-                }
-            )
+            res.status(403)
+                .setHeader("Access-Control-Allow-Origin", acceptedOrigins[0])
+                .setHeader("Access-Control-Allow-Headers", ["Content-Type"])
         }
     } else {
         // console.log("post", req.body)

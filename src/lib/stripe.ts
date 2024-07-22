@@ -1,3 +1,5 @@
+import Stripe from "stripe"
+
 export const stripeProducts = [
     {
         label: "✊ Solidarity",
@@ -50,7 +52,7 @@ export const flattenedStripeProducts = stripeProducts.map((p) => {
     ]
 })
 
-export function createPortalSession(customer) {
+export function createPortalSession(customer: string) {
     return fetch("/api/stripePortal", {
         method: "POST",
         headers: {
@@ -68,15 +70,15 @@ export function createPortalSession(customer) {
         })
 }
 
-export function createCheckoutSession(user, priceId) {
-    console.log("creating checkout session", { user, priceId })
+export function createCheckoutSession(userId: string, priceId: string): Promise<Stripe.Checkout.Session | null> {
+    console.log("creating checkout session", { user: userId, priceId })
     return fetch("/api/stripeCheckout", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            user,
+            user: userId,
             priceId,
         }),
     }).then((result) => {
@@ -84,7 +86,7 @@ export function createCheckoutSession(user, priceId) {
     })
 }
 
-export async function getCustomer(customerId) {
+export async function getCustomer(customerId: string): Promise<Stripe.Customer | null> {
     console.log("stripeId = ", customerId)
     const customer = fetch("/api/stripeSubscriptions", {
         method: "POST",
@@ -94,38 +96,35 @@ export async function getCustomer(customerId) {
         body: JSON.stringify({
             customerId,
         }),
-    }).then((res) => res.json())
+    }).then((res) => res.json()).catch(() => null)
     // .then(customer => console.log(customer))
     return customer
 }
 
-export function accountNeedsReview(customerData) {
+export function accountNeedsReview(customerData: Stripe.Customer) {
     return (
         customerData.delinquent ||
         !customerData.subscriptions ||
-        customerData.subscriptions.total_count === 0
+        ('total_count' in customerData.subscriptions && customerData.subscriptions.total_count === 0)
     )
 }
 
-export function getCurrentSubscription(customerData) {
-    if (accountNeedsReview(customerData)) {
-        return null
-    }
-
+export function getCurrentSubscription(customerData: Stripe.Customer) {
     return flattenedStripeProducts.findIndex((p) =>
         p.some(
             (el) =>
-                el === customerData.subscriptions.data[0].items.data[0].plan.id
+                el === customerData.subscriptions?.data[0].items.data[0].plan.id
         )
     )
 }
 
-export function getLastPayment(customerData) {
-    if (accountNeedsReview(customerData)) {
+export function getLastPayment(customerData: Stripe.Customer) {
+    const startDateInMs = customerData.subscriptions?.data[0].current_period_start
+    if (!startDateInMs) {
         return null
     }
 
     return new Date(
-        customerData.subscriptions.data[0].current_period_start * 1000
+        startDateInMs * 1000
     )
 }

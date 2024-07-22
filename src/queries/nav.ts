@@ -32,4 +32,26 @@ export const NAV_MENU_QUERY = `
                 }
             }
         }
-    }`
+    }
+`
+
+export type NavMenuData = {
+    menu: {
+        id: string
+        children: NavMenuItem[]
+    }
+}
+
+export type NavMenuItem = {
+    id: string
+    label: string
+    link: string
+    position: number
+    children: NavMenuItem[]
+    image?: {
+        url: string
+        alt: string
+    }
+    description?: string
+    ctaText?: string
+}

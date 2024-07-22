@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
 import Layout from "components/Layout"
-import { StructuredText } from "react-datocms"
+import { StructuredText, StructuredTextDocument } from "react-datocms"
 import csvDownload from "json-to-csv-export"
 import { DEMOGRAPHIC_COLUMN_NAMES } from "lib/constants"
 import { request, requestLayoutProps } from "../lib/datocms"
@@ -22,8 +22,11 @@ import {
     getLastPayment,
     stripeProducts,
 } from "lib/stripe"
+import { GetStaticProps, InferGetStaticPropsType } from "next"
+import Stripe from "stripe"
+import { EventbriteEvent, EventbriteEventList } from "lib/eventbrite"
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
     const layoutData = await requestLayoutProps()
 
     return {
@@ -33,17 +36,25 @@ export async function getStaticProps() {
     }
 }
 
-export default function Dashboard({ layoutData }) {
-    const [user, setUser] = useState(false)
-    const [workshops, setWorkshops] = useState(false)
-    const [spotlight, setSpotlight] = useState(false)
-    const [newsfeed, setNewsfeed] = useState(false)
-    const [messages, setMessages] = useState(false)
-    const [stripeData, setStripeData] = useState(false)
-    const [popupMessage, setPopupMessage] = useState(false)
+type DashboardStripeData = {
+    customer: Stripe.Customer
+    tier: number
+    lastPayment: Date
+}
+
+export default function Dashboard({
+    layoutData,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+    const [user, setUser] = useState<DashboardUserData>()
+    const [workshops, setWorkshops] = useState<EventbriteEvent[]>()
+    const [spotlight, setSpotlight] = useState<CommunitySpotlight>()
+    const [newsfeed, setNewsfeed] = useState<NewsfeedBlock[]>()
+    const [messages, setMessages] = useState<DashboardMessage[]>([])
+    const [stripeData, setStripeData] = useState<DashboardStripeData>()
+    const [popupMessage, setPopupMessage] = useState<DashboardMessage>()
     const [keyshipPopupOpen, setKeyshipPopupOpen] = useState(false)
 
-    const validTier = (stripeData) =>
+    const validTier = (stripeData: DashboardStripeData) =>
         stripeData?.tier >= 0 && stripeData?.tier !== null
 
     const { data: session } = useSession({
@@ -60,29 +71,35 @@ export default function Dashboard({ layoutData }) {
     })
 
     useEffect(() => {
-        console.log({ session })
+        console.log(`what's in here?`, { session })
 
-        if (session) {
+        if (session?.token?.datoId) {
             getDashboardContent(session.token.datoId).then(async (data) => {
                 setUser(data.user)
-                setNewsfeed(data.page.newsfeed)
-                setSpotlight(data.page.communitySpotlight)
+                setNewsfeed(data.page?.newsfeed)
+                setSpotlight(data.page?.communitySpotlight)
                 setMessages([])
 
                 console.log(data)
 
-                if (data.user.stripeId) {
+                if (data.user?.stripeId) {
                     const customer = await getCustomer(data.user.stripeId)
-                    const tier = getCurrentSubscription(customer)
-                    const lastPayment = getLastPayment(customer)
+                    if (customer !== null) {
+                        const needsReview = accountNeedsReview(customer)
+                        if (!needsReview) {
+                            const tier = getCurrentSubscription(customer)
+                            const lastPayment = getLastPayment(customer)
 
-                    console.log({ customer, tier, lastPayment })
-                    setStripeData({ customer, tier, lastPayment })
+                            if (tier !== null && lastPayment !== null) {
+                                setStripeData({ customer, tier, lastPayment })
+                            }
+                        }
+                    }
                 }
             })
 
             fetch("/api/getEvents").then(async (res) => {
-                const eventData = await res.json()
+                const eventData: EventbriteEventList = await res.json()
                 const events =
                     eventData && eventData.events
                         ? eventData.events
@@ -102,14 +119,14 @@ export default function Dashboard({ layoutData }) {
         }
     }, [session])
 
-    async function updateKey(data) {
+    async function updateKey(data: DashboardUserData) {
         const newData = await fetch("/api/updateKey", {
             method: "POST",
             body: JSON.stringify({
-                id: user.id,
+                id: user?.id,
                 ...data,
             }),
-            Headers: {
+            headers: {
                 "Content-Type": "application/json",
             },
         })
@@ -119,7 +136,7 @@ export default function Dashboard({ layoutData }) {
                 return e
             })
 
-        setUser({ ...Object.assign(user, newData) })
+        setUser({ ...Object.assign(user || {}, newData) })
     }
 
     async function downloadDemographicData() {
@@ -148,6 +165,8 @@ export default function Dashboard({ layoutData }) {
             <Layout
                 className={"fullwidth " + styles.layout}
                 layoutData={layoutData}
+                sidebarData={undefined}
+                quote={undefined}
             >
                 {user && newsfeed ? (
                     <>
@@ -216,7 +235,7 @@ export default function Dashboard({ layoutData }) {
                                                     className={`block mt-4 ${styles.dashboardButton}`}
                                                     onClick={() =>
                                                         createPortalSession(
-                                                            user.stripeId
+                                                            user.stripeId!
                                                         )
                                                     }
                                                 >
@@ -312,7 +331,8 @@ export default function Dashboard({ layoutData }) {
                                                     <img
                                                         src={block.image.url}
                                                         alt={
-                                                            block.image.altText
+                                                            block.image.alt ||
+                                                            ""
                                                         }
                                                         className="max-w-[120px]"
                                                     />
@@ -375,18 +395,20 @@ export default function Dashboard({ layoutData }) {
                                         href={`/keys/${spotlight.slug}`}
                                         className={styles.memberCard}
                                     >
-                                        <div
-                                            className="object-scale-down overflow-hidden rounded w-fit"
-                                            style={{ gridArea: "img" }}
-                                        >
-                                            <img
-                                                src={
-                                                    spotlight.headshot.url +
-                                                    "?fit=facearea&faceindex=1&facepad=5&w=140&h=140&"
-                                                }
-                                                alt={`member's portrait`}
-                                            />
-                                        </div>
+                                        {spotlight.headshot && (
+                                            <div
+                                                className="object-scale-down overflow-hidden rounded w-fit"
+                                                style={{ gridArea: "img" }}
+                                            >
+                                                <img
+                                                    src={
+                                                        spotlight.headshot.url +
+                                                        "?fit=facearea&faceindex=1&facepad=5&w=140&h=140&"
+                                                    }
+                                                    alt={`member's portrait`}
+                                                />
+                                            </div>
+                                        )}
                                         <div>
                                             <h3>{spotlight.name}</h3>
                                             <p
@@ -511,34 +533,41 @@ export default function Dashboard({ layoutData }) {
                         {messages?.length > 0 && (
                             <Popup
                                 isOpen={!!popupMessage}
-                                onClose={() => setPopupMessage(false)}
+                                onClose={() => setPopupMessage(undefined)}
                             >
-                                <h2>{popupMessage.fromName}</h2>
-                                <a
-                                    href={`mailto:${popupMessage.fromEmail}`}
-                                    style={{ marginBlockEnd: "1em" }}
-                                >
-                                    {popupMessage.fromEmail}
-                                </a>
-                                <p>
-                                    Sent{" "}
-                                    {new Date(
-                                        popupMessage._firstPublishedAt
-                                    ).toLocaleString("en-us")}
-                                </p>
-                                <p class={styles.messageBody}>
-                                    {popupMessage.message}
-                                </p>
-                                <a
-                                    className="btn bg_slate"
-                                    href={"mailto:" + popupMessage.fromEmail}
-                                    rel="noopener noreferrer"
-                                >
-                                    Reply
-                                </a>
+                                {popupMessage && (
+                                    <>
+                                        <h2>{popupMessage.fromName}</h2>
+                                        <a
+                                            href={`mailto:${popupMessage.fromEmail}`}
+                                            style={{ marginBlockEnd: "1em" }}
+                                        >
+                                            {popupMessage.fromEmail}
+                                        </a>
+                                        <p>
+                                            Sent{" "}
+                                            {new Date(
+                                                popupMessage._firstPublishedAt
+                                            ).toLocaleString("en-us")}
+                                        </p>
+                                        <p className={styles.messageBody}>
+                                            {popupMessage.message}
+                                        </p>
+                                        <a
+                                            className="btn bg_slate"
+                                            href={
+                                                "mailto:" +
+                                                popupMessage.fromEmail
+                                            }
+                                            rel="noopener noreferrer"
+                                        >
+                                            Reply
+                                        </a>
+                                    </>
+                                )}
                             </Popup>
                         )}
-                        {!user.stripeId && (
+                        {!user.stripeId && user.id && (
                             <Popup
                                 isOpen={keyshipPopupOpen}
                                 onClose={() => setKeyshipPopupOpen(false)}
@@ -563,7 +592,7 @@ function Loading() {
     return <div>Loading dashboard content...</div>
 }
 
-async function getDashboardContent(datoId) {
+async function getDashboardContent(datoId: string) {
     const DASHBOARD_QUERY = `
         query DASHBOARD($id: ItemId) {
             user: key(filter: { id: { eq: $id}}) {
@@ -624,11 +653,73 @@ async function getDashboardContent(datoId) {
             }
         }`
 
-    return await request({
+    return await request<DashboardContent>({
         query: DASHBOARD_QUERY,
         variables: { id: datoId },
+        preview: process.env.NODE_ENV === "development",
     })
 }
+
+type DashboardContent = Partial<{
+    user: DashboardUserData
+    messages: DashboardMessage[]
+    page: Partial<{
+        communitySpotlight: CommunitySpotlight
+        newsfeed: NewsfeedBlock[]
+    }>
+}>
+
+type DashboardUserData = Partial<{
+    id: string
+    name: string
+    pronouns: string
+    memberSince: string
+    slug: string
+    hideMessageButton: boolean
+    moderateMessages: boolean
+    headshot: {
+        url: string
+        title?: string
+    }
+    stripeId?: string
+    keyTeamMember: boolean
+}>
+
+type DashboardMessage = {
+    fromEmail: string
+    fromName: string
+    message: string
+    toArtist: {
+        name: string
+    }
+    _firstPublishedAt: string
+}
+
+type NewsfeedBlock = Partial<{
+    blockTitle: string
+    description: StructuredTextDocument
+    image: {
+        alt: string
+        url: string
+    }
+    primaryLinkText: string
+    primaryLinkUrl: string
+    secondaryLinkText: string
+    secondaryLinkUrl: string
+}>
+
+type CommunitySpotlight = Partial<{
+    name: string
+    id: string
+    slug: string
+    pronouns: string
+    discipline: string
+    mainLocation: string
+    headshot: {
+        url: string
+    }
+    communitySpotlightMessage: string
+}>
 
 function getFakeWorkshops() {
     return [
