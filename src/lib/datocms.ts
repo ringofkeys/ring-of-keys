@@ -1,6 +1,6 @@
 import { GraphQLClient, RequestDocument, RequestOptions } from "graphql-request"
 import { buildClient } from "@datocms/cma-client-browser"
-import { NAV_MENU_QUERY } from "queries/nav"
+import { NAV_MENU_QUERY, NavMenuData } from "queries/nav"
 
 interface RequestProps {
     query: RequestDocument,
@@ -28,7 +28,7 @@ export function getDatoWriteClient(artistId: string, tokenId: string) {
 }
 
 export function requestLayoutProps({ preview } = { preview: false }) {
-    return request({
+    return request<NavMenuData>({
         query: NAV_MENU_QUERY,
         variables: {},
         preview,
