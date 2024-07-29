@@ -76,3 +76,7 @@ yarn-error.log
 
 # Sentry config file
 .sentryclirc
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

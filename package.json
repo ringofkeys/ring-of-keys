@@ -44,6 +44,7 @@
   "devDependencies": {
     "@netlify/plugin-lighthouse": "^4.0.3",
     "@netlify/plugin-nextjs": "^4.29.3",
+    "@playwright/test": "^1.45.3",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
@@ -65,8 +66,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "fmt": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "pw": "playwright",
+    "test:e2e": "playwright test",
+    "fmt": "prettier --write \"**/*.{js,jsx,json,md}\""
   },
   "repository": {
     "type": "git",
