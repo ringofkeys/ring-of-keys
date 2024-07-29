@@ -669,7 +669,7 @@ type DashboardContent = Partial<{
     }>
 }>
 
-type DashboardUserData = Partial<{
+export type DashboardUserData = Partial<{
     id: string
     name: string
     pronouns: string
