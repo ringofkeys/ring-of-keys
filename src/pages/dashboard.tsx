@@ -660,7 +660,7 @@ async function getDashboardContent(datoId: string) {
     })
 }
 
-type DashboardContent = Partial<{
+export type DashboardContent = Partial<{
     user: DashboardUserData
     messages: DashboardMessage[]
     page: Partial<{
