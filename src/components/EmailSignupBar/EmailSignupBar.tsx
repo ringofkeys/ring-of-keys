@@ -37,7 +37,7 @@ const EmailSignupForm = ({
     const optedIn = optIn ?
       (form.elements.namedItem("optedIn") as HTMLInputElement)?.checked ??
       false
-      : false
+      : true
 
     onSubmit(email, optedIn)
       .then((res) => res && res.json())
