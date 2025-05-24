@@ -10,9 +10,9 @@ const SITE_BANNER_UPDATE_KEY = "rok-site-banner-last-updated"
 const SITE_BANNER_LAST_UPDATED = 1688051553846
 
 export default function SiteBanner({
-    textContent = `Come see "Queering the Canon: A Retrospective | A Benefit for. Ring of Keys" live at Joe's Pub at 9:30pm on Monday, March 17th`,
-    ctaUrl = "https://publictheater.org/productions/joes-pub/2025/q/queering-the-canon-a-retrospect/",
-    ctaText = "Buy Tickets",
+    textContent = "Ring of Keys turned 5 years old in 2023! Keep the celebration going by making a tax-deductible donation to continue to queer the stage and support Keys all over the world.",
+    ctaUrl = "/donate",
+    ctaText = "Donate",
     dismissUntil = 30, // days
 }) {
     const [showBanner, setShowBanner] = useState(false)

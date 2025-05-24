@@ -29,7 +29,7 @@ export default function MyApp({
             </Script>
             <SEO seoData={seo} />
             <SessionProvider session={session}>
-                <SiteBanner />
+                {/* <SiteBanner /> */}
                 <Component {...pageProps} />
             </SessionProvider>
         </>
