@@ -10,7 +10,7 @@ const SITE_BANNER_UPDATE_KEY = "rok-site-banner-last-updated"
 const SITE_BANNER_LAST_UPDATED = 1688051553846
 
 export default function SiteBanner({
-    textContent = `Come see "Queering the Canon: A Retrospective | A Benefit for Ring of Keys" live at Joe's Pub at 9:30pm on Monday, March 17th`,
+    textContent = `Come see "Queering the Canon: A Retrospective | A Benefit for. Ring of Keys" live at Joe's Pub at 9:30pm on Monday, March 17th`,
     ctaUrl = "https://publictheater.org/productions/joes-pub/2025/q/queering-the-canon-a-retrospect/",
     ctaText = "Buy Tickets",
     dismissUntil = 30, // days
