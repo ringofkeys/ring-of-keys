@@ -105,7 +105,7 @@ async function sendAdminEmail(data) {
             : {
                   subject: `New Technical Issue submission from ${data.email}`,
                   text: `A new technical issue submission through Ring of Keys`,
-                  to: ["info@ringofkeys.org", "frank.ringofkeys@gmail.com"],
+                  to: ["info@ringofkeys.org",  "taylorjo@ringofkeys.org", "frank.ringofkeys@gmail.com", "contactingaortiz@gmail.com"],
                   from: data.email,
                   data,
               }
