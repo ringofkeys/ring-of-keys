@@ -4,6 +4,7 @@ import Button from "./Button"
 import Shortcode from "./Shortcode"
 import Hero from "./Hero"
 import IconHeadingLabel from "components/IconHeadingLabel"
+import ReusableBanner from "./ReusableBanner"
 import { IconHeadingLabelGroup } from "./IconHeadingLabel"
 import { TeammateItemGroup, TeammateItem } from "./TeammateItem"
 
@@ -29,6 +30,8 @@ export default function PageBlock(props) {
             return <TeammateItem {...props} />
         case "ImageArrayRecord":
             return <ImageArray {...props} />
+        case "ReusablebannerRecord":
+            return <ReusableBanner {...props} />
         default:
             console.log("Unsupported page block type in use", props)
             return <></>
