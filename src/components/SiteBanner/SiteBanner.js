@@ -10,12 +10,13 @@ const SITE_BANNER_UPDATE_KEY = "rok-site-banner-last-updated"
 const SITE_BANNER_LAST_UPDATED = 1688051553846
 
 export default function SiteBanner({
-    textContent = "Ring of Keys turned 5 years old in 2023! Keep the celebration going by making a tax-deductible donation to continue to queer the stage and support Keys all over the world.",
+    textContent = "Queering the Canon: Live at Joe’s Pub will be available for streaming July 15, 2025! Pre-save today!",
     ctaUrl = "/donate",
     ctaText = "Donate",
+    showCta = true,
     dismissUntil = 30, // days
 }) {
-    const [showBanner, setShowBanner] = useState(false)
+    const [showBanner, setShowBanner] = useState(true)
     const [dismissed, setDismissed] = useState(false)
 
     useEffect(() => {
@@ -56,6 +57,7 @@ export default function SiteBanner({
             className={styles.bannerWrapper + " " + (dismissed ? "hidden" : "")}
         >
             <p className={styles.bannerTextContent}>{textContent}</p>
+            {showCta && ctaUrl && ctaText && (
             <Link
                 href={ctaUrl}
                 className={"btn " + styles.bannerCta}
@@ -63,6 +65,7 @@ export default function SiteBanner({
             >
                 {ctaText}
             </Link>
+            )}
             <button onClick={closeButtonClick} className={styles.closeBtn}>
                 <svg
                     width="16"

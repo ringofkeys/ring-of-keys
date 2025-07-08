@@ -2,6 +2,7 @@ import { useRouter } from "next/router"
 import Header from "components/Header"
 import Footer from "components/Footer"
 import Sidebar from "./Sidebar"
+import SiteBanner from "components/SiteBanner"
 import sidebarStyles from "./Sidebar.module.css"
 import QuoteBlock from "components/PageContent/PageBlock/QuoteBlock"
 import GalaPopup from "components/Popup/GalaPopup"
@@ -22,6 +23,7 @@ export default function Layout({
                 menu={layoutData.menu}
                 key={router.asPath}
             />
+            <SiteBanner showCta={false} />
             <main
                 className={
                     router.asPath.slice(1).replace("/", "_") +

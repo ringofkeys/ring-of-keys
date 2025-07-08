@@ -1,0 +1,19 @@
+.banner {
+  padding: 2rem;
+  background-color: var(--bg-color, #f4f4f4);
+  text-align: center;
+}
+
+.banner img {
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.banner h1 {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+}
+
+.banner p {
+  font-size: 1.2rem;
+}
