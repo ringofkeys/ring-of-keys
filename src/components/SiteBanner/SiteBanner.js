@@ -56,7 +56,10 @@ export default function SiteBanner({
         <div
             className={styles.bannerWrapper + " " + (dismissed ? "hidden" : "")}
         >
-            <p className={styles.bannerTextContent}>{textContent}</p>
+            <p className={`text-center md:text-left ${styles.bannerTextContent}`}>
+  {textContent}
+</p>
+
             {showCta && ctaUrl && ctaText && (
             <Link
                 href={ctaUrl}
