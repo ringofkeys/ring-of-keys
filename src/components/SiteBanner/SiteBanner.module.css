@@ -16,6 +16,11 @@
     color: var(--ink);
 }
 
+.bannerTextContent a {
+  text-decoration: underline;
+  font-weight: 600;
+  color: inherit;
+}
 
 .bannerCta {
     @apply border-2 border-transparent;

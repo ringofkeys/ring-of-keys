@@ -10,7 +10,7 @@ const SITE_BANNER_UPDATE_KEY = "rok-site-banner-last-updated"
 const SITE_BANNER_LAST_UPDATED = 1688051553846
 
 export default function SiteBanner({
-    textContent = "Queering the Canon: Live at Joe’s Pub will be available for streaming July 15, 2025! Pre-save today!",
+    textContent = `Queering the Canon: Live at Joe’s Pub will be available for streaming July 15, 2025! <a href="https://distrokid.com/hyperfollow/ringofkeys/queering-the-canon-live-at-joes-pub?utm_campaign=website&utm_medium=Email+&utm_source=SendGrid" target="_blank" rel="noopener noreferrer">Pre-save today!</a>`,
     ctaUrl = "/donate",
     ctaText = "Donate",
     showCta = true,
@@ -56,9 +56,11 @@ export default function SiteBanner({
         <div
             className={styles.bannerWrapper + " " + (dismissed ? "hidden" : "")}
         >
-            <p className={`text-center md:text-left ${styles.bannerTextContent}`}>
-  {textContent}
-</p>
+            <p
+            className={styles.bannerTextContent}
+            dangerouslySetInnerHTML={{ __html: textContent }}
+            ></p>
+
 
             {showCta && ctaUrl && ctaText && (
             <Link
