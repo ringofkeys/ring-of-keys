@@ -153,6 +153,11 @@ span.results {
     flex-wrap: wrap;
 }
 
+.key__grid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
 .key__card {
     --b-rad: 0.2em;
     width: 10vw;
@@ -361,12 +366,42 @@ span.card__matches {
         @apply inline-block text-sm px-2;
     }
 
+    .key__grid {
+    justify-content: center;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    }
+
     .key__card {
-        min-width: 190px;
-        margin: 1em 0.5vw;
+        margin: 1em auto;
+        min-width: 85vw;
     }
 
     .key__card figure {
         margin-top: 9vh;
     }
 }
+    .see-more-container {
+    width: 100%;
+    margin-top: 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    }
+    
+    .see-more-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border: 2px solid var(--rok-gold-1_hex);
+    color: var(--rok-gold-1_hex);
+    background-color: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .see-more-button:hover {
+    background-color: var(--rok-gold-1_hex);
+    color: white;
+    }  
+

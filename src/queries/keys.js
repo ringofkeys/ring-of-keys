@@ -28,21 +28,22 @@ query AllKeysQuery($limit: IntType!, $skip: IntType!) {
 export const ALL_KEYS_CONSULTANTS_QUERY = `
 query AllGenderConsultantsQuery {
   allKeys(
-      filter: {
-        showInDirectory:{ eq: true }
-        isGenderConsultant: { eq: true }
-      }
-      orderBy: name_ASC
+    first: 100
+    filter: {
+      showInDirectory: { eq: true }
+      isGenderConsultant: { eq: true }
+    }
+    orderBy: name_ASC
   ) {
-      slug
-      name
-      headshot {
-          url
-      }
-      mainLocation
-      locations
-      pronouns
-      showInDirectory
+    slug
+    name
+    headshot {
+      url
+    }
+    mainLocation
+    locations
+    pronouns
+    showInDirectory
   }
 }`
 
