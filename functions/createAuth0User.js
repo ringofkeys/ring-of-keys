@@ -115,7 +115,7 @@ exports.handler = async (event) => {
                 {
                     /* list fields, optional MailChimp data */
                 },
-                "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676"
+                "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676&amp;f_id=0078c2e3f0"
             )
             const mailchimpResTwo = await addToMailchimpNode(
                 userData.email,
@@ -250,9 +250,14 @@ function validateEmail(email) {
 }
 
 function subscribeEmailToMailchimp(url) {
+    const [baseUrl, query] = url.split('?')
+    const queryParams = new URLSearchParams(query)
+
     const options = {
-        method: "GET",
-        url,
+        method: "POST",
+        url: baseUrl,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        form: Object.fromEntries(queryParams),
     }
 
     return rp(options)
@@ -293,7 +298,7 @@ function addToMailchimpNode(email, fields, endpoint) {
 
     // Generates MC endpoint for our jsonp request. We have to
     // change `/post` to `/post-json` otherwise, MC returns an error
-    endpoint = endpoint.replace(/\/post/g, "/post-json")
+   // endpoint = endpoint.replace(/\/post/g, "/post-json")
     const queryParams = `&EMAIL=${emailEncoded}${convertListFields(fields)}`
     const url = `${endpoint}${queryParams}`
 
