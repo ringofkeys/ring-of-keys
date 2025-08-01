@@ -79,6 +79,12 @@ export default function ApplyForm() {
         }
 
         try {
+            if (!applyFormObj.headshot?.uploadId) {
+            delete applyFormObj.headshot
+            }
+            if (!applyFormObj.resumeFile?.uploadId) {
+                delete applyFormObj.resumeFile
+            }
             const submissionRes = await fetch("/api/submitKeyshipApplication", {
                 method: "POST",
                 headers: {
