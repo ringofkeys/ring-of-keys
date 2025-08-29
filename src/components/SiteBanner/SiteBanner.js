@@ -10,7 +10,7 @@ const SITE_BANNER_UPDATE_KEY = "rok-site-banner-last-updated"
 const SITE_BANNER_LAST_UPDATED = 1688051553846
 
 export default function SiteBanner({
-    textContent = `Queering the Canon: Live at Joe’s Pub is now streaming! <a href="https://open.spotify.com/album/11xd4dGMlNieSkwsDA1mSF" target="_blank" rel="noopener noreferrer">Listen on Spotify</a> or wherever you get your music.`,
+    textContent = `Queering the Canon: Live at Joe’s Pub is now streaming! <a href="https://open.spotify.com/album/11xd4dGMlNieSkwsDA1mSF" target="_blank" rel="noopener noreferrer">Listen on Spotify</a> or wherever you get your music!`,
     ctaUrl = "/donate",
     ctaText = "Donate",
     showCta = true,
