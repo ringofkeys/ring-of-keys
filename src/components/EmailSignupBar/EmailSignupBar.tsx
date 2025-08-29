@@ -12,6 +12,7 @@ interface EmailSignupFormProps {
   onSubmit?: (val: string, optedIn: boolean) => Promise<Response | void>
   afterSubmit?: (val: string, optedIn: boolean) => void
   buttonText?: string
+  mailchimpUrl?: string
 }
 
 const EmailSignupForm = ({
@@ -20,13 +21,23 @@ const EmailSignupForm = ({
   onSubmit = async (val, optedIn) => console.log(val, optedIn),
   afterSubmit = () => { },
   buttonText = "",
+  mailchimpUrl,
 }: EmailSignupFormProps) => {
+  const MAILCHIMP_URL = (mailchimpUrl || process.env.NEXT_PUBLIC_MAILCHIMP_URL || "").trim()
+
+  if (!MAILCHIMP_URL) {
+  if (process.env.NODE_ENV !== "production") {
+    console.warn("[EmailSignupBar] Missing Mailchimp URL. Set NEXT_PUBLIC_MAILCHIMP_URL or pass mailchimpUrl prop.")
+  }
+  return null
+}
+
   async function handleSignup(
     e: FormEvent<HTMLFormElement>,
     mailchimpProps: FormHooks<EmailFormFields>
   ) {
     e.preventDefault()
-    e.persist()
+   // e.persist()
 
     const { subscribe, status, message } = mailchimpProps
 
@@ -42,6 +53,7 @@ const EmailSignupForm = ({
     onSubmit(email, optedIn)
       .then((res) => res && res.json())
       .then((data) => console.log("onSubmit data", data))
+      .catch(() => {})
 
     if (!optIn || optedIn) {
       try {
