@@ -64,7 +64,7 @@ export const mockData = {
     pronouns: "He / him",
     genderIdentity: "Cis",
     sexualIdentity: "queer?",
-    raceEthnicity: "colored",
+    raceEthnicity: "Hispanic",
     website: "franknoirot.co",
     resume: "franknoirot.github.io/resume",
     whyRok: "I wanna be the very best",
