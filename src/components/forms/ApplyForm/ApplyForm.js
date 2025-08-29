@@ -9,30 +9,6 @@ import CheckboxGrid from "components/CheckboxGrid"
 import newApplicationSubmission from "components/Emails/newApplicationSubmission"
 import applicationUnderReview from "components/Emails/applicationUnderReview"
 
-async function generateUniqueSlug(baseSlug) {
-        let slug = baseSlug
-        let counter = 1
-
-        while (true) {
-            const res = await fetch(
-                `https://site-api.datocms.com/items?filter[fields][slug][eq]=${slug}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_DATO_READ_ONLY_TOKEN}`,
-                        Accept: "application/json",
-                    },
-                }
-            )
-
-            if (!res.ok) throw new Error(`Slug check failed: ${res.status}`)
-            const data = await res.json()
-
-            if (!data?.data || data.data.length === 0) return slug
-
-            counter++
-            slug = `${baseSlug}-${counter}`
-        }
-    }
 export default function ApplyForm() {
     const [formStatus, setFormStatus] = useState("unsent")
     const [resumeType, setResumeType] = useState("URL")
@@ -53,39 +29,38 @@ export default function ApplyForm() {
             [fieldName]: data,
         }))
     }
-    
+
     async function handleSubmit(e) {
         e.preventDefault()
         setFormStatus("submitting")
-
         const applyFormData = new FormData(e.target)
 
         const transformedUploads = Object.fromEntries(
             Object.entries(uploads).map(([fieldName, fieldValue]) => [
                 fieldName,
-                { uploadId: fieldValue.id },
+                {
+                    uploadId: fieldValue.id,
+                },
             ])
         )
 
-        // ✅ Create form object first
         const applyFormObj = Object.assign(
             Object.fromEntries(applyFormData),
             transformedUploads
         )
 
         delete applyFormObj.resumeType
-
-        // ✅ Now we can safely create and assign the slug
-       // const baseSlug = slugify(applyFormObj.name)
         applyFormObj.slug = slugify(applyFormObj.name)
 
-        // ✅ Continue with the rest of your processing...
-        applyFormObj.locations = applyFormData.getAll("locations[]").join("| ")
+        // Gather up array fields
+        const locationData = applyFormData.getAll("locations[]")
+        applyFormObj.locations = locationData.join("| ")
         delete applyFormObj["locations[]"]
-
-        applyFormObj.affiliations = applyFormData.getAll("affiliations[]").join("| ")
+        const unionData = applyFormData.getAll("affiliations[]")
+        applyFormObj.affiliations = unionData.join("| ")
         delete applyFormObj["affiliations[]"]
 
+        // Move fields only needed for email to admin
         const emailFields = {
             whyRok: applyFormObj.whyRok,
             referral: applyFormObj.referral,
@@ -93,18 +68,28 @@ export default function ApplyForm() {
         delete applyFormObj.whyRok
         delete applyFormObj.referral
 
+        // Validate URL fields
         const validateUrl = (url) =>
-            url && !url.startsWith("http") ? "http://" + url : url
-        if (applyFormObj.resume) applyFormObj.resume = validateUrl(applyFormObj.resume)
-        if (applyFormObj.website) applyFormObj.website = validateUrl(applyFormObj.website)
+            url.startsWith("http") ? url : "http://" + url
+        if (applyFormObj.resume) {
+            applyFormObj.resume = validateUrl(applyFormObj.resume)
+        }
+        if (applyFormObj.website) {
+            applyFormObj.website = validateUrl(applyFormObj.website)
+        }
 
         try {
-            if (!applyFormObj.headshot?.uploadId) delete applyFormObj.headshot
-            if (!applyFormObj.resumeFile?.uploadId) delete applyFormObj.resumeFile
-
+            if (!applyFormObj.headshot?.uploadId) {
+            delete applyFormObj.headshot
+            }
+            if (!applyFormObj.resumeFile?.uploadId) {
+                delete applyFormObj.resumeFile
+            }
             const submissionRes = await fetch("/api/submitKeyshipApplication", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "text/json",
+                },
                 body: JSON.stringify(applyFormObj),
             })
 
@@ -121,9 +106,9 @@ export default function ApplyForm() {
                         text: "Automated admin notification from ringofkeys.org",
                         to: [
                             "info@ringofkeys.org",
-                            "contactingaortiz@gmail.com",
+                            "frank.ringofkeys@gmail.com",
                         ],
-                        from: "info@ringofkeys.org",
+                        from: "website@ringofkeys.org",
                         html: `<p>
                             Error while submitting application for <a href="mailto:${applyFormObj.email}">${applyFormObj.name}</a>.
                             Uploads were successful, but not publication. Please check logs and reach out to them promptly.
@@ -133,6 +118,7 @@ export default function ApplyForm() {
             }
 
             const submissionData = await submissionRes.json()
+
             setFormStatus("success")
 
             if (!submissionData.id) {
@@ -159,15 +145,14 @@ export default function ApplyForm() {
                     to: [
                         "info@ringofkeys.org",
                         "taylorjo@ringofkeys.org",
-                        "contactingaortiz@gmail.com",
+                        "frank.ringofkeys@gmail.com",
                     ],
-                    from: "info@ringofkeys.org",
+                    from: "website@ringofkeys.org",
                     html: newApplicationSubmission({
                         id: submissionData.id,
                         ...applyFormObj,
                         ...emailFields,
                     }),
-                    data: applyFormObj,
                 }),
             })
 
@@ -187,16 +172,13 @@ export default function ApplyForm() {
                         ...applyFormObj,
                         ...emailFields,
                     }),
-                    data: applyFormObj,
                 }),
             })
-
-        } catch (err) {
-            console.error(err)
+        } catch (e) {
             setFormStatus("failure")
-            Sentry.captureException(err)
-      
-            await fetch("/api/sendAdminEmail", {
+            Sentry.captureException(e)
+
+            fetch("/api/sendAdminEmail", {
                 method: "POST",
                 headers: {
                     "Content-Type": "text/json",
@@ -204,21 +186,20 @@ export default function ApplyForm() {
                 body: JSON.stringify({
                     subject: "Ring of Keys Application Error",
                     text: "Automated admin error notification from ringofkeys.org",
-                    to: "contactingaortiz@gmail.com",
-                    from: "info@ringofkeys.org",
+                    to: "frank.ringofkeys@gmail.com",
+                    from: "website@ringofkeys.org",
                     html: `
-                        <p>Error: <pre>${JSON.stringify(err, false, 2)}</pre></p>
+                        <p>Error: <pre>${JSON.stringify(e, false, 2)}</pre></p>
                         <p>Form data: <pre>${JSON.stringify(
                             applyFormObj,
-                            false, 2)}</pre></p>
+                            false,
+                            2
+                        )}</pre></p>
                     `,
-                    data: applyFormObj,
                 }),
             })
         }
     }
-  
-
 
     function fillForm() {
         Object.entries(mockData).map(
@@ -462,4 +443,3 @@ export default function ApplyForm() {
         </>
     )
 }
-

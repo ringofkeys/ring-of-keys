@@ -53,11 +53,13 @@ export async function requestAll<T extends {}>({ query, variables, preview }: Re
 
         const resultsSubArray = Object.values(data)[0] as T[]
         results = results.concat(resultsSubArray)
+        
+        const limit = typeof variables?.limit === 'number' ? variables.limit : 20
 
-        skip += variables?.limit || 20
+        skip += limit
         // keepQuerying = false  // for dev purposes, remove in PROD
 
-        if (resultsSubArray.length < (variables?.limit || 20)) {
+        if (resultsSubArray.length < limit)  {
             keepQuerying = false
         } else if (skip > 2000) {
             keepQuerying = false
