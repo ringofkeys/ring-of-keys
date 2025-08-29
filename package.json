@@ -38,6 +38,7 @@
     "request-promise": "^0.0.1",
     "slugify": "^1.6.6",
     "stripe": "^11.3.0",
+    "styled-jsx": "^5.1.7",
     "twilio": "^5.8.0",
     "unified": "^10.1.2"
   },
