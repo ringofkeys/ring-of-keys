@@ -8,7 +8,9 @@ const fillerData = {
 }
 
 async function handler(req, res) {
-    const user = Object.assign(JSON.parse(req.body), fillerData)
+    //const user = Object.assign(JSON.parse(req.body), fillerData)
+    const user = Object.assign({}, req.body, fillerData)
+
     console.log({ user })
 
     return client.items
@@ -25,3 +27,4 @@ async function handler(req, res) {
 }
 
 export default handler 
+

@@ -47,8 +47,8 @@ export const affiliations = [
 ]
 
 export const mockData = {
-    name: "Frank Test",
-    email: "frank@franknoirot.co",
+    name: "Amanda Test",
+    email: "aundilv@gmail.com",
     discipline: "Developer",
     vocalRange: "A2-D6",
     danceExperience: "Cupid Shuffle",
@@ -64,7 +64,7 @@ export const mockData = {
     pronouns: "He / him",
     genderIdentity: "Cis",
     sexualIdentity: "queer?",
-    raceEthnicity: "whyte",
+    raceEthnicity: "colored",
     website: "franknoirot.co",
     resume: "franknoirot.github.io/resume",
     whyRok: "I wanna be the very best",

@@ -132,7 +132,10 @@ exports.handler = async (event) => {
             userData.email,
             userData.name,
             resetPasswordResponse.ticket
-        ).catch((err) => JSON.stringify(err))
+        ).catch((err) => {
+        console.error("SendGrid sendWelcomeEmail error", err)
+        return JSON.stringify(err)
+        })
 
         console.log("got past the welcome email send")
 
@@ -167,6 +170,7 @@ function checkUserExists(auth, name) {
         method: "GET",
         url: "https://ringofkeys.auth0.com/api/v2/users",
         qs: { q: `name:"${name}"`, search_engine: "v3" },
+        qs: { q: `email:"${userData.email}"`, search_engine: "v3" },
         headers: {
             authorization: `${auth["token_type"]} ${auth["access_token"]}`,
         },
