@@ -1,6 +1,7 @@
 {
   "name": "ring-of-keys",
   "private": true,
+  "type": "module",
   "description": "An artist directory for theatremakers",
   "version": "0.1.0",
   "author": "Frank Noirot",
