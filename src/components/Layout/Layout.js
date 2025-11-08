@@ -23,7 +23,7 @@ export default function Layout({
                 menu={layoutData.menu}
                 key={router.asPath}
             />
-            <SiteBanner showCta={false} />
+            {/* <SiteBanner showCta={false} /> */}
             <main
                 className={
                     router.asPath.slice(1).replace("/", "_") +
