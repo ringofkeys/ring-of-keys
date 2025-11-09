@@ -1,7 +1,7 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
-const SiteClient = require("datocms-client").SiteClient
+const SiteClient = require("@datocms/cma-client").SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 const fetch = require("node-fetch")
 const sgMail = require("@sendgrid/mail")
