@@ -1,12 +1,10 @@
-import dotenv from 'dotenv'
-import { SiteClient } from 'datocms-client'
-import rp from 'request-promise'
-import sgMail from '@sendgrid/mail'
-
-dotenv.config({
+require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
+const SiteClient = require("datocms-client").SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const rp = require("request-promise")
+const sgMail = require("@sendgrid/mail")
 sgMail.setApiKey(process.env.SENDGRID_KEY)
 
 exports.handler = async (event) => {
