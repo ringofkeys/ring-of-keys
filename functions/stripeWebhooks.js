@@ -4,8 +4,8 @@ const acceptedOrigins = [
   "https://stripe.com",
 ]
 const stripe = require("stripe")(process.env.GATSBY_STRIPE_SECRET_KEY)
-const { SiteClient } = require("@datocms/cma-client")
-const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const { buildClient } = require("@datocms/cma-client")
+const client = buildClient({ apiToken: process.env.DATO_CONTENT_TOKEN })
 const fetch = require("node-fetch")
 const { URL } = process.env
 

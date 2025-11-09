@@ -1,8 +1,8 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
-const SiteClient = require("@datocms/cma-client").SiteClient
-const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const { buildClient } = require("@datocms/cma-client")
+const client = buildClient({ apiToken: process.env.DATO_CONTENT_TOKEN })
 const sgMail = require("@sendgrid/mail")
 sgMail.setApiKey(process.env.SENDGRID_KEY)
 

@@ -1,4 +1,4 @@
-const { SiteClient } = require("@datocms/cma-client")
+const { buildClient } = require("@datocms/cma-client")
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
 
 exports.handler = async (event, context, callback) => {

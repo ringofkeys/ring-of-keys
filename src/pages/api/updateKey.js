@@ -1,5 +1,5 @@
-const { SiteClient, buildModularBlock } = require("@datocms/cma-client")
-const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const { buildClient, buildModularBlock } = require("@datocms/cma-client")
+const client = buildClient({ apiToken: process.env.DATO_CONTENT_TOKEN })
 const NETLIFY_TRIGGER_ID = "8003"
 
 async function handler(req, res) {

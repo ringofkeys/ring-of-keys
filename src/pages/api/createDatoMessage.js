@@ -1,5 +1,5 @@
-const SiteClient = require("@datocms/cma-client").SiteClient
-const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const { buildClient } = require("@datocms/cma-client")
+const client = buildClient({ apiToken: process.env.DATO_CONTENT_TOKEN })
 
 async function handler(req, res) {
   const { data, moderateMessages } = JSON.parse(req.body)
