@@ -1,12 +1,10 @@
-import dotenv from 'dotenv'
-import { SiteClient } from 'datocms-client'
-import rp from 'request-promise'
-import sgMail from '@sendgrid/mail'
-
-dotenv.config({
+require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
+const SiteClient = require("datocms-client").SiteClient
 const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const fetch = require("node-fetch")
+const sgMail = require("@sendgrid/mail")
 sgMail.setApiKey(process.env.SENDGRID_KEY)
 
 exports.handler = async (event) => {
@@ -153,7 +151,6 @@ exports.handler = async (event) => {
 function getAuth0Token() {
   const options = {
     method: "POST",
-    url: `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
       client_id: `${process.env.AUTH0_CLIENTID}`,
@@ -164,13 +161,12 @@ function getAuth0Token() {
     }),
   }
 
-  return rp(options)
+  return fetch(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, options)
 }
 
 function checkUserExists(auth, name) {
   const options = {
     method: "GET",
-    url: "https://ringofkeys.auth0.com/api/v2/users",
     qs: { q: `name:"${name}"`, search_engine: "v3" },
     qs: { q: `email:"${userData.email}"`, search_engine: "v3" },
     headers: {
@@ -178,7 +174,7 @@ function checkUserExists(auth, name) {
     },
   }
 
-  return rp(options)
+  return fetch("https://ringofkeys.auth0.com/api/v2/users", options)
 }
 
 let pwd = Math.random().toString(36).slice(-14)
@@ -186,7 +182,6 @@ let pwd = Math.random().toString(36).slice(-14)
 function createUser(auth, userInfo) {
   const options = {
     method: "POST",
-    url: `https://${process.env.AUTH0_DOMAIN}/api/v2/users`,
     headers: {
       authorization: `${auth["token_type"]} ${auth["access_token"]}`,
       "Content-Type": "application/json",
@@ -202,13 +197,12 @@ function createUser(auth, userInfo) {
     }),
   }
 
-  return rp(options)
+  return fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users`, options)
 }
 
 function resetPassword(auth, email) {
   const options = {
     method: "POST",
-    url: `https://${process.env.AUTH0_DOMAIN}/api/v2/tickets/password-change`,
     headers: {
       authorization: `${auth["token_type"]} ${auth["access_token"]}`,
       "Content-Type": "application/json",
@@ -224,7 +218,7 @@ function resetPassword(auth, email) {
 
   console.log("resetPassword body = ", options)
 
-  return rp(options)
+  return fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/tickets/password-change`, options)
 }
 
 //Mailchimp email subscribe
@@ -261,12 +255,11 @@ function subscribeEmailToMailchimp(url) {
 
   const options = {
     method: "POST",
-    url: baseUrl,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     form: Object.fromEntries(queryParams),
   }
 
-  return rp(options)
+  return fetch(baseUrl, options)
 }
 
 function convertListFields(fields) {

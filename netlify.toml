@@ -1,11 +1,10 @@
 [build]
-  publish = ".next"
-  command = "npm run build"
+publish = ".next"
+command = "npm run build"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs"
+package = "@netlify/plugin-nextjs"
 
 [functions]
-  node_bundler = "esbuild"
-  external_node_modules = ["styled-jsx"]
-  included_files = ["node_modules/styled-jsx/**"]
+node_bundler = "esbuild"
+
