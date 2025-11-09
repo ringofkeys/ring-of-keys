@@ -1,6 +1,5 @@
-import { SiteClient } from "@datocms/cma-client"
-
-const client = new SiteClient(process.env.NEXT_DATO_API_TOKEN)
+import { buildClient } from "@datocms/cma-client"
+const client = buildClient({ apiToken: process.env.DATO_CONTENT_TOKEN })
 
 async function handler(req, res) {
   const filenames = JSON.parse(req.body)

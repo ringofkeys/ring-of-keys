@@ -1,6 +1,6 @@
-import { SiteClient } from "@datocms/cma-client"
+import { buildClient } from "@datocms/cma-client"
 const DATO_KEY_ITEM_TYPE = "177050"
-const client = new SiteClient(process.env.NEXT_DATO_API_TOKEN)
+const client = buildClient({ apiToken: process.env.DATO_CONTENT_TOKEN })
 
 const fillerData = {
   itemType: DATO_KEY_ITEM_TYPE,

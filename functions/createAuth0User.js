@@ -1,8 +1,8 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
-const SiteClient = require("@datocms/cma-client").SiteClient
-const client = new SiteClient(process.env.DATO_CONTENT_TOKEN)
+const { buildClient } = require("@datocms/cma-client")
+const client = buildClient({ apiToken: process.env.DATO_CONTENT_TOKEN })
 const fetch = require("node-fetch")
 const sgMail = require("@sendgrid/mail")
 sgMail.setApiKey(process.env.SENDGRID_KEY)
@@ -10,13 +10,12 @@ sgMail.setApiKey(process.env.SENDGRID_KEY)
 exports.handler = async (event) => {
   try {
     // Don't run if the requester doesn't have the secret code
-    if (event.headers.datocms_agent !== process.env.DATOCMS_AGENT) {
-      return {
-        statusCode: 403,
-        body: "Forbidden",
-      }
-    }
-
+    // if (event.headers.datocms_agent !== process.env.DATOCMS_AGENT) {
+    //   return {
+    //     statusCode: 403,
+    //     body: "Forbidden",
+    //   }
+    // }
     const userData = JSON.parse(event.body)
     if (userData.name) {
       userData.name = userData.name.trim()
@@ -24,6 +23,8 @@ exports.handler = async (event) => {
     if (userData.email) {
       userData.email = userData.email.trim()
     }
+
+    console.log('user data is', userData)
 
     // Do nothing else if the user isn't supposed to have login access (which is set on their profile in DatoCMS)
     if (!userData.hasLoginAccess) {
@@ -33,17 +34,23 @@ exports.handler = async (event) => {
       }
     }
 
-    const authToken = JSON.parse(
-      await getAuth0Token().catch((err) => JSON.stringify(err))
-    )
-    // Check if an Auth0 account already exists for the user.
-    const userExistsRes = JSON.parse(
-      await checkUserExists(authToken, userData.name).catch((err) =>
-        JSON.stringify(err)
-      )
-    )
+    function bailIfError(response) {
+      if (response instanceof Error) { return { statusCode: 500, body: response } }
+    }
 
-    if (userExistsRes.length > 0) {
+    const authTokenResponse = await getAuth0Token()
+    bailIfError(authTokenResponse)
+    const authToken = await authTokenResponse.json()
+
+    // Check if an Auth0 account already exists for the user.
+    const userExistsResponse = await checkUserExists(authToken, userData.email)
+    bailIfError(userExistsResponse)
+    const userExistsResult = await userExistsResponse.json()
+    console.log('userExistsResponse', userExistsResponse)
+    console.log('userExistsResult', userExistsResult)
+    console.log('number of users', userExistsResult.length)
+
+    if (userExistsResult.length > 0) {
       return {
         statusCode: 200,
         body: `Not creating new Auth0 login for user because a user with name ${userData.name} already exists.
@@ -52,11 +59,8 @@ exports.handler = async (event) => {
     }
 
     // create an Auth0 account for the user
-    const createUserResponse = JSON.parse(
-      await createUser(authToken, userData).catch((err) =>
-        JSON.stringify(err)
-      )
-    )
+    const createUserResponse = await createUser(authToken, userData)
+    bailIfError(createUserResponse)
 
     if (createUserResponse.status > 299) {
       console.log(`User creation failed! Something seems to be going wrong on the Auth0 side of things: we received a 299 error.
@@ -72,7 +76,7 @@ exports.handler = async (event) => {
         statusCode: 501,
         body:
           "Auth0 service failure: " +
-          JSON.parse(createUserResponse.body),
+          JSON.stringify(createUserResponse.body),
       }
     }
 
@@ -94,13 +98,11 @@ exports.handler = async (event) => {
       })
 
     // Create a reset password ticket on the newly created Auth0 account.
-    const resetPasswordResponse = JSON.parse(
-      await resetPassword(authToken, userData.email.toLowerCase()).catch(
-        (err) => JSON.stringify(err)
-      )
-    )
+    const resetPasswordResponse = await resetPassword(authToken, userData.email.toLowerCase())
+    bailIfError(resetPasswordResponse)
+    const resetPasswordResult = await resetPasswordResponse.json()
 
-    if (!resetPasswordResponse.ticket)
+    if (!resetPasswordResult.ticket)
       return {
         statusCode: 500,
         body: "Unable to create a reset password ticket in Auth0. Email not sent.",
@@ -108,30 +110,30 @@ exports.handler = async (event) => {
 
     console.log("got past the password reset ticket")
 
-    if (userData.email) {
-      // Add user's email to the MailChimp Newsletter list then Members list
-      const mailchimpResOne = await addToMailchimpNode(
-        userData.email,
-        {
-          /* list fields, optional MailChimp data */
-        },
-        "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676&amp;f_id=0078c2e3f0"
-      )
-      const mailchimpResTwo = await addToMailchimpNode(
-        userData.email,
-        {
-          /* list fields, optional MailChimp data */
-        },
-        "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11"
-      )
-      console.log("mailchimp = ", [mailchimpResOne, mailchimpResTwo])
-    }
+    // if (userData.email) {
+    //   // Add user's email to the MailChimp Newsletter list then Members list
+    //   const mailchimpResOne = await addToMailchimpNode(
+    //     userData.email,
+    //     {
+    //       /* list fields, optional MailChimp data */
+    //     },
+    //     "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=b8eb5db676&amp;f_id=0078c2e3f0"
+    //   )
+    //   const mailchimpResTwo = await addToMailchimpNode(
+    //     userData.email,
+    //     {
+    //       /* list fields, optional MailChimp data */
+    //     },
+    //     "https://ringofkeys.us17.list-manage.com/subscribe/post?u=8f1dc9a8a5caac3214e2997fe&amp;id=0c90bf5c11"
+    //   )
+    //   console.log("mailchimp = ", [mailchimpResOne, mailchimpResTwo])
+    // }
 
     // Send welcome email to user via SendGrid
     const emailSendResponse = await sendWelcomeEmail(
       userData.email,
       userData.name,
-      resetPasswordResponse.ticket
+      resetPasswordResult.ticket
     ).catch((err) => {
       console.error("SendGrid sendWelcomeEmail error", err)
       return JSON.stringify(err)
@@ -164,17 +166,18 @@ function getAuth0Token() {
   return fetch(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, options)
 }
 
-function checkUserExists(auth, name) {
+function checkUserExists(auth, email) {
+  const queryParams = new URLSearchParams()
+  queryParams.append('q', `email:"${email}"`)
+  queryParams.append('search_engine', 'v3')
   const options = {
     method: "GET",
-    qs: { q: `name:"${name}"`, search_engine: "v3" },
-    qs: { q: `email:"${userData.email}"`, search_engine: "v3" },
     headers: {
       authorization: `${auth["token_type"]} ${auth["access_token"]}`,
     },
   }
 
-  return fetch("https://ringofkeys.auth0.com/api/v2/users", options)
+  return fetch(`https://ringofkeys.auth0.com/api/v2/users?${queryParams.toString()}`, options)
 }
 
 let pwd = Math.random().toString(36).slice(-14)
