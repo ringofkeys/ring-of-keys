@@ -59,52 +59,6 @@ const Sidebar = ({ data }) => {
             ) : (
                 <p className="mt-6">No upcoming events currently posted</p>
             )}
-            <h3>Executive Director</h3>
-            {data.team
-                .filter((t) => t.name === "Delaney Piggins")
-                .map((teammate) => (
-                    <div
-                        className={
-                            styles.teammate + " !flex items-center gap-2"
-                        }
-                        key={teammate.name}
-                    >
-                        <img
-                            src={
-                                teammate.headshot.url +
-                                "?fit=facearea&faceindex=1&facepad=5&mask=ellipse&w=120&h=120&fm=jpg"
-                            }
-                            alt={teammate.name}
-                            className="block rounded-full object-cover w-12 h-12"
-                        />
-                        <Link
-                            href={`/keys/${teammate.slug}?no-popup`}
-                            key={teammate.slug}
-                            className="block"
-                        >
-                            <strong>{teammate.name}</strong>{" "}
-                            <em>({teammate.pronouns})</em>
-                        </Link>
-                    </div>
-                ))}
-            <h3>Key Volunteer Team</h3>
-            {data.team
-                .filter((t) => t.name !== "Delaney Piggins")
-                .sort((a, b) => a.keyTeamOrder - b.keyTeamOrder)
-                .map((teammate) => (
-                    <Link
-                        href={`/keys/${teammate.slug}?no-popup`}
-                        key={teammate.slug}
-                        className={styles.teammate}
-                    >
-                        <strong>{teammate.name}</strong>{" "}
-                        <em>({teammate.pronouns})</em>
-                        <br />
-                        <em style={{ color: "#6d7278" }}>
-                            {teammate.keyTeamPosition}
-                        </em>
-                    </Link>
-                ))}
             {data.ambassadors.length > 0 && (
                 <>
                     <h3>Meetup Ambassadors</h3>
